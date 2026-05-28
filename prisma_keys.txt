@@ -1,0 +1,10 @@
+constructor
+referralCode
+booking
+category
+product
+referralUsage
+transactionItem
+transaction
+user
+galleryPhoto
