@@ -228,7 +228,7 @@ export default function CheckoutModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={!isSuccess ? onClose : undefined}
-          className="absolute inset-0 bg-[#1A110B]/60 backdrop-blur-md"
+          className="absolute inset-0 bg-[#0f172a]/60 backdrop-blur-md"
         />
 
         {/* Modal Card */}
@@ -260,7 +260,7 @@ export default function CheckoutModal({
                     <div className="w-16 h-16 rounded-full bg-emerald-50 border-4 border-white shadow-xl flex items-center justify-center">
                       <CheckCircle2 size={32} className="text-emerald-500" />
                     </div>
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#C88A58] rounded-full flex items-center justify-center shadow-lg">
+                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#0ea5e9] rounded-full flex items-center justify-center shadow-lg">
                       <Sparkles size={12} className="text-white" />
                     </div>
                   </div>
@@ -268,7 +268,7 @@ export default function CheckoutModal({
 
                 {/* Title */}
                 <div className="space-y-1">
-                  <h2 className="text-xl font-black text-[#3B2211]" style={{ fontFamily: "var(--font-playfair)" }}>
+                  <h2 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
                     {method === "QRIS" ? "Scan QRIS" : "Pembayaran Berhasil!"}
                   </h2>
                   <p className="text-[10px] font-medium text-gray-400">
@@ -296,18 +296,18 @@ export default function CheckoutModal({
                 )}
 
                 {/* Summary Card */}
-                <div className="bg-[#FAFAF8] rounded-2xl border border-[#3B2211]/5 p-4 space-y-2.5 text-left">
+                <div className="bg-[#FAFAF8] rounded-2xl border border-[#1e293b]/5 p-4 space-y-2.5 text-left">
                   <div className="flex justify-between text-[11px]">
                     <span className="text-gray-400 font-medium">No. Invoice</span>
-                    <span className="font-black text-[#3B2211] font-mono">{invoiceNumber}</span>
+                    <span className="font-black text-[#1e293b] font-mono">{invoiceNumber}</span>
                   </div>
                   <div className="flex justify-between text-[11px]">
                     <span className="text-gray-400 font-medium">Pelanggan</span>
-                    <span className="font-bold text-[#3B2211]">{customerName || "Pelanggan Umum"}</span>
+                    <span className="font-bold text-[#1e293b]">{customerName || "Pelanggan Umum"}</span>
                   </div>
                   <div className="flex justify-between text-[11px]">
                     <span className="text-gray-400 font-medium">Metode Bayar</span>
-                    <span className="font-bold text-[#3B2211]">{method}</span>
+                    <span className="font-bold text-[#1e293b]">{method}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-[11px]">
@@ -315,9 +315,9 @@ export default function CheckoutModal({
                       <span className="font-bold text-emerald-600">- Rp {discount.toLocaleString("id-ID")}</span>
                     </div>
                   )}
-                  <div className="flex justify-between items-center pt-2.5 border-t border-[#3B2211]/5 mt-1">
-                    <span className="text-[11px] font-black text-[#3B2211] uppercase tracking-widest">Total Akhir</span>
-                    <span className="text-lg font-black text-[#3B2211]">Rp {finalTotal.toLocaleString("id-ID")}</span>
+                  <div className="flex justify-between items-center pt-2.5 border-t border-[#1e293b]/5 mt-1">
+                    <span className="text-[11px] font-black text-[#1e293b] uppercase tracking-widest">Total Akhir</span>
+                    <span className="text-lg font-black text-[#1e293b]">Rp {finalTotal.toLocaleString("id-ID")}</span>
                   </div>
                 </div>
 
@@ -333,7 +333,7 @@ export default function CheckoutModal({
                   />
                   <button
                     onClick={handleDone}
-                    className="flex-1 py-3.5 bg-[#3B2211] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] shadow-lg shadow-[#3B2211]/20 hover:bg-[#C88A58] transition-all"
+                    className="flex-1 py-3.5 bg-[#1e293b] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] shadow-lg shadow-[#1e293b]/20 hover:bg-[#0ea5e9] transition-all"
                   >
                     Selesai
                   </button>
@@ -343,13 +343,13 @@ export default function CheckoutModal({
               /* ── PAYMENT SELECTION STATE ── */
               <motion.div key="payment" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 {/* Header */}
-                <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-[#3B2211]/5">
+                <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-[#1e293b]/5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#3B2211] flex items-center justify-center shadow-lg shadow-[#3B2211]/20">
+                    <div className="w-10 h-10 rounded-xl bg-[#1e293b] flex items-center justify-center shadow-lg shadow-[#1e293b]/20">
                       <ReceiptText size={18} className="text-white" />
                     </div>
                     <div>
-                      <h2 className="text-base font-black text-[#3B2211]">Konfirmasi Bayar</h2>
+                      <h2 className="text-base font-black text-[#1e293b]">Konfirmasi Bayar</h2>
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">
                         {items.length} item · Sneapici Studio
                       </p>
@@ -357,7 +357,7 @@ export default function CheckoutModal({
                   </div>
                   <button
                     onClick={onClose}
-                    className="w-9 h-9 rounded-xl bg-[#FAFAF8] border border-[#3B2211]/5 flex items-center justify-center text-[#3B2211]/30 hover:text-[#3B2211] hover:bg-[#F0EDE9] transition-all"
+                    className="w-9 h-9 rounded-xl bg-[#FAFAF8] border border-[#1e293b]/5 flex items-center justify-center text-[#1e293b]/30 hover:text-[#1e293b] hover:bg-[#F0EDE9] transition-all"
                   >
                     <X size={18} />
                   </button>
@@ -367,58 +367,58 @@ export default function CheckoutModal({
 
                   {/* Informasi Sesi */}
                   <div className="space-y-2">
-                    <p className="text-[9px] font-black text-[#3B2211]/40 uppercase tracking-[0.25em] ml-1">
+                    <p className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.25em] ml-1">
                       Informasi Sesi
                     </p>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3B2211]/25" size={13} />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1e293b]/25" size={13} />
                         <input
                           type="text"
                           placeholder="Nama pelanggan"
                           value={customerName}
                           onChange={(e) => setCustomerInfo({ customerName: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-xl text-[11px] font-medium text-[#3B2211] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C88A58]/20 transition-all"
+                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-xl text-[11px] font-medium text-[#1e293b] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 transition-all"
                         />
                       </div>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3B2211]/25" size={13} />
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1e293b]/25" size={13} />
                         <input
                           type="text"
                           placeholder="No. HP"
                           value={customerPhone}
                           onChange={(e) => setCustomerInfo({ customerPhone: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-xl text-[11px] font-medium text-[#3B2211] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#C88A58]/20 transition-all"
+                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-xl text-[11px] font-medium text-[#1e293b] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 transition-all"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3B2211]/25" size={13} />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1e293b]/25" size={13} />
                         <input
                           type="date"
                           value={bookingDate}
                           onChange={(e) => setCustomerInfo({ bookingDate: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-xl text-[11px] font-medium text-[#3B2211] focus:outline-none focus:ring-2 focus:ring-[#C88A58]/20 transition-all"
+                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-xl text-[11px] font-medium text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 transition-all"
                         />
                       </div>
                       <div className="relative">
-                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3B2211]/25" size={13} />
+                        <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#1e293b]/25" size={13} />
                         <input
                           type="time"
                           value={bookingTime}
                           onChange={(e) => setCustomerInfo({ bookingTime: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-xl text-[11px] font-medium text-[#3B2211] focus:outline-none focus:ring-2 focus:ring-[#C88A58]/20 transition-all"
+                          className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-xl text-[11px] font-medium text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 transition-all"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Total Banner */}
-                  <div className="bg-[#1A110B] rounded-2xl p-5 text-white relative overflow-hidden shadow-xl shadow-[#1A110B]/30">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#C88A58]/10 blur-[40px] rounded-full -mr-10 -mt-10" />
+                  <div className="bg-[#0f172a] rounded-2xl p-5 text-white relative overflow-hidden shadow-xl shadow-[#0f172a]/30">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#0ea5e9]/10 blur-[40px] rounded-full -mr-10 -mt-10" />
                     <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/40 mb-1">Total Tagihan</p>
                     <p className="text-3xl font-black tracking-tight">
                       Rp {finalTotal.toLocaleString("id-ID")}
@@ -439,7 +439,7 @@ export default function CheckoutModal({
 
                   {/* Referral Section */}
                   <div className="space-y-3">
-                    <p className="text-[9px] font-black text-[#3B2211]/40 uppercase tracking-[0.25em] ml-1 flex items-center gap-2">
+                    <p className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.25em] ml-1 flex items-center gap-2">
                       <Tag size={12} /> Kode Referral
                     </p>
                     <div className="flex gap-2">
@@ -448,7 +448,7 @@ export default function CheckoutModal({
                         value={referralInput}
                         onChange={(e) => setReferralInput(e.target.value.toUpperCase())}
                         placeholder="Masukkan kode..."
-                        className="flex-1 px-4 py-3 bg-white border border-[#3B2211]/10 rounded-xl text-sm font-bold focus:outline-none focus:border-[#3B2211]/30 transition-all uppercase"
+                        className="flex-1 px-4 py-3 bg-white border border-[#1e293b]/10 rounded-xl text-sm font-bold focus:outline-none focus:border-[#1e293b]/30 transition-all uppercase"
                         disabled={!!referralData || isApplyingReferral}
                       />
                       {referralData ? (
@@ -466,7 +466,7 @@ export default function CheckoutModal({
                         <button
                           onClick={handleApplyReferral}
                           disabled={isApplyingReferral || !referralInput.trim()}
-                          className="px-5 py-3 bg-[#3B2211] text-white rounded-xl text-xs font-bold hover:bg-[#C88A58] disabled:opacity-50 transition-all flex items-center"
+                          className="px-5 py-3 bg-[#1e293b] text-white rounded-xl text-xs font-bold hover:bg-[#0ea5e9] disabled:opacity-50 transition-all flex items-center"
                         >
                           {isApplyingReferral ? <Loader2 size={16} className="animate-spin" /> : "Terapkan"}
                         </button>
@@ -484,7 +484,7 @@ export default function CheckoutModal({
 
                   {/* Payment Methods */}
                   <div className="space-y-2">
-                    <p className="text-[9px] font-black text-[#3B2211]/40 uppercase tracking-[0.25em] ml-1">
+                    <p className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.25em] ml-1">
                       Pilih Metode Pembayaran
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -494,14 +494,14 @@ export default function CheckoutModal({
                           onClick={() => setMethod(pm.id)}
                           className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${
                             method === pm.id
-                              ? "bg-[#3B2211]/[0.03] border-[#3B2211]/20 shadow-sm"
-                              : "bg-white border-[#3B2211]/5 hover:border-[#3B2211]/10 hover:bg-[#FAFAF8]"
+                              ? "bg-[#1e293b]/[0.03] border-[#1e293b]/20 shadow-sm"
+                              : "bg-white border-[#1e293b]/5 hover:border-[#1e293b]/10 hover:bg-[#FAFAF8]"
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             <div
                               className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
-                                method === pm.id ? "bg-[#3B2211] shadow-md shadow-[#3B2211]/20" : pm.bg
+                                method === pm.id ? "bg-[#1e293b] shadow-md shadow-[#1e293b]/20" : pm.bg
                               }`}
                             >
                               <pm.icon
@@ -510,7 +510,7 @@ export default function CheckoutModal({
                               />
                             </div>
                             <div className="text-left">
-                              <p className={`text-[11px] font-bold ${method === pm.id ? "text-[#3B2211]" : "text-[#3B2211]/70"}`}>
+                              <p className={`text-[11px] font-bold ${method === pm.id ? "text-[#1e293b]" : "text-[#1e293b]/70"}`}>
                                 {pm.label}
                               </p>
                               <p className="text-[8px] font-medium text-gray-400 line-clamp-1">{pm.desc}</p>
@@ -518,7 +518,7 @@ export default function CheckoutModal({
                           </div>
                           <div
                             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${
-                              method === pm.id ? "border-[#3B2211] bg-[#3B2211]" : "border-gray-200"
+                              method === pm.id ? "border-[#1e293b] bg-[#1e293b]" : "border-gray-200"
                             }`}
                           >
                             {method === pm.id && (
@@ -541,38 +541,38 @@ export default function CheckoutModal({
                           exit={{ opacity: 0, height: 0 }}
                           className="pt-2 overflow-hidden"
                         >
-                          <p className="text-[9px] font-black text-[#3B2211]/40 uppercase tracking-[0.25em] ml-1 mb-2">
+                          <p className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.25em] ml-1 mb-2">
                             {method === "E-Wallet" ? "Informasi E-Wallet" : "Informasi Rekening"}
                           </p>
-                          <div className="w-full px-4 py-3 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-xl flex flex-col gap-2">
+                          <div className="w-full px-4 py-3 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-xl flex flex-col gap-2">
                             {method === "E-Wallet" ? (
                               <>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-[11px] font-bold text-[#3B2211]">GoPay / OVO / Dana</span>
-                                  <span className="text-[11px] font-black text-[#3B2211] font-mono tracking-wide">0812-3456-7890</span>
+                                  <span className="text-[11px] font-bold text-[#1e293b]">GoPay / OVO / Dana</span>
+                                  <span className="text-[11px] font-black text-[#1e293b] font-mono tracking-wide">0812-3456-7890</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-[11px] font-bold text-[#3B2211]">ShopeePay</span>
-                                  <span className="text-[11px] font-black text-[#3B2211] font-mono tracking-wide">0812-3456-7890</span>
+                                  <span className="text-[11px] font-bold text-[#1e293b]">ShopeePay</span>
+                                  <span className="text-[11px] font-black text-[#1e293b] font-mono tracking-wide">0812-3456-7890</span>
                                 </div>
-                                <div className="pt-2 mt-1 border-t border-[#3B2211]/5 flex justify-between items-center">
+                                <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#3B2211]">SNEAPICI STUDIO</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
                                 </div>
                               </>
                             ) : (
                               <>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-[11px] font-bold text-[#3B2211]">BCA</span>
-                                  <span className="text-[11px] font-black text-[#3B2211] font-mono tracking-wide">1234-5678-90</span>
+                                  <span className="text-[11px] font-bold text-[#1e293b]">BCA</span>
+                                  <span className="text-[11px] font-black text-[#1e293b] font-mono tracking-wide">1234-5678-90</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                  <span className="text-[11px] font-bold text-[#3B2211]">Mandiri</span>
-                                  <span className="text-[11px] font-black text-[#3B2211] font-mono tracking-wide">0987-6543-21</span>
+                                  <span className="text-[11px] font-bold text-[#1e293b]">Mandiri</span>
+                                  <span className="text-[11px] font-black text-[#1e293b] font-mono tracking-wide">0987-6543-21</span>
                                 </div>
-                                <div className="pt-2 mt-1 border-t border-[#3B2211]/5 flex justify-between items-center">
+                                <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#3B2211]">SNEAPICI STUDIO</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
                                 </div>
                               </>
                             )}
@@ -585,7 +585,7 @@ export default function CheckoutModal({
                   <button
                     onClick={handleCheckout}
                     disabled={isProcessing}
-                    className="relative w-full py-4 bg-[#3B2211] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-[#3B2211]/20 flex items-center justify-center hover:bg-[#C88A58] hover:shadow-[#C88A58]/20 active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all"
+                    className="relative w-full py-4 bg-[#1e293b] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-[#1e293b]/20 flex items-center justify-center hover:bg-[#0ea5e9] hover:shadow-[#0ea5e9]/20 active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all"
                   >
                     {isProcessing ? (
                       <span className="flex items-center justify-center gap-3">
@@ -614,7 +614,7 @@ export default function CheckoutModal({
             exit={{ opacity: 0, y: -20, scale: 0.9 }}
             className="fixed top-6 left-1/2 -translate-x-1/2 z-[150] pointer-events-none flex items-center justify-center"
           >
-            <div className="bg-[#1A110B] text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3 backdrop-blur-md">
+            <div className="bg-[#0f172a] text-white px-6 py-3.5 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3 backdrop-blur-md">
               {toast.type === "success" && <CheckCircle2 className="text-emerald-400 shrink-0" size={18} />}
               {toast.type === "error" && <XCircle className="text-red-400 shrink-0" size={18} />}
               {toast.type === "info" && <AlertCircle className="text-amber-400 shrink-0" size={18} />}

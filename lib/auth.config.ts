@@ -19,24 +19,32 @@ export const authConfig = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.includes("/kasir")) {
+        return `${baseUrl}/admin`;
+      }
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const userRole = (auth?.user as any)?.role;
       const path = nextUrl.pathname;
 
+      if (path.startsWith("/kasir")) {
+        return Response.redirect(new URL("/admin", nextUrl));
+      }
+
       const isOnAdmin = path.startsWith("/admin");
-      const isOnKasir = path.startsWith("/kasir");
       const isOnSnapper = path.startsWith("/snapper");
-      const isOnProtected = isOnAdmin || isOnKasir || isOnSnapper;
+      const isOnProtected = isOnAdmin || isOnSnapper;
 
       if (isOnProtected) {
         if (!isLoggedIn) return false; // Redirects to /login
 
         // Role-based authorization
         if (isOnAdmin && userRole !== "ADMIN") {
-          return Response.redirect(new URL(userRole === "SNAPPER" ? "/snapper" : "/", nextUrl));
-        }
-        if (isOnKasir && userRole !== "ADMIN") {
           return Response.redirect(new URL(userRole === "SNAPPER" ? "/snapper" : "/", nextUrl));
         }
         if (isOnSnapper && userRole !== "SNAPPER" && userRole !== "ADMIN") {

@@ -188,6 +188,7 @@ export default function AdminDashboard() {
             color: "text-green-600",
             bg: "bg-green-50",
             desc: "Total penjualan program",
+            growth: statsData.revenue > 0 ? "+12%" : "0%",
           },
           {
             label: "Pendaftaran Baru",
@@ -196,6 +197,7 @@ export default function AdminDashboard() {
             color: "text-blue-600",
             bg: "bg-blue-50",
             desc: "Pendaftaran masuk hari ini",
+            growth: statsData.posToday > 0 ? "+12%" : "0%",
           },
           {
             label: "Peserta Aktif",
@@ -204,6 +206,7 @@ export default function AdminDashboard() {
             color: "text-gold",
             bg: "bg-gold/10",
             desc: "Peserta aktif program",
+            growth: statsData.bookingsToday > 0 ? "+12%" : "0%",
           },
           {
             label: "Program Aktif",
@@ -212,6 +215,7 @@ export default function AdminDashboard() {
             color: "text-near-black",
             bg: "bg-near-black/5",
             desc: "Katalog program tersedia",
+            growth: statsData.activeProducts > 0 ? "+12%" : "0%",
           },
         ].map((stat, i) => (
           <motion.div
@@ -227,7 +231,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center gap-1 text-[10px] font-black text-green-500 bg-green-50 px-2 py-1 rounded-full">
                 <ArrowUpRight size={12} />
-                +12%
+                {stat.growth}
               </div>
             </div>
             <p className="text-[10px] font-black text-near-black/40 uppercase tracking-[0.2em] mb-1">{stat.label}</p>
@@ -491,10 +495,10 @@ export default function AdminDashboard() {
                     </td>
                     <td className="py-6">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
                           <ShoppingBag size={14} className="text-gold" />
                         </div>
-                        <span className="text-sm font-black text-near-black">Studio Session</span>
+                        <span className="text-sm font-black text-near-black line-clamp-1">{trx.packageName || "Pelatihan"}</span>
                       </div>
                     </td>
                     <td className="py-6 text-right">

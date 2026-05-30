@@ -43,7 +43,7 @@ export default function Receipt({
       {/* ── Trigger Button ── */}
       <button
         onClick={() => handlePrint()}
-        className="flex-1 py-4 bg-[#FAFAF8] border border-[#3B2211]/8 text-[#3B2211] rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-[#3B2211]/5 active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 shadow-sm"
+        className="flex-1 py-4 bg-[#FAFAF8] border border-[#1e293b]/8 text-[#1e293b] rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-[#1e293b]/5 active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 shadow-sm"
       >
         <Printer size={16} />
         Cetak Struk

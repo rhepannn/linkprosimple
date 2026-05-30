@@ -130,7 +130,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
 
         setSaveState("saved");
       } catch (err: any) {
-        console.error("[Snapp.frame] Booking save failed:", err);
+        console.error("[Link Productive] Booking save failed:", err);
         setSaveError(err.message || "Booking gagal disimpan ke database. Silakan konfirmasi manual via WhatsApp.");
         setSaveState("error");
       }
@@ -150,7 +150,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
   function buildWhatsAppMsg(): string {
     const date = formatDate(formData.date);
     const lines = [
-      `Halo Snapp.frame Studio! 👋`,
+      `Halo Link Productive! 👋`,
       ``,
       `Saya sudah melakukan booking sesi foto dan ingin mengonfirmasi pembayaran saya.`,
       ``,
@@ -201,7 +201,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
             <AlertCircle size={26} className="text-white" />
           )}
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-[#3B2211] tracking-tight transition-all duration-300" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-2xl sm:text-3xl font-black text-[#1e293b] tracking-tight transition-all duration-300" style={{ fontFamily: "var(--font-heading)" }}>
           {saveState === "saving"
             ? "Menyimpan Booking..."
             : dbStatus === "confirmed"
@@ -218,7 +218,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
             : dbStatus === "confirmed"
             ? "Pembayaran Anda telah diverifikasi. Sampai jumpa di studio sesuai jadwal!"
             : dbStatus === "completed"
-            ? "Terima kasih telah melakukan pemotretan di Snapp.frame Studio."
+            ? "Terima kasih telah memilih Link Productive."
             : dbStatus === "cancelled"
             ? "Booking Anda telah dibatalkan. Silakan hubungi admin jika ada pertanyaan."
             : "Selesaikan pembayaran dan kirimkan bukti transfer ke WhatsApp admin melalui link di bawah."}
@@ -268,9 +268,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
       {/* Receipt Card */}
       <div className="rounded-2xl border border-[#E0E0DA] bg-white overflow-hidden mb-6 max-w-md mx-auto">
         {/* Header */}
-        <div className="bg-[#3B2211] text-[#FAFAF8] px-6 py-5 text-center">
+        <div className="bg-[#1e293b] text-[#FAFAF8] px-6 py-5 text-center">
           <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#FAFAF8]/60 mb-1">Struk Digital</p>
-          <h3 className="text-lg font-bold" style={{ fontFamily: "var(--font-heading)" }}>Snapp.frame Studio</h3>
+          <h3 className="text-lg font-bold" style={{ fontFamily: "var(--font-heading)" }}>Link Productive</h3>
           <p className="text-xs text-[#FAFAF8]/60 mt-0.5">{site.tagline}</p>
           <p className="text-xs font-mono text-[#FAFAF8]/50 mt-2">{invoice}</p>
         </div>
@@ -315,40 +315,40 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
               </div>
             )}
             <div className="flex justify-between text-sm font-black pt-1">
-              <span className="text-[#3B2211]">TOTAL</span>
-              <span className="text-[#3B2211]" style={{ fontFamily: "var(--font-heading)" }}>{formatPrice(finalPrice)}</span>
+              <span className="text-[#1e293b]">TOTAL</span>
+              <span className="text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>{formatPrice(finalPrice)}</span>
             </div>
           </div>
 
           {dottedDivider}
 
           <p className="text-xs text-gray-500 mb-3 font-bold">
-            Metode Pembayaran: <span className="font-black text-[#3B2211]">{getPaymentMethodLabel()}</span>
+            Metode Pembayaran: <span className="font-black text-[#1e293b]">{getPaymentMethodLabel()}</span>
           </p>
 
           {/* Dynamic Payment Details Display */}
           {paymentMethod === "transfer" && (
-            <div className="flex flex-col items-center py-4 bg-[#F8F6F4] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#3B2211] uppercase tracking-wider">Silakan Transfer Ke Rekening Bank</p>
-              <p className="text-xl font-black text-[#C88A58] my-1 font-mono">
+            <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Transfer Ke Rekening Bank</p>
+              <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
               <div className="w-full border-t border-[#E0E0DA] my-1" />
               <div className="text-xs text-left w-full space-y-1 py-2 px-3 bg-white/60 rounded-lg font-bold text-gray-600">
                 <div className="flex justify-between">
                   <span>Bank:</span>
-                  <span className="text-[#3B2211]">{siteSettings.payment_bank_name || site.payment.bankName}</span>
+                  <span className="text-[#1e293b]">{siteSettings.payment_bank_name || site.payment.bankName}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>No. Rekening:</span>
-                  <span className="text-[#3B2211] font-mono flex items-center gap-1">
+                  <span className="text-[#1e293b] font-mono flex items-center gap-1">
                     {siteSettings.payment_bank_account || site.payment.bankAccount}
                     <button 
                       onClick={() => {
                         navigator.clipboard.writeText(siteSettings.payment_bank_account || site.payment.bankAccount);
                         toast.success("Nomor rekening disalin!");
                       }}
-                      className="p-1 hover:bg-[#F8F6F4] rounded text-[#C88A58] transition-colors"
+                      className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
                       title="Salin No. Rekening"
                     >
                       <Copy size={11} />
@@ -357,30 +357,30 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#3B2211]">{siteSettings.payment_bank_owner || site.payment.bankOwner}</span>
+                  <span className="text-[#1e293b]">{siteSettings.payment_bank_owner || site.payment.bankOwner}</span>
                 </div>
               </div>
             </div>
           )}
 
           {paymentMethod === "dana" && (
-            <div className="flex flex-col items-center py-4 bg-[#F8F6F4] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#3B2211] uppercase tracking-wider">Silakan Kirim Saldo DANA</p>
-              <p className="text-xl font-black text-[#C88A58] my-1 font-mono">
+            <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Kirim Saldo DANA</p>
+              <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
               <div className="w-full border-t border-[#E0E0DA] my-1" />
               <div className="text-xs text-left w-full space-y-1 py-2 px-3 bg-white/60 rounded-lg font-bold text-gray-600">
                 <div className="flex justify-between items-center">
                   <span>No. DANA:</span>
-                  <span className="text-[#3B2211] font-mono flex items-center gap-1">
+                  <span className="text-[#1e293b] font-mono flex items-center gap-1">
                     {siteSettings.payment_dana_number || "081234567890"}
                     <button 
                       onClick={() => {
                         navigator.clipboard.writeText(siteSettings.payment_dana_number || "081234567890");
                         toast.success("Nomor DANA disalin!");
                       }}
-                      className="p-1 hover:bg-[#F8F6F4] rounded text-[#C88A58] transition-colors"
+                      className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
                       title="Salin No. DANA"
                     >
                       <Copy size={11} />
@@ -389,30 +389,30 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#3B2211]">{siteSettings.payment_dana_owner || "Snapp.frame Studio"}</span>
+                  <span className="text-[#1e293b]">{siteSettings.payment_dana_owner || "Link Productive"}</span>
                 </div>
               </div>
             </div>
           )}
 
           {paymentMethod === "gopay" && (
-            <div className="flex flex-col items-center py-4 bg-[#F8F6F4] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#3B2211] uppercase tracking-wider">Silakan Kirim Saldo GoPay</p>
-              <p className="text-xl font-black text-[#C88A58] my-1 font-mono">
+            <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Kirim Saldo GoPay</p>
+              <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
               <div className="w-full border-t border-[#E0E0DA] my-1" />
               <div className="text-xs text-left w-full space-y-1 py-2 px-3 bg-white/60 rounded-lg font-bold text-gray-600">
                 <div className="flex justify-between items-center">
                   <span>No. GoPay:</span>
-                  <span className="text-[#3B2211] font-mono flex items-center gap-1">
+                  <span className="text-[#1e293b] font-mono flex items-center gap-1">
                     {siteSettings.payment_gopay_number || "081234567890"}
                     <button 
                       onClick={() => {
                         navigator.clipboard.writeText(siteSettings.payment_gopay_number || "081234567890");
                         toast.success("Nomor GoPay disalin!");
                       }}
-                      className="p-1 hover:bg-[#F8F6F4] rounded text-[#C88A58] transition-colors"
+                      className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
                       title="Salin No. GoPay"
                     >
                       <Copy size={11} />
@@ -421,14 +421,14 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#3B2211]">{siteSettings.payment_gopay_owner || "Snapp.frame Studio"}</span>
+                  <span className="text-[#1e293b]">{siteSettings.payment_gopay_owner || "Link Productive"}</span>
                 </div>
               </div>
             </div>
           )}
 
           {dottedDivider}
-          <p className="text-center text-[10px] text-gray-300 font-bold uppercase tracking-widest">Terima kasih telah memilih Snapp.frame Studio ✦</p>
+          <p className="text-center text-[10px] text-gray-300 font-bold uppercase tracking-widest">Terima kasih telah memilih Link Productive ✦</p>
         </div>
       </div>
 
@@ -502,7 +502,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                className="text-2xl font-black text-[#3B2211] mb-2"
+                className="text-2xl font-black text-[#1e293b] mb-2"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 Booking Dikonfirmasi!
@@ -515,7 +515,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 className="text-xs text-gray-500 font-bold"
               >
                 Terima kasih, pembayaran Anda berhasil diverifikasi oleh admin.
-                <span className="block mt-2 font-medium text-[#C88A58] animate-pulse">Mengalihkan ke beranda...</span>
+                <span className="block mt-2 font-medium text-[#0ea5e9] animate-pulse">Mengalihkan ke beranda...</span>
               </motion.p>
             </div>
           </motion.div>

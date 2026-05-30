@@ -2,13 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { getSiteSettings, updateSiteSettings } from "@/app/actions/settings";
-import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode } from "lucide-react";
+import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown } from "lucide-react";
 import { toast } from "sonner";
+
+interface SectionItem {
+  id: string;
+  name: string;
+}
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<"contact" | "content" | "layout">("contact");
+  const [sections, setSections] = useState<SectionItem[]>([]);
 
   useEffect(() => {
     loadSettings();
@@ -19,7 +26,7 @@ export default function SettingsPage() {
     try {
       const data = await getSiteSettings();
       // Set defaults if empty
-      setSettings({
+      const initialSettings = {
         contact_email: data.contact_email || "hello@linkproductive.com",
         contact_phone: data.contact_phone || "+62 877 7805 9221",
         contact_wa: data.contact_wa || "6287778059221",
@@ -50,7 +57,30 @@ export default function SettingsPage() {
         payment_dana_owner: data.payment_dana_owner || "",
         payment_gopay_number: data.payment_gopay_number || "",
         payment_gopay_owner: data.payment_gopay_owner || "",
-      });
+        homepage_section_order: data.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact"
+      };
+
+      setSettings(initialSettings);
+
+      const defaultSections: Record<string, string> = {
+        hero: "Hero Banner (Sliding Carousel)",
+        about: "Tentang Kami (About Us)",
+        kegiatans: "Galeri Kategori Kegiatan",
+        youtube: "Official YouTube Channel Highlight",
+        packages: "Pilihan Program Pelatihan",
+        testimonials: "Testimoni Pelanggan",
+        "how-it-works": "Cara Kerja Platform",
+        faq: "Tanya Jawab (FAQ)",
+        contact: "Informasi Kontak & Lokasi"
+      };
+
+      const orderedKeys = initialSettings.homepage_section_order.split(",");
+      const sectionList = orderedKeys.map(key => ({
+        id: key,
+        name: defaultSections[key] || key
+      })).filter(s => defaultSections[s.id]);
+
+      setSections(sectionList);
     } catch (error) {
       toast.error("Gagal memuat pengaturan");
     } finally {
@@ -60,6 +90,23 @@ export default function SettingsPage() {
 
   const handleChange = (key: string, value: string) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const moveSection = (index: number, direction: "up" | "down") => {
+    const updated = [...sections];
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= updated.length) return;
+
+    // Swap
+    const temp = updated[index];
+    updated[index] = updated[targetIndex];
+    updated[targetIndex] = temp;
+
+    setSections(updated);
+    
+    // Update setting string
+    const keysString = updated.map(s => s.id).join(",");
+    handleChange("homepage_section_order", keysString);
   };
 
   const handleImageUpload = async (key: string, file: File) => {
@@ -141,35 +188,58 @@ export default function SettingsPage() {
 
   return (
     <div className="p-8 max-w-5xl mx-auto pb-32">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-near-black/5 pb-6">
         <div>
           <h1 className="text-2xl font-black text-near-black tracking-tight mb-1">
             Pengaturan Website
           </h1>
           <p className="text-sm font-medium text-near-black/60">
-            Ubah teks, kontak, dan informasi yang tampil di website pelanggan.
+            Ubah tata letak sections, teks hero, poster promosi, dan informasi kontak website.
           </p>
         </div>
-        <button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="flex items-center gap-2 px-6 py-3 bg-near-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-near-black/90 disabled:opacity-50 transition-colors shadow-lg shadow-near-black/10"
-        >
-          {isSaving ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Save className="w-4 h-4" />
-          )}
-          Simpan Perubahan
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Tab Selector */}
+          <div className="flex bg-gray-100 p-1 rounded-xl">
+            <button
+              onClick={() => setActiveTab("contact")}
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${activeTab === "contact" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
+            >
+              Kontak & Rekening
+            </button>
+            <button
+              onClick={() => setActiveTab("content")}
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${activeTab === "content" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
+            >
+              Hero & Poster
+            </button>
+            <button
+              onClick={() => setActiveTab("layout")}
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 ${activeTab === "layout" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
+            >
+              Urutan Section
+            </button>
+          </div>
+
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="flex items-center gap-2 px-6 py-3 bg-near-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-near-black/90 disabled:opacity-50 transition-colors shadow-lg shadow-near-black/10"
+          >
+            {isSaving ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
+            Simpan
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left Column */}
-        <div className="space-y-8">
+      {activeTab === "contact" && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Contact Info */}
-          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-near-black/5">
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                 <Mail className="w-5 h-5" />
               </div>
@@ -199,7 +269,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WhatsApp (Untuk Tombol/Link, tanpa +)</label>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WhatsApp (Tampilan Utama, tanpa +)</label>
                 <input
                   type="text"
                   value={settings.contact_wa}
@@ -209,7 +279,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WhatsApp Affiliate (tanpa +)</label>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WhatsApp Partner Affiliate (tanpa +)</label>
                 <input
                   type="text"
                   value={settings.affiliate_whatsapp || ""}
@@ -239,14 +309,14 @@ export default function SettingsPage() {
           </div>
 
           {/* Payment Settings */}
-          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-near-black/5">
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                 <CreditCard className="w-5 h-5" />
               </div>
               <div>
                 <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Informasi Pembayaran</h2>
-                <p className="text-[11px] text-near-black/50 font-medium">Rekening Bank & Gambar QRIS</p>
+                <p className="text-[11px] text-near-black/50 font-medium">Rekening Bank & QRIS Instansi</p>
               </div>
             </div>
 
@@ -278,11 +348,11 @@ export default function SettingsPage() {
                   value={settings.payment_bank_owner || ""}
                   onChange={(e) => handleChange("payment_bank_owner", e.target.value)}
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                  placeholder="Contoh: Snapp.frame Studio Owner"
+                  placeholder="Contoh: PT Link Productive Nusantara"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WA Konfirmasi Pembayaran Pelatihan (tanpa +)</label>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor WA Konfirmasi Pendaftaran (tanpa +)</label>
                 <input
                   type="text"
                   value={settings.training_payment_wa || ""}
@@ -290,50 +360,6 @@ export default function SettingsPage() {
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
                   placeholder="Contoh: 6287778059221"
                 />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor DANA</label>
-                  <input
-                    type="text"
-                    value={settings.payment_dana_number || ""}
-                    onChange={(e) => handleChange("payment_dana_number", e.target.value)}
-                    className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                    placeholder="Contoh: 08123456789"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Pemilik DANA</label>
-                  <input
-                    type="text"
-                    value={settings.payment_dana_owner || ""}
-                    onChange={(e) => handleChange("payment_dana_owner", e.target.value)}
-                    className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                    placeholder="Contoh: Nama Pemilik"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Nomor GOPAY</label>
-                  <input
-                    type="text"
-                    value={settings.payment_gopay_number || ""}
-                    onChange={(e) => handleChange("payment_gopay_number", e.target.value)}
-                    className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                    placeholder="Contoh: 08123456789"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Pemilik GOPAY</label>
-                  <input
-                    type="text"
-                    value={settings.payment_gopay_owner || ""}
-                    onChange={(e) => handleChange("payment_gopay_owner", e.target.value)}
-                    className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                    placeholder="Contoh: Nama Pemilik"
-                  />
-                </div>
               </div>
 
               <div className="border-t border-near-black/5 pt-4">
@@ -385,40 +411,19 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
+      )}
 
-        {/* Operational & General */}
-        <div className="space-y-8">
-          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-near-black/5">
-              <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
-                <Clock className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Jam Operasional</h2>
-                <p className="text-[11px] text-near-black/50 font-medium">Tampil di footer / info kontak</p>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Jam Operasional</label>
-              <input
-                type="text"
-                value={settings.operational_hours}
-                onChange={(e) => handleChange("operational_hours", e.target.value)}
-                className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                placeholder="Contoh: Senin–Sabtu: 09:00 - 18:00"
-              />
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-near-black/5">
+      {activeTab === "content" && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Teks Hero Landing Page */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
               <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
                 <Type className="w-5 h-5" />
               </div>
               <div>
                 <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Teks Hero (Halaman Utama)</h2>
-                <p className="text-[11px] text-near-black/50 font-medium">Tulisan besar pertama kali dilihat pengunjung</p>
+                <p className="text-[11px] text-near-black/50 font-medium">Ubah headline utama landing page Anda</p>
               </div>
             </div>
 
@@ -480,22 +485,32 @@ export default function SettingsPage() {
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all min-h-[100px]"
                 />
               </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Jam Operasional (Footer)</label>
+                <input
+                  type="text"
+                  value={settings.operational_hours}
+                  onChange={(e) => handleChange("operational_hours", e.target.value)}
+                  className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+                  placeholder="Contoh: Senin–Sabtu: 09:00 - 18:00"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Poster Program Affiliate */}
-          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-near-black/5">
-              <div className="w-10 h-10 rounded-xl bg-gold/10 text-gold flex items-center justify-center">
+          {/* Poster Program Promosi */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center">
                 <ImageIcon className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Poster Program Affiliate</h2>
-                <p className="text-[11px] text-near-black/50 font-medium">Ubah gambar poster promosi tiap program affiliate (bisa banyak poster per program)</p>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Poster Program</h2>
+                <p className="text-[11px] text-near-black/50 font-medium">Ubah gambar poster promosi tiap program akademis/affiliate</p>
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
               {[
                 { label: "LP Academic Partner", key: "affiliate_poster_academic" },
                 { label: "LP Career Ready", key: "affiliate_poster_career" },
@@ -510,8 +525,6 @@ export default function SettingsPage() {
                 return (
                   <div key={prog.key} className="space-y-3 border-b border-near-black/5 pb-4 last:border-b-0 last:pb-0">
                     <label className="block text-xs font-bold text-near-black uppercase tracking-wide">{prog.label}</label>
-
-                    {/* Poster Previews Grid */}
                     <div className="space-y-3">
                       {urls.length > 0 ? (
                         <div className="flex flex-wrap gap-3">
@@ -525,34 +538,29 @@ export default function SettingsPage() {
                                   handleChange(prog.key, updated.join(","));
                                 }}
                                 className="absolute top-1.5 right-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-md cursor-pointer flex items-center justify-center"
-                                title="Hapus Poster"
                               >
                                 <X className="w-3 h-3" />
                               </button>
-                              <div className="absolute bottom-1 left-1 bg-black/60 px-1.5 py-0.5 rounded text-[8px] font-bold text-white uppercase">
-                                #{idx + 1}
-                              </div>
                             </div>
                           ))}
                         </div>
                       ) : (
                         <div className="w-24 h-32 rounded-xl bg-near-black/5 border border-near-black/10 flex items-center justify-center text-near-black/25">
-                          <ImageIcon className="w-6 h-6 animate-pulse" />
+                          <ImageIcon className="w-6 h-6" />
                         </div>
                       )}
 
-                      {/* Inputs & Buttons */}
                       <div className="space-y-2">
                         <input
                           type="text"
                           value={settings[prog.key] || ""}
                           onChange={(e) => handleChange(prog.key, e.target.value)}
-                          placeholder="Link Gambar URL Poster (pisahkan dengan koma jika banyak)..."
+                          placeholder="Link URL Poster (pisahkan dengan koma jika banyak)..."
                           className="w-full px-3 py-2 bg-warm-white/50 border border-near-black/10 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all font-mono"
                         />
                         <div className="flex gap-2">
                           <label className="flex items-center gap-1.5 px-3 py-1.5 bg-near-black/5 hover:bg-near-black/10 text-near-black text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer">
-                            <Upload className="w-3 h-3" /> Unggah Poster Baru
+                            <Upload className="w-3 h-3" /> Unggah Poster
                             <input
                               type="file"
                               accept="image/*"
@@ -563,15 +571,6 @@ export default function SettingsPage() {
                               className="hidden"
                             />
                           </label>
-                          {urls.length > 0 && (
-                            <button
-                              type="button"
-                              onClick={() => handleChange(prog.key, "")}
-                              className="px-3 py-1.5 text-rose-500 hover:bg-rose-50 text-[10px] font-black uppercase tracking-wider rounded-lg transition-all cursor-pointer border border-transparent"
-                            >
-                              Hapus Semua
-                            </button>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -581,7 +580,67 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {activeTab === "layout" && (
+        <div className="bg-white p-8 rounded-2xl border border-near-black/5 shadow-sm max-w-2xl mx-auto space-y-6">
+          <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+            <div className="w-10 h-10 rounded-xl bg-[#f0f7ff] text-[#004aad] flex items-center justify-center">
+              <Layers className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Urutan Bagian Halaman Utama (Homepage)</h2>
+              <p className="text-[11px] text-near-black/50 font-medium">Ubah letak dan urutan tampilan sections di landing page secara interaktif.</p>
+            </div>
+          </div>
+
+          {/* Section positioning manager */}
+          <div className="space-y-3">
+            {sections.map((sec, idx) => (
+              <div
+                key={sec.id}
+                className="flex items-center justify-between p-4 bg-[#f8fafc] border border-near-black/5 rounded-2xl hover:bg-white hover:border-[#004aad]/30 transition-all duration-300 shadow-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-lg bg-[#004aad]/10 text-[#004aad] text-xs font-black flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                  <span className="text-xs font-black uppercase tracking-wider text-near-black">{sec.name}</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => moveSection(idx, "up")}
+                    disabled={idx === 0}
+                    className="p-2.5 rounded-xl border border-near-black/5 hover:border-near-black/10 hover:bg-near-black/5 text-near-black/50 hover:text-near-black transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                    title="Pindahkan Ke Atas"
+                  >
+                    <ArrowUp className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => moveSection(idx, "down")}
+                    disabled={idx === sections.length - 1}
+                    className="p-2.5 rounded-xl border border-near-black/5 hover:border-near-black/10 hover:bg-near-black/5 text-near-black/50 hover:text-near-black transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+                    title="Pindahkan Ke Bawah"
+                  >
+                    <ArrowDown className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 bg-amber-50 border border-amber-200/50 rounded-2xl flex gap-3 text-amber-800">
+            <Layers className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="text-xs font-semibold leading-relaxed">
+              <p className="font-bold mb-1">📢 Tips Pengaturan Tata Letak:</p>
+              Gunakan tombol panah di atas untuk menyesuaikan susunan urutan visual landing page utama. Setelah selesai menyusun urutan, pastikan Anda menekan tombol <strong>Simpan</strong> di bagian atas halaman untuk menerapkan susunan tata letak baru ini secara publik.
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

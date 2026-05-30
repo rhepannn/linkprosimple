@@ -135,6 +135,22 @@ export async function updateBookingStatusByInvoice(invoiceNo: string, status: st
 
 export async function createBooking(data: any) {
   try {
+    // Anti-spam check: prevent duplicate bookings from the same phone number within the last 10 minutes
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+    const existingSpam = await prisma.booking.findFirst({
+      where: {
+        customerPhone: data.customer_phone,
+        createdAt: { gte: tenMinutesAgo }
+      }
+    });
+
+    if (existingSpam) {
+      return { 
+        success: false, 
+        error: "Mohon tunggu beberapa menit sebelum melakukan pendaftaran kembali untuk menghindari spam." 
+      };
+    }
+
     // Map snake_case payload to camelCase fields for Prisma input
     const newBooking = await prisma.booking.create({
       data: {

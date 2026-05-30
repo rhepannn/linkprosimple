@@ -14,6 +14,8 @@ import {
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { getAffiliatePosts } from "@/app/actions/affiliate-posts";
 import { getSiteSettings } from "@/app/actions/settings";
+import { getProducts } from "@/app/actions/products";
+import { brandProducts } from "@/data/brand-products";
 import { toast } from "sonner";
 
 // ─── AFFILIATE DETAIL DATA ────────────────────────────────────────────────────
@@ -201,25 +203,7 @@ const affiliateDetails: Record<string, { subtitle: string; intro: string; packag
     targetMarket: ["🏪 UMKM & pebisnis", "🎓 Mahasiswa wirausaha", "📱 Content creator", "💻 Freelancer marketing", "🤝 Komunitas pebisnis muda"],
     disclaimer: "Harga layanan Brand Siap sewaktu-waktu dapat berubah mengikuti paket promo yang sedang berjalan. Komisi affiliate diberikan untuk setiap transaksi valid menggunakan kode referral affiliate partner yang terdaftar.",
   },
-  "Snapp Frame": {
-    subtitle: "Studio Foto Minimalis Premium — Cetak Kilat & Dokumentasi Visual",
-    intro: "Jadilah Affiliate Partner Snapp.frame Studio dan dapatkan komisi dari setiap pelanggan yang booking sesi foto menggunakan kode referral kamu! 📸\n\nSnapp.frame Studio adalah studio foto minimalis modern dengan konsep photobooth premium. Cocok untuk foto portrait, wisuda, ulang tahun, dan momen spesial lainnya.\n\nSebagai Affiliate Partner kamu bisa:\n✅ Bagikan link referral ke teman, keluarga, atau followers\n✅ Dapat komisi Rp3.500 per foto yang tercetak\n✅ Customer dapat diskon khusus pakai kode referralmu\n✅ Bisa dijalankan via WhatsApp, Instagram, TikTok",
-    packages: [
-      { name: "📸 Paket Solo (10 foto)", price: "Rp 75.000", discount: "Rp 15.000", afterDiscount: "Rp 60.000", commission: "Rp 35.000 / booking" },
-      { name: "👫 Paket Duo (15 foto)", price: "Rp 100.000", discount: "Rp 20.000", afterDiscount: "Rp 80.000", commission: "Rp 52.500 / booking" },
-      { name: "👨‍👩‍👧‍👦 Paket Group (20 foto)", price: "Rp 130.000", discount: "Rp 25.000", afterDiscount: "Rp 105.000", commission: "Rp 70.000 / booking" },
-    ],
-    whyInteresting: [
-      "Studio langsung di kotamu — dekat & terjangkau",
-      "Produk premium yang mudah dijual",
-      "Banyak event (wisuda, ultah, gathering) jadi peluang",
-      "Komisi per booking langsung",
-      "Materi promosi & konten siap pakai",
-      "Sistem tracking referral otomatis",
-    ],
-    targetMarket: ["📸 Pecinta foto", "🎓 Mahasiswa & pelajar", "💒 Pasangan & keluarga", "📱 Content creator", "🎉 Event organizer", "🏫 Organisasi kampus"],
-    disclaimer: "Komisi affiliate Snapp.frame dihitung per foto yang tercetak dari booking valid menggunakan kode referral terdaftar. Harga dan komisi dapat berubah sesuai promo yang sedang berjalan.",
-  },
+
   "Standara Consulting": {
     subtitle: "Konsultan & Pelatihan Standar, Mutu, dan Pengembangan Bisnis",
     intro: "Standara Consulting hadir sebagai layanan konsultasi, pelatihan, dan pendampingan profesional yang membantu organisasi, UMKM, IKM, koperasi, LPK, hingga industri dalam meningkatkan tata kelola bisnis yang lebih profesional, terstruktur, dan berkelanjutan. 💼\n\nSebagai Affiliate Partner, kamu akan mendapatkan:\n✅ Peluang komisi menarik dari setiap proyek konsultasi B2B\n✅ Kode Referral Affiliate Khusus\n✅ Dukungan tim konsultan senior untuk presentasi ke prospek\n✅ Membantu industri lokal berkembang & terstandardisasi\n✅ Sistem tracking & pelaporan komisi transparan",
@@ -407,28 +391,12 @@ const products = [
     url: "https://sites.google.com/view/link-productive/services/brand-siap/affiliate-brand-siap",
   },
   {
-    name: "Snapp Frame",
-    fee: "Rp3.500",
-    unit: "foto",
-    icon: Camera,
-    desc: "Layanan fotografi studio modern, foto portrait, cetak kilat, dan dokumentasi visual premium.",
-    url: "https://www.linkproductive.com/marketplace/snapp-frame/affiliate-snapp-frame",
-  },
-  {
     name: "Standara Consulting",
     fee: "Sesuai Ketentuan",
     unit: "layanan",
     icon: Handshake,
     desc: "Konsultasi profesional penyusunan SOP standardisasi bisnis, legalitas usaha, dan sertifikasi.",
     url: "https://www.linkproductive.com/services/standara-consulting",
-  },
-  {
-    name: "Rata Coffee",
-    fee: "Rp1.000",
-    unit: "gelas",
-    icon: Coffee,
-    desc: "Varian kopi susu kekinian berkualitas tinggi dengan racikan barista berpengalaman.",
-    url: "",
   },
 ];
 
@@ -444,18 +412,16 @@ const discountData = [
   { name: "Green Productive Academy", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
   { name: "Standara Consulting", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
   { name: "Brand Siap", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
-  { name: "Snapp Frame", maxDiscount: "Rp5.000", fee: "Rp3.500" },
-  { name: "Rata Coffee", maxDiscount: "Rp2.000", fee: "Rp1.000" },
 ];
 
 const fallbackPosts = [
   {
     id: "fb-1",
     imageUrl: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
-    caption: "Keseruan photobooth Snapp.frame di acara Rata Coffee! 📸 Temen-temen seneng banget bisa langsung cetak foto strip kece dengan warna sepia khas kita. Buruan share kode referral-mu biar temen-temen dapet diskon dan kamu dapet cuan!",
-    hashtags: ["snappframe", "ratacoffee", "photoboothhits", "cuanbareng"],
+    caption: "Keseruan photobooth Link Productive di acara Rata Coffee! 📸 Temen-temen seneng banget bisa langsung cetak foto strip kece dengan warna sepia khas kita. Buruan share kode referral-mu biar temen-temen dapet diskon dan kamu dapet cuan!",
+    hashtags: ["linkproductive", "ratacoffee", "photoboothhits", "cuanbareng"],
     likeCount: 142,
-    postedBy: "Snapp.frame Studio",
+    postedBy: "Link Productive",
     category: "kegiatan",
     createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
   },
@@ -463,9 +429,9 @@ const fallbackPosts = [
     id: "fb-2",
     imageUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=600&auto=format&fit=crop",
     caption: "Affiliate Partners Gathering #1! 🤝 Tempat di mana kita bertukar ide, sharing tips cara promosi kreatif di Instagram & Tiktok, dan tentunya ngerayain bonus pencapaian bulanan. Ingin gabung komunitas seru ini? Daftar gratis sekarang!",
-    hashtags: ["snappframe", "affiliatepartner", "gatheringseru", "belajardigital"],
+    hashtags: ["linkproductive", "affiliatepartner", "gatheringseru", "belajardigital"],
     likeCount: 98,
-    postedBy: "Snapp.frame Studio",
+    postedBy: "Link Productive",
     category: "kegiatan",
     createdAt: new Date(Date.now() - 3600000 * 24 * 3).toISOString(),
   },
@@ -475,7 +441,7 @@ const fallbackPosts = [
     caption: "📢 PROMO BUNDLING SPESIAL KELOMPOK! Buat kalian yang mau foto grup bareng sahabat, gunakan kode referral dari affiliate partner kami untuk mendapatkan potongan langsung Rp20.000 + cetakan tambahan gratis!",
     hashtags: ["promostudio", "fotogrup", "graduationphoto", "diskonspesial"],
     likeCount: 215,
-    postedBy: "Marketing Snapp.frame",
+    postedBy: "Marketing Link Productive",
     category: "promo",
     createdAt: new Date(Date.now() - 3600000 * 12).toISOString(),
   },
@@ -607,7 +573,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   Tutup
                 </button>
                 <a
-                  href={`https://wa.me/6287778059221?text=${encodeURIComponent(`Halo Snapp.frame! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
+                  href={`https://wa.me/6287778059221?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-[2] flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
@@ -690,7 +656,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               <div>
                 <label className={labelCls}>Mengapa ingin bergabung?</label>
                 <textarea
-                  placeholder="Ceritakan alasanmu ingin menjadi affiliate partner Snapp.frame..."
+                  placeholder="Ceritakan alasanmu ingin menjadi affiliate partner Link Productive..."
                   value={form.motivation}
                   onChange={(e) => set("motivation", e.target.value)}
                   rows={3}
@@ -736,7 +702,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               )}
             </button>
             <p className="text-[9px] text-near-black/30 font-bold text-center mt-3">
-              Dengan mendaftar, kamu menyetujui syarat & ketentuan program affiliate Snapp.frame.
+              Dengan mendaftar, kamu menyetujui syarat & ketentuan program affiliate Link Productive.
             </p>
           </div>
         )}
@@ -906,7 +872,7 @@ const POSTER_KEYS: Record<string, string> = {
   "Mental Bahasa Academy": "affiliate_poster_mental_bahasa",
   "Green Productive Academy": "affiliate_poster_green_productive",
   "Brand Siap": "affiliate_poster_brand_siap",
-  "Snapp Frame": "affiliate_poster_snapp_frame",
+  "Link Productive": "affiliate_poster_link_productive",
   "Standara Consulting": "affiliate_poster_standara",
 };
 
@@ -921,7 +887,7 @@ const DEFAULT_POSTERS: Record<string, string> = {
   "Mental Bahasa Academy": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop",
   "Green Productive Academy": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
   "Brand Siap": "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=600&auto=format&fit=crop",
-  "Snapp Frame": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
+  "Link Productive": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
   "Standara Consulting": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
 };
 
@@ -1053,13 +1019,13 @@ const pkgSlugMap: Record<string, string> = {
   "mental-bahasa-academy": "Mental Bahasa Academy",
   "green-productive-academy": "Green Productive Academy",
   "brand-siap": "Brand Siap",
-  "snapp-frame": "Snapp Frame",
+  "link-productive": "Link Productive",
   "standara-consulting": "Standara Consulting",
 };
 
 const generatePromoText = (progName: string, refCode: string) => {
   const codeText = refCode ? `@${refCode.trim().replace("@", "")}` : "[KODE_REFERRAL_KAMU]";
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://snappframe.id";
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
   const slug = Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === progName) || "";
   const linkText = refCode
     ? `${origin}/affiliate?ref=${refCode.trim().replace("@", "")}&pkg=${slug}`
@@ -1086,8 +1052,6 @@ const generatePromoText = (progName: string, refCode: string) => {
       return `Pelajari teknologi hijau dasar dan inovasi produk ramah lingkungan di Green Productive Academy! 🌿\nMari berkontribusi pada masa depan berkelanjutan. Gunakan kode diskon khusus: ${codeText}\n\nDaftar kelas: ${linkText}\n#GreenProductiveAcademy #EcoTechnology #GreenInnovation`;
     case "Brand Siap":
       return `Butuh logo, identitas visual, atau desain kemasan produk super cepat dan profesional? 🎨\nPercayakan pada Brand Siap! Gunakan kode diskon referral saya untuk potongan harga: ${codeText}\n\nOrder layanan di: ${linkText}\n#BrandSiap #DesainLogo #JasaBranding`;
-    case "Snapp Frame":
-      return `Mau foto studio portrait premium, minimalis, dan cetak kilat? 📸\nBooking sesi fotomu di Snapp.frame Studio dan nikmati potongan harga khusus dengan kode: ${codeText}\n\nBooking sekarang: ${linkText}\n#SnappFrame #StudioFoto #SelfPhotoStudio`;
     case "Standara Consulting":
       return `Tingkatkan tata kelola bisnis, SOP, dan standardisasi industri Anda bersama Standara Consulting! 💼\nKonsultan mutu senior siap mendampingi UMKM & industri. Dapatkan penawaran khusus dengan kode: ${codeText}\n\nAjukan konsultasi: ${linkText}\n#StandaraConsulting #StandardisasiBisnis #SOPPerusahaan`;
     default:
@@ -1095,9 +1059,88 @@ const generatePromoText = (progName: string, refCode: string) => {
   }
 };
 
+function parseProductsFromDb(dbProducts: any[]) {
+  const grouped: Record<string, {
+    name: string;
+    fee: string;
+    unit: string;
+    icon: any;
+    desc: string;
+    url: string;
+    packages: any[];
+  }> = {};
+
+  const iconMap: Record<string, any> = {
+    "LP Academic Partner": GraduationCap,
+    "LP Career Ready": Award,
+    "LP Entrepreneur Launchpad": TrendingUp,
+    "Bisapreneur Academy": Building,
+    "Baristara Academy": Coffee,
+    "Cuan Creator Academy": MonitorPlay,
+    "Tekno AI Academy": Presentation,
+    "Mental Bahasa Academy": Users,
+    "Green Productive Academy": Recycle,
+    "Brand Siap": ShoppingBag,
+    "Standara Consulting": Handshake,
+  };
+
+  dbProducts.forEach((p) => {
+    let programName = "";
+    let packageName = "";
+
+    if (p.name.includes(" - ")) {
+      const parts = p.name.split(" - ");
+      programName = parts[0].trim();
+      packageName = parts[1].trim();
+    } else {
+      programName = p.category || "Umum";
+      packageName = p.name;
+    }
+
+    if (!grouped[programName]) {
+      let IconComp = GraduationCap;
+      for (const key of Object.keys(iconMap)) {
+        if (programName.toLowerCase().includes(key.toLowerCase())) {
+          IconComp = iconMap[key];
+          break;
+        }
+      }
+
+      grouped[programName] = {
+        name: programName,
+        fee: "Sesuai Ketentuan",
+        unit: p.sku.startsWith("pkg-") ? "pendaftaran" : "paket",
+        icon: IconComp,
+        desc: `Program unggulan ${programName} terintegrasi untuk mempersiapkan keahlian profesional masa depan Anda.`,
+        url: `/affiliate?pkg=${programName.toLowerCase().replace(/\s+/g, "-")}`,
+        packages: []
+      };
+    }
+
+    // Dynamic commission calculation (e.g. 10% or a standard dynamic representation)
+    const commAmt = p.price * 0.1;
+    const formattedComm = commAmt > 0 ? `Rp ${commAmt.toLocaleString("id-ID")} / transaksi` : "Komisi Menarik";
+
+    grouped[programName].packages.push({
+      id: p.id,
+      name: packageName,
+      price: `Rp ${p.price.toLocaleString("id-ID")}`,
+      discount: "Diskon Khusus",
+      afterDiscount: p.price > 100000 ? `Rp ${(p.price - 100000).toLocaleString("id-ID")}` : undefined,
+      commission: formattedComm,
+      suitableFor: p.duration ? `Durasi: ${p.duration}` : undefined,
+      services: p.features || [],
+      goal: p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined
+    });
+  });
+
+  return Object.values(grouped);
+}
+
 // ─── MAIN PAGE CONTENT ────────────────────────────────────────────────────────
 function AffiliateContent() {
-  const [activeProduct, setActiveProduct] = useState<(typeof products)[0] | null>(null);
+  const [productsList, setProductsList] = useState<any[]>([]);
+  const [activeProduct, setActiveProduct] = useState<any | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState<any[]>([]);
@@ -1111,23 +1154,29 @@ function AffiliateContent() {
 
   const searchParams = useSearchParams();
 
-  const filteredProducts = products.filter((p) =>
+  const details = activeProduct ? (affiliateDetails[activeProduct.name] || {
+    subtitle: "Program Affiliate Partner Premium",
+    intro: "Dapatkan penghasilan tambahan jutaan rupiah secara online & fleksibel dengan mempromosikan program pelatihan premium Link Productive.",
+    whyInteresting: ["Sistem tracking transparan", "Materi promosi disediakan lengkap", "Komisi dicairkan cepat", "Support group & pembimbingan"],
+    targetMarket: ["🎓 Mahasiswa", "📱 Content Creator", "👨‍🏫 Trainer / Mentor", "👥 Admin Komunitas"],
+    disclaimer: "Skema komisi dan diskon diatur sesuai periode promo yang sedang berjalan."
+  }) : null;
+
+  const filteredProducts = productsList.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Auto-open detailed program modal if pkg is passed in URL
   useEffect(() => {
     const pkg = searchParams.get("pkg");
-    if (pkg) {
+    if (pkg && productsList.length > 0) {
       const targetName = pkgSlugMap[pkg.toLowerCase()];
-      if (targetName) {
-        const found = products.find((p) => p.name === targetName);
-        if (found) {
-          setActiveProduct(found);
-        }
+      const found = productsList.find((p) => p.name === (targetName || pkg) || p.name.toLowerCase() === pkg.toLowerCase().replace(/-/g, " "));
+      if (found) {
+        setActiveProduct(found);
       }
     }
-  }, [searchParams]);
+  }, [searchParams, productsList]);
 
   // Reset expanded package when active product changes
   useEffect(() => {
@@ -1137,13 +1186,22 @@ function AffiliateContent() {
   useEffect(() => {
     async function fetchPageData() {
       try {
-        const [postsRes, settingsRes] = await Promise.all([
+        const [postsRes, settingsRes, productsRes] = await Promise.all([
           getAffiliatePosts(),
-          getSiteSettings()
+          getSiteSettings(),
+          getProducts()
         ]);
 
         if (settingsRes) {
           setSettings(settingsRes);
+        }
+
+        if (productsRes.success && Array.isArray(productsRes.data)) {
+          const parsed = parseProductsFromDb(productsRes.data.filter((p: any) => p.isActive));
+          setProductsList(parsed);
+        } else {
+          const parsed = parseProductsFromDb(brandProducts as any);
+          setProductsList(parsed);
         }
 
         if (postsRes.success && postsRes.data && postsRes.data.length > 0) {
@@ -1210,7 +1268,7 @@ function AffiliateContent() {
 
   const handleShare = (post: any) => {
     const text = encodeURIComponent(
-      `Yuk gabung Snapp.frame Affiliate! Lihat materi promosi ini:\n\n"${post.caption}"`
+      `Yuk gabung Link Productive Affiliate! Lihat materi promosi ini:\n\n"${post.caption}"`
     );
     const url = `https://wa.me/?text=${text}`;
     window.open(url, "_blank");
@@ -1230,7 +1288,7 @@ function AffiliateContent() {
 
       {/* FULL PAGE DETAIL VIEW */}
       <AnimatePresence>
-        {activeProduct && (
+        {activeProduct && details && (
           <motion.div
             key="detail-fullpage"
             initial={{ opacity: 0, y: 40 }}
@@ -1259,15 +1317,13 @@ function AffiliateContent() {
                 </div>
                 <div>
                   <h1 className="text-xl md:text-2xl font-black text-white uppercase tracking-wide leading-tight">{activeProduct.name}</h1>
-                  {affiliateDetails[activeProduct.name] && (
-                    <p className="text-[11px] text-white/40 font-bold mt-1">{affiliateDetails[activeProduct.name].subtitle}</p>
-                  )}
+                  <p className="text-[11px] text-white/40 font-bold mt-1">{details.subtitle}</p>
                 </div>
               </div>
 
               {/* Poster */}
               {(() => {
-                const posterKey = POSTER_KEYS[activeProduct.name];
+                const posterKey = POSTER_KEYS[activeProduct.name] || `affiliate_poster_${activeProduct.name.toLowerCase().replace(/\s+/g, "_")}`;
                 const rawPosters = settings[posterKey] || DEFAULT_POSTERS[activeProduct.name] || "";
                 const posterUrls = rawPosters.split(",").map((u) => u.trim()).filter(Boolean);
                 return posterUrls.length > 0 ? (
@@ -1281,18 +1337,18 @@ function AffiliateContent() {
                 ) : null;
               })()}
 
-              {affiliateDetails[activeProduct.name] ? (
+              {details ? (
                 <div className="space-y-8">
                   {/* Intro */}
                   <div className="bg-white/5 rounded-2xl p-6 border border-white/5">
-                    <p className="text-[13px] text-white/75 leading-relaxed whitespace-pre-line">{affiliateDetails[activeProduct.name].intro}</p>
+                    <p className="text-[13px] text-white/75 leading-relaxed whitespace-pre-line">{details.intro}</p>
                   </div>
 
                   {/* Packages */}
                   <div>
                     <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">📦 Detail Program & Komisi</h2>
                     <div className="space-y-4">
-                      {affiliateDetails[activeProduct.name].packages.map((pkg, i) => (
+                      {activeProduct.packages.map((pkg: any, i: number) => (
                         <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
                           <p className="text-[13px] font-black text-white mb-4">{pkg.name}</p>
                           <div className="grid grid-cols-3 gap-3">
@@ -1310,7 +1366,7 @@ function AffiliateContent() {
                               <p className="text-[11px] font-black text-emerald-400">{pkg.commission}</p>
                             </div>
                           </div>
-                          {/* Per-package accordion — Lihat Detail (content built within snapp.frame) */}
+                          {/* Per-package accordion — Lihat Detail (content built within Link Productive) */}
                           {(pkg.services || pkg.suitableFor) && (
                             <>
                               <button
@@ -1340,7 +1396,7 @@ function AffiliateContent() {
                                         <div>
                                           <p className="text-[9px] text-gold font-black uppercase tracking-widest mb-2">Layanan dalam Paket</p>
                                           <ul className="space-y-1.5">
-                                            {pkg.services.map((svc, si) => (
+                                            {pkg.services.map((svc: string, si: number) => (
                                               <li key={si} className="flex items-start gap-2">
                                                 <CheckCircle2 size={11} className="text-emerald-400 flex-shrink-0 mt-0.5" />
                                                 <span className="text-[11px] text-white/60 font-medium">{svc}</span>
@@ -1370,7 +1426,7 @@ function AffiliateContent() {
                   <div>
                     <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">🎯 Kenapa Program Ini Menarik?</h2>
                     <div className="bg-white/5 rounded-2xl p-5 border border-white/5 space-y-3">
-                      {affiliateDetails[activeProduct.name].whyInteresting.map((reason, i) => (
+                      {details.whyInteresting.map((reason: string, i: number) => (
                         <div key={i} className="flex items-start gap-3">
                           <CheckCircle2 size={14} className="text-gold flex-shrink-0 mt-0.5" />
                           <span className="text-[13px] text-white/70 font-medium">{reason}</span>
@@ -1383,7 +1439,7 @@ function AffiliateContent() {
                   <div>
                     <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">💼 Cocok Untuk</h2>
                     <div className="flex flex-wrap gap-2">
-                      {affiliateDetails[activeProduct.name].targetMarket.map((target, i) => (
+                      {details.targetMarket.map((target: string, i: number) => (
                         <span key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[11px] text-white/60 font-bold">
                           {target}
                         </span>
@@ -1394,13 +1450,13 @@ function AffiliateContent() {
                   {/* Disclaimer */}
                   <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-5">
                     <p className="text-[10px] text-amber-400/80 font-bold uppercase tracking-widest mb-2">📢 Info Penting</p>
-                    <p className="text-[12px] text-white/50 leading-relaxed">{affiliateDetails[activeProduct.name].disclaimer}</p>
+                    <p className="text-[12px] text-white/50 leading-relaxed">{details.disclaimer}</p>
                   </div>
 
                   {/* Konsultasi Lebih Lanjut — WhatsApp CTA (matches linkproductive.com) */}
-                  {affiliateDetails[activeProduct.name].consultWa && (
+                  {details.consultWa && (
                     <a
-                      href={affiliateDetails[activeProduct.name].consultWa}
+                      href={details.consultWa}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-3 w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-lg shadow-emerald-500/20"
@@ -1416,7 +1472,7 @@ function AffiliateContent() {
 
               {/* Bottom CTA */}
               <div className="mt-12">
-                {activeProduct.name === "Snapp Frame" ? (
+                {activeProduct.name === "Link Productive" ? (
                   <a
                     href="/booking"
                     className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gold hover:bg-gold/90 text-near-black text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-gold/20"
@@ -1469,225 +1525,131 @@ function AffiliateContent() {
         )}
       </AnimatePresence>
 
-      <main className="min-h-screen bg-warm-white overflow-x-hidden w-full">
+      <main className="min-h-screen bg-slate-50 overflow-x-hidden w-full">
+        {/* ── Premium Asymmetrical White-Dominant Hero Banner for Affiliate ── */}
+        <section className="relative pt-36 pb-20 lg:pt-44 lg:pb-28 overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-white text-slate-800 w-full border-b border-slate-100">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.12),transparent_55%)] z-0 pointer-events-none" />
+          
+          {/* Animated subtle background sky/cyan orbs */}
+          <div className="absolute top-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-sky-400/10 blur-[100px] z-0 animate-pulse pointer-events-none" />
+          <div className="absolute bottom-[-10%] left-[5%] w-[300px] h-[300px] rounded-full bg-cyan-400/5 blur-[80px] z-0 pointer-events-none" />
 
-        {/* ── Hero ── */}
-        <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 overflow-hidden bg-near-black text-white border-b border-near-black/5 w-full">
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
-          <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-gold/20 border border-gold/40">
-                <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className="text-[10px] font-black tracking-[0.2em] text-gold uppercase">Lowongan Kerja</span>
+          <div className="max-w-6xl mx-auto px-6 relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            <div className="flex-1 text-left space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-[10px] font-bold uppercase tracking-[0.15em]">
+                <Sparkles size={12} className="animate-pulse" />
+                Program Kemitraan & Karir Mandiri
               </div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tighter uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-                Affiliate <br /><span className="text-gold">Partner</span>
+              <h1 
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                Affiliate <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-600">Partner Portal</span>
               </h1>
-              <p className="text-white/80 text-lg font-bold max-w-xl leading-relaxed mb-8">
-                Bergabunglah bersama <span className="text-gold">Snapp.frame Studio</span> dan dapatkan penghasilan jutaan rupiah setiap bulan!
+              <p className="text-slate-500 text-base md:text-lg leading-relaxed max-w-xl font-medium">
+                Bergabunglah bersama ekosistem <span className="text-sky-600 font-bold">Link Productive</span> dan bangun potensi penghasilan pasif tak terbatas setiap bulan dengan menyebarkan akses pendidikan berkualitas.
               </p>
-              <div className="inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 mb-8">
-                <div className="flex flex-col items-start">
-                  <span className="text-[10px] text-white/60 font-black uppercase tracking-wider">Contoh Sukses</span>
-                  <span className="text-sm font-bold text-white/90">Penghasilan per bulan hingga</span>
-                  <span className="text-2xl font-black text-gold">Rp10.000.000</span>
+              
+              <div className="flex flex-wrap items-center gap-6">
+                <div>
+                  <a
+                    href="#discount-info"
+                    className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold uppercase tracking-wider text-xs rounded-2xl hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-sky-500/20"
+                  >
+                    Lihat Komisi & Diskon
+                    <ArrowRight size={14} className="hover:translate-x-0.5 transition-transform" />
+                  </a>
                 </div>
-              </div>
-              <div>
-                <a
-                  href="#program-affiliate"
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-gold text-near-black font-black uppercase tracking-widest text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-gold/30"
-                >
-                  Lihat Program Affiliate
-                  <ArrowRight size={18} />
-                </a>
+                <div className="flex items-center gap-3 bg-white border border-sky-100/60 rounded-2xl px-5 py-3 shadow-sm">
+                  <div className="flex flex-col">
+                    <span className="text-[8px] text-slate-400 font-black uppercase tracking-wider">Potensi Komisi</span>
+                    <span className="text-lg font-black text-sky-600">Hingga Rp10 Juta/Bulan</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="w-full md:w-[380px] grid grid-cols-2 gap-4">
+            <div className="w-full lg:w-[420px] grid grid-cols-2 gap-4">
               {[
-                { icon: Handshake, title: "Kerja Fleksibel", desc: "Kapan saja, di mana saja" },
-                { icon: BadgeDollarSign, title: "Penghasilan", desc: "Tanpa batas, makin banyak makin cuan!" },
-                { icon: TrendingUp, title: "Pengembangan Diri", desc: "Bangun relasi & skill marketing" },
-                { icon: Award, title: "Sertifikat Partner", desc: "Sertifikat resmi dari Snapp.frame" },
+                { icon: Handshake, title: "Kerja Fleksibel", desc: "Mulai kapan saja, dari mana saja" },
+                { icon: BadgeDollarSign, title: "Penghasilan Menarik", desc: "Komisi langsung cair per transaksi" },
+                { icon: TrendingUp, title: "Pengembangan Karir", desc: "Asah kemampuan promosi digital" },
+                { icon: Award, title: "Sertifikat Mitra", desc: "Sertifikat resmi affiliate partner" },
               ].map((f, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-white/10 transition-colors">
-                  <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center text-gold mb-3"><f.icon size={22} /></div>
-                  <h3 className="font-black text-white text-sm mb-1">{f.title}</h3>
-                  <p className="text-[10px] text-white/60 font-bold leading-tight">{f.desc}</p>
+                <div 
+                  key={i} 
+                  className="bg-white border border-sky-100/60 rounded-3xl p-5 flex flex-col items-start text-left hover:border-sky-300 hover:shadow-xl transition-all duration-300 shadow-sm"
+                >
+                  <div className="w-10 h-10 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-500 mb-4">
+                    <f.icon size={18} />
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{f.title}</h3>
+                  <p className="text-[10px] text-slate-400 font-semibold leading-normal">{f.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── Products Grid ── */}
-        <section id="program-affiliate" className="py-24 bg-white">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-black text-near-black uppercase tracking-wider mb-3" style={{ fontFamily: "var(--font-heading)" }}>
-                Pilihan Layanan & <span className="text-gold">Program Affiliate</span>
-              </h2>
-              <p className="text-near-black/50 font-bold max-w-xl mx-auto text-sm">
-                Klik <span className="text-gold font-black">Lihat Detail</span> pada program untuk melihat informasi lengkap, paket, & komisi affiliate.
-              </p>
-            </div>
-
-            {/* Search */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 bg-[#F8F6F4]/50 p-4 rounded-3xl border border-near-black/5">
-              <div className="text-xs font-black uppercase tracking-widest text-[#3B2211]/50 pl-2">
-                Daftar Program ({filteredProducts.length})
-              </div>
-              <div className="relative w-full md:w-80">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-near-black/30" size={16} />
-                <input
-                  type="text"
-                  placeholder="Cari layanan atau program..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-10 py-3 bg-white border border-near-black/10 rounded-2xl text-xs font-bold text-near-black focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-all shadow-sm"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-near-black/30 hover:text-near-black"
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.length === 0 ? (
-                <div className="col-span-full py-16 text-center text-near-black/40 font-bold uppercase tracking-widest text-xs">
-                  Tidak ada program partner ditemukan
-                </div>
-              ) : (
-                filteredProducts.map((prod, i) => {
-                  const posterKey = POSTER_KEYS[prod.name];
-                  const rawPosters = settings[posterKey] || DEFAULT_POSTERS[prod.name] || "";
-                  const posterUrls = rawPosters
-                    .split(",")
-                    .map((url) => url.trim())
-                    .filter(Boolean);
-
-                  return (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.05 }}
-                      className="group p-6 rounded-[2rem] border border-near-black/5 bg-warm-white/30 hover:bg-white hover:border-gold/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
-                    >
-                      <div>
-                        <div className="flex items-start justify-between gap-4 mb-4">
-                          <div className="w-12 h-12 rounded-2xl bg-gold/10 flex items-center justify-center text-gold group-hover:scale-110 transition-transform">
-                            <prod.icon size={22} />
-                          </div>
-                          <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${prod.url
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                              : "bg-near-black/5 text-near-black/40"
-                            }`}>
-                            {prod.url ? "Link Aktif" : "Segera Hadir"}
-                          </span>
-                        </div>
-                        <h3 className="text-sm font-black text-near-black uppercase mb-2 tracking-wide line-clamp-1">{prod.name}</h3>
-                        <p className="text-[11px] text-near-black/60 font-medium leading-relaxed mb-6 line-clamp-3">{prod.desc}</p>
-                      </div>
-
-                      {/* Poster Image Carousel */}
-                      <ProgramPosterCarousel urls={posterUrls} productName={prod.name} />
-
-                      <div className="pt-4 border-t border-near-black/5 flex items-center justify-between gap-4 mt-auto">
-                        <div>
-                          <span className="block text-[8px] text-near-black/40 font-black uppercase tracking-wider mb-0.5">ESTIMASI FEE</span>
-                          <span className="block text-xs font-black text-gold uppercase">{prod.fee}</span>
-                        </div>
-                        {prod.url ? (
-                          <button
-                            id={`affiliate-btn-${i}`}
-                            onClick={() => setActiveProduct(prod)}
-                            className="inline-flex items-center gap-2 px-4 py-2.5 bg-gold hover:bg-near-black text-near-black hover:text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-md shadow-gold/10"
-                          >
-                            Lihat Detail
-                            <ChevronRight size={12} />
-                          </button>
-                        ) : (
-                          <span className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-near-black/5 text-near-black/30 text-[10px] font-black uppercase tracking-wider rounded-xl cursor-default">
-                            Coming Soon
-                          </span>
-                        )}
-                      </div>
-                    </motion.div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Discount Table ── */}
-        <section className="py-20 bg-near-black text-white">
+        {/* ── Discount Table (White-Dominant Redesign) ── */}
+        <section id="discount-info" className="py-20 bg-slate-50 text-slate-800 border-b border-slate-100">
           <div className="max-w-5xl mx-auto px-6">
-            <div className="bg-[#122e4d] rounded-[2rem] p-8 md:p-12 border border-white/10 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold via-yellow-300 to-gold" />
+            <div className="bg-white rounded-[2.5rem] p-8 md:p-12 border border-sky-100 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-500" />
               <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
-                <div className="w-20 h-20 flex-shrink-0 bg-gold rounded-full flex flex-col items-center justify-center text-near-black rotate-[-12deg] shadow-lg">
-                  <Gift size={28} />
-                  <span className="text-[8px] font-black uppercase mt-0.5 text-center leading-tight">Special<br />Discount</span>
+                <div className="w-16 h-16 flex-shrink-0 bg-sky-50 text-sky-500 rounded-full flex flex-col items-center justify-center border border-sky-100 shadow-sm">
+                  <Gift size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl md:text-2xl font-black text-white mb-2 uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-                    Affiliate Partner Dapat Memberikan <span className="text-gold">Discount</span> Kepada Customer!
+                  <h2 className="text-xl md:text-3xl font-extrabold text-slate-900 mb-2" style={{ fontFamily: "var(--font-outfit)" }}>
+                    Affiliate Partner Dapat Memberikan <span className="text-sky-600">Diskon</span> Kepada Pelanggan!
                   </h2>
-                  <p className="text-white/70 text-sm font-bold">Discount khusus sesuai ketentuan — fee affiliate tetap diterima penuh.</p>
+                  <p className="text-slate-500 text-sm font-semibold">Diskon khusus sesuai ketentuan — komisi affiliate tetap Anda terima secara utuh.</p>
                 </div>
               </div>
-              <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/20">
+              <div className="overflow-x-auto rounded-2xl border border-sky-100/70 bg-sky-50/20">
                 <table className="w-full text-left text-sm whitespace-nowrap">
                   <thead>
-                    <tr className="bg-white/5 text-[10px] text-white/90 font-black uppercase tracking-wider border-b border-white/10">
+                    <tr className="bg-sky-50/60 text-[10px] text-slate-700 font-bold uppercase tracking-wider border-b border-sky-100">
                       <th className="px-6 py-4">Produk / Jasa</th>
-                      <th className="px-6 py-4 text-center">Maks. Discount<br /><span className="text-gold/70 font-normal text-[8px]">(untuk customer)</span></th>
-                      <th className="px-6 py-4 text-center">Fee Affiliate<br /><span className="text-white/40 font-normal text-[8px]">(tetap diterima)</span></th>
+                      <th className="px-6 py-4 text-center">Maks. Diskon<br /><span className="text-sky-600 font-normal text-[8px]">(untuk pelanggan)</span></th>
+                      <th className="px-6 py-4 text-center">Komisi Affiliate<br /><span className="text-slate-400 font-normal text-[8px]">(tetap diterima)</span></th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-sky-100/50">
                     {discountData.map((item, i) => (
-                      <tr key={i} className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-3 font-bold text-white/90">{item.name}</td>
-                        <td className="px-6 py-3 text-center text-gold font-black">{item.maxDiscount}</td>
-                        <td className="px-6 py-3 text-center text-white font-bold">{item.fee}</td>
+                      <tr key={i} className="hover:bg-sky-50/40 transition-colors">
+                        <td className="px-6 py-3 font-bold text-slate-800">{item.name}</td>
+                        <td className="px-6 py-3 text-center text-sky-600 font-black">{item.maxDiscount}</td>
+                        <td className="px-6 py-3 text-center text-slate-700 font-bold">{item.fee}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col items-center gap-4 mt-8 bg-white/5 rounded-xl p-6 border border-white/10">
-                <span className="text-[10px] text-white/50 font-bold uppercase">Contoh Cara Kerja:</span>
+              <div className="flex flex-col items-center gap-4 mt-8 bg-sky-50/30 rounded-2xl p-6 border border-sky-100/50">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Contoh Cara Kerja:</span>
                 <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 justify-center w-full">
-                  <div className="bg-white/10 px-4 py-2 rounded-lg text-center">
-                    <span className="block text-[9px] text-white/60">Harga Normal</span>
-                    <span className="block text-sm font-bold line-through text-white/40">Rp99.000</span>
+                  <div className="bg-white border border-sky-100/60 px-4 py-2 rounded-xl text-center shadow-sm">
+                    <span className="block text-[9px] text-slate-400">Harga Normal</span>
+                    <span className="block text-sm font-bold line-through text-slate-300">Rp99.000</span>
                   </div>
-                  <ChevronRight className="text-gold/40 hidden sm:block" size={16} />
-                  <div className="bg-gold/20 border border-gold/30 px-4 py-2 rounded-lg text-center">
-                    <span className="block text-[9px] text-gold">Kode Referral</span>
-                    <span className="block text-sm font-black text-gold">NAMA10</span>
-                    <span className="block text-[9px] text-white/70">Diskon Rp10.000</span>
+                  <ChevronRight className="text-sky-300 hidden sm:block" size={16} />
+                  <div className="bg-sky-50 border border-sky-200 px-4 py-2 rounded-xl text-center">
+                    <span className="block text-[9px] text-sky-600 font-bold">Kode Referral</span>
+                    <span className="block text-sm font-black text-sky-600">NAMA10</span>
+                    <span className="block text-[9px] text-slate-500 font-medium">Diskon Rp10.000</span>
                   </div>
-                  <ChevronRight className="text-gold/40 hidden sm:block" size={16} />
-                  <div className="bg-white/10 px-4 py-2 rounded-lg text-center">
-                    <span className="block text-[9px] text-white/60">Customer Bayar</span>
-                    <span className="block text-sm font-black text-white">Rp89.000</span>
+                  <ChevronRight className="text-sky-300 hidden sm:block" size={16} />
+                  <div className="bg-white border border-sky-100/60 px-4 py-2 rounded-xl text-center shadow-sm">
+                    <span className="block text-[9px] text-slate-400">Pelanggan Bayar</span>
+                    <span className="block text-sm font-black text-slate-800">Rp89.000</span>
                   </div>
-                  <ChevronRight className="text-gold/40 hidden sm:block" size={16} />
-                  <div className="col-span-2 sm:col-span-1 bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-lg text-center">
-                    <span className="block text-[9px] text-green-400">Affiliate Dapat</span>
-                    <span className="block text-sm font-black text-green-400">Rp10.000 ✓</span>
+                  <ChevronRight className="text-sky-300 hidden sm:block" size={16} />
+                  <div className="col-span-2 sm:col-span-1 bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-xl text-center">
+                    <span className="block text-[9px] text-emerald-600 font-bold">Affiliate Dapat</span>
+                    <span className="block text-sm font-black text-emerald-600">Rp10.000 ✓</span>
                   </div>
                 </div>
               </div>
@@ -1695,31 +1657,34 @@ function AffiliateContent() {
           </div>
         </section>
 
-        {/* ── CTA Daftar Affiliate ── */}
-        <section className="bg-near-black text-white py-16 border-t-4 border-gold">
-          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="text-center md:text-left flex-1">
-              <h2 className="text-3xl md:text-4xl font-black mb-4 uppercase" style={{ fontFamily: "var(--font-heading)" }}>
-                Yuk, Gabung <span className="text-gold">Sekarang!</span>
+        {/* ── CTA Daftar Affiliate (White-Dominant Redesign) ── */}
+        <section className="bg-white text-slate-800 py-20 border-b border-slate-100">
+          <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+            <div className="text-left flex-1 space-y-6">
+              <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+                Yuk, Gabung <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-600">Sekarang Juga!</span>
               </h2>
-              <p className="text-white/70 font-bold mb-8 max-w-md">Bangun penghasilan, relasi, dan masa depan bersama Snapp.frame Studio!</p>
-              <button
-                onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gold text-near-black font-black uppercase tracking-widest text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-gold/30"
-              >
-                Daftar Gratis! <ArrowRight size={18} />
-              </button>
+              <p className="text-slate-500 font-medium text-base leading-relaxed max-w-md">Bangun penghasilan pasif tambahan, perluas relasi, dan kembangkan skill pemasaran digital Anda bersama Link Productive!</p>
+              <div>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold uppercase tracking-wider text-xs rounded-2xl hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-sky-500/20 cursor-pointer"
+                >
+                  Daftar Gratis Sekarang <ArrowRight size={14} />
+                </button>
+              </div>
             </div>
 
-            <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-8 w-full">
+            <div className="flex-1 bg-sky-50/20 border border-sky-100/60 rounded-[2rem] p-8 w-full shadow-sm">
               <div className="text-center mb-6">
-                <span className="bg-gold text-near-black px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">Cara Bergabung</span>
+                <span className="bg-sky-100 text-sky-600 border border-sky-200/50 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">Cara Bergabung</span>
               </div>
               <div className="grid grid-cols-2 sm:flex sm:flex-row items-center justify-between gap-4 sm:gap-2">
-                {["Daftar via WhatsApp", "Dapatkan kode referral", "Promosikan produk", "Dapat komisi!"].map((step, i) => (
+                {["Daftar via Formulir", "Dapatkan kode referral", "Promosikan produk", "Terima komisi!"].map((step, i) => (
                   <div key={i} className="flex flex-col items-center text-center flex-1 relative">
-                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center font-black text-gold mb-3 text-lg">{i + 1}</div>
-                    <span className="text-[10px] font-bold text-white/80 max-w-[90px]">{step}</span>
+                    <div className="w-10 h-10 bg-white border border-sky-100 rounded-full flex items-center justify-center font-black text-sky-500 mb-3 text-sm shadow-sm">{i + 1}</div>
+                    <span className="text-[10px] font-bold text-slate-600 max-w-[90px]">{step}</span>
                   </div>
                 ))}
               </div>
@@ -1747,7 +1712,7 @@ function AffiliateContent() {
             <div className="flex items-center justify-center gap-3 mb-12 flex-wrap">
               {[
                 { id: "semua", label: "Semua Materi" },
-                { id: "kegiatan", label: "Kegiatan Studio" },
+                { id: "kegiatan", label: "Dokumentasi Kegiatan" },
                 { id: "promo", label: "Materi Promo" },
               ].map((tabItem) => (
                 <button
@@ -1801,7 +1766,7 @@ function AffiliateContent() {
                             SF
                           </div>
                           <div>
-                            <p className="text-xs font-black text-near-black leading-none">snapp.frame</p>
+                            <p className="text-xs font-black text-near-black leading-none">Link Productive</p>
                             <p className="text-[9px] text-near-black/40 font-bold mt-1 flex items-center gap-1">
                               <Calendar size={10} />
                               {formattedDate}
@@ -1882,7 +1847,7 @@ function AffiliateContent() {
                       <div className="px-5 pb-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2 mt-2">
                           <p className="text-xs text-near-black/80 font-bold leading-relaxed line-clamp-3">
-                            <span className="font-black text-near-black mr-1">snapp.frame</span>
+                            <span className="font-black text-near-black mr-1">Link Productive</span>
                             {post.caption}
                           </p>
                           {post.hashtags && post.hashtags.length > 0 && (
@@ -1946,7 +1911,7 @@ export default function AffiliatePage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#090503] flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 rounded-full border-4 border-[#C88A58]/20 border-t-[#C88A58] animate-spin" />
+        <div className="w-12 h-12 rounded-full border-4 border-[#0ea5e9]/20 border-t-[#0ea5e9] animate-spin" />
         <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Memuat Halaman Affiliate...</p>
       </div>
     }>

@@ -26,7 +26,7 @@ export function getWhatsAppUrl(
   if (!WA || WA.length < 10) {
     if (process.env.NODE_ENV === "development") {
       console.warn(
-        "[Snapp.frame] Nomor WhatsApp belum dikonfigurasi di data/site.ts"
+        "[Link Productive] Nomor WhatsApp belum dikonfigurasi di data/site.ts"
       );
     }
     return "#";
@@ -35,22 +35,22 @@ export function getWhatsAppUrl(
   let message = "";
   switch (context) {
     case "general":
-      message = "Halo Snapp.frame Studio! Saya tertarik untuk sesi foto. Boleh tanya-tanya dulu?";
+      message = "Halo Link Productive! Saya tertarik dengan program pelatihan yang tersedia. Boleh tanya-tanya dulu?";
       break;
     case "gallery":
-      message = "Halo Snapp.frame Studio! Saya lihat galeri fotonya dan tertarik. Bisa info lebih lanjut?";
+      message = "Halo Link Productive! Saya lihat program-program di website dan tertarik. Bisa info lebih lanjut?";
       break;
     case "package":
-      message = `Halo Snapp.frame Studio! Saya tertarik dengan ${data ?? "paket foto"} yang ada di website. Bisa info lebih lanjut?`;
+      message = `Halo Link Productive! Saya tertarik dengan program ${data ?? "pelatihan"} yang ada di website. Bisa info lebih lanjut?`;
       break;
     case "affiliate":
-      message = `Halo Snapp.frame Studio! 👋\n\nSaya tertarik untuk mendaftar sebagai *Affiliate Partner* Snapp.frame.\n\nNama: ${data?.name ?? "-"}\nInstagram: ${data?.instagram ?? "-"}\nNo. HP: ${data?.phone ?? "-"}\n\nMohon info lebih lanjut mengenai program affiliate. Terima kasih! 🙏`;
+      message = `Halo Link Productive! 👋\n\nSaya tertarik untuk mendaftar sebagai *Affiliate Partner* Link Productive.\n\nNama: ${data?.name ?? "-"}\nInstagram: ${data?.instagram ?? "-"}\nNo. HP: ${data?.phone ?? "-"}\n\nMohon info lebih lanjut mengenai program affiliate. Terima kasih! 🙏`;
       break;
     case "checkout":
       if (data) {
-        message = `Halo Snapp.frame Studio! Saya ingin konfirmasi pembayaran untuk pesanan:\n\n*ID Pesanan:* ${data.id}\n*Total:* Rp ${data.total?.toLocaleString("id-ID")}\n*Metode:* ${data.method}\n\n*Item:* \n${data.items?.map((item: any) => `- ${item.name} x${item.qty}`).join("\n")}\n\nTerima kasih!`;
+        message = `Halo Link Productive! Saya ingin konfirmasi pembayaran untuk pesanan:\n\n*ID Pesanan:* ${data.id}\n*Total:* Rp ${data.total?.toLocaleString("id-ID")}\n*Metode:* ${data.method}\n\n*Item:* \n${data.items?.map((item: any) => `- ${item.name} x${item.qty}`).join("\n")}\n\nTerima kasih!`;
       } else {
-        message = "Halo Snapp.frame Studio! Saya ingin konfirmasi pembayaran.";
+        message = "Halo Link Productive! Saya ingin konfirmasi pembayaran.";
       }
       break;
   }

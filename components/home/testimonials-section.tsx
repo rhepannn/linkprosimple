@@ -1,12 +1,11 @@
 "use client";
 
 // components/home/testimonials-section.tsx
-// Section 5 — Testimoni: carousel mobile + grid desktop
-// Fase B: warm light background, white cards, gold only for star ratings
+// Premium testimonials with gradient quote marks and refined cards
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
 
 const MAX = 9;
@@ -21,9 +20,10 @@ function StarRating({ rating }: { rating: number }) {
         <Star
           key={i}
           size={13}
-          fill={i < rating ? "var(--color-gold)" : "transparent"}
-          stroke={i < rating ? "var(--color-gold)" : "var(--color-near-black)/20"}
+          fill={i < rating ? "currentColor" : "transparent"}
+          stroke={i < rating ? "currentColor" : "var(--color-slate-200)"}
           strokeWidth={1.5}
+          className={i < rating ? "text-amber-400" : "text-slate-200"}
         />
       ))}
     </div>
@@ -34,44 +34,36 @@ function StarRating({ rating }: { rating: number }) {
 
 function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
   return (
-    <div className="flex flex-col h-full bg-white border border-border/60 rounded-[2rem] p-8 hover:border-gold/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(17,30,56,0.06)] group">
-      {/* Quote mark — muted, tidak gold */}
-      <span
-        className="text-5xl leading-none text-gold/20 mb-4 select-none"
-        aria-hidden="true"
-      >
-        &ldquo;
-      </span>
+    <div className="flex flex-col h-full bg-white border border-slate-100 rounded-3xl p-8 hover:border-sky-100 transition-all duration-500 shadow-sm hover:shadow-xl hover:shadow-sky-50/50 group hover:-translate-y-1">
+      {/* Quote icon */}
+      <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+        <Quote size={16} className="text-sky-400" />
+      </div>
 
-      <p className="flex-1 text-sm text-near-black/70 leading-relaxed mb-6 line-clamp-5 font-bold italic">
-        {t.text}
+      <p className="flex-1 text-sm text-slate-600 leading-relaxed mb-6 line-clamp-5 font-medium">
+        &ldquo;{t.text}&rdquo;
       </p>
 
-      {/* Footer card */}
-      <div className="flex items-center justify-between gap-3 pt-6 border-t border-border/40">
-        {/* Avatar + nama */}
+      {/* Footer */}
+      <div className="flex items-center justify-between gap-3 pt-6 border-t border-slate-50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-warm-white border border-border/60 flex items-center justify-center flex-shrink-0">
-            <span
-              className="text-xs font-black text-gold"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-100 to-sky-50 flex items-center justify-center flex-shrink-0">
+            <span className="text-xs font-bold text-sky-500 uppercase">
               {t.name.charAt(0)}
             </span>
           </div>
           <div>
-            <p className="text-sm font-black text-near-black leading-tight">
+            <p className="text-sm font-bold text-slate-900 leading-tight">
               {t.name}
             </p>
             {t.sessionType && (
-              <p className="text-[10px] text-near-black/40 font-bold uppercase tracking-wider mt-0.5">
+              <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">
                 {t.sessionType}
                 {t.date ? ` · ${t.date}` : ""}
               </p>
             )}
           </div>
         </div>
-        {/* Star rating — gold BOLEH di sini */}
         <StarRating rating={t.rating} />
       </div>
     </div>
@@ -90,34 +82,37 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="relative bg-warm-white py-24 lg:py-32"
+      className="relative bg-gradient-to-b from-white via-slate-50/30 to-white py-24 lg:py-32 overflow-hidden"
       aria-labelledby="testimonials-heading"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+      {/* Background decoration */}
+      <div className="absolute top-[30%] right-0 w-[500px] h-[500px] bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Header */}
         <motion.div
-          className="mb-12 lg:mb-14"
+          className="mb-12 lg:mb-16 text-center max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* Counter ulasan */}
-          <p className="text-[10px] font-black text-gold tracking-[0.3em] uppercase mb-4">
-            {displayed.length}+ Ulasan nyata dari alumni kami
-          </p>
+          <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-sky-600 uppercase bg-sky-50 px-4 py-2 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+            {displayed.length}+ Kisah Sukses Alumni
+          </span>
           <h2
             id="testimonials-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-near-black"
-            style={{ fontFamily: "var(--font-heading)" }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight"
           >
-            Apa Kata Alumni Kami
+            Apa Kata{" "}
+            <span className="text-gradient-cyan">Alumni Kami</span>
           </h2>
         </motion.div>
 
         {/* ── Desktop: Grid 3 kolom ── */}
         <motion.div
-          className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-5"
+          className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -143,9 +138,9 @@ export function TestimonialsSection() {
           ))}
         </motion.div>
 
-        {/* ── Mobile: Carousel satu card ── */}
+        {/* ── Mobile: Carousel ── */}
         <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-2xl">
+          <div className="relative overflow-hidden rounded-3xl">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={current}
@@ -163,13 +158,12 @@ export function TestimonialsSection() {
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={prev}
-              className="w-12 h-12 rounded-full border border-border/60 flex items-center justify-center text-near-black/60 hover:border-gold hover:text-gold transition-all"
+              className="w-11 h-11 rounded-2xl bg-white border border-sky-100 shadow-sm flex items-center justify-center text-slate-500 hover:border-sky-200 hover:text-sky-500 transition-all duration-300"
               aria-label="Testimoni sebelumnya"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={18} />
             </button>
 
-            {/* Dots */}
             <div className="flex items-center gap-2">
               {displayed.slice(0, 6).map((_, i) => (
                 <button
@@ -177,14 +171,14 @@ export function TestimonialsSection() {
                   onClick={() => setCurrent(i)}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     i === current
-                      ? "w-8 bg-near-black"
-                      : "w-1.5 bg-near-black/10 hover:bg-near-black/30"
+                      ? "w-7 bg-gradient-to-r from-sky-400 to-sky-500"
+                      : "w-1.5 bg-slate-200 hover:bg-slate-300"
                   }`}
                   aria-label={`Testimoni ${i + 1}`}
                 />
               ))}
               {displayed.length > 6 && (
-                <span className="text-[10px] text-near-black/40 font-black px-1">
+                <span className="text-[10px] text-slate-400 font-bold px-1">
                   +{displayed.length - 6}
                 </span>
               )}
@@ -192,10 +186,10 @@ export function TestimonialsSection() {
 
             <button
               onClick={next}
-              className="w-12 h-12 rounded-full border border-border/60 flex items-center justify-center text-near-black/60 hover:border-gold hover:text-gold transition-all"
+              className="w-11 h-11 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-500 hover:border-blue-200 hover:text-blue-600 transition-all duration-300"
               aria-label="Testimoni berikutnya"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={18} />
             </button>
           </div>
         </div>

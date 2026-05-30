@@ -4,16 +4,16 @@ import { site } from "@/data/site";
 export const metadata: Metadata = {
   title: "Galeri Foto",
   description:
-    "Jelajahi koleksi foto terbaik Snapp.frame Studio — sesi solo, couple, keluarga, ulang tahun, dan wisuda. Studio foto minimalis dengan hasil premium.",
+    "Jelajahi galeri dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
   openGraph: {
-    title: `Galeri Foto | ${site.name}`,
+    title: `Galeri Kegiatan | ${site.name}`,
     description:
-      "Jelajahi koleksi foto terbaik Snapp.frame Studio — sesi solo, couple, keluarga, ulang tahun, dan wisuda.",
-    url: "https://snappframe.id/gallery",
+      "Jelajahi galeri dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
+    url: "https://linkproductive.com/gallery",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   alternates: {
-    canonical: "https://snappframe.id/gallery",
+    canonical: "https://linkproductive.com/gallery",
   },
 };
 

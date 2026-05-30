@@ -2,34 +2,37 @@
 @source "../lib";
 
 /* =============================================
-   SNAPP.FRAME STUDIO — Global Styles
+   LINK PRODUCTIVE — Global Styles
    Tailwind CSS v4 (theme via @theme)
-   Fase B: Warm Minimal Direction
+   Premium: Light Blue + White Theme
    ============================================= */
 
 @theme {
-  /* Brand Colors (Link Productive Blue & Navy) */
-  --color-warm-white: #f5f8fc;
-  --color-warm-light: #ebf1fa;
-  --color-near-black: #111e38; /* Navy */
-  --color-dark-gray: #2b3e63;
-  --color-mid-gray: #4b6391;
-  --color-muted: #7c95c4;
-  --color-border: #cbd8e9;
-  --color-gold: #004aad; /* LP Professional Blue */
+  /* ── Brand Colors: Light Blue + White ── */
+  --color-warm-white: #ffffff;
+  --color-warm-light: #f0f7ff;
+  --color-near-black: #1e293b;
+  --color-dark-gray: #334155;
+  --color-mid-gray: #64748b;
+  --color-muted: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-gold: #0ea5e9;        /* Sky 500 — primary accent */
+  --color-accent: #38bdf8;      /* Sky 400 */
+
+  /* ── Accent Palette ── */
+  --color-electric: #38bdf8;
+  --color-glow: #7dd3fc;
+  --color-emerald: #34d399;
+  --color-rose: #fb7185;
 
   /* Background/Foreground */
   --color-background: var(--color-warm-white);
   --color-foreground: var(--color-near-black);
 
   /* Fonts */
-  --font-syne: var(--font-roboto);
-  --font-outfit: var(--font-open-sans);
-  --font-playfair: var(--font-roboto);
-  --font-lato: var(--font-open-sans);
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-lato);
-  --font-sans: var(--font-lato);
+  --font-heading: var(--font-outfit);
+  --font-body: var(--font-inter);
+  --font-sans: var(--font-inter);
 }
 
 /* =============================================
@@ -44,9 +47,8 @@ html {
   padding: 0;
   background-color: var(--color-background);
   -webkit-text-size-adjust: 100%;
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 html::-webkit-scrollbar {
@@ -58,7 +60,7 @@ html::-webkit-scrollbar {
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-lato), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
@@ -69,7 +71,6 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  /* Hide scrollbar */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -80,232 +81,192 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Force prevent horizontal scroll on all direct children of body */
 body > * {
   max-width: 100vw !important;
   overflow-x: hidden !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-playfair), Georgia, serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
   font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: normal;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-img {
-  max-width: 100%;
-  height: auto;
-}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; }
 
 /* =============================================
-   Utilities & Custom Components
+   Premium Glassmorphism Utilities
    ============================================= */
 
-/* Premium Dark Scrollbar for Sidebar */
-.dark-scrollbar::-webkit-scrollbar {
-  width: 5px;
+.glass-panel {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.dark-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dark-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 74, 173, 0.2);
-  border-radius: 10px;
-}
-
-.dark-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 74, 173, 0.4);
-}
-
-.dark-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 74, 173, 0.2) transparent;
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
 /* =============================================
-   Scrollbar Styling
+   Text Gradient Utilities
    ============================================= */
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.text-gradient-blue {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 74, 173, 0.15);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 74, 173, 0.35);
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* =============================================
-   Selection Highlight
-   ============================================= */
-
-::selection {
-  background: var(--color-near-black);
-  color: var(--color-warm-white);
-}
-
-/* Prevent text selection on interactive elements to fix click visibility issues */
-button,
-a,
-[role="button"] {
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* =============================================
-   Focus & Active Protocol
-   ============================================= */
-
-:focus-visible {
-  outline: 2px solid var(--color-near-black);
-  outline-offset: 2px;
-}
-
-/* Ensure text remains visible when button is active/clicked */
-button:active,
-a:active {
-  color: currentColor; /* Maintain intended text color on click */
-}
-
-/* Lock background scroll for dashboard layout when modal is open */
-html.modal-open,
-body.modal-open,
-body.modal-open main > div {
-  overflow: hidden !important;
-}
-
-/* Custom Scrollbar — light (admin content area) */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 74, 173, 0.1);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 74, 173, 0.25);
-}
-
-/* Dark Scrollbar — for sidebar / dark surfaces */
-.dark-scrollbar::-webkit-scrollbar {
-  width: 3px;
-}
-
-.dark-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dark-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-}
-
-.dark-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 74, 173, 0.4);
-}
-
-/* =============================================
-   Skeleton Shimmer Animation
+   Premium Animations
    ============================================= */
 
 @keyframes shimmer {
-  0% {
-    background-position: -400px 0;
-  }
-  100% {
-    background-position: 400px 0;
-  }
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #ebf1fa 25%, #cbd8e9 50%, #ebf1fa 75%);
+  background: linear-gradient(90deg, #e8ecf4 25%, #d5dbe8 50%, #e8ecf4 75%);
   background-size: 800px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 8px;
 }
 
 /* =============================================
-   Studio Input — Unified Focus Ring
+   Scrollbar
+   ============================================= */
+
+.dark-scrollbar::-webkit-scrollbar { width: 5px; }
+.dark-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.dark-scrollbar::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.2); border-radius: 10px; }
+.dark-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(14, 165, 233, 0.4); }
+.dark-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(14, 165, 233, 0.2) transparent; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.15); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(14, 165, 233, 0.35); }
+
+/* =============================================
+   Selection Highlight
+   ============================================= */
+
+::selection {
+  background: rgba(56, 189, 248, 0.3);
+  color: var(--color-near-black);
+}
+
+button, a, [role="button"] {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =============================================
+   Focus & Active
+   ============================================= */
+
+:focus-visible {
+  outline: 2px solid var(--color-electric);
+  outline-offset: 2px;
+}
+
+button:active, a:active { color: currentColor; }
+
+html.modal-open, body.modal-open, body.modal-open main > div {
+  overflow: hidden !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(14, 165, 233, 0.1); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(14, 165, 233, 0.25); }
+
+/* =============================================
+   Studio Input
    ============================================= */
 
 .input-studio {
   background-color: #fafbfc;
-  border: 1px solid rgba(0, 74, 173, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.08);
   border-radius: 12px;
-  color: #111e38;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  color: #1e293b;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-studio:focus {
   outline: none;
-  border-color: rgba(0, 74, 173, 0.4);
-  box-shadow: 0 0 0 3px rgba(0, 74, 173, 0.12);
+  border-color: rgba(14, 165, 233, 0.5);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
 }
 
 /* =============================================
    Studio Badge Utilities
    ============================================= */
 
-.badge-active {
-  background: #ecfdf5;
-  color: #059669;
-  border: 1px solid #d1fae5;
-}
-
-.badge-inactive {
-  background: #f9fafb;
-  color: #9ca3af;
-  border: 1px solid #f3f4f6;
-}
-
-.badge-pending {
-  background: #fffbeb;
-  color: #d97706;
-  border: 1px solid #fef3c7;
-}
+.badge-active { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
+.badge-inactive { background: #f9fafb; color: #9ca3af; border: 1px solid #f3f4f6; }
+.badge-pending { background: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
 
 /* =============================================
-   Browser Autofill Style Override (Anti-White Autocomplete)
+   Browser Autofill Override
    ============================================= */
 
-/* Memaksa background autocomplete tetap navy gelap premium pada halaman login/register */
 input.text-white:-webkit-autofill,
-input.text-white:-webkit-autofill:hover, 
-input.text-white:-webkit-autofill:focus, 
+input.text-white:-webkit-autofill:hover,
+input.text-white:-webkit-autofill:focus,
 input.text-white:-webkit-autofill:active,
 .text-white input:-webkit-autofill,
 .text-white input:-webkit-autofill:hover,
 .text-white input:-webkit-autofill:focus,
 .text-white input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 100px #0b1424 inset !important; /* Navy gelap serasi */
-  -webkit-text-fill-color: #f5f8fc !important; /* Cool White text */
-  caret-color: #f5f8fc !important;
+  -webkit-box-shadow: 0 0 0 100px #f0f7ff inset !important;
+  -webkit-text-fill-color: #1e293b !important;
+  caret-color: #1e293b !important;
   transition: background-color 5000s ease-in-out 0s;
 }

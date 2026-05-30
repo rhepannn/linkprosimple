@@ -38,14 +38,20 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090503] flex items-center justify-center p-6 relative overflow-hidden font-[family-name:var(--font-lato)]">
+    <div className="min-h-screen bg-gradient-to-tr from-slate-50 via-[#f0f7ff] to-white flex items-center justify-center p-6 relative overflow-hidden font-[family-name:var(--font-heading)]">
       
       {/* ── Background Mesh & Ambient Glow Orbs ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Deep background gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#1F120A] via-[#090503] to-[#050302]" />
-        
-        {/* Elegant floating abstract ambient lights */}
+        {/* Soft background grid pattern in sky blue */}
+        <div 
+          className="absolute inset-0 opacity-[0.08]" 
+          style={{
+            backgroundImage: "linear-gradient(#e0f2fe 1px, transparent 1px), linear-gradient(90deg, #e0f2fe 1px, transparent 1px)",
+            backgroundSize: "45px 45px"
+          }}
+        />
+
+        {/* Elegant floating light-blue ambient lights */}
         <motion.div
           animate={{
             x: [0, 40, -20, 0],
@@ -53,11 +59,11 @@ function LoginContent() {
             scale: [1, 1.15, 0.9, 1],
           }}
           transition={{
-            duration: 25,
+            duration: 18,
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#C88A58]/12 to-transparent blur-[130px]"
+          className="absolute top-[-15%] left-[5%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-sky-400/20 via-sky-300/10 to-transparent blur-[120px]"
         />
         
         <motion.div
@@ -67,35 +73,16 @@ function LoginContent() {
             scale: [1, 0.9, 1.1, 1],
           }}
           transition={{
-            duration: 30,
+            duration: 22,
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute bottom-[-20%] right-[5%] w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-[#9B5F34]/8 to-transparent blur-[140px]"
+          className="absolute bottom-[-15%] right-[5%] w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-[#004aad]/12 via-sky-200/20 to-transparent blur-[140px]"
         />
 
-        <motion.div
-          animate={{
-            y: [0, -30, 20, 0],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[350px] h-[350px] rounded-full bg-[#C88A58]/5 blur-[90px]"
-        />
-
-        {/* Premium Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(200, 138, 88, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(200, 138, 88, 0.15) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-        />
+        {/* Decorative subtle glass bubble */}
+        <div className="absolute top-[20%] right-[15%] w-32 h-32 rounded-full bg-white/40 border border-white/60 backdrop-blur-sm pointer-events-none shadow-sm opacity-50" />
+        <div className="absolute bottom-[20%] left-[10%] w-24 h-24 rounded-full bg-white/30 border border-white/40 backdrop-blur-[2px] pointer-events-none shadow-sm opacity-40 animate-bounce" style={{ animationDuration: '6s' }} />
       </div>
 
       {/* ── Top Back Button ── */}
@@ -107,124 +94,110 @@ function LoginContent() {
       >
         <Link
           href="/"
-          className="group flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.05] text-white/50 hover:text-white transition-all duration-300 text-xs font-bold tracking-wider uppercase backdrop-blur-md"
+          className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white hover:bg-sky-50/50 border border-sky-100 text-slate-500 hover:text-[#004aad] transition-all duration-300 text-xs font-black tracking-widest uppercase shadow-md shadow-sky-100/10 active:scale-95"
         >
-          <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform text-[#004aad]" />
           Kembali ke Beranda
         </Link>
       </motion.div>
 
       {/* ── Main Container ── */}
-      <div className="w-full max-w-[450px] relative z-10">
+      <div className="w-full max-w-[440px] relative z-10 pt-12 md:pt-16">
 
         {/* ── Branding Header ── */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-block relative mb-5"
+            className="inline-block relative mb-4"
           >
-            <div className="relative group">
-              <div className="absolute inset-0 bg-[#C88A58]/20 rounded-[30px] blur-md opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="w-24 h-24 rounded-[30px] bg-[#120B07] border border-white/[0.08] flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative z-10 transition-transform duration-500 group-hover:scale-[1.03]">
-                <Logo height={56} className="brightness-0 invert opacity-95" />
-              </div>
+            <div className="relative group flex justify-center w-full">
+              <Logo height={140} className="opacity-100 text-[#004aad] transition-transform duration-500 group-hover:scale-[1.02] max-w-full" />
             </div>
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 15 }}
-              className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-gradient-to-br from-[#D49A6E] to-[#B07043] rounded-full flex items-center justify-center shadow-lg border border-black/30 z-20"
-            >
-              <Zap size={12} className="text-white fill-white" />
-            </motion.div>
           </motion.div>
 
           <motion.h1 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-3xl font-extrabold text-white tracking-tight leading-none" 
-            style={{ fontFamily: "var(--font-playfair)" }}
+            className="text-2xl font-black text-slate-900 tracking-tight leading-none uppercase" 
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
-            Snapp.frame Studio
+            Link Productive
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
+            animate={{ opacity: 0.5 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-[10px] font-black text-white uppercase tracking-[0.4em] mt-3"
+            className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em] mt-3"
           >
-            Admin & Kasir Gatekeeper
+            Silakan masuk untuk melanjutkan
           </motion.p>
         </div>
 
-        {/* ── Glassmorphic Login Form Card ── */}
+        {/* ── Login Form Card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative bg-white/[0.02] backdrop-blur-3xl border border-white/[0.08] rounded-[32px] p-8 md:p-10 shadow-[0_30px_70px_-10px_rgba(0,0,0,0.6)] overflow-hidden"
+          className="relative bg-white/80 backdrop-blur-xl border border-white/60 rounded-[2.5rem] p-8 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,74,173,0.06)] overflow-hidden"
         >
-          {/* Card subtle lighting border reflex */}
-          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C88A58]/20 to-transparent" />
+          {/* Card subtle top border highlight with sky to deep blue gradient */}
+          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-sky-400 via-sky-300 to-[#004aad]" />
           
-          <div className="mb-7">
-            <span className="text-[9px] font-black text-[#C88A58] uppercase tracking-[0.3em] block mb-1">
-              Secure Auth
-            </span>
-            <h2 className="text-xl font-bold text-white tracking-tight">
-              Masuk ke Portal
+          <div className="mb-8">
+            <h2 className="text-xl font-black text-slate-800 tracking-tight uppercase">
+              Login Akun
             </h2>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="text-[9px] font-bold text-white/40 uppercase tracking-[0.2em] ml-1 block">
+              <label className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1 block">
                 Alamat Email
               </label>
               <div className="relative group">
                 <Mail
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#C88A58] transition-colors duration-300"
-                  size={16}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-300 group-focus-within:text-[#004aad] transition-colors duration-300"
+                  size={15}
                 />
                 <input
                   type="email"
                   required
-                  placeholder="admin@snappframe.id"
+                  placeholder="Masukkan alamat email Anda"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] focus:border-[#C88A58] rounded-2xl py-4 pl-12 pr-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:ring-4 focus:ring-[#C88A58]/10 transition-all duration-300"
+                  className="w-full bg-sky-50/30 border border-sky-100 hover:border-sky-200 focus:border-[#004aad] rounded-2xl py-4 pl-11 pr-4 text-xs font-bold text-slate-800 placeholder:text-slate-400/50 focus:outline-none focus:ring-4 focus:ring-[#004aad]/5 transition-all duration-300"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="text-[9px] font-bold text-white/40 uppercase tracking-[0.2em] ml-1 block">
+              <label className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1 block">
                 Kata Sandi
               </label>
               <div className="relative group">
                 <Lock
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#C88A58] transition-colors duration-300"
-                  size={16}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-300 group-focus-within:text-[#004aad] transition-colors duration-300"
+                  size={15}
                 />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  placeholder="••••••••••"
+                  placeholder="Masukkan kata sandi Anda"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] focus:border-[#C88A58] rounded-2xl py-4 pl-12 pr-12 text-sm text-white placeholder:text-white/20 focus:outline-none focus:ring-4 focus:ring-[#C88A58]/10 transition-all duration-300"
+                  className="w-full bg-sky-50/30 border border-sky-100 hover:border-sky-200 focus:border-[#004aad] rounded-2xl py-4 pl-11 pr-11 text-xs font-bold text-slate-800 placeholder:text-slate-400/50 focus:outline-none focus:ring-4 focus:ring-[#004aad]/5 transition-all duration-300"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/60 transition-colors duration-300 focus:outline-none"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sky-300 hover:text-slate-600 transition-colors duration-300 focus:outline-none cursor-pointer"
                 >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
             </div>
@@ -236,7 +209,7 @@ function LoginContent() {
                   initial={{ opacity: 0, height: 0, y: -10 }}
                   animate={{ opacity: 1, height: "auto", y: 0 }}
                   exit={{ opacity: 0, height: 0, y: -10 }}
-                  className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3.5 text-rose-400 text-xs font-semibold text-center leading-normal"
+                  className="bg-rose-50 border border-rose-100 rounded-xl p-3.5 text-rose-500 text-xs font-bold text-center leading-normal"
                 >
                   {error}
                 </motion.div>
@@ -249,7 +222,7 @@ function LoginContent() {
                 <motion.div
                   initial={{ opacity: 0, height: 0, y: -10 }}
                   animate={{ opacity: 1, height: "auto", y: 0 }}
-                  className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3.5 text-emerald-400 text-xs font-semibold text-center leading-normal"
+                  className="bg-emerald-50 border border-emerald-100 rounded-xl p-3.5 text-emerald-600 text-xs font-bold text-center leading-normal"
                 >
                   Registrasi berhasil! Silakan masuk dengan email dan kata sandi Anda.
                 </motion.div>
@@ -258,26 +231,25 @@ function LoginContent() {
 
             {/* Submit Button */}
             <motion.button
-              whileHover={{ scale: 1.01, translateY: -1 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full mt-4 py-4 bg-gradient-to-r from-[#B57545] via-[#C88A58] to-[#D99A68] hover:from-[#C88A58] hover:to-[#E5AB7A] text-white rounded-2xl font-black text-xs uppercase tracking-[0.25em] shadow-[0_12px_24px_-8px_rgba(200,138,88,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(200,138,88,0.5)] flex items-center justify-center gap-3 disabled:opacity-60 transition-all duration-300 relative overflow-hidden"
+              className="w-full mt-3 py-4 bg-gradient-to-r from-sky-400 to-[#004aad] hover:from-[#004aad] hover:to-sky-400 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-md shadow-sky-500/10 hover:shadow-lg hover:shadow-sky-500/20 flex items-center justify-center gap-3 disabled:opacity-60 transition-all duration-300 relative overflow-hidden cursor-pointer"
             >
               {loading ? (
-                <Loader2 size={16} className="animate-spin" />
+                <Loader2 size={15} className="animate-spin text-white" />
               ) : (
                 <>
-                  <LogIn size={15} />
-                  Akses Dashboard
+                  <LogIn size={14} />
+                  Masuk
                 </>
               )}
             </motion.button>
 
-            <p className="text-center text-[10px] text-white/30 font-medium pt-3">
-              Ingin menjadi affiliator?{" "}
-              <Link href="/register" className="text-[#C88A58] font-bold hover:underline">
-                Daftar Sebagai Snapper
+            <p className="text-center text-[10px] text-slate-400 font-bold pt-2.5">
+              Ingin mendaftar kemitraan?{" "}
+              <Link href="/affiliate" className="text-[#004aad] hover:underline font-black">
+                Informasi Kemitraan
               </Link>
             </p>
           </form>
@@ -286,11 +258,11 @@ function LoginContent() {
         {/* Footer Credits */}
         <motion.p 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
+          animate={{ opacity: 0.3 }}
           transition={{ delay: 0.4, duration: 0.5 }}
-          className="text-center mt-8 text-white text-[9px] font-bold uppercase tracking-[0.3em]"
+          className="text-center mt-8 text-slate-500 text-[8px] font-black uppercase tracking-[0.3em]"
         >
-          © {new Date().getFullYear()} Snapp.Frame Studio · All Rights Reserved
+          © {new Date().getFullYear()} Link Productive · All Rights Reserved
         </motion.p>
       </div>
     </div>
@@ -300,9 +272,9 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#090503] flex flex-col items-center justify-center space-y-4">
-        <div className="w-10 h-10 rounded-full border-4 border-[#C88A58]/20 border-t-[#C88A58] animate-spin" />
-        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Loading Login Portal...</p>
+      <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center space-y-4">
+        <div className="w-8 h-8 rounded-full border-4 border-[#004aad]/10 border-t-[#004aad] animate-spin" />
+        <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">Memuat Halaman...</p>
       </div>
     }>
       <LoginContent />

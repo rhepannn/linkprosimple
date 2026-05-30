@@ -274,7 +274,7 @@ function HashtagInput({
                 addTag();
               }
             }}
-            placeholder="snappframe, fotobooth, promo..."
+            placeholder="academic, career, promo..."
             className="w-full pl-8 pr-4 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10"
           />
         </div>
@@ -1951,11 +1951,8 @@ export default function AffiliatorsPage() {
                           leads
                             .filter(l => leadStatusFilter === "all" || l.status === leadStatusFilter)
                             .map((lead) => {
-                              const isAffProduct = lead.productSku && !lead.productSku.startsWith("pkg-");
-                              const leadTypeLabel = isAffProduct ? "Pelatihan" : "Foto Studio";
-                              const leadTypeColor = isAffProduct 
-                                ? "bg-purple-50 text-purple-600 border-purple-200" 
-                                : "bg-orange-50 text-orange-600 border-orange-200";
+                              const leadTypeLabel = "Pendaftaran";
+                              const leadTypeColor = "bg-purple-50 text-purple-600 border-purple-200";
 
                               const cfg = lead.status === "closed"
                                 ? { label: "Closed", icon: CheckCircle2, className: "text-emerald-600 bg-emerald-50 border-emerald-200" }

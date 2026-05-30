@@ -1,127 +1,147 @@
 "use client";
 
-// components/home/about-section.tsx
-// Section 4 — Tentang Studio: dua kolom (foto kiri + teks kanan)
-// Fase B: warm white background, no gold accents
-
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { Users, Star, Calendar, Zap } from "lucide-react";
 import { site } from "@/data/site";
 
-const ABOUT_POINTS = [
+const stats = [
   {
-    title: "Ekosistem Terintegrasi",
-    desc: "Menyatukan program pelatihan intensif, bimbingan karir terarah, dan inisiasi proyek dampak sosial dalam satu platform.",
+    value: site.stats.sessions,
+    label: "Alumni Terdaftar",
+    icon: Users,
+    color: "from-sky-400 to-sky-500",
+    bg: "bg-sky-100",
   },
   {
-    title: "Kurikulum Relevan Industri",
-    desc: "Materi pembelajaran dirancang langsung bersama praktisi industri terkemuka agar sesuai dengan kebutuhan bursa kerja modern.",
-  },
-  {
-    title: "Kolaborasi Dampak Nyata",
-    desc: "Setiap program berorientasi pada hasil nyata melalui pengerjaan proyek sosial yang membawa perubahan positif bagi masyarakat.",
+    value: `${site.stats.yearsActive} Th`,
+    label: "Pengalaman",
+    icon: Calendar,
+    color: "from-emerald-400 to-teal-400",
+    bg: "bg-emerald-50",
   },
 ];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+};
 
 export function AboutSection() {
   return (
     <section
       id="about"
-      className="relative bg-white py-24 lg:py-32 overflow-hidden"
-      aria-labelledby="about-heading"
+      className="relative bg-white py-24 lg:py-32 overflow-hidden w-full max-w-full"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-50/60 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-50/40 rounded-full blur-[100px] pointer-events-none" />
 
-          {/* ── Kolom Kiri: Foto ── */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20 items-center">
+
+          {/* ── Left: Visual Card ── */}
           <motion.div
-            className="relative"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-5"
           >
-            {/* Frame utama */}
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#CBD8E9]">
-              <Image
-                src="/photos/hero-001.png"
-                alt="Suasana pelatihan Link Productive"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-              {/* Overlay tipis */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-            </div>
+            <div className="relative">
+              {/* Main card — light blue gradient */}
+              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-100 via-sky-50 to-white" />
 
-            {/* Stats card ── */}
-            <div className="mt-4 flex items-center gap-6 bg-warm-white/50 rounded-xl border border-border/60 px-5 py-4">
-              {[
-                { value: site.stats.sessions, label: "Peserta" },
-                { value: site.stats.rating + "★", label: "Rating" },
-                { value: site.stats.yearsActive + " Th", label: "Aktif" },
-              ].map((s) => (
-                <div key={s.label} className="text-center flex-1">
-                  <p
-                    className="text-xl font-black text-near-black"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    {s.value}
+                {/* Decorative orbs */}
+                <div className="absolute top-[20%] left-[10%] w-32 h-32 bg-sky-300/20 rounded-full blur-[60px]" />
+                <div className="absolute bottom-[15%] right-[10%] w-40 h-40 bg-sky-200/25 rounded-full blur-[70px]" />
+
+                {/* Content */}
+                <div className="relative z-10 flex flex-col items-center justify-center h-full p-8 text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-sm border border-sky-200/50 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                    <Zap size={28} className="text-sky-500" />
+                  </div>
+                  <p className="text-sky-600 text-sm font-bold uppercase tracking-[0.2em] mb-2">
+                    Link Productive
                   </p>
-                  <p className="text-[10px] text-near-black/40 uppercase tracking-[0.2em] font-black mt-1">
-                    {s.label}
+                  <p className="text-slate-400 text-xs leading-relaxed max-w-[240px]">
+                    Inovasi Sosial & Pendidikan Terintegrasi untuk Masa Depan Indonesia
                   </p>
                 </div>
-              ))}
+
+                {/* Grid overlay */}
+                <div
+                  className="absolute inset-0 z-[5] opacity-[0.04] pointer-events-none"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(14,165,233,0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(14,165,233,0.3) 1px, transparent 1px)",
+                    backgroundSize: "32px 32px",
+                  }}
+                />
+              </div>
             </div>
           </motion.div>
 
-          {/* ── Kolom Kanan: Teks ── */}
+          {/* ── Right: Text & Stats ── */}
           <motion.div
-            className="lg:pt-8"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="lg:col-span-7 space-y-7"
           >
+            <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-sky-600 uppercase bg-sky-50 px-4 py-2 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+              Tentang Kami
+            </span>
 
-            <h2
-              id="about-heading"
-              className="text-3xl sm:text-4xl lg:text-5xl font-black text-near-black mb-6 leading-tight"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              Tentang Link Productive
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-slate-800 tracking-tight leading-[1.15]">
+              Mengenal Lebih Dekat{" "}
+              <span className="text-gradient-cyan">Link Productive</span>
             </h2>
 
-            <p className="text-near-black/60 text-base leading-relaxed mb-8 font-bold">
+            <p className="text-slate-500 text-base sm:text-lg leading-relaxed max-w-xl">
               {site.description}
             </p>
 
-            {/* Key points */}
-            <ul className="space-y-5">
-              {ABOUT_POINTS.map((point, i) => (
-                <li key={i} className="flex gap-4">
-                  {/* Number circle */}
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full border border-border/60 flex items-center justify-center mt-0.5">
-                    <span
-                      className="text-xs font-black text-gold"
-                      style={{ fontFamily: "var(--font-heading)" }}
-                    >
-                      0{i + 1}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-black text-near-black mb-1">
-                      {point.title}
-                    </h3>
-                    <p className="text-sm text-near-black/60 leading-relaxed font-bold">
-                      {point.desc}
+            {/* Stats Grid */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-2 gap-4 pt-6 max-w-md"
+            >
+              {stats.map((stat, i) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    variants={itemVariants}
+                    className="group relative p-4 sm:p-5 rounded-2xl bg-white border border-sky-100/80 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-50 transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center mb-3`}>
+                      <Icon size={16} className="text-slate-500" />
+                    </div>
+                    <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                      {stat.value}
                     </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                    <p className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">
+                      {stat.label}
+                    </p>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
           </motion.div>
+
         </div>
       </div>
     </section>

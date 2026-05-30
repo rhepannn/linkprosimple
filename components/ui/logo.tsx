@@ -19,8 +19,8 @@ export function Logo({
       alt="Link Productive Logo"
       width={height * 3}
       height={height}
-      style={{ height: `${height}px`, width: "auto" }}
-      className={`object-contain ${className}`}
+      style={{ maxHeight: `${height}px`, width: "auto" }}
+      className={`object-contain max-w-full h-auto ${className}`}
       priority
     />
   );

@@ -182,9 +182,9 @@ export const affiliateDetails: Record<string, { subtitle: string; intro: string;
     targetMarket: ["🏪 UMKM & pebisnis", "🎓 Mahasiswa wirausaha", "📱 Content creator", "💻 Freelancer marketing", "🤝 Komunitas pebisnis muda"],
     disclaimer: "Harga layanan Brand Siap sewaktu-waktu dapat berubah mengikuti paket promo yang sedang berjalan. Komisi affiliate diberikan untuk setiap transaksi valid menggunakan kode referral affiliate partner yang terdaftar.",
   },
-  "Snapp Frame": {
+  "Link Productive": {
     subtitle: "Studio Foto Minimalis Premium — Cetak Kilat & Dokumentasi Visual",
-    intro: "Jadilah Affiliate Partner Snapp.frame Studio dan dapatkan komisi dari setiap pelanggan yang booking sesi foto menggunakan kode referral kamu! 📸\n\nSnapp.frame Studio adalah studio foto minimalis modern dengan konsep photobooth premium. Cocok untuk foto portrait, wisuda, ulang tahun, dan momen spesial lainnya.\n\nSebagai Affiliate Partner kamu bisa:\n✅ Bagikan link referral ke teman, keluarga, atau followers\n✅ Dapat komisi Rp3.500 per foto yang tercetak\n✅ Customer dapat diskon khusus pakai kode referralmu\n✅ Bisa dijalankan via WhatsApp, Instagram, TikTok",
+    intro: "Jadilah Affiliate Partner Link Productive dan dapatkan komisi dari setiap pelanggan yang booking sesi foto menggunakan kode referral kamu! 📸\n\nLink Productive adalah studio foto minimalis modern dengan konsep photobooth premium. Cocok untuk foto portrait, wisuda, ulang tahun, dan momen spesial lainnya.\n\nSebagai Affiliate Partner kamu bisa:\n✅ Bagikan link referral ke teman, keluarga, atau followers\n✅ Dapat komisi Rp3.500 per foto yang tercetak\n✅ Customer dapat diskon khusus pakai kode referralmu\n✅ Bisa dijalankan via WhatsApp, Instagram, TikTok",
     packages: [
       { name: "📸 Paket Solo (10 foto)", price: "Rp 75.000", discount: "Rp 15.000", afterDiscount: "Rp 60.000", commission: "Rp 35.000 / booking" },
       { name: "👫 Paket Duo (15 foto)", price: "Rp 100.000", discount: "Rp 20.000", afterDiscount: "Rp 80.000", commission: "Rp 52.500 / booking" },
@@ -199,7 +199,7 @@ export const affiliateDetails: Record<string, { subtitle: string; intro: string;
       "Sistem tracking referral otomatis",
     ],
     targetMarket: ["📸 Pecinta foto", "🎓 Mahasiswa & pelajar", "💒 Pasangan & keluarga", "📱 Content creator", "🎉 Event organizer", "🏫 Organisasi kampus"],
-    disclaimer: "Komisi affiliate Snapp.frame dihitung per foto yang tercetak dari booking valid menggunakan kode referral terdaftar. Harga dan komisi dapat berubah sesuai promo yang sedang berjalan.",
+    disclaimer: "Komisi affiliate Link Productive dihitung per foto yang tercetak dari booking valid menggunakan kode referral terdaftar. Harga dan komisi dapat berubah sesuai promo yang sedang berjalan.",
   },
   "Standara Consulting": {
     subtitle: "Konsultan & Pelatihan Standar, Mutu, dan Pengembangan Bisnis",

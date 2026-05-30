@@ -144,11 +144,7 @@ const PROGRAM_PACKAGES: Record<string, { name: string; price: string; discount: 
   "brand-siap-lengkap": [
     { name: "🚀 Paket Brand Siap Lengkap", price: "Rp 1.500.000", discount: "Rp 300.000", afterDiscount: "Rp 1.200.000", commission: "Rp 150.000 / proyek" },
   ],
-  "snapp-frame": [
-    { name: "🤳 Paket Solo (10 foto)", price: "Rp 75.000", discount: "Rp 15.000", afterDiscount: "Rp 60.000", commission: "Rp 35.000 / booking" },
-    { name: "📸 Paket Duo (15 foto)", price: "Rp 100.000", discount: "Rp 20.000", afterDiscount: "Rp 80.000", commission: "Rp 52.500 / booking" },
-    { name: "👨‍👩‍👧‍👦 Paket Group (20 foto)", price: "Rp 130.000", discount: "Rp 25.000", afterDiscount: "Rp 105.000", commission: "Rp 70.000 / booking" },
-  ],
+
   "standara-basic": [
     { name: "📋 Paket Basic Business Improvement", price: "Menyesuaikan", discount: "Sesuai Proyek", commission: "Komisi Menarik / Closing" },
   ],
@@ -171,7 +167,7 @@ const pkgSlugMap: Record<string, string> = {
   "mental-bahasa-academy": "Mental Bahasa Academy",
   "green-productive-academy": "Green Productive Academy",
   "brand-siap": "Brand Siap",
-  "snapp-frame": "Snapp Frame",
+
   "standara-consulting": "Standara Consulting",
 };
 
@@ -186,7 +182,7 @@ const POSTER_KEYS: Record<string, string> = {
   "Mental Bahasa Academy": "affiliate_poster_mental_bahasa",
   "Green Productive Academy": "affiliate_poster_green_productive",
   "Brand Siap": "affiliate_poster_brand_siap",
-  "Snapp Frame": "affiliate_poster_snapp_frame",
+
   "Standara Consulting": "affiliate_poster_standara",
 };
 
@@ -201,7 +197,7 @@ const DEFAULT_POSTERS: Record<string, string> = {
   "Mental Bahasa Academy": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop",
   "Green Productive Academy": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
   "Brand Siap": "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=600&auto=format&fit=crop",
-  "Snapp Frame": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
+
   "Standara Consulting": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
 };
 
@@ -216,13 +212,13 @@ const skuIconMap: Record<string, React.ComponentType<any>> = {
   "mental-bahasa-academy": Users,
   "green-productive-academy": Recycle,
   "brand-siap": ShoppingBag,
-  "snapp-frame": Camera,
+
   "standara-consulting": Handshake,
 };
 
 const generatePromoText = (progName: string, refCode: string) => {
   const codeText = refCode ? `@${refCode.trim().replace("@", "")}` : "[KODE_REFERRAL_KAMU]";
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://snappframe.id";
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
   const slug = Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === progName) || "";
   const linkText = refCode 
     ? `${origin}/booking?ref=${refCode.trim().replace("@", "")}&pkg=${slug}`
@@ -249,8 +245,7 @@ const generatePromoText = (progName: string, refCode: string) => {
       return `Pelajari teknologi hijau dasar dan inovasi produk ramah lingkungan di Green Productive Academy! 🌿\nMari berkontribusi pada masa depan berkelanjutan. Gunakan kode diskon khusus: ${codeText}\n\nDaftar kelas: ${linkText}\n#GreenProductiveAcademy #EcoTechnology #GreenInnovation`;
     case "Brand Siap":
       return `Butuh logo, identitas visual, atau desain kemasan produk super cepat dan profesional? 🎨\nPercayakan pada Brand Siap! Gunakan kode diskon referral saya untuk potongan harga: ${codeText}\n\nOrder layanan di: ${linkText}\n#BrandSiap #DesainLogo #JasaBranding`;
-    case "Snapp Frame":
-      return `Mau foto studio portrait premium, minimalis, dan cetak kilat? 📸\nBooking sesi fotomu di Snapp.frame Studio dan nikmati potongan harga khusus dengan kode: ${codeText}\n\nBooking sekarang: ${linkText}\n#SnappFrame #StudioFoto #SelfPhotoStudio`;
+
     case "Standara Consulting":
       return `Tingkatkan tata kelola bisnis, SOP, dan standardisasi industri Anda bersama Standara Consulting! 💼\nKonsultan mutu senior siap mendampingi UMKM & industri. Dapatkan penawaran khusus dengan kode: ${codeText}\n\nAjukan konsultasi: ${linkText}\n#StandaraConsulting #StandardisasiBisnis #SOPPerusahaan`;
     default:
@@ -273,7 +268,6 @@ export default function SnapperDashboard() {
   // Referral campaign States
   const [productsList, setProductsList] = useState<any[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
-  const [referralType, setReferralType] = useState<"foto" | "affiliate">("foto");
   const [savingProduct, setSavingProduct] = useState(false);
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [activeKitSku, setActiveKitSku] = useState<string>("lp-academic-partner");
@@ -313,8 +307,6 @@ export default function SnapperDashboard() {
           setDashboardData(dashRes.data);
           const initialTarget = dashRes.data.referralCode?.targetProductId || "";
           setSelectedProductId(initialTarget);
-          const isAff = AFFILIATE_PROGRAMS.some((p) => p.sku === initialTarget);
-          setReferralType(isAff ? "affiliate" : "foto");
         } else {
           toast.error(dashRes.error || "Gagal memuat data dashboard.");
         }
@@ -370,7 +362,7 @@ export default function SnapperDashboard() {
 
   // Copy referral link
   const handleCopyLink = (code: string) => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://snappframe.id";
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
     const target = dashboardData?.referralCode?.targetProductId || "";
     
     const isAffiliate = AFFILIATE_PROGRAMS.some((p) => p.sku === target);
@@ -416,8 +408,8 @@ export default function SnapperDashboard() {
   if (loading || !dashboardData) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 rounded-full border-4 border-[#C88A58]/20 border-t-[#C88A58] animate-spin" />
-        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Memuat Dashboard Snapper...</p>
+        <div className="w-12 h-12 rounded-full border-4 border-[#0ea5e9]/20 border-t-[#0ea5e9] animate-spin" />
+        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Memuat Dashboard Affiliate...</p>
       </div>
     );
   }
@@ -430,25 +422,25 @@ export default function SnapperDashboard() {
     <div className="p-8 lg:p-12 space-y-10 max-w-[1600px] mx-auto min-h-screen">
       
       {/* ── Heading ── */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#3B2211]/5 pb-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#1e293b]/5 pb-10">
         <div className="space-y-2">
-          <p className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.4em]">Snapper Affiliate Partner</p>
+          <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.4em]">Affiliate Partner</p>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#C88A58] to-[#3B2211] flex items-center justify-center text-white shadow-xl shadow-[#C88A58]/20">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center text-white shadow-xl shadow-[#0ea5e9]/20">
               <Gift size={24} />
             </div>
-            <h1 className="text-4xl font-black text-[#3B2211] tracking-tight font-[family-name:var(--font-syne)]">
+            <h1 className="text-4xl font-black text-[#1e293b] tracking-tight font-[family-name:var(--font-outfit)]">
               Halo, {dashboardData.name}!
             </h1>
           </div>
-          <p className="text-sm text-gray-400 font-medium">Selamat datang di portal kemitraan Snapp.frame Anda. Bagikan dan dapatkan penghasilan tambahan.</p>
+          <p className="text-sm text-gray-400 font-medium">Selamat datang di portal affiliate Link Productive. Bagikan dan dapatkan penghasilan tambahan.</p>
         </div>
 
         {/* Info Box */}
-        <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-[#3B2211]/5 shadow-sm">
+        <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-[#1e293b]/5 shadow-sm">
           <div className="text-right">
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Skema Komisi Anda</p>
-            <p className="text-sm font-black text-[#3B2211]">
+            <p className="text-sm font-black text-[#1e293b]">
               Diskon {discountPct}% &bull; Fee {feePercentage}%
             </p>
           </div>
@@ -466,7 +458,7 @@ export default function SnapperDashboard() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { label: "Total Pendapatan", val: `Rp ${stats.totalEarnings.toLocaleString("id-ID")}`, desc: "Akumulasi seluruh komisi", icon: DollarSign, color: "text-[#3B2211]", bg: "bg-gray-100" },
+              { label: "Total Pendapatan", val: `Rp ${stats.totalEarnings.toLocaleString("id-ID")}`, desc: "Akumulasi seluruh komisi", icon: DollarSign, color: "text-[#1e293b]", bg: "bg-gray-100" },
               { label: "Komisi Cair", val: `Rp ${stats.paidPayout.toLocaleString("id-ID")}`, desc: "Sudah ditransfer ke rekening", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
               { label: "Komisi Pending", val: `Rp ${stats.pendingPayout.toLocaleString("id-ID")}`, desc: "Menunggu pembayaran/verifikasi", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
               { label: "Total Referral", val: `${stats.count} Penggunaan`, desc: "Jumlah pemesanan selesai", icon: Users, color: "text-blue-600", bg: "bg-blue-50" }
@@ -476,7 +468,7 @@ export default function SnapperDashboard() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="p-7 bg-white rounded-3xl border border-white shadow-sm flex flex-col justify-between hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+                className="p-7 bg-white rounded-3xl border border-white shadow-sm flex flex-col justify-between hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 rounded-xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
@@ -485,7 +477,7 @@ export default function SnapperDashboard() {
                 </div>
                 <div>
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{stat.label}</p>
-                  <span className="text-2xl font-black text-[#3B2211] tracking-tighter">{stat.val}</span>
+                  <span className="text-2xl font-black text-[#1e293b] tracking-tighter">{stat.val}</span>
                   <p className="text-[10px] text-gray-400 font-medium mt-1">{stat.desc}</p>
                 </div>
               </motion.div>
@@ -494,167 +486,104 @@ export default function SnapperDashboard() {
 
           {/* Referral Link Card */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 p-8 md:p-10 bg-gradient-to-br from-[#1E110A] to-[#120703] text-white rounded-[2rem] shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+            <div className="lg:col-span-2 p-8 md:p-10 bg-white border border-sky-100 text-slate-800 rounded-[2rem] shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
               {/* Background Orbs */}
-              <div className="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-[#C88A58]/20 blur-[80px] pointer-events-none" />
+              <div className="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-sky-400/10 blur-[80px] pointer-events-none" />
               
               <div className="space-y-4 relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/10 text-xs font-bold text-[#E5AB7A]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-50 rounded-full border border-sky-100 text-xs font-bold text-sky-600">
                   <Sparkles size={12} /> Link & Kode Referral
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black tracking-tight" style={{ fontFamily: "var(--font-syne)" }}>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900" style={{ fontFamily: "var(--font-outfit)" }}>
                   Undang Teman & Dapatkan Komisinya!
                 </h3>
-                <p className="text-white/60 text-xs md:text-sm max-w-xl leading-relaxed">
-                  Bagikan kode atau link referral Anda kepada calon pelanggan. Mereka akan mendapatkan potongan harga otomatis senilai <strong className="text-white font-bold">{discountPct}%</strong> ketika melakukan pemesanan, dan Anda akan langsung memperoleh komisi sebesar <strong className="text-white font-bold">{feePercentage}%</strong> dari nilai pesanan yang mereka bayar.
+                <p className="text-slate-500 text-xs md:text-sm max-w-xl leading-relaxed">
+                  Bagikan kode atau link referral Anda kepada calon pelanggan. Mereka akan mendapatkan potongan harga otomatis senilai <strong className="text-sky-600 font-bold">{discountPct}%</strong> ketika melakukan pemesanan, dan Anda akan langsung memperoleh komisi sebesar <strong className="text-sky-600 font-bold">{feePercentage}%</strong> dari nilai pesanan yang mereka bayar.
                 </p>
               </div>
 
               {/* Target Campaign Selector */}
-              <div className="mt-6 p-5 bg-white/5 rounded-2xl border border-white/10 space-y-5 relative z-10">
+              <div className="mt-6 p-5 bg-sky-50/50 rounded-2xl border border-sky-100 space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-[#E5AB7A]">Pilih Tipe Referral Campaign</span>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-sky-600">Pilih Target Referral Campaign</span>
                   {selectedProductId && (
                     <button 
                       onClick={() => {
                         setSelectedProductId("");
-                        setReferralType("foto");
                       }} 
-                      className="text-[9px] font-bold text-rose-400 hover:underline"
+                      className="text-[9px] font-bold text-rose-500 hover:underline bg-transparent border-none cursor-pointer"
                     >
-                      Reset ke Link Umum
+                      Reset Target
                     </button>
                   )}
-                </div>
-
-                {/* 2 Visual Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Card Foto */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setReferralType("foto");
-                      setSelectedProductId(""); // default to general photo link
-                    }}
-                    className={`p-4 rounded-xl border text-left transition-all duration-300 flex items-start gap-3.5 ${
-                      referralType === "foto"
-                        ? "bg-white/10 border-[#C88A58] ring-1 ring-[#C88A58]"
-                        : "bg-white/5 border-white/5 hover:border-white/10"
-                    }`}
-                  >
-                    <div className={`p-2.5 rounded-lg flex-shrink-0 ${referralType === "foto" ? "bg-[#C88A58] text-[#1E110A]" : "bg-white/5 text-white/60"}`}>
-                      <Camera size={18} />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-white">📸 Referral Foto Studio</h4>
-                      <p className="text-[10px] text-white/50 mt-1 leading-relaxed">
-                        Mengarahkan pelanggan ke halaman booking foto studio Snapp.frame (Solo, Duo, Group, etc).
-                      </p>
-                    </div>
-                  </button>
-
-                  {/* Card Affiliate */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setReferralType("affiliate");
-                      setSelectedProductId("lp-academic-starter"); // default to first affiliate package
-                    }}
-                    className={`p-4 rounded-xl border text-left transition-all duration-300 flex items-start gap-3.5 ${
-                      referralType === "affiliate"
-                        ? "bg-white/10 border-[#C88A58] ring-1 ring-[#C88A58]"
-                        : "bg-white/5 border-white/5 hover:border-white/10"
-                    }`}
-                  >
-                    <div className={`p-2.5 rounded-lg flex-shrink-0 ${referralType === "affiliate" ? "bg-[#C88A58] text-[#1E110A]" : "bg-white/5 text-white/60"}`}>
-                      <Handshake size={18} />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-white">🤝 Referral Pelatihan (Affiliate)</h4>
-                      <p className="text-[10px] text-white/50 mt-1 leading-relaxed">
-                        Mengarahkan calon peserta ke form pendaftaran kelas pelatihan & program kemitraan kami.
-                      </p>
-                    </div>
-                  </button>
                 </div>
 
                 {/* Specific Dropdown */}
                 <div className="flex flex-col sm:flex-row gap-3 items-end pt-1">
                   <div className="flex-1 space-y-1.5 w-full">
-                    <label className="text-[9px] font-black uppercase tracking-wider text-white/40">
-                      Pilih Detail Paket / Program Spesifik
+                    <label className="text-[9px] font-black uppercase tracking-wider text-slate-400">
+                      Pilih Detail Paket / Program Pelatihan Spesifik
                     </label>
                     <select
                       value={selectedProductId}
-                      onChange={(e) => setSelectedProductId(e.target.value)}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-[#C88A58] transition-colors"
+                      onChange={(e) => {
+                        setSelectedProductId(e.target.value);
+                      }}
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500 transition-colors"
                     >
-                      {referralType === "foto" ? (
-                        <>
-                          <option value="" className="bg-[#1E110A] text-white/50">Semua Paket Foto (General booking link)</option>
-                          {productsList.map((p) => (
-                            <option key={p.id} value={p.sku} className="bg-[#1E110A] text-white font-normal">
-                              {p.name} - Rp {p.price.toLocaleString("id-ID")}
-                            </option>
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          {AFFILIATE_PROGRAMS.map((prog) => (
-                            <option key={prog.sku} value={prog.sku} className="bg-[#1E110A] text-white font-normal">
-                              {prog.name}
-                            </option>
-                          ))}
-                        </>
-                      )}
+                      <option value="" className="text-slate-400">Semua Program (General Link)</option>
+                      {AFFILIATE_PROGRAMS.map((prog) => (
+                        <option key={prog.sku} value={prog.sku} className="text-slate-800 font-normal">
+                          {prog.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <button
                     onClick={handleSaveTargetProduct}
                     disabled={savingProduct || (dashboardData.referralCode?.targetProductId || "") === selectedProductId}
-                    className="w-full sm:w-auto px-5 py-3 bg-gold hover:bg-gold/90 text-near-black text-[10px] font-black uppercase tracking-wider rounded-xl transition-all disabled:opacity-40 flex-shrink-0"
+                    className="w-full sm:w-auto px-6 py-3.5 bg-sky-500 hover:bg-sky-600 disabled:opacity-40 text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all flex-shrink-0 cursor-pointer border-none shadow-md shadow-sky-500/10"
                   >
                     {savingProduct ? "Menyimpan..." : "Simpan Target"}
                   </button>
                 </div>
-                <p className="text-[9px] text-white/40 leading-normal">
-                  * Klik <strong>Simpan Target</strong> setelah memilih di atas. Link referral otomatis disesuaikan menuju booking form studio foto atau pendaftaran program affiliate yang tepat.
+                <p className="text-[9px] text-slate-400 leading-normal">
+                  * Klik <strong>Simpan Target</strong> setelah memilih di atas. Link referral otomatis disesuaikan menuju portal pendaftaran program kelas pelatihan yang tepat.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 relative z-10">
                 {/* Code Card */}
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-between">
+                <div className="p-4 bg-sky-50/40 rounded-2xl border border-sky-100 flex items-center justify-between">
                   <div>
-                    <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Kode Referral Anda</p>
-                    <p className="text-lg font-black tracking-wider text-[#E5AB7A]">@{referralCode}</p>
+                    <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Kode Referral Anda</p>
+                    <p className="text-lg font-black tracking-wider text-sky-600">@{referralCode}</p>
                   </div>
                   <button
                     onClick={() => handleCopyCode(referralCode)}
-                    className="p-2.5 bg-white/10 hover:bg-[#C88A58] rounded-xl transition-all"
+                    className="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-xl transition-all cursor-pointer border-none"
                   >
                     {copiedCode ? <Check size={16} /> : <Copy size={16} />}
                   </button>
                 </div>
 
                 {/* Link Card */}
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-between">
+                <div className="p-4 bg-sky-50/40 rounded-2xl border border-sky-100 flex items-center justify-between">
                   <div className="truncate mr-2">
-                    <p className="text-[9px] uppercase tracking-widest text-white/40 font-bold">Link Tautan Otomatis</p>
-                    <p className="text-xs font-bold text-white/80 truncate">
+                    <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Link Tautan Otomatis</p>
+                    <p className="text-xs font-bold text-slate-700 truncate font-mono">
                       {(() => {
                         const target = dashboardData.referralCode?.targetProductId;
-                        const isAffiliate = AFFILIATE_PROGRAMS.some((p) => p.sku === target);
-                        const path = isAffiliate ? "daftar" : "booking";
+                        const path = "daftar-pelatihan";
                         return target
                           ? `${path}?ref=${referralCode}&pkg=${target}`
-                          : `booking?ref=${referralCode}`;
+                          : `${path}?ref=${referralCode}`;
                       })()}
                     </p>
                   </div>
                   <button
                     onClick={() => handleCopyLink(referralCode)}
-                    className="p-2.5 bg-white/10 hover:bg-[#C88A58] rounded-xl transition-all flex-shrink-0"
+                    className="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-xl transition-all flex-shrink-0 cursor-pointer border-none"
                   >
                     {copiedLink ? <Check size={16} /> : <Share2 size={16} />}
                   </button>
@@ -663,42 +592,42 @@ export default function SnapperDashboard() {
             </div>
 
             {/* Quick Rules / Tips */}
-            <div className="bg-white p-8 rounded-[2rem] border border-[#3B2211]/5 shadow-sm flex flex-col justify-between">
+            <div className="bg-white p-8 rounded-[2rem] border border-[#1e293b]/5 shadow-sm flex flex-col justify-between">
               <div className="space-y-4">
-                <h4 className="text-xs font-black uppercase tracking-widest text-[#3B2211] flex items-center gap-2">
-                  <BookOpen size={16} className="text-[#C88A58]" /> Panduan Singkat
+                <h4 className="text-xs font-black uppercase tracking-widest text-[#1e293b] flex items-center gap-2">
+                  <BookOpen size={16} className="text-[#0ea5e9]" /> Panduan Singkat
                 </h4>
                 <ul className="space-y-3.5 text-xs text-gray-500 font-medium">
                   <li className="flex gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C88A58] mt-1.5 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
                     Pelanggan wajib menyelesaikan pembayaran agar komisi tercatat.
                   </li>
                   <li className="flex gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C88A58] mt-1.5 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
                     Komisi dihitung dari total harga setelah diskon referral.
                   </li>
                   <li className="flex gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C88A58] mt-1.5 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
                     Pencairan/payout diproses ke rekening Anda setiap akhir bulan.
                   </li>
                 </ul>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-[#3B2211]/5 flex items-center gap-4">
+              <div className="pt-6 mt-6 border-t border-[#1e293b]/5 flex items-center gap-4">
                 <Landmark size={28} className="text-gray-300" />
                 <div>
                   <p className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Rekening Payout</p>
-                  <p className="text-xs font-black text-[#3B2211]">{dashboardData.bankName} - {dashboardData.bankAccount}</p>
+                  <p className="text-xs font-black text-[#1e293b]">{dashboardData.bankName} - {dashboardData.bankAccount}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Recent Commission Table */}
-          <div className="bg-white rounded-[2rem] border border-[#3B2211]/5 p-8 shadow-sm">
+          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 shadow-sm">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
               <div>
-                <h3 className="text-lg font-black text-[#3B2211]">Riwayat Penggunaan Referral & Komisi</h3>
+                <h3 className="text-lg font-black text-[#1e293b]">Riwayat Penggunaan Referral & Komisi</h3>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">Daftar booking yang menggunakan kode Anda</p>
               </div>
             </div>
@@ -721,12 +650,12 @@ export default function SnapperDashboard() {
                     {dashboardData.commissions.map((comm: Commission) => (
                       <tr key={comm.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
                         <td className="py-4 font-mono font-bold text-gray-400">#{comm.booking.invoiceNo}</td>
-                        <td className="py-4 font-bold text-[#3B2211]">{comm.booking.customerName}</td>
+                        <td className="py-4 font-bold text-[#1e293b]">{comm.booking.customerName}</td>
                         <td className="py-4 text-gray-500 font-medium">
                           {new Date(comm.booking.sessionDate).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
                         </td>
                         <td className="py-4 text-gray-500 font-medium">{comm.booking.packageName}</td>
-                        <td className="py-4 font-bold text-[#3B2211]">Rp {comm.booking.finalPrice.toLocaleString("id-ID")}</td>
+                        <td className="py-4 font-bold text-[#1e293b]">Rp {comm.booking.finalPrice.toLocaleString("id-ID")}</td>
                         <td className="py-4 font-black text-emerald-600 text-right">Rp {comm.amount.toLocaleString("id-ID")}</td>
                         <td className="py-4 text-right pr-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
@@ -751,7 +680,7 @@ export default function SnapperDashboard() {
                     <Gift size={24} />
                   </div>
                   <div>
-                    <h5 className="font-bold text-[#3B2211]">Belum Ada Riwayat</h5>
+                    <h5 className="font-bold text-[#1e293b]">Belum Ada Riwayat</h5>
                     <p className="text-gray-400 text-xs mt-1">Bagikan link referral Anda untuk mendapatkan transaksi pertama!</p>
                   </div>
                 </div>
@@ -764,7 +693,7 @@ export default function SnapperDashboard() {
       {tabParam === "feed" && (
         <div className="space-y-8">
           <div>
-            <h3 className="text-xl font-black text-[#3B2211]" style={{ fontFamily: "var(--font-syne)" }}>Media Promosi Affiliator</h3>
+            <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Media Promosi Affiliator</h3>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Salin bahan promosi (gambar, caption, hashtags) untuk media sosial Anda</p>
           </div>
 
@@ -778,21 +707,21 @@ export default function SnapperDashboard() {
                     key={post.id}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-white rounded-3xl border border-[#F0EBE5] overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+                    className="bg-white rounded-3xl border border-[#e2e8f0] overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
                   >
                     {/* Header */}
-                    <div className="flex items-center gap-3 px-5 py-4 border-b border-[#F8F6F4]">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C88A58] to-[#3B2211] flex items-center justify-center text-white font-black text-[10px]">
-                        SF
+                    <div className="flex items-center gap-3 px-5 py-4 border-b border-[#f0f7ff]">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center text-white font-black text-[10px]">
+                        LP
                       </div>
                       <div>
-                        <p className="text-[11px] font-black text-[#3B2211]">snapp.frame</p>
+                        <p className="text-[11px] font-black text-[#1e293b]">Link Productive</p>
                         <p className="text-[8px] text-gray-400 font-bold">Materi Promosi Resmi</p>
                       </div>
                     </div>
 
                     {/* Image */}
-                    <div className="aspect-square bg-[#F8F6F4] relative overflow-hidden">
+                    <div className="aspect-square bg-[#f0f7ff] relative overflow-hidden">
                       {post.imageUrl ? (
                         <img src={post.imageUrl} alt="Promo" className="w-full h-full object-cover" />
                       ) : (
@@ -813,7 +742,7 @@ export default function SnapperDashboard() {
                             navigator.clipboard.writeText(textToCopy);
                             toast.success("Caption & kode referral berhasil disalin ke clipboard!");
                           }}
-                          className="flex items-center gap-1.5 px-4 py-2 bg-[#3B2211] hover:bg-[#C88A58] text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
+                          className="flex items-center gap-1.5 px-4 py-2 bg-[#1e293b] hover:bg-[#0ea5e9] text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
                         >
                           <Copy size={11} /> Salin Caption
                         </button>
@@ -825,7 +754,7 @@ export default function SnapperDashboard() {
                         <p className="text-[11px] text-gray-700 leading-relaxed line-clamp-3">
                           {post.caption}
                         </p>
-                        <p className="text-[10px] text-[#C88A58] font-bold">
+                        <p className="text-[10px] text-[#0ea5e9] font-bold">
                           {post.hashtags.map((h) => `#${h}`).join(" ")}
                         </p>
                       </div>
@@ -835,12 +764,12 @@ export default function SnapperDashboard() {
               })}
             </div>
           ) : (
-            <div className="bg-white rounded-[2rem] border border-[#3B2211]/5 py-24 text-center space-y-4">
+            <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 py-24 text-center space-y-4">
               <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto text-gray-300">
                 <ImageIcon size={32} />
               </div>
               <div>
-                <h5 className="font-bold text-[#3B2211]">Belum Ada Media Promosi</h5>
+                <h5 className="font-bold text-[#1e293b]">Belum Ada Media Promosi</h5>
                 <p className="text-gray-400 text-xs mt-1">Admin belum memposting bahan promosi. Silakan periksa kembali nanti.</p>
               </div>
             </div>
@@ -851,26 +780,26 @@ export default function SnapperDashboard() {
       {tabParam === "kit" && (
         <div className="space-y-8">
           <div>
-            <h3 className="text-xl font-black text-[#3B2211]" style={{ fontFamily: "var(--font-syne)" }}>Kit Promosi Affiliate</h3>
+            <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Kit Promosi Affiliate</h3>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
               Materi promosi copywriting & poster untuk dibagikan ke media sosial Anda
             </p>
           </div>
 
           {/* Referral Info Bar */}
-          <div className="p-6 bg-gradient-to-br from-[#1E110A] to-[#120703] text-white rounded-[2rem] shadow-xl border border-white/5 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="p-6 bg-gradient-to-br from-[#0f172a] to-[#020617] text-white rounded-[2rem] shadow-xl border border-white/5 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2 relative z-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10 text-[10px] font-bold text-[#E5AB7A] uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full border border-white/10 text-[10px] font-bold text-[#7dd3fc] uppercase tracking-wider">
                 <Sparkles size={11} /> Kode Referral Aktif Anda
               </span>
-              <h4 className="text-xl md:text-2xl font-black text-[#E5AB7A] tracking-wider">@{referralCode}</h4>
+              <h4 className="text-xl md:text-2xl font-black text-[#7dd3fc] tracking-wider">@{referralCode}</h4>
               <p className="text-[11px] text-white/50 max-w-xl">
                 Semua tautan & copywriting di bawah ini otomatis tersemat dengan kode referral Anda. Cukup salin dan sebarkan untuk mulai mendapatkan komisi!
               </p>
             </div>
             <button
               onClick={() => handleCopyCode(referralCode)}
-              className="flex-shrink-0 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#C88A58] hover:bg-[#C88A58]/95 text-white rounded-2xl text-[10px] font-black uppercase tracking-wider transition-all shadow-lg shadow-[#C88A58]/20"
+              className="flex-shrink-0 flex items-center justify-center gap-2 px-5 py-3.5 bg-[#0ea5e9] hover:bg-[#0ea5e9]/95 text-white rounded-2xl text-[10px] font-black uppercase tracking-wider transition-all shadow-lg shadow-[#0ea5e9]/20"
             >
               <Copy size={12} />
               Salin Kode Anda
@@ -880,7 +809,7 @@ export default function SnapperDashboard() {
           {/* Master-Detail Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column: Master List of 12 Programs */}
-            <div className="lg:col-span-4 bg-white rounded-3xl border border-[#F0EBE5] p-5 space-y-2">
+            <div className="lg:col-span-4 bg-white rounded-3xl border border-[#e2e8f0] p-5 space-y-2">
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-3">Daftar Program ({AFFILIATE_PROGRAMS.length})</p>
               <div className="space-y-1.5 max-h-[600px] overflow-y-auto custom-scrollbar pr-1">
                 {AFFILIATE_PROGRAMS.map((prog) => {
@@ -892,18 +821,18 @@ export default function SnapperDashboard() {
                       onClick={() => setActiveKitSku(prog.sku)}
                       className={`w-full text-left p-3.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-300 ${
                         isActive
-                          ? "bg-[#3B2211] text-white shadow-lg shadow-[#3B2211]/15"
-                          : "hover:bg-gray-50 text-[#3B2211] border border-transparent"
+                          ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/15"
+                          : "hover:bg-gray-50 text-[#1e293b] border border-transparent"
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          isActive ? "bg-white/10 text-white" : "bg-[#C88A58]/10 text-[#C88A58]"
+                          isActive ? "bg-white/10 text-white" : "bg-[#0ea5e9]/10 text-[#0ea5e9]"
                         }`}>
                           <SkuIcon size={16} />
                         </div>
                         <span className={`text-[11px] font-black uppercase tracking-wide truncate ${
-                          isActive ? "text-white" : "text-[#3B2211]"
+                          isActive ? "text-white" : "text-[#1e293b]"
                         }`}>
                           {prog.name}
                         </span>
@@ -916,7 +845,7 @@ export default function SnapperDashboard() {
             </div>
 
             {/* Right Column: Spacious Promotion Kit Details */}
-            <div className="lg:col-span-8 bg-white rounded-3xl border border-[#F0EBE5] p-6 lg:p-8">
+            <div className="lg:col-span-8 bg-white rounded-3xl border border-[#e2e8f0] p-6 lg:p-8">
               {(() => {
                 const prog = AFFILIATE_PROGRAMS.find(p => p.sku === activeKitSku);
                 if (!prog) return null;
@@ -931,11 +860,11 @@ export default function SnapperDashboard() {
                   <div className="space-y-6">
                     {/* Header */}
                     <div className="flex items-center gap-4 pb-4 border-b border-gray-100">
-                      <div className="w-12 h-12 rounded-2xl bg-[#C88A58]/10 flex items-center justify-center text-[#C88A58]">
+                      <div className="w-12 h-12 rounded-2xl bg-[#0ea5e9]/10 flex items-center justify-center text-[#0ea5e9]">
                         <SkuIcon size={24} />
                       </div>
                       <div>
-                        <h4 className="text-base font-black text-[#3B2211] uppercase tracking-wide">{prog.name}</h4>
+                        <h4 className="text-base font-black text-[#1e293b] uppercase tracking-wide">{prog.name}</h4>
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">Bahan Promosi & Tautan Afiliasi</p>
                       </div>
                     </div>
@@ -946,7 +875,7 @@ export default function SnapperDashboard() {
                       <div className="md:col-span-5 space-y-4">
                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Poster Kemitraan</span>
                         {posterUrl ? (
-                          <div className="aspect-[3/4] w-full max-w-[260px] mx-auto rounded-2xl overflow-hidden border border-[#F0EBE5] bg-gray-50 relative group shadow-sm">
+                          <div className="aspect-[3/4] w-full max-w-[260px] mx-auto rounded-2xl overflow-hidden border border-[#e2e8f0] bg-gray-50 relative group shadow-sm">
                             <img
                               src={posterUrl}
                               alt={`${prog.name} Poster`}
@@ -957,7 +886,7 @@ export default function SnapperDashboard() {
                                 href={posterUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2.5 bg-white rounded-xl text-[#3B2211] hover:bg-gold transition-colors shadow-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider"
+                                className="px-4 py-2.5 bg-white rounded-xl text-[#1e293b] hover:bg-gold transition-colors shadow-lg flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider"
                               >
                                 <ImageIcon size={14} /> Lihat Poster
                               </a>
@@ -985,7 +914,7 @@ export default function SnapperDashboard() {
                                 navigator.clipboard.writeText(text);
                                 toast.success(`Caption promosi ${prog.name} disalin!`);
                               }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#3B2211] hover:bg-[#C88A58] text-white rounded-xl text-[9px] font-black uppercase tracking-wider transition-all"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e293b] hover:bg-[#0ea5e9] text-white rounded-xl text-[9px] font-black uppercase tracking-wider transition-all"
                             >
                               <Copy size={11} /> Salin Caption
                             </button>
@@ -993,7 +922,7 @@ export default function SnapperDashboard() {
                           <textarea
                             readOnly
                             value={generatePromoText(prog.name, referralCode)}
-                            className="w-full bg-gray-50/70 border border-gray-200 rounded-2xl p-4 text-[11px] text-gray-600 font-medium leading-relaxed resize-none h-[180px] focus:outline-none focus:border-[#C88A58] custom-scrollbar"
+                            className="w-full bg-gray-50/70 border border-gray-200 rounded-2xl p-4 text-[11px] text-gray-600 font-medium leading-relaxed resize-none h-[180px] focus:outline-none focus:border-[#0ea5e9] custom-scrollbar"
                           />
                         </div>
 
@@ -1001,30 +930,30 @@ export default function SnapperDashboard() {
                         {PROGRAM_PACKAGES[prog.name] && (
                           <div className="space-y-2">
                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Daftar Paket &amp; Harga</span>
-                            <div className="rounded-2xl border border-[#F0EBE5] overflow-hidden">
+                            <div className="rounded-2xl border border-[#e2e8f0] overflow-hidden">
                               {/* Table Header */}
-                              <div className="grid grid-cols-4 gap-2 px-3 py-2 bg-[#F8F5F2] border-b border-[#F0EBE5]">
+                              <div className="grid grid-cols-4 gap-2 px-3 py-2 bg-[#f0f7ff] border-b border-[#e2e8f0]">
                                 <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider col-span-1">Paket</span>
                                 <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider text-center">Harga</span>
                                 <span className="text-[9px] font-black text-gray-400 uppercase tracking-wider text-center">Setelah Diskon</span>
-                                <span className="text-[9px] font-black text-[#C88A58] uppercase tracking-wider text-right">Komisi Anda</span>
+                                <span className="text-[9px] font-black text-[#0ea5e9] uppercase tracking-wider text-right">Komisi Anda</span>
                               </div>
                               {/* Rows */}
                               {PROGRAM_PACKAGES[prog.name].map((pkg, i) => (
                                 <div key={i} className={`grid grid-cols-4 gap-2 px-3 py-2.5 items-center ${
-                                  i < PROGRAM_PACKAGES[prog.name].length - 1 ? "border-b border-[#F8F5F2]" : ""
+                                  i < PROGRAM_PACKAGES[prog.name].length - 1 ? "border-b border-[#f0f7ff]" : ""
                                 }`}>
-                                  <span className="text-[10px] font-bold text-[#3B2211] col-span-1 leading-tight">{pkg.name}</span>
+                                  <span className="text-[10px] font-bold text-[#1e293b] col-span-1 leading-tight">{pkg.name}</span>
                                   <div className="text-center">
                                     <span className="text-[10px] font-bold text-gray-400 line-through block">{pkg.price}</span>
                                     {pkg.discount !== "-" && (
                                       <span className="text-[9px] font-black text-emerald-600">-{pkg.discount}</span>
                                     )}
                                   </div>
-                                  <span className="text-[10px] font-black text-[#3B2211] text-center">
+                                  <span className="text-[10px] font-black text-[#1e293b] text-center">
                                     {pkg.afterDiscount || (pkg.discount === "-" ? pkg.price : "—")}
                                   </span>
-                                  <span className="text-[10px] font-black text-[#C88A58] text-right">{pkg.commission}</span>
+                                  <span className="text-[10px] font-black text-[#0ea5e9] text-right">{pkg.commission}</span>
                                 </div>
                               ))}
                             </div>
@@ -1038,12 +967,12 @@ export default function SnapperDashboard() {
                             <button
                               onClick={() => {
                                 const slug = Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === prog.name) || "";
-                                const origin = typeof window !== "undefined" ? window.location.origin : "https://snappframe.id";
+                                const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
                                 const linkUrl = `${origin}/booking?ref=${referralCode}&pkg=${slug}`;
                                 navigator.clipboard.writeText(linkUrl);
                                 toast.success("Tautan khusus Anda berhasil disalin!");
                               }}
-                              className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-white border border-[#E5DFD9] hover:bg-gray-50 text-[#3B2211] text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
+                              className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-white border border-[#cbd5e1] hover:bg-gray-50 text-[#1e293b] text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
                             >
                               <Share2 size={13} /> Salin Link Referral
                             </button>
@@ -1051,7 +980,7 @@ export default function SnapperDashboard() {
                               href={`/booking?pkg=${Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === prog.name) || ""}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-white border border-[#E5DFD9] hover:bg-gray-50 text-[#3B2211] text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
+                              className="flex-1 flex items-center justify-center gap-1.5 py-3 bg-white border border-[#cbd5e1] hover:bg-gray-50 text-[#1e293b] text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
                             >
                               <ExternalLink size={13} /> Pratinjau Halaman
                             </a>
@@ -1070,33 +999,33 @@ export default function SnapperDashboard() {
       {tabParam === "bank" && (
         <div className="space-y-8 max-w-2xl">
           <div>
-            <h3 className="text-xl font-black text-[#3B2211]" style={{ fontFamily: "var(--font-syne)" }}>Rekening & Pembayaran Payout</h3>
+            <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Rekening & Pembayaran Payout</h3>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Kelola data perbankan Anda untuk pencairan komisi bulanan</p>
           </div>
 
-          <div className="bg-white rounded-[2rem] border border-[#3B2211]/5 p-8 md:p-10 shadow-sm space-y-6">
-            <div className="flex items-center gap-4 bg-[#F8F6F4] p-5 rounded-2xl border border-[#3B2211]/5">
+          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 md:p-10 shadow-sm space-y-6">
+            <div className="flex items-center gap-4 bg-[#f0f7ff] p-5 rounded-2xl border border-[#1e293b]/5">
               <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold">
                 <Landmark size={24} />
               </div>
               <div>
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Akun Rekening Terdaftar</p>
-                <h4 className="text-base font-black text-[#3B2211] mt-0.5">{dashboardData.bankName}</h4>
+                <h4 className="text-base font-black text-[#1e293b] mt-0.5">{dashboardData.bankName}</h4>
               </div>
             </div>
 
             <div className="space-y-4">
               <div className="flex justify-between py-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-bold uppercase">Nama Pemegang Rekening</span>
-                <span className="text-xs font-bold text-[#3B2211]">{dashboardData.name}</span>
+                <span className="text-xs font-bold text-[#1e293b]">{dashboardData.name}</span>
               </div>
               <div className="flex justify-between py-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-bold uppercase">Nomor Rekening / E-Wallet</span>
-                <span className="text-xs font-mono font-bold text-[#3B2211]">{dashboardData.bankAccount}</span>
+                <span className="text-xs font-mono font-bold text-[#1e293b]">{dashboardData.bankAccount}</span>
               </div>
               <div className="flex justify-between py-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-bold uppercase">Nomor Telepon Partner</span>
-                <span className="text-xs font-bold text-[#3B2211] flex items-center gap-1">
+                <span className="text-xs font-bold text-[#1e293b] flex items-center gap-1">
                   <Phone size={12} className="text-gray-400" />
                   {dashboardData.phone || "-"}
                 </span>

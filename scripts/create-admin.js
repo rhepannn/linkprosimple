@@ -8,7 +8,7 @@ async function main() {
   
   const prisma = new PrismaClient();
 
-  const email = "admin@snappframe.id";
+  const email = "admin@linkproductive.com";
   const password = "adminpassword123";
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -21,7 +21,7 @@ async function main() {
       },
       create: {
         email,
-        name: "Admin Snappframe",
+        name: "Admin Link Productive",
         password: hashedPassword,
         role: "ADMIN",
       },

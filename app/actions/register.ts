@@ -14,11 +14,29 @@ export async function registerSnapper(data: any) {
     const normalizedCode = referralCode.trim().toUpperCase();
 
     // Check if email already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingEmail = await prisma.user.findUnique({
       where: { email },
     });
-    if (existingUser) {
+    if (existingEmail) {
       return { success: false, error: "Email sudah terdaftar." };
+    }
+
+    // Check if name already exists
+    const existingName = await prisma.user.findFirst({
+      where: { name: { equals: name, mode: "insensitive" } },
+    });
+    if (existingName) {
+      return { success: false, error: "Nama lengkap Anda sudah terdaftar di sistem." };
+    }
+
+    // Check if phone number already exists
+    if (phone) {
+      const existingPhone = await prisma.user.findFirst({
+        where: { phone: phone.trim() },
+      });
+      if (existingPhone) {
+        return { success: false, error: "Nomor telepon/WhatsApp sudah terdaftar." };
+      }
     }
 
     // Check if referral code already exists

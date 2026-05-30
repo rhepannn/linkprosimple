@@ -106,7 +106,12 @@ export async function getRecentTransactions() {
         orderBy: { createdAt: "desc" },
         include: {
           cashier: { select: { name: true } },
-          referralCode: { select: { code: true } }
+          referralCode: { select: { code: true } },
+          items: {
+            include: {
+              product: { select: { name: true } }
+            }
+          }
         }
       }),
       prisma.booking.findMany({
@@ -123,6 +128,7 @@ export async function getRecentTransactions() {
       paymentMethod: b.paymentMethod.toUpperCase(),
       createdAt: b.createdAt.toISOString(),
       subject: b.customerName,
+      packageName: b.packageName,
       referralCode: b.referralCode ? { code: b.referralCode } : null,
       type: "BOOKING"
     }));
@@ -135,6 +141,7 @@ export async function getRecentTransactions() {
       paymentMethod: t.paymentMethod,
       createdAt: t.createdAt.toISOString(),
       subject: t.cashier?.name || "Admin",
+      packageName: t.items.map(item => item.product.name).join(", ") || "Pelatihan",
       referralCode: t.referralCode,
       type: "POS" 
     }));

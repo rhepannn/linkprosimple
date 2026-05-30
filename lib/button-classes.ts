@@ -1,5 +1,5 @@
 // lib/button-classes.ts
-// Sistem tombol standar Snapp.frame Studio — 3 varian saja
+// Sistem tombol standar Link Productive — 3 varian saja
 // Import di komponen manapun yang butuh tombol konsisten
 
 export const btn = {

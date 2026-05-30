@@ -38,7 +38,7 @@ export default function Step4Payment({ selected, onSelect, onNext, onBack }: Ste
     <div>
       <div className="mb-8">
         <p className="text-xs font-medium tracking-[0.15em] text-[#888888] uppercase mb-2">Langkah 4 dari 5</p>
-        <h2 className="text-2xl sm:text-3xl font-semibold text-[#3B2211]" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>
           Pilih Metode Bayar
         </h2>
         <p className="text-gray-500 text-sm mt-2">Pembayaran dikonfirmasi manual via WhatsApp setelah pengisian formulir selesai.</p>
@@ -54,8 +54,8 @@ export default function Step4Payment({ selected, onSelect, onNext, onBack }: Ste
               className={[
                 "relative flex flex-col items-start text-left rounded-2xl border p-6 transition-all duration-200 w-full",
                 isSelected
-                  ? "bg-[#3B2211] border-[#3B2211] text-white"
-                  : "bg-white border-[#E0E0DA] hover:border-[#3B2211]/30 hover:shadow-sm hover:-translate-y-0.5",
+                  ? "bg-[#1e293b] border-[#1e293b] text-white"
+                  : "bg-white border-[#E0E0DA] hover:border-[#1e293b]/30 hover:shadow-sm hover:-translate-y-0.5",
               ].join(" ")}
             >
               {isSelected && (
@@ -65,13 +65,13 @@ export default function Step4Payment({ selected, onSelect, onNext, onBack }: Ste
               )}
               <div className={[
                 "mb-4 p-3 rounded-xl",
-                isSelected ? "bg-white/10" : "bg-[#F8F6F4]"
+                isSelected ? "bg-white/10" : "bg-[#f0f7ff]"
               ].join(" ")}>
-                <span className={isSelected ? "text-white" : "text-[#C88A58]"}>{m.icon}</span>
+                <span className={isSelected ? "text-white" : "text-[#0ea5e9]"}>{m.icon}</span>
               </div>
               <h3 className={[
                 "text-base font-semibold mb-1",
-                isSelected ? "text-white" : "text-[#3B2211]"
+                isSelected ? "text-white" : "text-[#1e293b]"
               ].join(" ")} style={{ fontFamily: "var(--font-heading)" }}>
                 {m.label}
               </h3>

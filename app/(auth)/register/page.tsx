@@ -63,7 +63,7 @@ export default function RegisterPage() {
       if (!res.success) {
         setError(res.error || "Pendaftaran gagal.");
       } else {
-        toast.success("Registrasi Snapper Berhasil!");
+        toast.success("Registrasi Affiliate Berhasil!");
         setSuccess(true);
         setTimeout(() => {
           router.push("/login?registered=true");
@@ -94,7 +94,7 @@ export default function RegisterPage() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-[-5%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#C88A58]/10 to-transparent blur-[120px]"
+          className="absolute top-[-5%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[#0ea5e9]/10 to-transparent blur-[120px]"
         />
         
         <motion.div
@@ -149,7 +149,7 @@ export default function RegisterPage() {
             className="inline-block relative mb-3"
           >
             <div className="relative group">
-              <div className="absolute inset-0 bg-[#C88A58]/20 rounded-[24px] blur-sm opacity-50" />
+              <div className="absolute inset-0 bg-[#0ea5e9]/20 rounded-[24px] blur-sm opacity-50" />
               <div className="w-16 h-16 rounded-[24px] bg-[#120B07] border border-white/[0.08] flex items-center justify-center relative z-10">
                 <Logo height={36} className="brightness-0 invert opacity-95" />
               </div>
@@ -171,10 +171,10 @@ export default function RegisterPage() {
             className="text-2xl font-extrabold text-white tracking-tight" 
             style={{ fontFamily: "var(--font-playfair)" }}
           >
-            Gabung Sebagai Snapper
+            Gabung Sebagai Affiliate Partner
           </motion.h1>
           <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em] mt-1.5">
-            Dapatkan Fee Affiliasi Snapp.frame
+            Dapatkan Fee Affiliasi Link Productive
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export default function RegisterPage() {
           transition={{ delay: 0.25, duration: 0.6 }}
           className="relative bg-white/[0.02] backdrop-blur-3xl border border-white/[0.08] rounded-[28px] p-6 md:p-8 shadow-[0_30px_70px_-10px_rgba(0,0,0,0.6)] overflow-hidden"
         >
-          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C88A58]/20 to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#0ea5e9]/20 to-transparent" />
           
           <AnimatePresence mode="wait">
             {success ? (
@@ -200,16 +200,16 @@ export default function RegisterPage() {
                 </div>
                 <h3 className="text-xl font-bold text-white">Pendaftaran Berhasil!</h3>
                 <p className="text-sm text-white/60 max-w-sm">
-                  Selamat, akun Snapper Anda sudah aktif. Anda akan dialihkan ke halaman login untuk masuk ke dashboard Anda...
+                  Selamat, akun Affiliate Anda sudah aktif. Anda akan dialihkan ke halaman login untuk masuk ke dashboard Anda...
                 </p>
-                <Loader2 className="animate-spin text-[#C88A58] mt-4" size={24} />
+                <Loader2 className="animate-spin text-[#0ea5e9] mt-4" size={24} />
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 
                 {/* Section: Akun & Kontak */}
                 <div>
-                  <h3 className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
+                  <h3 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
                     Informasi Profil & Akun
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -227,7 +227,7 @@ export default function RegisterPage() {
                           value={form.name}
                           onChange={handleChange}
                           placeholder="Budi Santoso"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -246,7 +246,7 @@ export default function RegisterPage() {
                           value={form.email}
                           onChange={handleChange}
                           placeholder="budi@example.com"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -265,7 +265,7 @@ export default function RegisterPage() {
                           value={form.phone}
                           onChange={handleChange}
                           placeholder="62812345678"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -273,10 +273,10 @@ export default function RegisterPage() {
                     {/* Preferred Referral Code */}
                     <div className="space-y-1.5">
                       <label className="text-[8px] font-bold text-white/40 uppercase tracking-[0.2em] ml-1 flex items-center gap-1">
-                        Kode Referral Kustom <Gift size={10} className="text-[#C88A58]" />
+                        Kode Referral Kustom <Gift size={10} className="text-[#0ea5e9]" />
                       </label>
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-[#C88A58]">@</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-[#0ea5e9]">@</span>
                         <input
                           type="text"
                           name="referralCode"
@@ -284,7 +284,7 @@ export default function RegisterPage() {
                           value={form.referralCode}
                           onChange={handleChange}
                           placeholder="BUDI10"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-9 pr-4 text-xs font-bold text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-9 pr-4 text-xs font-bold text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -293,7 +293,7 @@ export default function RegisterPage() {
 
                 {/* Section: Rekening Payout */}
                 <div className="pt-2">
-                  <h3 className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
+                  <h3 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
                     Informasi Pembayaran Payout
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -311,7 +311,7 @@ export default function RegisterPage() {
                           value={form.bankName}
                           onChange={handleChange}
                           placeholder="BCA / Mandiri / GoPay"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -330,7 +330,7 @@ export default function RegisterPage() {
                           value={form.bankAccount}
                           onChange={handleChange}
                           placeholder="1234567890"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -339,7 +339,7 @@ export default function RegisterPage() {
 
                 {/* Section: Kata Sandi */}
                 <div className="pt-2">
-                  <h3 className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
+                  <h3 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.25em] mb-3 border-b border-white/5 pb-1">
                     Kata Sandi Keamanan
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -357,7 +357,7 @@ export default function RegisterPage() {
                           value={form.password}
                           onChange={handleChange}
                           placeholder="••••••••"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-11 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-11 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                         <button
                           type="button"
@@ -383,7 +383,7 @@ export default function RegisterPage() {
                           value={form.confirmPassword}
                           onChange={handleChange}
                           placeholder="••••••••"
-                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#C88A58] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
+                          className="w-full bg-white/[0.03] border border-white/[0.06] focus:border-[#0ea5e9] rounded-xl py-3 pl-11 pr-4 text-xs text-white placeholder:text-white/20 focus:outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
@@ -410,22 +410,22 @@ export default function RegisterPage() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="w-full mt-6 py-3.5 bg-gradient-to-r from-[#B57545] via-[#C88A58] to-[#D99A68] hover:from-[#C88A58] hover:to-[#E5AB7A] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] shadow-[0_12px_24px_-8px_rgba(200,138,88,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(200,138,88,0.5)] flex items-center justify-center gap-3 disabled:opacity-60 transition-all duration-300 relative overflow-hidden"
+                  className="w-full mt-6 py-3.5 bg-gradient-to-r from-[#B57545] via-[#0ea5e9] to-[#D99A68] hover:from-[#0ea5e9] hover:to-[#7dd3fc] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] shadow-[0_12px_24px_-8px_rgba(200,138,88,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(200,138,88,0.5)] flex items-center justify-center gap-3 disabled:opacity-60 transition-all duration-300 relative overflow-hidden"
                 >
                   {loading ? (
                     <Loader2 size={14} className="animate-spin" />
                   ) : (
                     <>
                       <Sparkles size={13} />
-                      Daftar Akun Snapper
+                      Daftar Akun Affiliate
                     </>
                   )}
                 </motion.button>
 
                 <p className="text-center text-[10px] text-white/30 font-medium pt-2">
                   Sudah punya akun?{" "}
-                  <Link href="/login" className="text-[#C88A58] font-bold hover:underline">
-                    Masuk Portal
+                  <Link href="/login" className="text-[#0ea5e9] font-bold hover:underline">
+                    Masuk Sekarang
                   </Link>
                 </p>
 
@@ -436,7 +436,7 @@ export default function RegisterPage() {
 
         {/* Footer Credits */}
         <p className="text-center mt-6 text-white text-[8px] font-bold uppercase tracking-[0.3em] opacity-20">
-          © {new Date().getFullYear()} Snapp.Frame Studio · All Rights Reserved
+          © {new Date().getFullYear()} Link Productive · All Rights Reserved
         </p>
       </div>
     </div>

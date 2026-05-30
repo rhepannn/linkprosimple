@@ -415,7 +415,7 @@ export default function BookingManagement() {
   function buildWhatsAppUrl(booking: Booking) {
     const phone = booking.customer_phone.replace(/\D/g, "");
     const msg = encodeURIComponent(
-      `Halo ${booking.customer_name}! 👋\n\nKami mengonfirmasi bahwa pembayaran untuk booking Anda telah kami terima.\n\n📋 *Detail Booking*\n• Paket: ${booking.package_name}\n• Tanggal: ${formatSessionDateLong(booking.session_date)}\n• Jam: ${booking.session_time} WIB\n• Invoice: ${booking.invoice_no}\n\nSampai jumpa di Snapp.frame Studio! 📸`
+      `Halo ${booking.customer_name}! 👋\n\nKami mengonfirmasi bahwa pembayaran untuk booking Anda telah kami terima.\n\n📋 *Detail Booking*\n• Paket: ${booking.package_name}\n• Tanggal: ${formatSessionDateLong(booking.session_date)}\n• Jam: ${booking.session_time} WIB\n• Invoice: ${booking.invoice_no}\n\nSampai jumpa di Link Productive! 📸`
     );
     return `https://wa.me/${phone}?text=${msg}`;
   }
@@ -453,11 +453,11 @@ export default function BookingManagement() {
             <div className="p-2 bg-gold/10 rounded-lg">
               <CalendarDays size={20} className="text-gold" />
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gold">Studio Reservations</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gold">Training Registrations</p>
           </div>
           <div className="flex items-center gap-4">
-            <h1 className="text-4xl font-black text-near-black tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
-              Kelola <span className="text-gold italic">Booking</span>
+            <h1 className="text-4xl font-black text-near-black tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+              Data <span className="text-gold italic">Peserta Pelatihan</span>
             </h1>
             {pendingCount > 0 && (
               <span className="px-3 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full animate-pulse">
@@ -465,7 +465,7 @@ export default function BookingManagement() {
               </span>
             )}
           </div>
-          <p className="text-near-black/40 font-bold mt-2 max-w-md">Pantau dan kelola jadwal pemotretan pelanggan secara real-time.</p>
+          <p className="text-near-black/40 font-bold mt-2 max-w-md">Pantau dan kelola data pendaftaran peserta kelas pelatihan secara real-time.</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -490,7 +490,7 @@ export default function BookingManagement() {
             className="flex items-center gap-2 px-5 py-3.5 bg-near-black text-white hover:bg-gold hover:text-near-black rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-95 whitespace-nowrap"
           >
             <Plus size={14} />
-            Tambah Booking
+            Tambah Pendaftaran
           </button>
         </div>
       </div>
@@ -498,7 +498,7 @@ export default function BookingManagement() {
       {/* ── Stats Cards ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {[
-          { label: "Total Booking", val: bookings.length, icon: CalendarIcon, color: "text-near-black", bg: "bg-near-black/5" },
+          { label: "Total Peserta", val: bookings.length, icon: CalendarIcon, color: "text-near-black", bg: "bg-near-black/5" },
           { label: "Menunggu", val: pendingCount, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
           { label: "Dikonfirmasi", val: bookings.filter(b => b.status === "confirmed").length, icon: Zap, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Pendapatan", val: formatRupiah(totalRevenue), icon: CreditCard, color: "text-emerald-600", bg: "bg-emerald-50" },
@@ -647,9 +647,9 @@ export default function BookingManagement() {
                 <CalendarDays size={36} className="text-near-black/15" />
               </div>
               <div>
-                <h3 className="text-lg font-black text-near-black">Tidak Ada Reservasi</h3>
+                <h3 className="text-lg font-black text-near-black">Tidak Ada Pendaftaran</h3>
                 <p className="text-sm text-near-black/30 max-w-xs mt-1">
-                  {search ? "Coba kata kunci lain atau ubah filter." : "Belum ada booking masuk."}
+                  {search ? "Coba kata kunci lain atau ubah filter." : "Belum ada pendaftaran masuk."}
                 </p>
               </div>
             </div>
@@ -686,8 +686,8 @@ export default function BookingManagement() {
                       {isEditing ? <Edit size={24} /> : <ShieldCheck size={24} />}
                     </div>
                     <div>
-                      <h2 className="text-xl font-black text-near-black" style={{ fontFamily: "var(--font-playfair)" }}>
-                        {isEditing ? "Edit Reservasi" : "Detail Reservasi"}
+                      <h2 className="text-xl font-black text-near-black" style={{ fontFamily: "var(--font-outfit)" }}>
+                        {isEditing ? "Edit Pendaftaran Peserta" : "Detail Pendaftaran Peserta"}
                       </h2>
                       <p className="text-[10px] font-black uppercase tracking-widest text-near-black/30 font-mono mt-0.5">
                         #{selectedBooking.invoice_no}
@@ -707,7 +707,7 @@ export default function BookingManagement() {
                   <div className="space-y-4 text-left">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-widest text-near-black/40 mb-1.5">Nama Pelanggan *</label>
+                        <label className="block text-[10px] font-black uppercase tracking-widest text-near-black/40 mb-1.5">Nama Peserta *</label>
                         <input
                           type="text"
                           value={editForm.customer_name}
@@ -1038,7 +1038,7 @@ export default function BookingManagement() {
                       {selectedBooking.status === "cancelled" && (
                         <div className="p-5 bg-red-50 border border-red-200/50 rounded-2xl text-center space-y-2">
                           <XCircle size={24} className="text-red-500 mx-auto" />
-                          <p className="text-sm font-black text-red-600">Reservasi dibatalkan</p>
+                          <p className="text-sm font-black text-red-600">Pendaftaran dibatalkan</p>
                           <p className="text-[10px] text-red-400">Hubungi pelanggan jika ada pertanyaan.</p>
                         </div>
                       )}
@@ -1062,7 +1062,7 @@ export default function BookingManagement() {
                         className="flex items-center justify-center gap-2 py-3.5 border border-near-black/10 hover:border-gold/30 hover:bg-gold/5 text-near-black rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95"
                       >
                         <Edit size={12} />
-                        Edit Booking
+                        Edit Peserta
                       </button>
                       <button
                         onClick={() => handleDeleteBooking(selectedBooking.id)}
@@ -1070,7 +1070,7 @@ export default function BookingManagement() {
                         className="flex items-center justify-center gap-2 py-3.5 border border-red-200/50 hover:bg-red-50 text-red-600 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
                       >
                         <Trash2 size={12} />
-                        Hapus Booking
+                        Hapus Peserta
                       </button>
                     </div>
                   </>
@@ -1109,11 +1109,11 @@ export default function BookingManagement() {
                       <Plus size={24} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-black text-near-black" style={{ fontFamily: "var(--font-playfair)" }}>
-                        Tambah Booking
+                      <h2 className="text-xl font-black text-near-black" style={{ fontFamily: "var(--font-outfit)" }}>
+                        Daftarkan Peserta
                       </h2>
                       <p className="text-[10px] font-black uppercase tracking-widest text-near-black/30 mt-0.5">
-                        Buat Reservasi Baru secara Manual
+                        Daftarkan Peserta Baru secara Manual
                       </p>
                     </div>
                   </div>
@@ -1128,10 +1128,10 @@ export default function BookingManagement() {
                 <div className="space-y-4 text-left">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-near-black/40 mb-1.5">Nama Pelanggan *</label>
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-near-black/40 mb-1.5">Nama Peserta *</label>
                       <input
                         type="text"
-                        placeholder="Nama Pelanggan"
+                        placeholder="Nama Peserta"
                         value={createForm.customer_name}
                         onChange={e => setCreateForm({ ...createForm, customer_name: e.target.value })}
                         className="w-full px-4 py-3 bg-near-black/[0.02] border border-near-black/5 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-gold/20 focus:border-gold/30"
@@ -1283,7 +1283,7 @@ export default function BookingManagement() {
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-near-black/40 mb-1.5">Catatan Khusus</label>
                     <textarea
-                      placeholder="Catatan reservasi..."
+                      placeholder="Catatan pendaftaran..."
                       value={createForm.notes}
                       onChange={e => setCreateForm({ ...createForm, notes: e.target.value })}
                       rows={2}

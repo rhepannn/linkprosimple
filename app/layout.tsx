@@ -1,7 +1,6 @@
-// app/layout.tsx — Root layout dengan font, metadata, navbar, footer, WA button
-
+// app/layout.tsx — Root layout dengan font premium, metadata, WA button
 import type { Metadata } from "next";
-import { Roboto, Open_Sans } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/site";
 import { CustomCursor } from "@/components/ui/custom-cursor";
@@ -9,18 +8,18 @@ import { Toaster } from "sonner";
 
 /* ─── Fonts ─────────────────────────────────────────────── */
 
-const roboto = Roboto({
+const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "900"],
-  variable: "--font-roboto",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-outfit",
   display: "swap",
   fallback: ["Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const openSans = Open_Sans({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-open-sans",
+  variable: "--font-inter",
   display: "swap",
   fallback: ["system-ui", "sans-serif"],
 });
@@ -75,11 +74,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${roboto.variable} ${openSans.variable}`}>
+    <html lang="id" className={`${outfit.variable} ${inter.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
-      <body className="bg-[#F5F8FC] text-[#111E38] font-[family-name:var(--font-open-sans)] antialiased cursor-default min-h-screen overflow-x-hidden w-full">
+      <body className="bg-[#f8faff] text-[#0a0e1a] font-[family-name:var(--font-inter)] antialiased cursor-default min-h-screen overflow-x-hidden w-full">
         {/* Viewport lock wrapper */}
         <div className="relative flex min-h-screen flex-col w-full">
           <CustomCursor />

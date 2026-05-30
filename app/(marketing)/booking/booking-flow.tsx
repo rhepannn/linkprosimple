@@ -30,9 +30,9 @@ function StepIndicator({ current }: { current: number }) {
               <div className={[
                 "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 flex-shrink-0",
                 isDone
-                  ? "bg-[#C88A58] text-white"
+                  ? "bg-[#0ea5e9] text-white"
                   : isActive
-                    ? "bg-[#3B2211] text-white ring-4 ring-[#3B2211]/15"
+                    ? "bg-[#1e293b] text-white ring-4 ring-[#1e293b]/15"
                     : "bg-[#E8E4E0] text-[#A0907E]"
               ].join(" ")}>
                 {isDone ? <Check size={14} strokeWidth={3} /> : <span>{i + 1}</span>}
@@ -40,7 +40,7 @@ function StepIndicator({ current }: { current: number }) {
               {/* Label */}
               <span className={[
                 "text-[9px] sm:text-[10px] whitespace-nowrap tracking-wide",
-                isActive ? "text-[#3B2211] font-black" : isDone ? "text-[#C88A58] font-bold" : "text-[#C0B8B0] font-medium"
+                isActive ? "text-[#1e293b] font-black" : isDone ? "text-[#0ea5e9] font-bold" : "text-[#C0B8B0] font-medium"
               ].join(" ")}>
                 {label}
               </span>
@@ -50,7 +50,7 @@ function StepIndicator({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div className={[
                 "h-px w-8 sm:w-12 mx-1 mb-4 flex-shrink-0 transition-all duration-500",
-                isDone ? "bg-[#C88A58]" : "bg-[#E8E4E0]"
+                isDone ? "bg-[#0ea5e9]" : "bg-[#E8E4E0]"
               ].join(" ")} />
             )}
           </div>
@@ -138,16 +138,16 @@ export default function BookingFlow() {
       <div className="pt-28 pb-20 lg:pt-36 max-w-2xl mx-auto px-5 sm:px-8">
         {/* Page header */}
         <div className="mb-8 text-center">
-          <p className="text-[10px] font-black tracking-[0.35em] text-[#C88A58] uppercase mb-2">
+          <p className="text-[10px] font-black tracking-[0.35em] text-[#0ea5e9] uppercase mb-2">
             Booking Sesi Foto
           </p>
           <h1
-            className="text-3xl sm:text-4xl font-black text-[#3B2211]"
+            className="text-3xl sm:text-4xl font-black text-[#1e293b]"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            Snapp.frame Studio
+            Link Productive
           </h1>
-          <p className="text-sm text-gray-400 font-medium mt-2">Pilih paket & jadwalkan sesi foto Anda</p>
+          <p className="text-sm text-gray-400 font-medium mt-2">Pilih paket & jadwalkan sesi Anda</p>
         </div>
 
         <StepIndicator current={step} />

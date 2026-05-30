@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { site } from "@/data/site";
 import { HeroSection } from "@/components/home/hero-section";
-import { GalleryPreview } from "@/components/home/gallery-preview";
-import { PackagesPreview } from "@/components/home/packages-preview";
 import { AboutSection } from "@/components/home/about-section";
+import { KegiatansSection } from "@/components/home/kegiatans-section";
+import { YoutubeSection } from "@/components/home/youtube-section";
+import { PackagesPreview } from "@/components/home/packages-preview";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { HowItWorksSection } from "@/components/home/how-it-works-section";
 import { ContactSection } from "@/components/home/contact-section";
@@ -19,13 +20,13 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: `${site.name} — Studio Foto Minimalis Modern`,
+  title: `${site.name} — Inovasi Sosial & Pendidikan Terintegrasi`,
   description: site.description,
   openGraph: {
-    url: "https://snappframe.id",
+    url: "https://linkproductive.com",
   },
   alternates: {
-    canonical: "https://snappframe.id",
+    canonical: "https://linkproductive.com",
   },
 };
 
@@ -34,12 +35,12 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://snappframe.id",
+  "@id": "https://linkproductive.com",
   name: site.name,
   description: site.description,
-  url: "https://snappframe.id",
-  image: "https://snappframe.id/og-image.png",
-  logo: "https://snappframe.id/logo.svg",
+  url: "https://linkproductive.com",
+  image: "https://linkproductive.com/og-image.png",
+  logo: "https://linkproductive.com/logo.svg",
   telephone: `+${site.contact.whatsapp}`,
   email: site.contact.email,
   address: {
@@ -58,21 +59,52 @@ const jsonLd = {
 
 /* ─── Page ───────────────────────────────────────────────── */
 
+import { getSiteSettings } from "@/app/actions/settings";
+
 export default async function HomePage() {
-  const [featuredRes, allRes, productsRes] = await Promise.all([
+  const [featuredRes, allRes, productsRes, settings] = await Promise.all([
     getFeaturedPhotos(6),
     getGalleryPhotos(),
-    getProducts()
+    getProducts(),
+    getSiteSettings()
   ]);
 
-  const featuredPhotos = (featuredRes.success && Array.isArray(featuredRes.data)) ? featuredRes.data : [];
-  const heroPhoto = (allRes.success && Array.isArray(allRes.data)) ? allRes.data.find((p: any) => p.isHero) : null;
   const packagesData = (productsRes.success && Array.isArray(productsRes.data)) 
     ? (productsRes.data as any[]).filter((p: any) => {
         const cat = p.category.toLowerCase();
         return cat.includes("foto") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("STUDIO-");
       })
     : packages;
+
+  // Resolve section rendering order
+  const orderString = settings.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact";
+  const sectionKeys = orderString.split(",");
+
+  const renderSection = (key: string) => {
+    switch (key.trim()) {
+      case "hero":
+        return <HeroSection key="hero" />;
+      case "about":
+        return <AboutSection key="about" />;
+      case "kegiatans":
+        return <KegiatansSection key="kegiatans" />;
+      case "youtube":
+        return <YoutubeSection key="youtube" />;
+      case "packages":
+        return <PackagesPreview key="packages" initialPackages={packagesData} />;
+      case "testimonials":
+        return <TestimonialsSection key="testimonials" />;
+      case "how-it-works":
+        return <HowItWorksSection key="how-it-works" />;
+      case "faq":
+        return <FaqSection key="faq" />;
+      case "contact":
+        return <ContactSection key="contact" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       {/* JSON-LD Schema untuk SEO lokal */}
@@ -83,29 +115,8 @@ export default async function HomePage() {
         strategy="afterInteractive"
       />
 
-      {/* Section 1 — Hero */}
-      <HeroSection initialHeroPhoto={heroPhoto as any} />
-
-      {/* Section 2 — Gallery Preview */}
-      <GalleryPreview initialPhotos={featuredPhotos as any} />
-
-      {/* Section 3 — Packages Preview */}
-      <PackagesPreview initialPackages={packagesData} />
-
-      {/* Section 4 — About */}
-      <AboutSection />
-
-      {/* Section 5 — Testimonials */}
-      <TestimonialsSection />
-
-      {/* Section 6 — How It Works */}
-      <HowItWorksSection />
-
-      {/* Section 7 — FAQ */}
-      <FaqSection />
-
-      {/* Section 8 — Contact & Location */}
-      <ContactSection />
+      {/* Render sections in the precise order specified by settings */}
+      {sectionKeys.map(key => renderSection(key))}
     </>
   );
 }

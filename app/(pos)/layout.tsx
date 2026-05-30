@@ -20,6 +20,7 @@ import {
   Image as ImageIcon,
   HeartHandshake,
   Megaphone,
+  Clock,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -28,14 +29,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/admin" },
-  { label: "Kasir POS", icon: ShoppingCart, href: "/kasir" },
   { label: "Manajemen Program", icon: Package, href: "/admin/products" },
   { label: "Kelola Galeri", icon: ImageIcon, href: "/admin/gallery" },
-  { label: "Pendaftaran", icon: Calendar, href: "/admin/bookings" },
-  { label: "Pelanggan", icon: Users, href: "/admin/customers" },
+  { label: "Data Peserta", icon: Users, href: "/admin/bookings" },
   { label: "Promo & Referral", icon: Ticket, href: "/admin/referrals" },
   { label: "Kelola Affiliasi", icon: HeartHandshake, href: "/admin/affiliators" },
-  { label: "Laporan", icon: History, href: "/admin/reports" },
+  { label: "Laporan & Pelanggan", icon: History, href: "/admin/reports" },
   { label: "Pengaturan Web", icon: Settings, href: "/admin/settings" },
 ];
 
@@ -43,12 +42,29 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isPOSPage, setIsPOSPage] = useState(false);
   const [session, setSession] = useState<any>(null);
   const [loadingSession, setLoadingSession] = useState(true);
+  const [timeStr, setTimeStr] = useState("");
 
   useEffect(() => {
-    setIsPOSPage(!!pathname && /kasir|katalog/.test(pathname));
+    const updateTime = () => {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      };
+      const formatter = new Intl.DateTimeFormat("id-ID", options);
+      setTimeStr(formatter.format(new Date()));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     setIsSidebarOpen(false);
   }, [pathname]);
 
@@ -91,7 +107,7 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
           <img 
             src="/logo-linkpro.png" 
             alt="Link Productive Logo" 
-            style={{ width: "160px", height: "auto" }}
+            style={{ width: "220px", height: "auto" }}
             className="object-contain transition-transform duration-500 group-hover:scale-105" 
           />
         </Link>
@@ -198,7 +214,7 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-72 bg-[#1A110B] z-[70] lg:hidden shadow-2xl"
+              className="fixed inset-y-0 left-0 w-72 bg-[#0f172a] z-[70] lg:hidden shadow-2xl"
             >
               <div className="absolute right-4 top-4 z-50">
                 <button
@@ -217,8 +233,7 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 relative h-full">
         {/* Header */}
-        {!isPOSPage && (
-          <header className="h-20 bg-white/60 backdrop-blur-xl border-b border-[#111e38]/5 flex items-center justify-between px-8 sticky top-0 z-40 shadow-sm shadow-[#111e38]/2">
+        <header className="h-20 bg-white/60 backdrop-blur-xl border-b border-[#111e38]/5 flex items-center justify-between px-8 sticky top-0 z-40 shadow-sm shadow-[#111e38]/2">
             <div className="flex items-center gap-6">
               <button
                 onClick={() => setIsSidebarOpen(true)}
@@ -246,6 +261,19 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
 
             <div className="flex items-center gap-5">
               <div className="hidden md:flex items-center gap-4 mr-4">
+                {timeStr && (
+                  <div className="flex items-center gap-2 bg-[#f5f8fc] px-3.5 py-1.5 rounded-xl border border-[#111e38]/5 mr-2">
+                    <Clock size={12} className="text-[#004aad] animate-pulse" />
+                    <div className="text-right">
+                      <p className="text-[10px] font-black text-[#111e38] tracking-wider font-mono leading-none">
+                        {timeStr} WIB
+                      </p>
+                      <p className="text-[7px] text-[#111e38]/40 font-black uppercase tracking-widest mt-0.5 leading-none">
+                        REALTIME
+                      </p>
+                    </div>
+                  </div>
+                )}
                 <div className="text-right">
                   <p className="text-[11px] font-black text-[#111e38] uppercase tracking-wider">
                     Platform Status
@@ -258,7 +286,6 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
               </div>
             </div>
           </header>
-        )}
 
         <main className="flex-1 overflow-hidden relative">
           <div id="main-scroll-container" className="h-full overflow-y-auto custom-scrollbar">

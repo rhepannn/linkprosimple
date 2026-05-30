@@ -1,98 +1,246 @@
-// app/gallery/page.tsx — Server Component
+"use client";
 
-import { photos as staticPhotos } from "@/data/photos";
-import { GalleryGrid } from "@/components/gallery/gallery-grid";
-import { getGalleryPhotos } from "@/app/actions/gallery";
+import React, { useState, useMemo } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Clock, User, ArrowRight, Sparkles } from "lucide-react";
+import { activities, Activity, ActivityCategory } from "@/data/activities";
 
-export default async function GalleryPage() {
-  const { data: dbPhotos = [] } = await getGalleryPhotos();
-  const displayPhotos = dbPhotos && dbPhotos.length > 0 ? dbPhotos : staticPhotos;
-  
-  // Ambil satu foto untuk dipajang di Hero (yang isHero=true atau yang pertama)
-  const heroPhoto = dbPhotos.find((p: any) => p.isHero) || displayPhotos[0];
+export default function GalleryPage() {
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [activeFilter, setActiveFilter] = useState<ActivityCategory | "all">("all");
+
+  // Filtered List
+  const filteredActivities = useMemo(() => {
+    return activeFilter === "all"
+      ? activities
+      : activities.filter((act) => act.category === activeFilter);
+  }, [activeFilter]);
+
+  // Related Activities (exclude selected, same category)
+  const relatedActivities = useMemo(() => {
+    if (!selectedActivity) return [];
+    return activities.filter(
+      (act) => act.category === selectedActivity.category && act.id !== selectedActivity.id
+    );
+  }, [selectedActivity]);
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* ── Premium Editorial Hero ── */}
-      <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 overflow-hidden border-b border-border/40">
-        {/* Background Decorative Elements */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-warm-white/50 -skew-x-12 translate-x-1/4 pointer-events-none" />
-        <div className="absolute top-1/4 left-10 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            {/* Left: Content */}
-            <div className="flex-1 text-center lg:text-left">
-              <div className="inline-flex items-center gap-3 mb-6 px-5 py-2 rounded-full bg-white border border-gold/20 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-                <span className="text-[10px] font-black tracking-[0.3em] text-gold uppercase">
-                  Portfolio Showcase
-                </span>
-              </div>
-              
-              <h1 
-                className="text-5xl sm:text-6xl lg:text-8xl font-black text-near-black leading-[0.9] tracking-tighter mb-8"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
-                Cerita <br />
-                <span className="text-gold">Dalam Lensa</span>
-              </h1>
-              
-              <p className="text-near-black/60 text-lg max-w-lg leading-relaxed mb-8 mx-auto lg:mx-0 font-bold italic">
-                Jelajahi setiap momen berharga yang kami abadikan. Dari tawa kecil hingga pelukan hangat, 
-                setiap bingkai adalah kenangan yang abadi.
-              </p>
-              
-              <div className="flex items-center justify-center lg:justify-start gap-10 text-near-black/40 text-[10px] font-black uppercase tracking-[0.2em]">
-                <div className="flex flex-col gap-1">
-                  <span className="text-near-black text-3xl font-black tracking-tighter">500+</span>
-                  <span>Sesi Foto</span>
-                </div>
-                <div className="w-px h-10 bg-border/40" />
-                <div className="flex flex-col gap-1">
-                  <span className="text-near-black text-3xl font-black tracking-tighter">50k+</span>
-                  <span>Momen Abadi</span>
-                </div>
-              </div>
+    <main className="min-h-screen bg-[#f8faff] pb-24 font-[family-name:var(--font-inter)]">
+      {/* ── Premium Asymmetrical Hero Banner for Gallery ── */}
+      <div className="relative bg-slate-950 pt-36 pb-20 md:pt-40 md:pb-24 overflow-hidden mb-12">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.15),transparent_50%)] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-0" />
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+          <div className="max-w-3xl space-y-5 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-400 text-[10px] font-bold uppercase tracking-[0.15em]">
+              <Sparkles size={12} />
+              Kanal Dokumentasi & Berita
             </div>
-
-            {/* Right: Floating Image Element */}
-            <div className="flex-1 relative mt-16 lg:mt-0">
-              <div className="relative w-full max-w-xl mx-auto group">
-                {/* Decorative Frame */}
-                <div className="absolute -inset-6 border border-gold/30 rounded-[2.5rem] -rotate-3 transition-transform duration-700 group-hover:rotate-0" />
-                <div className="absolute -inset-6 border border-near-black/5 rounded-[2.5rem] rotate-3 transition-transform duration-700 group-hover:rotate-0" />
-                
-                {/* Main Image */}
-                <div className="relative w-full rounded-[2rem] overflow-hidden shadow-2xl shadow-near-black/20 bg-warm-white">
-                  {heroPhoto && (
-                    <img 
-                      src={(heroPhoto as any).src || (heroPhoto as any).url} 
-                      alt="Featured Work" 
-                      className="w-full h-auto block object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-near-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-                
-                {/* Floating Badge */}
-                <div className="absolute -bottom-8 -right-8 bg-white p-6 rounded-[1.5rem] shadow-2xl border border-border/40 hidden sm:block">
-                  <p className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1">Terbaru</p>
-                  <p className="text-sm font-black text-near-black">Studio Session 2024</p>
-                </div>
-              </div>
-            </div>
+            <h1 
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight"
+              style={{ fontFamily: "var(--font-outfit)" }}
+            >
+              Kegiatan & <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Inovasi Sosial</span>
+            </h1>
+            <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-xl font-medium">
+              Jelajahi kumpulan dokumentasi, inisiasi inovasi sosial, sinergi pentahelix, serta liputan berita terhangat langsung dari ekosistem Link Productive.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Divider tipis */}
-      <div className="h-px bg-border/40" />
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <AnimatePresence mode="wait">
+          {!selectedActivity ? (
+            /* ── VIEW 1: NEWS/ACTIVITIES FEED GRID ── */
+            <motion.div
+              key="feed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-10"
+            >
+              {/* Filter Tabs */}
+              <div className="flex gap-2.5 pb-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+                {[
+                  { label: "Semua Kegiatan", value: "all" },
+                  { label: "Inovasi Sosial", value: "inovasi-sosial" },
+                  { label: "Pelatihan & Kelas", value: "pelatihan-kelas" },
+                  { label: "Kemitraan Pentahelix", value: "kemitraan" },
+                ].map((tab) => (
+                  <button
+                    key={tab.value}
+                    onClick={() => setActiveFilter(tab.value as any)}
+                    className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                      activeFilter === tab.value
+                        ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10 scale-[1.02]"
+                        : "bg-white border border-slate-200/80 text-slate-500 hover:border-slate-300 hover:text-slate-700"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
-      {/* ── Gallery Grid ── */}
-      <div className="pt-20 lg:pt-32 pb-24">
-        <GalleryGrid photos={displayPhotos as any} />
+              {/* Activities News Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+                {filteredActivities.map((act) => (
+                  <div
+                    key={act.id}
+                    onClick={() => setSelectedActivity(act)}
+                    className="group bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col h-full"
+                  >
+                    {/* Visual documentation image using actual file */}
+                    <div className="relative aspect-[16/10] bg-slate-900 overflow-hidden">
+                      <Image
+                        src={act.imageUrl}
+                        alt={act.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+                    </div>
+
+                    {/* News Content Preview */}
+                    <div className="p-7 flex flex-col flex-grow justify-between space-y-5">
+                      <div className="space-y-3">
+                        <span className="inline-block text-[9px] font-black uppercase tracking-widest text-sky-600 bg-sky-50 border border-sky-100 px-3 py-1 rounded-lg">
+                          {act.categoryLabel}
+                        </span>
+                        <h3 
+                          className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-2 leading-tight"
+                          style={{ fontFamily: "var(--font-outfit)" }}
+                        >
+                          {act.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 font-medium leading-relaxed line-clamp-3">
+                          {act.summary}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-4 border-t border-slate-100/60">
+                        <span className="flex items-center gap-1.5"><Clock size={12} /> {act.date}</span>
+                        <span className="inline-flex items-center gap-1 text-sky-600 font-bold group-hover:translate-x-0.5 transition-transform">
+                          Baca Detail <ArrowRight size={12} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            /* ── VIEW 2: EDITORIAL NEWS DETAIL ── */
+            <motion.div
+              key="detail"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-8"
+            >
+              {/* Back button */}
+              <button
+                onClick={() => setSelectedActivity(null)}
+                className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-800 uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                <ArrowLeft size={14} /> Kembali ke Kegiatan
+              </button>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                
+                {/* Left Side: Article Editorial Column (Col 8) */}
+                <article className="lg:col-span-8 space-y-8 bg-white p-6 sm:p-10 rounded-3xl border border-slate-100 shadow-sm">
+                  <div className="space-y-4">
+                    <span className="inline-block text-[10px] font-black uppercase tracking-widest text-sky-600 bg-sky-50 border border-sky-100 px-3.5 py-1.5 rounded-lg">
+                      {selectedActivity.categoryLabel}
+                    </span>
+                    <h1 
+                      className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight"
+                      style={{ fontFamily: "var(--font-outfit)" }}
+                    >
+                      {selectedActivity.title}
+                    </h1>
+                    
+                    {/* Meta information */}
+                    <div className="flex flex-wrap gap-4 items-center text-xs text-slate-400 font-bold pt-2 border-b border-slate-100 pb-4">
+                      <span className="flex items-center gap-1.5"><User size={13} /> {selectedActivity.author}</span>
+                      <span className="flex items-center gap-1.5"><Clock size={13} /> {selectedActivity.date}</span>
+                      <span>&bull;</span>
+                      <span>{selectedActivity.readTime}</span>
+                    </div>
+                  </div>
+
+                  {/* Banner Image using real photo */}
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-100 shadow-md">
+                    <Image
+                      src={selectedActivity.imageUrl}
+                      alt={selectedActivity.title}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                    />
+                  </div>
+
+                  {/* Full detailed contents */}
+                  <div className="text-slate-700 text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium space-y-4">
+                    {selectedActivity.content}
+                  </div>
+                </article>
+
+                {/* Right Side: Related Activities (Col 4) (1 Kategori yang sama) */}
+                <aside className="lg:col-span-4 space-y-6">
+                  <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-5">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-800 border-b border-slate-100 pb-3">
+                      Kegiatan Terkait
+                    </h3>
+
+                    {relatedActivities.length > 0 ? (
+                      <div className="space-y-5">
+                        {relatedActivities.map((rel) => (
+                          <div
+                            key={rel.id}
+                            onClick={() => setSelectedActivity(rel)}
+                            className="group flex gap-4 cursor-pointer"
+                          >
+                            {/* Tiny real photo thumbnail */}
+                            <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-900 flex-shrink-0 relative border border-slate-100 shadow-sm">
+                              <Image
+                                src={rel.imageUrl}
+                                alt={rel.title}
+                                fill
+                                className="object-cover"
+                                sizes="64px"
+                              />
+                            </div>
+                            <div className="space-y-1 flex-1">
+                              <h4 
+                                className="text-xs font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-2 leading-snug"
+                                style={{ fontFamily: "var(--font-outfit)" }}
+                              >
+                                {rel.title}
+                              </h4>
+                              <p className="text-[10px] text-slate-400 font-bold">{rel.date}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-400 font-bold italic py-4">Belum ada kegiatan terkait di kategori ini.</p>
+                    )}
+                  </div>
+                </aside>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
     </main>
   );
 }
+

@@ -28,14 +28,14 @@ async function main() {
 
   const users = [
     {
-      name: "Admin SnappFrame",
-      email: "admin@snappframe.com",
+      name: "Admin Link Productive",
+      email: "admin@linkproductive.com",
       password: "Admin@123",
       role: "ADMIN" as const,
     },
     {
-      name: "Kasir SnappFrame",
-      email: "kasir@snappframe.com",
+      name: "Kasir Link Productive",
+      email: "kasir@linkproductive.com",
       password: "Kasir@123",
       role: "ADMIN" as const,
     },
@@ -69,11 +69,11 @@ async function main() {
   console.log("  LOGIN CREDENTIALS");
   console.log("========================================");
   console.log("  👤 Admin:");
-  console.log("     Email:    admin@snappframe.com");
+  console.log("     Email:    admin@linkproductive.com");
   console.log("     Password: Admin@123");
   console.log("----------------------------------------");
   console.log("  👤 Kasir:");
-  console.log("     Email:    kasir@snappframe.com");
+  console.log("     Email:    kasir@linkproductive.com");
   console.log("     Password: Kasir@123");
   console.log("========================================\n");
 

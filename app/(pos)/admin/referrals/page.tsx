@@ -141,16 +141,16 @@ function ConfirmDialog({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        className="relative z-10 bg-white rounded-[28px] p-8 max-w-sm w-full shadow-2xl border border-[#3B2211]/5"
+        className="relative z-10 bg-white rounded-[28px] p-8 max-w-sm w-full shadow-2xl border border-[#1e293b]/5"
       >
         <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-5">
           <Trash2 size={24} className="text-red-500" />
         </div>
-        <p className="text-center text-sm font-bold text-[#3B2211] mb-6 leading-relaxed">{message}</p>
+        <p className="text-center text-sm font-bold text-[#1e293b] mb-6 leading-relaxed">{message}</p>
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 py-3 rounded-2xl border border-[#3B2211]/10 text-[#3B2211]/60 text-[11px] font-black uppercase tracking-widest hover:bg-[#F8F6F4] transition-all"
+            className="flex-1 py-3 rounded-2xl border border-[#1e293b]/10 text-[#1e293b]/60 text-[11px] font-black uppercase tracking-widest hover:bg-[#f0f7ff] transition-all"
           >
             Batal
           </button>
@@ -255,8 +255,8 @@ export default function ReferralManagement() {
       label: "Total Kode / Aktif",
       val: `${referrals.length} / ${totalActive}`,
       icon: Ticket,
-      color: "text-[#3B2211]",
-      bg: "bg-[#3B2211]/5",
+      color: "text-[#1e293b]",
+      bg: "bg-[#1e293b]/5",
     },
     {
       label: "Total Penggunaan",
@@ -276,8 +276,8 @@ export default function ReferralManagement() {
       label: "High Impact (> 5 pakai)",
       val: referrals.filter(r => r.usageCount > 5).length,
       icon: TrendingUp,
-      color: "text-[#C88A58]",
-      bg: "bg-[#C88A58]/10",
+      color: "text-[#0ea5e9]",
+      bg: "bg-[#0ea5e9]/10",
     },
   ];
 
@@ -409,13 +409,13 @@ export default function ReferralManagement() {
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <p className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.4em] mb-1.5">Marketing & Promotions</p>
+          <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.4em] mb-1.5">Marketing & Promotions</p>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#3B2211] flex items-center justify-center shadow-xl shadow-[#3B2211]/20">
+            <div className="w-12 h-12 rounded-2xl bg-[#1e293b] flex items-center justify-center shadow-xl shadow-[#1e293b]/20">
               <Ticket size={22} className="text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-black text-[#3B2211] tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
+              <h1 className="text-3xl font-black text-[#1e293b] tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>
                 Manajemen Referral
               </h1>
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
@@ -428,18 +428,18 @@ export default function ReferralManagement() {
         <div className="flex items-center gap-3">
           {/* Search */}
           <div className="relative flex items-center">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#3B2211]/25 pointer-events-none" size={14} />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#1e293b]/25 pointer-events-none" size={14} />
             <input
               type="text"
               placeholder="Cari kode atau marketer..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-9 pr-4 h-10 bg-[#F8F6F4] border border-[#3B2211]/10 rounded-2xl text-[13px] font-medium text-[#3B2211] placeholder:text-[#3B2211]/30 focus:outline-none focus:bg-white focus:border-[#3B2211]/25 focus:ring-0 w-56 md:w-72 transition-all duration-200"
+              className="pl-9 pr-4 h-10 bg-[#f0f7ff] border border-[#1e293b]/10 rounded-2xl text-[13px] font-medium text-[#1e293b] placeholder:text-[#1e293b]/30 focus:outline-none focus:bg-white focus:border-[#1e293b]/25 focus:ring-0 w-56 md:w-72 transition-all duration-200"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#3B2211]/30 hover:text-[#3B2211]/60 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1e293b]/30 hover:text-[#1e293b]/60 transition-colors"
               >
                 <X size={13} />
               </button>
@@ -449,7 +449,7 @@ export default function ReferralManagement() {
           {/* New Code */}
           <button
             onClick={openCreate}
-            className="flex items-center gap-2 h-10 px-5 bg-[#3B2211] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg shadow-[#3B2211]/20 hover:scale-[1.02] active:scale-[0.97] transition-all whitespace-nowrap"
+            className="flex items-center gap-2 h-10 px-5 bg-[#1e293b] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg shadow-[#1e293b]/20 hover:scale-[1.02] active:scale-[0.97] transition-all whitespace-nowrap"
           >
             <Plus size={14} />
             Buat Kode
@@ -465,25 +465,25 @@ export default function ReferralManagement() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.07 }}
-            className="p-6 bg-white rounded-2xl border border-[#3B2211]/5 shadow-sm flex flex-col gap-4 hover:shadow-lg hover:shadow-[#3B2211]/5 transition-all duration-300"
+            className="p-6 bg-white rounded-2xl border border-[#1e293b]/5 shadow-sm flex flex-col gap-4 hover:shadow-lg hover:shadow-[#1e293b]/5 transition-all duration-300"
           >
             <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
               <s.icon size={18} />
             </div>
             <div>
               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{s.label}</p>
-              <p className="text-2xl font-black text-[#3B2211] tracking-tight">{s.val}</p>
+              <p className="text-2xl font-black text-[#1e293b] tracking-tight">{s.val}</p>
             </div>
           </motion.div>
         ))}
       </div>
 
       {/* ── Table ───────────────────────────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl border border-[#3B2211]/5 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#1e293b]/5 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#F8F6F4]/80 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-[#3B2211]/5">
+              <tr className="bg-[#f0f7ff]/80 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-[#1e293b]/5">
                 <th className="px-6 py-5">Kode &amp; Marketer</th>
                 <th className="px-6 py-5">Diskon (Customer)</th>
                 <th className="px-6 py-5">Fee (Marketer)</th>
@@ -492,13 +492,13 @@ export default function ReferralManagement() {
                 <th className="px-6 py-5 text-right">Aksi</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F8F6F4]">
+            <tbody className="divide-y divide-[#f0f7ff]">
               <AnimatePresence mode="popLayout">
                 {loading ? (
                   Array.from({ length: 4 }).map((_, i) => (
                     <tr key={i} className="animate-pulse">
                       <td colSpan={6} className="px-6 py-5">
-                        <div className="h-10 bg-[#F8F6F4] rounded-xl w-full" />
+                        <div className="h-10 bg-[#f0f7ff] rounded-xl w-full" />
                       </td>
                     </tr>
                   ))
@@ -522,7 +522,7 @@ export default function ReferralManagement() {
                     >
                       {/* Kode & Marketer */}
                       <td className="px-6 py-5">
-                        <p className="text-sm font-black text-[#3B2211] font-mono tracking-widest">{r.code}</p>
+                        <p className="text-sm font-black text-[#1e293b] font-mono tracking-widest">{r.code}</p>
                         <p className="text-[11px] font-semibold text-gray-500 mt-0.5">{r.marketerName}</p>
                         {(r.bankName || r.bankAccount) && (
                           <span className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
@@ -534,7 +534,7 @@ export default function ReferralManagement() {
 
                       {/* Diskon Customer */}
                       <td className="px-6 py-5">
-                        <span className="inline-flex items-center gap-1 font-black text-[#3B2211] bg-[#3B2211]/5 px-2.5 py-1 rounded-lg text-sm">
+                        <span className="inline-flex items-center gap-1 font-black text-[#1e293b] bg-[#1e293b]/5 px-2.5 py-1 rounded-lg text-sm">
                           {r.discountPct}%
                         </span>
                         <p className="text-[10px] text-gray-400 mt-1 font-medium">
@@ -554,7 +554,7 @@ export default function ReferralManagement() {
 
                       {/* Performa */}
                       <td className="px-6 py-5 text-center">
-                        <p className="text-sm font-black text-[#3B2211]">
+                        <p className="text-sm font-black text-[#1e293b]">
                           {r.usageCount ?? 0}
                           <span className="text-xs font-normal text-gray-400 ml-1">dipakai</span>
                         </p>
@@ -574,7 +574,7 @@ export default function ReferralManagement() {
                           <StatusBadge isActive={r.isActive} expiryDate={r.expiryDate} />
                           <button
                             onClick={() => handleToggle(r.id, r.isActive)}
-                            className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-[#3B2211] transition-colors"
+                            className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-[#1e293b] transition-colors"
                           >
                             {r.isActive ? "Nonaktifkan" : "Aktifkan"}
                           </button>
@@ -591,7 +591,7 @@ export default function ReferralManagement() {
                               showToast(`Kode ${r.code} disalin!`, "info");
                             }}
                             title="Salin Kode"
-                            className="w-9 h-9 rounded-xl bg-[#F8F6F4] text-[#3B2211]/40 hover:bg-[#3B2211] hover:text-white flex items-center justify-center transition-all"
+                            className="w-9 h-9 rounded-xl bg-[#f0f7ff] text-[#1e293b]/40 hover:bg-[#1e293b] hover:text-white flex items-center justify-center transition-all"
                           >
                             <Copy size={13} />
                           </button>
@@ -599,7 +599,7 @@ export default function ReferralManagement() {
                           <button
                             onClick={() => openEdit(r)}
                             title="Edit"
-                            className="w-9 h-9 rounded-xl bg-[#F8F6F4] text-[#3B2211]/40 hover:bg-[#C88A58] hover:text-white flex items-center justify-center transition-all"
+                            className="w-9 h-9 rounded-xl bg-[#f0f7ff] text-[#1e293b]/40 hover:bg-[#0ea5e9] hover:text-white flex items-center justify-center transition-all"
                           >
                             <Pencil size={13} />
                           </button>
@@ -631,7 +631,7 @@ export default function ReferralManagement() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeModal}
-              className="absolute inset-0 bg-[#3B2211]/40 backdrop-blur-md"
+              className="absolute inset-0 bg-[#1e293b]/40 backdrop-blur-md"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 24 }}
@@ -644,14 +644,14 @@ export default function ReferralManagement() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-[#3B2211]/8 flex items-center justify-center text-[#3B2211]">
+                    <div className="w-10 h-10 rounded-2xl bg-[#1e293b]/8 flex items-center justify-center text-[#1e293b]">
                       {editingReferral ? <Pencil size={18} /> : <Sparkles size={18} />}
                     </div>
                     <div>
-                      <h2 className="text-lg font-black text-[#3B2211]" style={{ fontFamily: "var(--font-playfair)" }}>
+                      <h2 className="text-lg font-black text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
                         {editingReferral ? "Edit Referral" : "Buat Kode Baru"}
                       </h2>
-                      <p className="text-[10px] font-bold text-[#3B2211]/30 uppercase tracking-widest">
+                      <p className="text-[10px] font-bold text-[#1e293b]/30 uppercase tracking-widest">
                         Atur diskon dan komisi
                       </p>
                     </div>
@@ -659,7 +659,7 @@ export default function ReferralManagement() {
                   <button
                     type="button"
                     onClick={closeModal}
-                    className="w-8 h-8 rounded-full bg-[#F8F6F4] border border-[#3B2211]/5 flex items-center justify-center text-[#3B2211]/40 hover:text-[#3B2211] transition-all"
+                    className="w-8 h-8 rounded-full bg-[#f0f7ff] border border-[#1e293b]/5 flex items-center justify-center text-[#1e293b]/40 hover:text-[#1e293b] transition-all"
                   >
                     <X size={15} />
                   </button>
@@ -669,7 +669,7 @@ export default function ReferralManagement() {
                   {/* Row 1: Kode & Nama Marketer */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                         Kode Referral
                       </label>
                       <div className="relative">
@@ -679,14 +679,14 @@ export default function ReferralManagement() {
                           maxLength={12}
                           value={formData.code}
                           onChange={e => setFormData(p => ({ ...p, code: e.target.value.toUpperCase() }))}
-                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none focus:ring-2 focus:ring-[#3B2211]/12 font-black tracking-widest text-[#3B2211] text-sm pr-10"
+                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none focus:ring-2 focus:ring-[#1e293b]/12 font-black tracking-widest text-[#1e293b] text-sm pr-10"
                           placeholder="Contoh: PROMO10"
                         />
                         <button
                           type="button"
                           onClick={generateCode}
                           title="Generate acak"
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 bg-white rounded-lg border border-[#3B2211]/8 text-[#3B2211]/40 hover:text-[#3B2211] transition-all shadow-sm"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 bg-white rounded-lg border border-[#1e293b]/8 text-[#1e293b]/40 hover:text-[#1e293b] transition-all shadow-sm"
                         >
                           <RefreshCw size={11} />
                         </button>
@@ -694,7 +694,7 @@ export default function ReferralManagement() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                         Nama Marketer
                       </label>
                       <input
@@ -702,22 +702,22 @@ export default function ReferralManagement() {
                         type="text"
                         value={formData.marketerName}
                         onChange={e => setFormData(p => ({ ...p, marketerName: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none focus:ring-2 focus:ring-[#3B2211]/12 font-bold text-[#3B2211] text-sm"
+                        className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none focus:ring-2 focus:ring-[#1e293b]/12 font-bold text-[#1e293b] text-sm"
                         placeholder="Masukkan nama"
                       />
                     </div>
                   </div>
 
                   {/* Separator */}
-                  <div className="border-t border-[#3B2211]/5 pt-3">
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3B2211]/30 mb-3">
+                  <div className="border-t border-[#1e293b]/5 pt-3">
+                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1e293b]/30 mb-3">
                       💰 Konfigurasi Diskon &amp; Komisi
                     </p>
 
                     {/* Diskon & Maks Diskon */}
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1 flex items-center gap-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1 flex items-center gap-1">
                           Diskon (%)
                         </label>
                         <input
@@ -728,12 +728,12 @@ export default function ReferralManagement() {
                           step={0.5}
                           value={formData.discountPercentage}
                           onChange={e => setFormData(p => ({ ...p, discountPercentage: parseFloat(e.target.value) || 0 }))}
-                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none font-bold text-[#1e293b] text-sm"
                           placeholder="Contoh: 10"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                           Maks Potongan (Rp)
                         </label>
                         <input
@@ -742,7 +742,7 @@ export default function ReferralManagement() {
                           min={0}
                           value={formData.maxDiscountAmount}
                           onChange={e => setFormData(p => ({ ...p, maxDiscountAmount: parseInt(e.target.value) || 0 }))}
-                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none font-bold text-[#1e293b] text-sm"
                           placeholder="0 = Tanpa batas"
                         />
                       </div>
@@ -768,32 +768,32 @@ export default function ReferralManagement() {
                   </div>
 
                   {/* Separator */}
-                  <div className="border-t border-[#3B2211]/5 pt-3">
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3B2211]/30 mb-3">
+                  <div className="border-t border-[#1e293b]/5 pt-3">
+                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1e293b]/30 mb-3">
                       🏦 Data Rekening Marketer
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                           Nama Bank
                         </label>
                         <input
                           type="text"
                           value={formData.bankName}
                           onChange={e => setFormData(p => ({ ...p, bankName: e.target.value }))}
-                          className="w-full px-5 py-3.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[16px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-5 py-3.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[16px] focus:outline-none font-bold text-[#1e293b] text-sm"
                           placeholder="Contoh: BCA"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                           Nomor Rekening / HP
                         </label>
                         <input
                           type="text"
                           value={formData.bankAccount}
                           onChange={e => setFormData(p => ({ ...p, bankAccount: e.target.value }))}
-                          className="w-full px-5 py-3.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[16px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-5 py-3.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[16px] focus:outline-none font-bold text-[#1e293b] text-sm"
                           placeholder="Masukkan nomor"
                         />
                       </div>
@@ -801,13 +801,13 @@ export default function ReferralManagement() {
                   </div>
 
                   {/* Separator */}
-                  <div className="border-t border-[#3B2211]/5 pt-3">
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#3B2211]/30 mb-3">
+                  <div className="border-t border-[#1e293b]/5 pt-3">
+                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1e293b]/30 mb-3">
                       📅 Batas &amp; Masa Berlaku
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                           Limit Penggunaan
                         </label>
                         <input
@@ -815,19 +815,19 @@ export default function ReferralManagement() {
                           min={0}
                           value={formData.usageLimit}
                           onChange={e => setFormData(p => ({ ...p, usageLimit: e.target.value }))}
-                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none font-bold text-[#1e293b] text-sm"
                           placeholder="Kosongkan = tak terbatas"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#3B2211]/40 ml-1">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]/40 ml-1">
                           Tanggal Berakhir
                         </label>
                         <input
                           type="date"
                           value={formData.expiryDate}
                           onChange={e => setFormData(p => ({ ...p, expiryDate: e.target.value }))}
-                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#3B2211]/8 rounded-[14px] focus:outline-none font-bold text-[#3B2211] text-sm"
+                          className="w-full px-4 py-2.5 bg-[#FAFAF8] border border-[#1e293b]/8 rounded-[14px] focus:outline-none font-bold text-[#1e293b] text-sm"
                         />
                       </div>
                     </div>
@@ -835,7 +835,7 @@ export default function ReferralManagement() {
 
                   {/* Status Aktif + Submit — row */}
                   <div className="flex items-center gap-3 pt-1">
-                    <div className="flex items-center gap-3 flex-1 p-3 rounded-2xl bg-[#FAFAF8] border border-[#3B2211]/5">
+                    <div className="flex items-center gap-3 flex-1 p-3 rounded-2xl bg-[#FAFAF8] border border-[#1e293b]/5">
                       <button
                         type="button"
                         onClick={() => setFormData(p => ({ ...p, isActive: !p.isActive }))}
@@ -850,7 +850,7 @@ export default function ReferralManagement() {
                         />
                       </button>
                       <div>
-                        <p className="text-[11px] font-black text-[#3B2211]">{formData.isActive ? "Aktif" : "Nonaktif"}</p>
+                        <p className="text-[11px] font-black text-[#1e293b]">{formData.isActive ? "Aktif" : "Nonaktif"}</p>
                         <p className="text-[10px] text-gray-400">Kasir &amp; Booking</p>
                       </div>
                     </div>
@@ -858,7 +858,7 @@ export default function ReferralManagement() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 py-3 bg-[#3B2211] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-lg shadow-[#3B2211]/25 hover:scale-[1.01] active:scale-[0.97] transition-all disabled:opacity-50"
+                      className="flex-1 py-3 bg-[#1e293b] text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] shadow-lg shadow-[#1e293b]/25 hover:scale-[1.01] active:scale-[0.97] transition-all disabled:opacity-50"
                     >
                       {isSubmitting
                         ? "Memproses..."

@@ -171,7 +171,7 @@ export async function createAffiliator(data: UpdateAffiliatorInput & { password?
     }
 
     // 3. Hash password
-    const hashedPassword = await bcrypt.hash(data.password || "snappframe123", 10);
+    const hashedPassword = await bcrypt.hash(data.password || "linkproductive123", 10);
 
     // 4. Jalankan transaksi pembuatan user SNAPPER & referralCode
     await prisma.$transaction(async (tx) => {

@@ -162,14 +162,14 @@ function DaftarForm() {
   };
 
   const inputClass =
-    "w-full px-4 py-3 bg-white border border-[#E0E0DA] rounded-xl text-sm text-[#1A1A1A] placeholder:text-[#C0C0BC] focus:outline-none focus:ring-2 focus:ring-[#C88A58]/20 focus:border-[#C88A58]/30 transition-all";
+    "w-full px-4 py-3 bg-white border border-[#E0E0DA] rounded-xl text-sm text-[#1A1A1A] placeholder:text-[#C0C0BC] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 focus:border-[#0ea5e9]/30 transition-all";
   const labelClass =
     "block text-[10px] font-black uppercase tracking-widest text-[#888888] mb-1.5";
 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-[#C88A58]" />
+        <Loader2 size={32} className="animate-spin text-[#0ea5e9]" />
       </div>
     );
   }
@@ -198,7 +198,7 @@ function DaftarForm() {
               </motion.div>
 
               <div>
-                <h2 className="text-2xl font-black text-[#3B2211] mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                <h2 className="text-2xl font-black text-[#1e293b] mb-2" style={{ fontFamily: "var(--font-heading)" }}>
                   Pendaftaran Berhasil!
                 </h2>
                 <p className="text-sm text-gray-500 font-medium">
@@ -208,9 +208,9 @@ function DaftarForm() {
 
               {product && (
                 <div className="bg-white rounded-2xl border border-[#E0E0DA] p-5 text-left space-y-2">
-                  <p className="text-[10px] font-black text-[#C88A58] uppercase tracking-widest">Program Dipilih</p>
-                  <p className="text-sm font-bold text-[#3B2211]">{product.name}</p>
-                  <p className="text-lg font-black text-[#3B2211]">{formatPrice(product.price)}</p>
+                  <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest">Program Dipilih</p>
+                  <p className="text-sm font-bold text-[#1e293b]">{product.name}</p>
+                  <p className="text-lg font-black text-[#1e293b]">{formatPrice(product.price)}</p>
                 </div>
               )}
 
@@ -238,7 +238,7 @@ function DaftarForm() {
               {/* Back */}
               <a
                 href="/affiliate"
-                className="inline-flex items-center gap-2 text-xs font-bold text-[#888888] hover:text-[#3B2211] mb-8 transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-bold text-[#888888] hover:text-[#1e293b] mb-8 transition-colors"
               >
                 <ArrowLeft size={14} />
                 Kembali
@@ -246,10 +246,10 @@ function DaftarForm() {
 
               {/* Header */}
               <div className="mb-8">
-                <p className="text-[10px] font-black tracking-[0.3em] text-[#C88A58] uppercase mb-2">
+                <p className="text-[10px] font-black tracking-[0.3em] text-[#0ea5e9] uppercase mb-2">
                   {refCode ? "Referral Partner" : "Pendaftaran Program"}
                 </p>
-                <h1 className="text-3xl sm:text-4xl font-black text-[#3B2211] mb-3" style={{ fontFamily: "var(--font-heading)" }}>
+                <h1 className="text-3xl sm:text-4xl font-black text-[#1e293b] mb-3" style={{ fontFamily: "var(--font-heading)" }}>
                   Daftar Program
                 </h1>
                 <p className="text-sm text-gray-500 font-medium">
@@ -260,24 +260,24 @@ function DaftarForm() {
               {/* Product Card */}
               {product && (
                 <div className="bg-white rounded-2xl border border-[#E0E0DA] p-5 mb-8 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#C88A58]/5 rounded-bl-full" />
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#0ea5e9]/5 rounded-bl-full" />
                   <div className="flex items-start gap-4 relative z-10">
-                    <div className="w-12 h-12 rounded-xl bg-[#3B2211] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3B2211]/10">
-                      <GraduationCap size={22} className="text-[#C88A58]" />
+                    <div className="w-12 h-12 rounded-xl bg-[#1e293b] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#1e293b]/10">
+                      <GraduationCap size={22} className="text-[#0ea5e9]" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black text-[#C88A58] uppercase tracking-widest mb-0.5">
+                      <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-0.5">
                         {product.category}
                       </p>
-                      <h3 className="text-lg font-black text-[#3B2211] mb-1">{product.name}</h3>
-                      <p className="text-2xl font-black text-[#3B2211]" style={{ fontFamily: "var(--font-heading)" }}>
+                      <h3 className="text-lg font-black text-[#1e293b] mb-1">{product.name}</h3>
+                      <p className="text-2xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>
                         {formatPrice(product.price)}
                       </p>
                       {product.features && product.features.length > 0 && (
                         <ul className="mt-3 space-y-1">
                           {product.features.slice(0, 4).map((f, i) => (
                             <li key={i} className="flex items-center gap-2 text-xs text-[#5A5A5A]">
-                              <div className="w-1.5 h-1.5 rounded-full bg-[#C88A58] flex-shrink-0" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] flex-shrink-0" />
                               {f}
                             </li>
                           ))}
@@ -292,14 +292,14 @@ function DaftarForm() {
               {prog && (
                 <div className="bg-white rounded-2xl border border-[#E0E0DA] p-6 mb-8 space-y-6">
                   <div>
-                    <h4 className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.2em] mb-2 font-black">Tentang Program</h4>
+                    <h4 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.2em] mb-2 font-black">Tentang Program</h4>
                     <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-line">{prog.intro}</p>
                   </div>
                   
                   {prog.whyInteresting && prog.whyInteresting.length > 0 && (
                     <div className="border-t border-[#E0E0DA] pt-5">
-                      <h4 className="text-[10px] font-black text-[#3B2211] uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5 font-black">
-                        <Sparkles size={12} className="text-[#C88A58]" /> Benefit Pelatihan
+                      <h4 className="text-[10px] font-black text-[#1e293b] uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5 font-black">
+                        <Sparkles size={12} className="text-[#0ea5e9]" /> Benefit Pelatihan
                       </h4>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {prog.whyInteresting.map((item, idx) => (
@@ -314,7 +314,7 @@ function DaftarForm() {
 
                   {prog.targetMarket && prog.targetMarket.length > 0 && (
                     <div className="border-t border-[#E0E0DA] pt-5">
-                      <h4 className="text-[10px] font-black text-[#3B2211] uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5 font-black">
+                      <h4 className="text-[10px] font-black text-[#1e293b] uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5 font-black">
                         🎯 Target Peserta
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -332,7 +332,7 @@ function DaftarForm() {
               {/* WhatsApp Card Prominent */}
               <div className="bg-[#25D366]/5 border border-[#25D366]/20 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <h4 className="text-xs font-black text-[#1E110A] flex items-center gap-1.5">
+                  <h4 className="text-xs font-black text-[#0f172a] flex items-center gap-1.5">
                     <MessageCircle size={15} className="text-[#25D366]" /> Ada Pertanyaan Sebelum Daftar?
                   </h4>
                   <p className="text-[11px] text-gray-500 font-medium">
@@ -354,10 +354,10 @@ function DaftarForm() {
 
               {/* Referral Code Badge */}
               {refCode && (
-                <div className="mb-6 p-3 bg-[#C88A58]/5 border border-[#C88A58]/20 rounded-xl flex items-center gap-2">
-                  <Hash size={14} className="text-[#C88A58]" />
-                  <span className="text-xs font-bold text-[#3B2211]">
-                    Kode Referral: <span className="font-black text-[#C88A58] tracking-wider">{refCode}</span>
+                <div className="mb-6 p-3 bg-[#0ea5e9]/5 border border-[#0ea5e9]/20 rounded-xl flex items-center gap-2">
+                  <Hash size={14} className="text-[#0ea5e9]" />
+                  <span className="text-xs font-bold text-[#1e293b]">
+                    Kode Referral: <span className="font-black text-[#0ea5e9] tracking-wider">{refCode}</span>
                   </span>
                 </div>
               )}
@@ -456,7 +456,7 @@ function DaftarForm() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-[#3B2211] text-white rounded-2xl font-black text-xs uppercase tracking-[0.25em] shadow-xl shadow-[#3B2211]/20 hover:bg-[#C88A58] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-[#1e293b] text-white rounded-2xl font-black text-xs uppercase tracking-[0.25em] shadow-xl shadow-[#1e293b]/20 hover:bg-[#0ea5e9] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {submitting ? (
                     <>
@@ -500,7 +500,7 @@ export default function DaftarPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-          <Loader2 size={32} className="animate-spin text-[#C88A58]" />
+          <Loader2 size={32} className="animate-spin text-[#0ea5e9]" />
         </div>
       }
     >

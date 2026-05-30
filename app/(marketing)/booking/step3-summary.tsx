@@ -139,14 +139,14 @@ export default function Step3Summary({ pkg, formData, referral, onReferralChange
             <div className="flex items-center gap-2">
               <CheckCircle size={16} className="text-[#5A371F] flex-shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-[#3B2211]">{referral.code}</p>
+                <p className="text-sm font-semibold text-[#1e293b]">{referral.code}</p>
                 <p className="text-xs text-[#8B6145]">
                   {`Diskon ${referral.discountPct}%`}
                   {referral.maxDiscountAmount > 0 && ` (Maks Rp ${referral.maxDiscountAmount.toLocaleString("id-ID")})`}
                 </p>
               </div>
             </div>
-            <button onClick={removeCode} className="text-xs text-[#8B6145] underline hover:text-[#3B2211]">Hapus</button>
+            <button onClick={removeCode} className="text-xs text-[#8B6145] underline hover:text-[#1e293b]">Hapus</button>
           </div>
         ) : (
           <>

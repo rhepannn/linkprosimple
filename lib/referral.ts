@@ -1,4 +1,4 @@
-// lib/referral.ts — Sistem Kode Referral Snapp.frame Studio
+// lib/referral.ts — Sistem Kode Referral Link Productive
 // validateReferral adalah async — mengambil data dari Supabase referral_codes.
 
 export type ReferralCode = {
