@@ -153,17 +153,15 @@ export function Navbar() {
       </header>
 
       {/* ── Mobile Top Header ──────────────── */}
-      <header className="lg:hidden fixed top-4 inset-x-4 z-50 pointer-events-none">
-        <div className="bg-white/95 backdrop-blur-2xl border border-sky-100/40 rounded-2xl py-3 px-5 flex items-center justify-center shadow-[0_12px_30px_-6px_rgba(0,74,173,0.08)] pointer-events-auto ring-1 ring-sky-500/5">
-          <Link
-            href="/"
-            onClick={(e) => handleNavClick(e, "/")}
-            className="flex-shrink-0 focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 flex justify-center"
-            aria-label="Link Productive"
-          >
-            <Logo height={64} />
-          </Link>
-        </div>
+      <header className="lg:hidden fixed top-4 inset-x-4 z-50 pointer-events-none flex justify-center">
+        <Link
+          href="/"
+          onClick={(e) => handleNavClick(e, "/")}
+          className="flex-shrink-0 focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 pointer-events-auto"
+          aria-label="Link Productive"
+        >
+          <Logo height={64} />
+        </Link>
       </header>
 
       {/* ── Mobile Bottom Navbar ──────────────── */}
