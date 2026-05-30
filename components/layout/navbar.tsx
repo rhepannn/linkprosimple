@@ -154,21 +154,15 @@ export function Navbar() {
 
       {/* ── Mobile Top Header ──────────────── */}
       <header className="lg:hidden fixed top-4 inset-x-4 z-50 pointer-events-none">
-        <div className="bg-white/95 backdrop-blur-2xl border border-sky-100/40 rounded-2xl py-2 px-5 flex items-center justify-between shadow-[0_12px_30px_-6px_rgba(0,74,173,0.08)] pointer-events-auto ring-1 ring-sky-500/5">
+        <div className="bg-white/95 backdrop-blur-2xl border border-sky-100/40 rounded-2xl py-3 px-5 flex items-center justify-center shadow-[0_12px_30px_-6px_rgba(0,74,173,0.08)] pointer-events-auto ring-1 ring-sky-500/5">
           <Link
             href="/"
             onClick={(e) => handleNavClick(e, "/")}
-            className="flex-shrink-0 focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300"
+            className="flex-shrink-0 focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 flex justify-center"
             aria-label="Link Productive"
           >
-            <Logo height={42} />
+            <Logo height={64} />
           </Link>
-          <div className="flex items-center gap-1.5 bg-sky-500/5 px-2.5 py-1.5 rounded-xl border border-sky-500/10">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-            <span className="text-[8px] font-black text-sky-600 uppercase tracking-widest leading-none">
-              PT IPI
-            </span>
-          </div>
         </div>
       </header>
 
