@@ -6,7 +6,8 @@
     "dev": "next dev",
     "prisma:studio": "prisma studio",
     "build": "cross-env EXPERIMENTAL_CPUS=1 NODE_OPTIONS=\"--max-old-space-size=4096\" next build",
-    "start": "next start"
+    "start": "next start",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
