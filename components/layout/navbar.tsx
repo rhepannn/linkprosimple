@@ -152,17 +152,7 @@ export function Navbar() {
         </motion.div>
       </header>
 
-      {/* ── Mobile Top Header ──────────────── */}
-      <header className="lg:hidden fixed top-4 inset-x-4 z-50 pointer-events-none flex justify-center">
-        <Link
-          href="/"
-          onClick={(e) => handleNavClick(e, "/")}
-          className="flex-shrink-0 focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 pointer-events-auto"
-          aria-label="Link Productive"
-        >
-          <Logo height={64} />
-        </Link>
-      </header>
+
 
       {/* ── Mobile Bottom Navbar ──────────────── */}
       <div className="lg:hidden fixed bottom-6 left-0 right-0 z-50 px-4 sm:px-6 flex justify-center pointer-events-none">
