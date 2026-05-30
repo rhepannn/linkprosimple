@@ -5,6 +5,11 @@ import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
+if (typeof window === "undefined" && process.env.VERCEL_URL) {
+  process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+  process.env.AUTH_URL = `https://${process.env.VERCEL_URL}`;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
