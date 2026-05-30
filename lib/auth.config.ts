@@ -20,22 +20,12 @@ export const authConfig = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      let resolvedBase = baseUrl;
-      if (typeof window === "undefined" && process.env.VERCEL_URL && baseUrl.includes("localhost")) {
-        resolvedBase = `https://${process.env.VERCEL_URL}`;
+      if (url.includes("/kasir")) {
+        return `${baseUrl}/admin`;
       }
-      
-      const target = url.includes("/kasir") ? `${resolvedBase}/admin` : url;
-      if (target.startsWith("/")) return `${resolvedBase}${target}`;
-      
-      try {
-        const parsedUrl = new URL(target);
-        if (parsedUrl.origin === resolvedBase) return target;
-      } catch (e) {
-        // Fallback for invalid URLs
-      }
-      
-      return resolvedBase;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
