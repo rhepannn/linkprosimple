@@ -39,6 +39,12 @@ async function main() {
       password: "Kasir@123",
       role: "ADMIN" as const,
     },
+    {
+      name: "Super Admin",
+      email: "superadmin@linkproductive.com",
+      password: "Linkproductive2026!",
+      role: "ADMIN" as const,
+    },
   ];
 
   for (const u of users) {

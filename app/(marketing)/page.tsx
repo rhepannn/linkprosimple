@@ -20,7 +20,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: `${site.name} — Inovasi Sosial & Pendidikan Terintegrasi`,
+  title: `${site.name} — ${site.tagline}`,
   description: site.description,
   openGraph: {
     url: "https://linkproductive.com",

@@ -8,8 +8,8 @@ async function main() {
   
   const prisma = new PrismaClient();
 
-  const email = "admin@linkproductive.com";
-  const password = "adminpassword123";
+  const email = "superadmin@linkproductive.com";
+  const password = "Linkproductive2026!";
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {

@@ -29,7 +29,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://linkproductive.com"),
   title: {
-    default: `${site.name} — Program Pelatihan & Inovasi Sosial`,
+    default: `${site.name} — ${site.tagline}`,
     template: `%s │ ${site.name}`,
   },
   description: site.description,

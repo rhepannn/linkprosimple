@@ -2,7 +2,7 @@
 
 export const site = {
   name: "Link Productive",
-  tagline: "Inovasi Sosial & Pendidikan Terintegrasi",
+  tagline: "PT Integritas Produktivitas Indonesia",
   subTagline: "Platform program pelatihan unggulan, inovasi sosial, dan pengembangan karir.",
   description:
     "Link Productive adalah platform inovasi sosial dan pendidikan terintegrasi yang menghadirkan program pelatihan berkualitas tinggi untuk mempersiapkan karir masa depan serta menginisiasi kolaborasi dampak sosial.",
@@ -23,7 +23,7 @@ export const site = {
   payment: {
     bankName: "BCA (Bank Central Asia)",
     bankAccount: "8882047811",
-    bankOwner: "PT Link Productive Nusantara",
+    bankOwner: "PT Integritas Produktivitas Indonesia",
   },
   operatingHours: [
     { day: "Senin–Jumat", hours: "09.00–18.00" },
