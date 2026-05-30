@@ -94,15 +94,18 @@ function LoginContent() {
       >
         <Link
           href="/"
-          className="group flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white hover:bg-sky-50/50 border border-sky-100 text-slate-500 hover:text-[#004aad] transition-all duration-300 text-xs font-black tracking-widest uppercase shadow-md shadow-sky-100/10 active:scale-95"
+          className="group flex items-center justify-center rounded-full bg-white hover:bg-sky-50/50 border border-sky-100 text-slate-500 hover:text-[#004aad] transition-all duration-300 shadow-md shadow-sky-100/10 active:scale-95 w-11 h-11 md:w-auto md:h-auto md:px-5 md:py-2.5"
+          aria-label="Kembali ke Beranda"
         >
-          <ArrowLeft size={13} className="group-hover:-translate-x-1 transition-transform text-[#004aad]" />
-          Kembali ke Beranda
+          <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform text-[#004aad] flex-shrink-0" />
+          <span className="hidden md:inline ml-2 text-xs font-black tracking-widest uppercase">
+            Kembali ke Beranda
+          </span>
         </Link>
       </motion.div>
 
       {/* ── Main Container ── */}
-      <div className="w-full max-w-[440px] relative z-10 pt-12 md:pt-16">
+      <div className="w-full max-w-[440px] relative z-10 pt-28 md:pt-16">
 
         {/* ── Branding Header ── */}
         <div className="text-center mb-10">
