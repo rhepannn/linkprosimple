@@ -66,7 +66,7 @@ export function AboutSection() {
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center justify-center h-full p-8 text-center">
                   <div className="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-sm border border-sky-200/50 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                    <Zap size={28} className="text-sky-500" />
+                    <span className="text-2xl font-black text-sky-500 tracking-tighter">LP</span>
                   </div>
                   <p className="text-sky-600 text-sm font-bold uppercase tracking-[0.2em] mb-2">
                     Link Productive
@@ -111,35 +111,7 @@ export function AboutSection() {
               {site.description}
             </p>
 
-            {/* Stats Grid */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4 pt-6 max-w-md"
-            >
-              {stats.map((stat, i) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={i}
-                    variants={itemVariants}
-                    className="group relative p-4 sm:p-5 rounded-2xl bg-white border border-sky-100/80 hover:border-sky-200 hover:shadow-lg hover:shadow-sky-50 transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center mb-3`}>
-                      <Icon size={16} className="text-slate-500" />
-                    </div>
-                    <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                      {stat.value}
-                    </p>
-                    <p className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">
-                      {stat.label}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+
           </motion.div>
 
         </div>
