@@ -37,7 +37,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             </p>
             <div className="pt-2">
               <a
-                href="https://www.youtube.com/@linkproductive"
+                href={youtube_url || "https://www.youtube.com/@link.productive"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FF0000] hover:bg-[#D90000] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#FF0000]/10 hover:scale-[1.02]"

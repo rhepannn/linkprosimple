@@ -18,7 +18,7 @@ export const site = {
     email: "hello@linkproductive.com",
     whatsapp: "6287778059221", // WA number
     instagram: "https://instagram.com/linkproductive",
-    tiktok: "https://tiktok.com/@linkproductive",
+    tiktok: "https://tiktok.com/@linkproductive", youtube: "https://www.youtube.com/@link.productive",
   },
   payment: {
     bankName: "BCA (Bank Central Asia)",

@@ -98,7 +98,7 @@ export function Footer() {
               {[
                 { name: "Instagram", icon: InstagramIcon, href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
                 { name: "LinkedIn", icon: LinkedinIcon, href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
-                { name: "YouTube", icon: YoutubeIcon, href: "https://youtube.com/@linkproductive", color: "from-red-400 to-red-500" },
+                { name: "YouTube", icon: YoutubeIcon, href: site.contact.youtube || "https://www.youtube.com/@link.productive", color: "from-red-400 to-red-500" },
                 { name: "TikTok", icon: TikTokIcon, href: site.contact.tiktok, color: "from-slate-500 to-slate-600" },
               ].map((soc) => {
                 const Icon = soc.icon;
