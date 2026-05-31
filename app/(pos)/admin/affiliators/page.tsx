@@ -208,7 +208,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-1 p-1 text-gray-300 hover:text-[#3B2211] transition-colors"
+      className="flex items-center gap-1 p-1 text-gray-300 hover:text-[#1e293b] transition-colors"
     >
       {copied ? (
         <Check size={12} className="text-emerald-500" />
@@ -245,7 +245,7 @@ function HashtagInput({
         {value.map((tag) => (
           <span
             key={tag}
-            className="flex items-center gap-1 px-3 py-1 bg-[#3B2211]/10 text-[#3B2211] rounded-full text-[10px] font-black"
+            className="flex items-center gap-1 px-3 py-1 bg-[#1e293b]/10 text-[#1e293b] rounded-full text-[10px] font-black"
           >
             #{tag}
             <button
@@ -275,13 +275,13 @@ function HashtagInput({
               }
             }}
             placeholder="academic, career, promo..."
-            className="w-full pl-8 pr-4 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10"
+            className="w-full pl-8 pr-4 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10"
           />
         </div>
         <button
           type="button"
           onClick={addTag}
-          className="px-4 py-2.5 bg-[#3B2211]/10 text-[#3B2211] rounded-xl text-[10px] font-black hover:bg-[#3B2211]/20 transition-colors"
+          className="px-4 py-2.5 bg-[#1e293b]/10 text-[#1e293b] rounded-xl text-[10px] font-black hover:bg-[#1e293b]/20 transition-colors"
         >
           Tambah
         </button>
@@ -340,17 +340,17 @@ function PostCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className="bg-white rounded-2xl border border-[#F0EBE5] shadow-sm overflow-hidden hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+      className="bg-white rounded-2xl border border-[#F0EBE5] shadow-sm overflow-hidden hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
     >
       {/* ── Card Header ── */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-[#F8F6F4]">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#C88A58] to-[#3B2211] flex items-center justify-center text-white font-black text-xs shadow-md">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center text-white font-black text-xs shadow-md">
             SF
           </div>
           <div>
-            <p className="text-[11px] font-black text-[#3B2211]">
-              snapp.frame
+            <p className="text-[11px] font-black text-[#1e293b]">
+              Link Productive
             </p>
             <p className="text-[9px] text-gray-400 font-bold">
               {timeAgo(post.createdAt)}
@@ -366,7 +366,7 @@ function PostCard({
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen((o) => !o)}
-              className="p-1.5 text-gray-300 hover:text-[#3B2211] hover:bg-[#3B2211]/5 rounded-lg transition-colors"
+              className="p-1.5 text-gray-300 hover:text-[#1e293b] hover:bg-[#1e293b]/5 rounded-lg transition-colors"
             >
               <MoreVertical size={15} />
             </button>
@@ -376,11 +376,11 @@ function PostCard({
                   initial={{ opacity: 0, scale: 0.9, y: -6 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: -6 }}
-                  className="absolute right-0 top-8 w-48 bg-white rounded-xl shadow-2xl shadow-[#3B2211]/10 border border-[#3B2211]/5 z-50 overflow-hidden"
+                  className="absolute right-0 top-8 w-48 bg-white rounded-xl shadow-2xl shadow-[#1e293b]/10 border border-[#1e293b]/5 z-50 overflow-hidden"
                 >
                   <button
                     onClick={() => { onEdit(post); setMenuOpen(false); }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase text-left hover:bg-[#F8F6F4] text-[#3B2211] tracking-widest transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase text-left hover:bg-[#F8F6F4] text-[#1e293b] tracking-widest transition-colors"
                   >
                     <Edit2 size={12} /> Edit Post
                   </button>
@@ -394,7 +394,7 @@ function PostCard({
                       <><Eye size={12} /> Publikasikan</>
                     )}
                   </button>
-                  <div className="h-px bg-[#3B2211]/5 mx-3" />
+                  <div className="h-px bg-[#1e293b]/5 mx-3" />
                   <button
                     onClick={() => { onDelete(post.id); setMenuOpen(false); }}
                     className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase text-left hover:bg-rose-50 text-rose-500 tracking-widest transition-colors"
@@ -420,7 +420,7 @@ function PostCard({
             }}
           />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[#3B2211]/10">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-[#1e293b]/10">
             <Camera size={40} />
             <p className="text-[9px] font-black uppercase tracking-widest">
               Tidak ada gambar
@@ -457,14 +457,14 @@ function PostCard({
             label="Copy Caption"
           />
         </div>
-        <button className="text-gray-300 hover:text-[#3B2211] transition-colors">
+        <button className="text-gray-300 hover:text-[#1e293b] transition-colors">
           <Send size={20} />
         </button>
       </div>
 
       {/* ── Likes ── */}
       <div className="px-4 pt-1">
-        <p className="text-[11px] font-black text-[#3B2211]">
+        <p className="text-[11px] font-black text-[#1e293b]">
           {localLikes.toLocaleString("id-ID")} suka
         </p>
       </div>
@@ -472,11 +472,11 @@ function PostCard({
       {/* ── Caption ── */}
       <div className="px-4 pt-1 pb-3">
         <p className="text-[12px] text-gray-700 leading-relaxed line-clamp-3">
-          <span className="font-black text-[#3B2211] mr-1">snapp.frame</span>
+          <span className="font-black text-[#1e293b] mr-1">Link Productive</span>
           {post.caption}
         </p>
         {post.hashtags.length > 0 && (
-          <p className="text-[11px] text-[#C88A58] font-bold mt-1 line-clamp-2">
+          <p className="text-[11px] text-[#0ea5e9] font-bold mt-1 line-clamp-2">
             {post.hashtags.map((h) => `#${h}`).join(" ")}
           </p>
         )}
@@ -547,13 +547,13 @@ function PostModal({
           style={{ maxHeight: "calc(100vh - 3rem)" }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-8 py-5 border-b border-[#3B2211]/5 flex-shrink-0">
+          <div className="flex items-center justify-between px-8 py-5 border-b border-[#1e293b]/5 flex-shrink-0">
             <div>
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#C88A58] to-[#3B2211] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center">
                   <Camera size={15} className="text-white" />
                 </div>
-                <h2 className="text-lg font-black text-[#3B2211]">
+                <h2 className="text-lg font-black text-[#1e293b]">
                   {editing ? "Edit Post" : "Buat Post Baru"}
                 </h2>
               </div>
@@ -566,8 +566,8 @@ function PostModal({
                 onClick={() => setPreview((p) => !p)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   preview
-                    ? "bg-[#3B2211] text-white"
-                    : "bg-[#3B2211]/5 text-[#3B2211]"
+                    ? "bg-[#1e293b] text-white"
+                    : "bg-[#1e293b]/5 text-[#1e293b]"
                 }`}
               >
                 <Eye size={13} />
@@ -575,7 +575,7 @@ function PostModal({
               </button>
               <button
                 onClick={onClose}
-                className="p-2 text-gray-300 hover:text-[#3B2211] hover:bg-[#3B2211]/5 rounded-xl transition-colors"
+                className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-[#1e293b]/5 rounded-xl transition-colors"
               >
                 <X size={20} />
               </button>
@@ -589,7 +589,7 @@ function PostModal({
               <div className="p-8 space-y-6 border-r border-[#F8F6F4]">
                 {/* Image Upload */}
                 <div>
-                  <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                  <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                     Gambar Post *
                   </label>
                   
@@ -628,7 +628,7 @@ function PostModal({
                     <div className="flex gap-2">
                       <label
                         htmlFor="upload-image"
-                        className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#F8F6F4] border border-transparent hover:border-[#3B2211]/10 rounded-xl text-sm font-bold text-[#3B2211] cursor-pointer transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#F8F6F4] border border-transparent hover:border-[#1e293b]/10 rounded-xl text-sm font-bold text-[#1e293b] cursor-pointer transition-all"
                       >
                         <Camera size={18} />
                         Pilih Gambar dari Perangkat
@@ -647,7 +647,7 @@ function PostModal({
                           setForm((f) => ({ ...f, imageUrl: e.target.value }))
                         }
                         placeholder="Atau masukkan URL gambar..."
-                        className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                        className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                       />
                     </div>
                   </div>
@@ -668,7 +668,7 @@ function PostModal({
 
                 {/* Caption */}
                 <div>
-                  <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                  <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                     Caption *
                   </label>
                   <div className="relative">
@@ -683,7 +683,7 @@ function PostModal({
                       }
                       placeholder="Tulis caption yang menarik untuk para affiliator share..."
                       rows={5}
-                      className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all resize-none"
+                      className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all resize-none"
                     />
                   </div>
                   <p className="text-right text-[9px] text-gray-400 font-bold mt-1">
@@ -693,7 +693,7 @@ function PostModal({
 
                 {/* Hashtags */}
                 <div>
-                  <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                  <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                     Hashtags
                   </label>
                   <HashtagInput
@@ -705,7 +705,7 @@ function PostModal({
                 {/* Publish Toggle */}
                 <div className="flex items-center justify-between p-4 bg-[#F8F6F4] rounded-xl">
                   <div>
-                    <p className="text-[11px] font-black text-[#3B2211] uppercase tracking-widest">
+                    <p className="text-[11px] font-black text-[#1e293b] uppercase tracking-widest">
                       Status Publikasi
                     </p>
                     <p className="text-[9px] text-gray-400 font-bold mt-0.5">
@@ -741,12 +741,12 @@ function PostModal({
                   <div className="bg-white rounded-2xl border border-[#F0EBE5] shadow-sm overflow-hidden max-w-[280px] mx-auto">
                     {/* Header */}
                     <div className="flex items-center gap-2 px-3 py-2.5 border-b border-[#F8F6F4]">
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#C88A58] to-[#3B2211] flex items-center justify-center text-white font-black text-[9px]">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center text-white font-black text-[9px]">
                         SF
                       </div>
                       <div>
-                        <p className="text-[10px] font-black text-[#3B2211]">
-                          snapp.frame
+                        <p className="text-[10px] font-black text-[#1e293b]">
+                          Link Productive
                         </p>
                         <p className="text-[8px] text-gray-400 font-bold">
                           Baru saja
@@ -765,7 +765,7 @@ function PostModal({
                           }}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#3B2211]/10">
+                        <div className="w-full h-full flex items-center justify-center text-[#1e293b]/10">
                           <Camera size={32} />
                         </div>
                       )}
@@ -776,17 +776,17 @@ function PostModal({
                         <Heart size={16} className="text-gray-300" />
                         <Send size={16} className="text-gray-300" />
                       </div>
-                      <p className="text-[9px] font-black text-[#3B2211]">
+                      <p className="text-[9px] font-black text-[#1e293b]">
                         0 suka
                       </p>
                       <p className="text-[9px] text-gray-600 mt-0.5 line-clamp-2">
-                        <span className="font-black text-[#3B2211]">
-                          snapp.frame{" "}
+                        <span className="font-black text-[#1e293b]">
+                          Link Productive{" "}
                         </span>
                         {form.caption || "Caption akan muncul di sini..."}
                       </p>
                       {form.hashtags.length > 0 && (
-                        <p className="text-[8px] text-[#C88A58] font-bold mt-0.5 line-clamp-1">
+                        <p className="text-[8px] text-[#0ea5e9] font-bold mt-0.5 line-clamp-1">
                           {form.hashtags.map((h) => `#${h}`).join(" ")}
                         </p>
                       )}
@@ -798,17 +798,17 @@ function PostModal({
           </div>
 
           {/* Footer */}
-          <div className="flex gap-3 px-8 py-5 border-t border-[#3B2211]/5 bg-[#F8F6F4]/50 flex-shrink-0 rounded-b-3xl">
+          <div className="flex gap-3 px-8 py-5 border-t border-[#1e293b]/5 bg-[#F8F6F4]/50 flex-shrink-0 rounded-b-3xl">
             <button
               onClick={onClose}
-              className="flex-1 py-3.5 rounded-xl border border-[#3B2211]/10 text-[11px] font-black uppercase tracking-widest text-[#3B2211]/40 hover:text-[#3B2211] hover:border-[#3B2211]/20 transition-all"
+              className="flex-1 py-3.5 rounded-xl border border-[#1e293b]/10 text-[11px] font-black uppercase tracking-widest text-[#1e293b]/40 hover:text-[#1e293b] hover:border-[#1e293b]/20 transition-all"
             >
               Batal
             </button>
             <button
               onClick={handleSave}
               disabled={!form.imageUrl || !form.caption || saving}
-              className="flex-[2] flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#3B2211] text-white text-[11px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:pointer-events-none shadow-xl shadow-[#3B2211]/20"
+              className="flex-[2] flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#1e293b] text-white text-[11px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:pointer-events-none shadow-xl shadow-[#1e293b]/20"
             >
               {saving ? (
                 <span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
@@ -1143,17 +1143,17 @@ export default function AffiliatorsPage() {
   return (
     <div className="p-8 lg:p-12 space-y-10 max-w-[1600px] mx-auto min-h-screen">
       {/* ── Header ── */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#3B2211]/5 pb-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#1e293b]/5 pb-10">
         <div className="space-y-2">
-          <p className="text-[10px] font-black text-[#C88A58] uppercase tracking-[0.4em]">
+          <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.4em]">
             Partnership Engine
           </p>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#3B2211] flex items-center justify-center text-white shadow-xl shadow-[#3B2211]/20">
+            <div className="w-12 h-12 rounded-xl bg-[#1e293b] flex items-center justify-center text-white shadow-xl shadow-[#1e293b]/20">
               <HeartHandshake size={24} />
             </div>
             <h1
-              className="text-4xl font-black text-[#3B2211] tracking-tight"
+              className="text-4xl font-black text-[#1e293b] tracking-tight"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Kelola Affiliasi
@@ -1167,7 +1167,7 @@ export default function AffiliatorsPage() {
           {tab === "affiliators" ? (
             <button
               onClick={openAdd}
-              className="flex items-center gap-3 px-8 py-4 bg-[#3B2211] text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-[#3B2211]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="flex items-center gap-3 px-8 py-4 bg-[#1e293b] text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-[#1e293b]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Plus size={16} />
               Tambah Affiliator
@@ -1175,7 +1175,7 @@ export default function AffiliatorsPage() {
           ) : (
             <button
               onClick={() => { setEditingPost(null); setShowPostModal(true); }}
-              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#C88A58] to-[#3B2211] text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-[#3B2211]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-[#1e293b]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Camera size={16} />
               Buat Post Baru
@@ -1191,7 +1191,7 @@ export default function AffiliatorsPage() {
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
             tab === "pendaftaran"
               ? "bg-amber-500 text-white shadow-lg shadow-amber-500/20"
-              : "text-gray-400 hover:text-[#3B2211]"
+              : "text-gray-400 hover:text-[#1e293b]"
           }`}
         >
           <AlertCircle size={14} />
@@ -1208,8 +1208,8 @@ export default function AffiliatorsPage() {
           onClick={() => setTab("affiliators")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
             tab === "affiliators"
-              ? "bg-[#3B2211] text-white shadow-lg shadow-[#3B2211]/20"
-              : "text-gray-400 hover:text-[#3B2211]"
+              ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
+              : "text-gray-400 hover:text-[#1e293b]"
           }`}
         >
           <Users size={14} />
@@ -1219,8 +1219,8 @@ export default function AffiliatorsPage() {
           onClick={() => setTab("posts")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
             tab === "posts"
-              ? "bg-gradient-to-r from-[#C88A58] to-[#3B2211] text-white shadow-lg shadow-[#3B2211]/20"
-              : "text-gray-400 hover:text-[#3B2211]"
+              ? "bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
+              : "text-gray-400 hover:text-[#1e293b]"
           }`}
         >
           <Layers size={14} />
@@ -1236,7 +1236,7 @@ export default function AffiliatorsPage() {
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
             tab === "permintaan"
               ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-              : "text-gray-400 hover:text-[#3B2211]"
+              : "text-gray-400 hover:text-[#1e293b]"
           }`}
         >
           <Send size={14} />
@@ -1264,15 +1264,15 @@ export default function AffiliatorsPage() {
             {/* ── Stats ── */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { label: "Total Affiliator", value: stats.total, icon: Users, color: "text-[#3B2211]", bg: "bg-gray-100" },
+                { label: "Total Affiliator", value: stats.total, icon: Users, color: "text-[#1e293b]", bg: "bg-gray-100" },
                 { label: "Aktif", value: stats.active, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
                 { label: "Pending Review", value: stats.pending, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
                 {
                   label: "Total Komisi Dibayar",
                   value: `Rp ${stats.totalEarnings.toLocaleString("id-ID")}`,
                   icon: DollarSign,
-                  color: "text-[#C88A58]",
-                  bg: "bg-[#C88A58]/10",
+                  color: "text-[#0ea5e9]",
+                  bg: "bg-[#0ea5e9]/10",
                 },
               ].map((stat, idx) => (
                 <motion.div
@@ -1280,7 +1280,7 @@ export default function AffiliatorsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.08 }}
-                  className="p-7 bg-white rounded-2xl border border-white shadow-sm flex flex-col justify-between hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+                  className="p-7 bg-white rounded-2xl border border-white shadow-sm flex flex-col justify-between hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
                 >
                   <div className={`w-12 h-12 rounded-xl ${stat.bg} flex items-center justify-center ${stat.color} mb-4`}>
                     <stat.icon size={22} />
@@ -1289,7 +1289,7 @@ export default function AffiliatorsPage() {
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">
                       {stat.label}
                     </p>
-                    <span className="text-3xl font-black text-[#3B2211] tracking-tighter">
+                    <span className="text-3xl font-black text-[#1e293b] tracking-tighter">
                       {stat.value}
                     </span>
                   </div>
@@ -1306,7 +1306,7 @@ export default function AffiliatorsPage() {
                   placeholder="Cari nama, nomor, atau kode referral..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B2211]/5 shadow-sm"
+                  className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1e293b]/5 shadow-sm"
                 />
               </div>
               <div className="flex bg-gray-100 p-1 rounded-xl">
@@ -1316,8 +1316,8 @@ export default function AffiliatorsPage() {
                     onClick={() => setStatusFilter(s)}
                     className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
                       statusFilter === s
-                        ? "bg-[#3B2211] text-white shadow-sm"
-                        : "text-gray-400 hover:text-[#3B2211]"
+                        ? "bg-[#1e293b] text-white shadow-sm"
+                        : "text-gray-400 hover:text-[#1e293b]"
                     }`}
                   >
                     {s === "all" ? "Semua" : STATUS_CONFIG[s].label}
@@ -1368,11 +1368,11 @@ export default function AffiliatorsPage() {
                             >
                               <td className="px-8 py-5">
                                 <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 rounded-xl bg-[#3B2211]/5 flex items-center justify-center text-[#3B2211] font-black text-xs">
+                                  <div className="w-10 h-10 rounded-xl bg-[#1e293b]/5 flex items-center justify-center text-[#1e293b] font-black text-xs">
                                     {a.name.slice(0, 2).toUpperCase()}
                                   </div>
                                   <div>
-                                    <p className="font-bold text-[#3B2211]">{a.name}</p>
+                                    <p className="font-bold text-[#1e293b]">{a.name}</p>
                                     <p className="text-[9px] text-gray-400 font-bold uppercase">
                                       Bergabung{" "}
                                       {new Date(a.joinDate).toLocaleDateString("id-ID", {
@@ -1382,7 +1382,7 @@ export default function AffiliatorsPage() {
                                       })}
                                     </p>
                                     {a.notes && (
-                                      <p className="text-[9px] text-[#C88A58] font-bold italic mt-0.5">
+                                      <p className="text-[9px] text-[#0ea5e9] font-bold italic mt-0.5">
                                         {a.notes}
                                       </p>
                                     )}
@@ -1405,14 +1405,14 @@ export default function AffiliatorsPage() {
                               </td>
                               <td className="px-8 py-5">
                                 <div className="flex items-center gap-1">
-                                  <span className="font-black text-[#3B2211] tracking-widest text-sm bg-[#3B2211]/5 px-3 py-1.5 rounded-lg">
+                                  <span className="font-black text-[#1e293b] tracking-widest text-sm bg-[#1e293b]/5 px-3 py-1.5 rounded-lg">
                                     {a.referralCode}
                                   </span>
                                   <CopyButton text={a.referralCode} />
                                 </div>
                               </td>
                               <td className="px-8 py-5 text-center">
-                                <span className="text-lg font-black text-[#3B2211]">
+                                <span className="text-lg font-black text-[#1e293b]">
                                   {a.totalReferrals}
                                 </span>
                                 <span className="block text-[9px] text-gray-400 font-bold uppercase">
@@ -1420,7 +1420,7 @@ export default function AffiliatorsPage() {
                                 </span>
                               </td>
                               <td className="px-8 py-5 text-right">
-                                <span className="font-black text-[#3B2211]">
+                                <span className="font-black text-[#1e293b]">
                                   Rp {a.totalEarnings.toLocaleString("id-ID")}
                                 </span>
                               </td>
@@ -1440,7 +1440,7 @@ export default function AffiliatorsPage() {
                                     onClick={() =>
                                       setActiveMenu(activeMenu === a.id ? null : a.id)
                                     }
-                                    className="p-2 hover:bg-[#3B2211]/5 rounded-xl transition-colors text-gray-300 hover:text-[#3B2211]"
+                                    className="p-2 hover:bg-[#1e293b]/5 rounded-xl transition-colors text-gray-300 hover:text-[#1e293b]"
                                   >
                                     <MoreVertical size={16} />
                                   </button>
@@ -1450,11 +1450,11 @@ export default function AffiliatorsPage() {
                                         initial={{ opacity: 0, scale: 0.9, y: -8 }}
                                         animate={{ opacity: 1, scale: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.9, y: -8 }}
-                                        className="absolute right-0 top-10 w-52 bg-white rounded-2xl shadow-2xl shadow-[#3B2211]/15 border border-[#3B2211]/5 z-50 overflow-hidden"
+                                        className="absolute right-0 top-10 w-52 bg-white rounded-2xl shadow-2xl shadow-[#1e293b]/15 border border-[#1e293b]/5 z-50 overflow-hidden"
                                       >
                                         <button
                                           onClick={() => openEdit(a)}
-                                          className="w-full flex items-center gap-3 px-5 py-3.5 text-[11px] font-black uppercase text-left hover:bg-[#F8F6F4] text-[#3B2211] transition-colors tracking-widest"
+                                          className="w-full flex items-center gap-3 px-5 py-3.5 text-[11px] font-black uppercase text-left hover:bg-[#F8F6F4] text-[#1e293b] transition-colors tracking-widest"
                                         >
                                           <Edit2 size={13} /> Edit Data
                                         </button>
@@ -1474,7 +1474,7 @@ export default function AffiliatorsPage() {
                                             <XCircle size={13} /> Nonaktifkan
                                           </button>
                                         )}
-                                        <div className="h-px bg-[#3B2211]/5 mx-4" />
+                                        <div className="h-px bg-[#1e293b]/5 mx-4" />
                                         <button
                                           onClick={() => handleDelete(a.id)}
                                           className="w-full flex items-center gap-3 px-5 py-3.5 text-[11px] font-black uppercase text-left hover:bg-rose-50 text-rose-500 transition-colors tracking-widest"
@@ -1510,7 +1510,7 @@ export default function AffiliatorsPage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
               {([
-                { label: "Total Masuk", value: applications.length, icon: Users, color: "text-[#3B2211]", bg: "bg-[#3B2211]/5" },
+                { label: "Total Masuk", value: applications.length, icon: Users, color: "text-[#1e293b]", bg: "bg-[#1e293b]/5" },
                 { label: "Menunggu Review", value: applications.filter(a => a.status === "pending").length, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
                 { label: "Disetujui", value: applications.filter(a => a.status === "approved").length, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
               ] as const).map((s, i) => (
@@ -1526,7 +1526,7 @@ export default function AffiliatorsPage() {
                   </div>
                   <div>
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">{s.label}</p>
-                    <span className="text-3xl font-black text-[#3B2211] tracking-tighter">{s.value}</span>
+                    <span className="text-3xl font-black text-[#1e293b] tracking-tighter">{s.value}</span>
                   </div>
                 </motion.div>
               ))}
@@ -1540,8 +1540,8 @@ export default function AffiliatorsPage() {
                   onClick={() => setAppStatusFilter(s)}
                   className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
                     appStatusFilter === s
-                      ? "bg-[#3B2211] text-white shadow-sm"
-                      : "text-gray-400 hover:text-[#3B2211]"
+                      ? "bg-[#1e293b] text-white shadow-sm"
+                      : "text-gray-400 hover:text-[#1e293b]"
                   }`}
                 >
                   {s === "all" ? "Semua" : APP_STATUS_CONFIG[s].label}
@@ -1598,11 +1598,11 @@ export default function AffiliatorsPage() {
                                 >
                                   <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
-                                      <div className="w-9 h-9 rounded-xl bg-[#3B2211]/5 flex items-center justify-center text-[#3B2211] font-black text-xs flex-shrink-0">
+                                      <div className="w-9 h-9 rounded-xl bg-[#1e293b]/5 flex items-center justify-center text-[#1e293b] font-black text-xs flex-shrink-0">
                                         {app.name.slice(0, 2).toUpperCase()}
                                       </div>
                                       <div>
-                                        <p className="font-bold text-[#3B2211] text-sm">{app.name}</p>
+                                        <p className="font-bold text-[#1e293b] text-sm">{app.name}</p>
                                         {app.occupation && (
                                           <p className="text-[9px] text-gray-400 font-bold uppercase mt-0.5">{app.occupation.replace("_", " ")}</p>
                                         )}
@@ -1688,10 +1688,10 @@ export default function AffiliatorsPage() {
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <div className="w-14 h-14 rounded-2xl bg-[#3B2211]/5 flex items-center justify-center text-[#3B2211] font-black text-lg mb-3">
+                        <div className="w-14 h-14 rounded-2xl bg-[#1e293b]/5 flex items-center justify-center text-[#1e293b] font-black text-lg mb-3">
                           {selectedApp.name.slice(0, 2).toUpperCase()}
                         </div>
-                        <h3 className="text-lg font-black text-[#3B2211]">{selectedApp.name}</h3>
+                        <h3 className="text-lg font-black text-[#1e293b]">{selectedApp.name}</h3>
                         {selectedApp.occupation && (
                           <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
                             {selectedApp.occupation.replace("_", " ")}
@@ -1700,7 +1700,7 @@ export default function AffiliatorsPage() {
                       </div>
                       <button
                         onClick={() => setSelectedApp(null)}
-                        className="p-2 text-gray-300 hover:text-[#3B2211] hover:bg-[#3B2211]/5 rounded-xl"
+                        className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-[#1e293b]/5 rounded-xl"
                       >
                         <X size={16} />
                       </button>
@@ -1716,7 +1716,7 @@ export default function AffiliatorsPage() {
                       ] as const).filter(i => i.value).map(({ label, value }) => (
                         <div key={label} className="flex items-center justify-between gap-3">
                           <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest w-20 flex-shrink-0">{label}</span>
-                          <span className="text-xs font-bold text-[#3B2211] text-right">{value}</span>
+                          <span className="text-xs font-bold text-[#1e293b] text-right">{value}</span>
                         </div>
                       ))}
                     </div>
@@ -1781,8 +1781,8 @@ export default function AffiliatorsPage() {
                   label: "Total Post",
                   value: posts.length,
                   icon: Layers,
-                  color: "text-[#3B2211]",
-                  bg: "bg-[#3B2211]/5",
+                  color: "text-[#1e293b]",
+                  bg: "bg-[#1e293b]/5",
                 },
                 {
                   label: "Dipublikasi",
@@ -1804,7 +1804,7 @@ export default function AffiliatorsPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07 }}
-                  className="p-6 bg-white rounded-2xl border border-white shadow-sm flex items-center gap-5 hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+                  className="p-6 bg-white rounded-2xl border border-white shadow-sm flex items-center gap-5 hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
                 >
                   <div className={`w-12 h-12 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
                     <s.icon size={22} />
@@ -1813,7 +1813,7 @@ export default function AffiliatorsPage() {
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
                       {s.label}
                     </p>
-                    <span className="text-3xl font-black text-[#3B2211] tracking-tighter">
+                    <span className="text-3xl font-black text-[#1e293b] tracking-tighter">
                       {s.value}
                     </span>
                   </div>
@@ -1833,7 +1833,7 @@ export default function AffiliatorsPage() {
                   placeholder="Cari caption atau hashtag..."
                   value={postSearch}
                   onChange={(e) => setPostSearch(e.target.value)}
-                  className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B2211]/5 shadow-sm"
+                  className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1e293b]/5 shadow-sm"
                 />
               </div>
             </div>
@@ -1862,12 +1862,12 @@ export default function AffiliatorsPage() {
                 ))}
               </div>
             ) : filteredPosts.length === 0 ? (
-              <div className="py-32 flex flex-col items-center gap-6 text-center bg-white rounded-3xl border border-[#3B2211]/5">
-                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#C88A58]/10 to-[#3B2211]/10 flex items-center justify-center">
-                  <Camera size={36} className="text-[#3B2211]/20" />
+              <div className="py-32 flex flex-col items-center gap-6 text-center bg-white rounded-3xl border border-[#1e293b]/5">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#0ea5e9]/10 to-[#1e293b]/10 flex items-center justify-center">
+                  <Camera size={36} className="text-[#1e293b]/20" />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-[#3B2211]/30 uppercase tracking-widest">
+                  <p className="text-sm font-black text-[#1e293b]/30 uppercase tracking-widest">
                     {postSearch ? "Tidak ada post ditemukan" : "Belum ada konten post"}
                   </p>
                   <p className="text-xs text-gray-300 font-medium mt-2">
@@ -1879,7 +1879,7 @@ export default function AffiliatorsPage() {
                 {!postSearch && (
                   <button
                     onClick={() => { setEditingPost(null); setShowPostModal(true); }}
-                    className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#C88A58] to-[#3B2211] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-[#3B2211]/20 hover:scale-[1.02] transition-all"
+                    className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-[#1e293b]/20 hover:scale-[1.02] transition-all"
                   >
                     <Camera size={15} />
                     Buat Post Pertama
@@ -1926,7 +1926,7 @@ export default function AffiliatorsPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07 }}
-                  className="p-6 bg-white rounded-2xl border border-white shadow-sm flex items-center gap-5 hover:shadow-xl hover:shadow-[#3B2211]/5 transition-all duration-500"
+                  className="p-6 bg-white rounded-2xl border border-white shadow-sm flex items-center gap-5 hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
                 >
                   <div className={`w-12 h-12 rounded-xl ${s.bg} flex items-center justify-center ${s.color}`}>
                     <s.icon size={22} />
@@ -1935,7 +1935,7 @@ export default function AffiliatorsPage() {
                     <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
                       {s.label}
                     </p>
-                    <span className="text-3xl font-black text-[#3B2211] tracking-tighter">
+                    <span className="text-3xl font-black text-[#1e293b] tracking-tighter">
                       {s.value}
                     </span>
                   </div>
@@ -1952,7 +1952,7 @@ export default function AffiliatorsPage() {
                   className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
                     leadStatusFilter === s
                       ? "bg-blue-500 text-white shadow-sm"
-                      : "text-gray-400 hover:text-[#3B2211]"
+                      : "text-gray-400 hover:text-[#1e293b]"
                   }`}
                 >
                   {s === "all" ? "Semua" : s === "pending" ? "Menunggu" : s === "followed_up" ? "Followed Up" : "Closed / Deal"}
@@ -2022,14 +2022,14 @@ export default function AffiliatorsPage() {
                                         {lead.name.slice(0, 2).toUpperCase()}
                                       </div>
                                       <div>
-                                        <p className="font-bold text-[#3B2211] text-sm">{lead.name}</p>
+                                        <p className="font-bold text-[#1e293b] text-sm">{lead.name}</p>
                                         <p className="text-[10px] text-gray-400 font-medium">{lead.phone}</p>
                                       </div>
                                     </div>
                                   </td>
                                   <td className="px-6 py-4">
                                     <div>
-                                      <p className="font-bold text-[#3B2211] text-xs max-w-[180px] truncate">{lead.productName || "General Link"}</p>
+                                      <p className="font-bold text-[#1e293b] text-xs max-w-[180px] truncate">{lead.productName || "General Link"}</p>
                                       <span className={`inline-block px-1.5 py-0.5 rounded border text-[8px] font-black uppercase mt-1 ${leadTypeColor}`}>
                                         {leadTypeLabel}
                                       </span>
@@ -2037,7 +2037,7 @@ export default function AffiliatorsPage() {
                                   </td>
                                   <td className="px-6 py-4">
                                     {lead.referralCode ? (
-                                      <span className="font-black text-[#C88A58] bg-[#C88A58]/5 px-2 py-1 rounded text-xs font-mono">
+                                      <span className="font-black text-[#0ea5e9] bg-[#0ea5e9]/5 px-2 py-1 rounded text-xs font-mono">
                                         @{lead.referralCode}
                                       </span>
                                     ) : (
@@ -2106,14 +2106,14 @@ export default function AffiliatorsPage() {
                         <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black text-lg mb-3">
                           {selectedLead.name.slice(0, 2).toUpperCase()}
                         </div>
-                        <h3 className="text-lg font-black text-[#3B2211]">{selectedLead.name}</h3>
+                        <h3 className="text-lg font-black text-[#1e293b]">{selectedLead.name}</h3>
                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1">
                           Permintaan Masuk: {new Date(selectedLead.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
                         </p>
                       </div>
                       <button
                         onClick={() => setSelectedLead(null)}
-                        className="p-2 text-gray-300 hover:text-[#3B2211] hover:bg-[#3B2211]/5 rounded-xl"
+                        className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-[#1e293b]/5 rounded-xl"
                       >
                         <X size={16} />
                       </button>
@@ -2131,7 +2131,7 @@ export default function AffiliatorsPage() {
                       ] as const).map(({ label, value }) => (
                         <div key={label} className="flex items-center justify-between gap-3 text-xs">
                           <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest w-24 flex-shrink-0">{label}</span>
-                          <span className="text-xs font-bold text-[#3B2211] text-right">{value}</span>
+                          <span className="text-xs font-bold text-[#1e293b] text-right">{value}</span>
                         </div>
                       ))}
                     </div>
@@ -2167,7 +2167,7 @@ export default function AffiliatorsPage() {
                       {/* WhatsApp Quick Action */}
                       <a
                         href={`https://wa.me/${selectedLead.phone.replace(/^0/, "62").replace(/\D/g, "")}?text=${encodeURIComponent(
-                          `Halo ${selectedLead.name}! Saya Admin Snapp.frame ingin menindaklanjuti pendaftaran Anda untuk program ${selectedLead.productName || "kemitraan"}.`
+                          `Halo ${selectedLead.name}! Saya Admin Link Productive ingin menindaklanjuti pendaftaran Anda untuk program ${selectedLead.productName || "kemitraan"}.`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -2203,9 +2203,9 @@ export default function AffiliatorsPage() {
                 className="bg-white rounded-3xl shadow-2xl w-full max-w-lg flex flex-col"
                 style={{ maxHeight: "calc(100vh - 3rem)" }}
               >
-                <div className="flex items-center justify-between px-8 py-5 border-b border-[#3B2211]/5 flex-shrink-0">
+                <div className="flex items-center justify-between px-8 py-5 border-b border-[#1e293b]/5 flex-shrink-0">
                   <div>
-                    <h2 className="text-lg font-black text-[#3B2211]">
+                    <h2 className="text-lg font-black text-[#1e293b]">
                       {editingItem ? "Edit Affiliator" : "Tambah Affiliator Baru"}
                     </h2>
                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
@@ -2214,7 +2214,7 @@ export default function AffiliatorsPage() {
                   </div>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="p-2 text-gray-300 hover:text-[#3B2211] hover:bg-[#3B2211]/5 rounded-xl transition-colors"
+                    className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-[#1e293b]/5 rounded-xl transition-colors"
                   >
                     <X size={20} />
                   </button>
@@ -2229,7 +2229,7 @@ export default function AffiliatorsPage() {
                     { label: "Nomor Rekening", key: "bankAccount", placeholder: "1234567890" },
                   ].map(({ label, key, placeholder }) => (
                     <div key={key}>
-                      <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                         {label}
                       </label>
                       <input
@@ -2237,13 +2237,13 @@ export default function AffiliatorsPage() {
                         value={(form as any)[key] || ""}
                         onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
                         placeholder={placeholder}
-                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                       />
                     </div>
                   ))}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                         Komisi Marketer (%)
                       </label>
                       <input
@@ -2251,11 +2251,11 @@ export default function AffiliatorsPage() {
                         value={(form as any).feePercentage ?? ""}
                         onChange={(e) => setForm((f) => ({ ...f, feePercentage: parseFloat(e.target.value) || 0 }))}
                         placeholder="10"
-                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                         Diskon Customer (%)
                       </label>
                       <input
@@ -2263,13 +2263,13 @@ export default function AffiliatorsPage() {
                         value={(form as any).discountPct ?? ""}
                         onChange={(e) => setForm((f) => ({ ...f, discountPct: parseFloat(e.target.value) || 0 }))}
                         placeholder="10"
-                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                       />
                     </div>
                   </div>
                   {!editingItem && (
                     <div>
-                      <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                         Kata Sandi Login *
                       </label>
                       <input
@@ -2277,25 +2277,25 @@ export default function AffiliatorsPage() {
                         value={(form as any).password || ""}
                         onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
                         placeholder="Minimal 6 karakter"
-                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                        className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                       />
                     </div>
                   )}
                   <div>
-                    <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                    <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                       Status
                     </label>
                     <select
                       value={form.status}
                       onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as any }))}
-                      className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                      className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all"
                     >
                       <option value="active">Aktif</option>
                       <option value="inactive">Nonaktif</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
+                    <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                       Catatan
                     </label>
                     <textarea
@@ -2303,21 +2303,21 @@ export default function AffiliatorsPage() {
                       onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                       placeholder="Catatan internal..."
                       rows={3}
-                      className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all resize-none"
+                      className="w-full px-5 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#1e293b]/10 transition-all resize-none"
                     />
                   </div>
                 </div>
-                <div className="flex gap-3 px-8 py-5 border-t border-[#3B2211]/5 bg-[#F8F6F4]/50 flex-shrink-0 rounded-b-3xl">
+                <div className="flex gap-3 px-8 py-5 border-t border-[#1e293b]/5 bg-[#F8F6F4]/50 flex-shrink-0 rounded-b-3xl">
                   <button
                     onClick={() => setShowModal(false)}
-                    className="flex-1 py-3.5 rounded-xl border border-[#3B2211]/10 text-[11px] font-black uppercase tracking-widest text-[#3B2211]/40 hover:text-[#3B2211] hover:border-[#3B2211]/20 transition-all"
+                    className="flex-1 py-3.5 rounded-xl border border-[#1e293b]/10 text-[11px] font-black uppercase tracking-widest text-[#1e293b]/40 hover:text-[#1e293b] hover:border-[#1e293b]/20 transition-all"
                   >
                     Batal
                   </button>
                   <button
                     onClick={handleSave}
                     disabled={!form.name || !form.phone || !form.referralCode || !form.email || (!editingItem && !(form as any).password)}
-                    className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#3B2211] text-white text-[11px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:pointer-events-none shadow-xl shadow-[#3B2211]/20"
+                    className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#1e293b] text-white text-[11px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 disabled:pointer-events-none shadow-xl shadow-[#1e293b]/20"
                   >
                     <Save size={14} />
                     {editingItem ? "Simpan Perubahan" : "Tambah Affiliator"}
