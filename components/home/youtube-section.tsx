@@ -87,7 +87,14 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                     <Video size={28} className="ml-1" />
                   </div>
                 </a>
-                <img src={settings.youtube_thumbnail} alt="YouTube Highlight" className="w-full h-full object-contain bg-slate-50" />
+                <img 
+                  src={settings.youtube_thumbnail} 
+                  alt="YouTube Highlight" 
+                  className="w-full h-full object-contain bg-slate-50" 
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://placehold.co/800x450/f8fafc/94a3b8?text=Image+Not+Found";
+                  }}
+                />
               </div>
             ) : (
               <div className="relative aspect-video rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-6 text-center group hover:border-[#FF0000]/30 transition-colors duration-300">
