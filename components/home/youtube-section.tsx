@@ -19,10 +19,25 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   } else if (embedUrl.includes("youtu.be/")) {
     embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
     embedUrl = embedUrl.split("?")[0];
+  } else if (embedUrl.includes("/shorts/")) {
+    embedUrl = embedUrl.replace("/shorts/", "/embed/");
+    embedUrl = embedUrl.split("?")[0];
   }
   
   // If the user pasted a channel link instead of a video, it can't be embedded in an iframe.
   const isEmbeddable = embedUrl.includes("/embed/");
+
+  let finalThumbnail = settings.youtube_thumbnail || "";
+  if (finalThumbnail && (finalThumbnail.includes("youtube.com") || finalThumbnail.includes("youtu.be"))) {
+    let extractedId = "";
+    if (finalThumbnail.includes("watch?v=")) extractedId = finalThumbnail.split("watch?v=")[1].split("&")[0];
+    else if (finalThumbnail.includes("youtu.be/")) extractedId = finalThumbnail.split("youtu.be/")[1].split("?")[0];
+    else if (finalThumbnail.includes("/shorts/")) extractedId = finalThumbnail.split("/shorts/")[1].split("?")[0];
+    
+    if (extractedId) {
+      finalThumbnail = `https://img.youtube.com/vi/${extractedId}/maxresdefault.jpg`;
+    }
+  }
 
   return (
     <section
@@ -80,7 +95,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                   allowFullScreen
                 ></iframe>
               </div>
-            ) : settings.youtube_thumbnail ? (
+            ) : finalThumbnail ? (
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer">
                 <a href={youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive"} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
@@ -88,7 +103,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                   </div>
                 </a>
                 <img 
-                  src={settings.youtube_thumbnail} 
+                  src={finalThumbnail} 
                   alt="YouTube Highlight" 
                   className="w-full h-full object-contain bg-slate-50" 
                   onError={(e) => {
