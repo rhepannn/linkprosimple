@@ -34,6 +34,6 @@ export const faqs: Faq[] = [
   {
     question: "Bagaimana cara melakukan pendaftaran dan pembayaran?",
     answer:
-      "Pendaftaran dapat dilakukan langsung melalui halaman 'Program' di website ini. Pembayaran dapat diselesaikan dengan mudah via transfer bank ke rekening PT Link Productive Nusantara yang tertera setelah pengisian formulir pendaftaran.",
+      "Pendaftaran dapat dilakukan langsung melalui halaman 'Pelatihan' di website ini. Pembayaran dapat diselesaikan dengan mudah via transfer bank ke rekening PT Link Productive Indonesia yang tertera setelah pengisian formulir pendaftaran.",
   },
 ];

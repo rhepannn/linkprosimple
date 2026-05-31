@@ -1,7 +1,7 @@
 "use client";
 
 // components/home/how-it-works-section.tsx
-// Light blue + white — 4 steps with gradient numbers
+// Light blue + white � 4 steps with gradient numbers
 
 import { motion } from "framer-motion";
 import { BookOpen, UserCheck, CreditCard, GraduationCap } from "lucide-react";
@@ -25,7 +25,7 @@ const STEPS = [
     icon: CreditCard,
     number: "03",
     title: "Selesaikan Pembayaran",
-    desc: "Selesaikan pembayaran program melalui transfer bank ke rekening resmi PT Link Productive Nusantara.",
+    desc: "Selesaikan pembayaran program melalui transfer bank ke rekening resmi PT Link Productive Indonesia.",
     gradient: "from-cyan-400 to-sky-400",
   },
   {
@@ -69,11 +69,11 @@ export function HowItWorksSection() {
             <span className="text-gradient-cyan">Bergabung</span>
           </h2>
           <p className="text-slate-400 text-base mt-5 max-w-lg mx-auto leading-relaxed">
-            Proses pendaftaran yang cepat dan mudah — ikuti 4 langkah ini untuk memulai transformasi karir Anda.
+            Proses pendaftaran yang cepat dan mudah � ikuti 4 langkah ini untuk memulai transformasi karir Anda.
           </p>
         </motion.div>
 
-        {/* ── Desktop: Horizontal Steps ── */}
+        {/* -- Desktop: Horizontal Steps -- */}
         <motion.div
           className="hidden lg:grid grid-cols-4 gap-6 relative"
           initial="hidden"
@@ -126,7 +126,7 @@ export function HowItWorksSection() {
           })}
         </motion.div>
 
-        {/* ── Mobile: Vertical Steps ── */}
+        {/* -- Mobile: Vertical Steps -- */}
         <motion.div
           className="lg:hidden space-y-0 relative"
           initial="hidden"

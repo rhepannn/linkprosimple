@@ -304,4 +304,4 @@ export const affiliateDetails: Record<string, { subtitle: string; intro: string;
     disclaimer: "Biaya dan skema proyek disesuaikan secara khusus berdasarkan analisis skala bisnis dan kebutuhan operasional perusahaan. Komisi kemitraan dihitung secara persentase/nilai tetap yang disepakati untuk setiap kontrak kerja sama valid yang berhasil ditandatangani.",
     consultWa: "https://wa.me/628138298543",
   },
-};
+};

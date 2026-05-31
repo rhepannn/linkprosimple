@@ -17,7 +17,7 @@ import { brandProducts } from "@/data/brand-products";
 import { formatPrice } from "@/lib/utils";
 import { toast } from "sonner";
 
-// ─── CUSTOM SPINNER COMPONENT ───
+// --- CUSTOM SPINNER COMPONENT ---
 function Spinner({ size = 20, className = "" }: { size?: number; className?: string }) {
   return (
     <svg
@@ -54,16 +54,16 @@ interface ProductInfo {
   features: string[];
 }
 
-// ─── TRAINING DETAIL DATA (EXACT COPY OF AFFILIATE BUT WITHOUT COMMISSION/AFFILIATE WORDING) ───
+// --- TRAINING DETAIL DATA (EXACT COPY OF AFFILIATE BUT WITHOUT COMMISSION/AFFILIATE WORDING) ---
 const trainingDetails: Record<string, { subtitle: string; intro: string; packages: { name: string; price: string; discount: string; afterDiscount?: string; suitableFor?: string; services?: string[]; goal?: string }[]; whyInteresting: string[]; targetMarket: string[]; disclaimer: string; consultWa?: string }> = {
   "LP Academic Partner": {
     subtitle: "Pendamping Konsultan Tugas Akhir Mahasiswa",
-    intro: "Bangun peluang penyelesaian Tugas Akhir lebih terarah, privat, & profesional bersama praktisi ahli 🎓\n\nMelalui Program Pelatihan Academic Partner, kamu akan mendapatkan:\n✅ Bimbingan Intensif satu-satu bersama Mentor Ahli\n✅ Kurikulum terstruktur sesuai topik penelitian\n✅ Pendampingan persiapan sidang akhir & latihan tanya-jawab\n✅ Review & masukan komprehensif untuk draf tulisan",
+    intro: "Bangun peluang penyelesaian Tugas Akhir lebih terarah, privat, & profesional bersama praktisi ahli ??\n\nMelalui Program Pelatihan Academic Partner, kamu akan mendapatkan:\n? Bimbingan Intensif satu-satu bersama Mentor Ahli\n? Kurikulum terstruktur sesuai topik penelitian\n? Pendampingan persiapan sidang akhir & latihan tanya-jawab\n? Review & masukan komprehensif untuk draf tulisan",
     packages: [
-      { name: "🥉 Paket Starter Consultation", price: "Rp 799.000", discount: "Rp 250.000" },
-      { name: "🥈 Paket Regular Academic Partner", price: "Rp 2.499.000", discount: "Rp 600.000" },
-      { name: "🥇 Paket Premium Academic Partner", price: "Rp 4.999.000", discount: "Rp 1.300.000" },
-      { name: "🚀 Paket Intensive Sidang & Revisi", price: "Rp 1.499.000", discount: "Rp 400.000" },
+      { name: "?? Paket Starter Consultation", price: "Rp 799.000", discount: "Rp 250.000" },
+      { name: "?? Paket Regular Academic Partner", price: "Rp 2.499.000", discount: "Rp 600.000" },
+      { name: "?? Paket Premium Academic Partner", price: "Rp 4.999.000", discount: "Rp 1.300.000" },
+      { name: "?? Paket Intensive Sidang & Revisi", price: "Rp 1.499.000", discount: "Rp 400.000" },
     ],
     whyInteresting: [
       "Modul bimbingan yang sangat spesifik dan praktis",
@@ -72,16 +72,16 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Didukung AI & ekosistem mitra industri",
       "Fleksibilitas jadwal konsultasi",
     ],
-    targetMarket: ["🎓 Mahasiswa tingkat akhir", "📚 Akademisi muda", "👨‍🏫 Peneliti pemula"],
+    targetMarket: ["?? Mahasiswa tingkat akhir", "?? Akademisi muda", "????? Peneliti pemula"],
     disclaimer: "Program promo, diskon, bonus, maupun skema penawaran dalam Program Pelatihan Link Productive dapat berubah sewaktu-waktu pada setiap periode pendaftaran yang berlaku.",
   },
   "LP Career Ready": {
     subtitle: "Program Perencanaan Karier Mahasiswa Menuju Dunia Kerja",
-    intro: "LP Career Ready membantu mempersiapkan masa depan karier profesional Anda agar memiliki daya saing tinggi di bursa kerja Swasta & BUMN.\n\nProgram ini dirancang khusus untuk:\n✔ Mahasiswa & Fresh Graduate yang bingung membuat CV\n✔ Ingin mengoptimalkan profil LinkedIn untuk headhunter\n✔ Membutuhkan simulasi interview (Mock Interview) interaktif\n✔ Memperluas relasi dengan jejaring profesional industri",
+    intro: "LP Career Ready membantu mempersiapkan masa depan karier profesional Anda agar memiliki daya saing tinggi di bursa kerja Swasta & BUMN.\n\nProgram ini dirancang khusus untuk:\n? Mahasiswa & Fresh Graduate yang bingung membuat CV\n? Ingin mengoptimalkan profil LinkedIn untuk headhunter\n? Membutuhkan simulasi interview (Mock Interview) interaktif\n? Memperluas relasi dengan jejaring profesional industri",
     packages: [
-      { name: "📌 Pembelian H-1 Minggu Sebelum Acara", price: "Rp 699.000", discount: "-", afterDiscount: "Rp 699.000" },
-      { name: "🚀 Promo H-7 s/d H-20", price: "Rp 699.000", discount: "Rp 400.000", afterDiscount: "Rp 299.000" },
-      { name: "🚀 Promo H-21 dan Seterusnya", price: "Rp 699.000", discount: "Rp 500.000", afterDiscount: "Rp 199.000" },
+      { name: "?? Pembelian H-1 Minggu Sebelum Acara", price: "Rp 699.000", discount: "-", afterDiscount: "Rp 699.000" },
+      { name: "?? Promo H-7 s/d H-20", price: "Rp 699.000", discount: "Rp 400.000", afterDiscount: "Rp 299.000" },
+      { name: "?? Promo H-21 dan Seterusnya", price: "Rp 699.000", discount: "Rp 500.000", afterDiscount: "Rp 199.000" },
     ],
     whyInteresting: [
       "Roadmap karier personal yang terstruktur",
@@ -89,16 +89,16 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Simulasi wawancara kerja interaktif dengan praktisi HRD",
       "Alumni berkarier di BCA, BI, Paragon Corp, Krakatau Steel, dll",
     ],
-    targetMarket: ["🎓 Mahasiswa semester awal hingga akhir", "🎓 Fresh graduate", "🎓 Pencari kerja (Job seekers)"],
+    targetMarket: ["?? Mahasiswa semester awal hingga akhir", "?? Fresh graduate", "?? Pencari kerja (Job seekers)"],
     disclaimer: "Jadwal kelas interaktif dan bimbingan karir diatur setelah konfirmasi administrasi pendaftaran selesai.",
   },
   "LP Entrepreneur Launchpad": {
     subtitle: "Program Perencanaan Bisnis untuk Siswa SMA/SMK & Mahasiswa",
-    intro: "Wujudkan ide bisnis impian Anda menjadi model bisnis yang valid, terukur, dan siap diluncurkan ke pasar 🚀\n\nLP Business Planning Bootcamp hadir sebagai solusi praktis bagi Anda yang:\n❌ Bingung cara memulai langkah bisnis awal\n❌ Takut mengalami kegagalan modal usaha\n❌ Memiliki ide kreatif tapi belum tahu eksekusinya\n❌ Ingin belajar menyusun Pitch Deck bisnis sederhana",
+    intro: "Wujudkan ide bisnis impian Anda menjadi model bisnis yang valid, terukur, dan siap diluncurkan ke pasar ??\n\nLP Business Planning Bootcamp hadir sebagai solusi praktis bagi Anda yang:\n? Bingung cara memulai langkah bisnis awal\n? Takut mengalami kegagalan modal usaha\n? Memiliki ide kreatif tapi belum tahu eksekusinya\n? Ingin belajar menyusun Pitch Deck bisnis sederhana",
     packages: [
-      { name: "⏳ Pembelian 1 Minggu Sebelum Acara", price: "Rp 750.000", discount: "-" },
-      { name: "⏳ Pembelian H-7 s/d H-20", price: "Rp 750.000", discount: "Rp 400.000", afterDiscount: "Rp 350.000" },
-      { name: "⏳ Pembelian H-21 dan Seterusnya", price: "Rp 750.000", discount: "Rp 500.000", afterDiscount: "Rp 250.000" },
+      { name: "? Pembelian 1 Minggu Sebelum Acara", price: "Rp 750.000", discount: "-" },
+      { name: "? Pembelian H-7 s/d H-20", price: "Rp 750.000", discount: "Rp 400.000", afterDiscount: "Rp 350.000" },
+      { name: "? Pembelian H-21 dan Seterusnya", price: "Rp 750.000", discount: "Rp 500.000", afterDiscount: "Rp 250.000" },
     ],
     whyInteresting: [
       "Metodologi validasi ide bisnis praktis minim risiko",
@@ -106,14 +106,14 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Akses mentoring dari wirausahawan berpengalaman",
       "Ekosistem kolaborasi sesama founder muda",
     ],
-    targetMarket: ["🏫 Siswa SMA/SMK", "🎓 Mahasiswa", "🚀 Rintisan wirausaha muda"],
+    targetMarket: ["?? Siswa SMA/SMK", "?? Mahasiswa", "?? Rintisan wirausaha muda"],
     disclaimer: "Kuota peserta bootcamp per batch dibatasi demi efektivitas interaksi pendampingan kelompok.",
   },
   "Bisapreneur Academy": {
-    subtitle: "Kelas Wirausaha Pemula — Mulai Usaha Dari Nol",
-    intro: "Tingkatkan tata kelola operasional, legalitas, serta pemasaran digital bisnis Anda bersama Bisapreneur Academy 💰\n\nProgram pembelajaran bisnis berbasis praktik nyata yang dirancang khusus untuk pelaku usaha pemula, UMKM, koperasi, dan calon entrepreneur agar lebih terarah dalam mengelola keuangan, meningkatkan penjualan, dan mengembangkan usahanya secara berkelanjutan.",
+    subtitle: "Kelas Wirausaha Pemula � Mulai Usaha Dari Nol",
+    intro: "Tingkatkan tata kelola operasional, legalitas, serta pemasaran digital bisnis Anda bersama Bisapreneur Academy ??\n\nProgram pembelajaran bisnis berbasis praktik nyata yang dirancang khusus untuk pelaku usaha pemula, UMKM, koperasi, dan calon entrepreneur agar lebih terarah dalam mengelola keuangan, meningkatkan penjualan, dan mengembangkan usahanya secara berkelanjutan.",
     packages: [
-      { name: "💼 Kelas Wirausaha Pemula", price: "Rp 1.250.000", discount: "Rp 250.000", afterDiscount: "Rp 1.000.000" },
+      { name: "?? Kelas Wirausaha Pemula", price: "Rp 1.250.000", discount: "Rp 250.000", afterDiscount: "Rp 1.000.000" },
     ],
     whyInteresting: [
       "Kurikulum aplikatif yang mudah dipraktikkan langsung",
@@ -121,15 +121,15 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Konsultasi perizinan legalitas usaha & izin edar produk",
       "Studi kasus nyata peningkatan produktivitas tim & omzet usaha",
     ],
-    targetMarket: ["🏪 Pelaku UMKM", "👥 Calon wirausaha mandiri", "🏪 Pengelola bisnis lokal / koperasi"],
+    targetMarket: ["?? Pelaku UMKM", "?? Calon wirausaha mandiri", "?? Pengelola bisnis lokal / koperasi"],
     disclaimer: "Pendaftaran kelas wirausaha pemula dilakukan secara berkala sesuai jadwal batch akademik terbaru.",
   },
   "Baristara Academy": {
     subtitle: "Sekolah Barista & Bisnis Kopi by Link Productive",
-    intro: "Pelajari seni meracik kopi berkualitas dan kuasai strategi operasional bisnis coffee shop profesional ☕\n\nProgram pelatihan terlengkap yang mencakup teknik manual brewing, pengoperasian mesin espresso komersial, pembuatan latte art estetis, hingga manajemen keuangan dan HPP kedai kopi secara menyeluruh.",
+    intro: "Pelajari seni meracik kopi berkualitas dan kuasai strategi operasional bisnis coffee shop profesional ?\n\nProgram pelatihan terlengkap yang mencakup teknik manual brewing, pengoperasian mesin espresso komersial, pembuatan latte art estetis, hingga manajemen keuangan dan HPP kedai kopi secara menyeluruh.",
     packages: [
-      { name: "☕ Program Barista Profesional", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
-      { name: "☕ Program Barista & Bisnis Kopi", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
+      { name: "? Program Barista Profesional", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
+      { name: "? Program Barista & Bisnis Kopi", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
     ],
     whyInteresting: [
       "Praktik langsung menggunakan peralatan bar berstandar kafe",
@@ -137,14 +137,14 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Modul hitungan investasi awal & operasional coffee shop",
       "Peluang magang bersertifikat di kedai kopi jaringan mitra kami",
     ],
-    targetMarket: ["☕ Barista enthusiast", "🏫 Calon pengusaha kedai kopi", "🎓 Mahasiswa & alumni yang ingin memiliki skill tambahan"],
+    targetMarket: ["? Barista enthusiast", "?? Calon pengusaha kedai kopi", "?? Mahasiswa & alumni yang ingin memiliki skill tambahan"],
     disclaimer: "Seluruh bahan praktik pembuatan kopi, modul belajar, dan sertifikat resmi kelulusan telah tercakup di dalam biaya pendaftaran.",
   },
   "Cuan Creator Academy": {
-    subtitle: "Sekolah Digital Marketing — Belajar dari Nol Hingga Bisa Menghasilkan",
-    intro: "Kuasai keahlian pemasaran digital berbasis project nyata bersama Cuan Creator Academy 📈\n\nProgram pelatihan digital marketing intensif yang membantu peserta menguasai keterampilan Search Engine Optimization (SEO), periklanan media sosial (Meta/TikTok Ads), optimasi konten, copy writing, hingga analisis kampanye promosi digital secara profesional.",
+    subtitle: "Sekolah Digital Marketing � Belajar dari Nol Hingga Bisa Menghasilkan",
+    intro: "Kuasai keahlian pemasaran digital berbasis project nyata bersama Cuan Creator Academy ??\n\nProgram pelatihan digital marketing intensif yang membantu peserta menguasai keterampilan Search Engine Optimization (SEO), periklanan media sosial (Meta/TikTok Ads), optimasi konten, copy writing, hingga analisis kampanye promosi digital secara profesional.",
     packages: [
-      { name: "🎓 Cuan Creator Academy", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
+      { name: "?? Cuan Creator Academy", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
     ],
     whyInteresting: [
       "Pembelajaran berbasis portofolio dan proyek nyata",
@@ -152,17 +152,17 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Bimbingan langsung dari praktisi agensi digital terkemuka",
       "Membantu membangun portofolio karier digital mumpuni",
     ],
-    targetMarket: ["👨‍🎓 Mahasiswa & fresh graduate", "📱 Content creator pemula", "💻 Pemilik bisnis online / freelancer"],
+    targetMarket: ["????? Mahasiswa & fresh graduate", "?? Content creator pemula", "?? Pemilik bisnis online / freelancer"],
     disclaimer: "Jadwal pendaftaran batch baru dibuka setiap bulan dengan kuota kelas terbatas demi menjaga kualitas belajar.",
   },
   "Tekno AI Academy": {
-    subtitle: "Sekolah Coding & AI Business — Skill Digital untuk Dunia Kerja & Bisnis",
-    intro: "Mulai pelajari teknologi pemrograman web terkini dan pemanfaatan kecerdasan buatan (AI) untuk meningkatkan produktivitas operasional kerja & bisnis 🌐\n\nTekno AI Academy menyajikan kurikulum praktis yang menggabungkan kemampuan rekayasa perangkat lunak dengan implementasi sistem cerdas berbasis AI untuk kebutuhan administrasi, manufaktur, dan bisnis digital.",
+    subtitle: "Sekolah Coding & AI Business � Skill Digital untuk Dunia Kerja & Bisnis",
+    intro: "Mulai pelajari teknologi pemrograman web terkini dan pemanfaatan kecerdasan buatan (AI) untuk meningkatkan produktivitas operasional kerja & bisnis ??\n\nTekno AI Academy menyajikan kurikulum praktis yang menggabungkan kemampuan rekayasa perangkat lunak dengan implementasi sistem cerdas berbasis AI untuk kebutuhan administrasi, manufaktur, dan bisnis digital.",
     packages: [
-      { name: "🤖 AI Business Productivity Class", price: "Rp 2.700.000", discount: "Rp 1.000.000", afterDiscount: "Rp 1.700.000" },
-      { name: "🌐 Web Developer for Business", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
-      { name: "🏢 AI for Office & Administration", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
-      { name: "🏭 AI Industry & Smart Manufacturing", price: "Rp 2.800.000", discount: "Rp 900.000", afterDiscount: "Rp 1.900.000" },
+      { name: "?? AI Business Productivity Class", price: "Rp 2.700.000", discount: "Rp 1.000.000", afterDiscount: "Rp 1.700.000" },
+      { name: "?? Web Developer for Business", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
+      { name: "?? AI for Office & Administration", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
+      { name: "?? AI Industry & Smart Manufacturing", price: "Rp 2.800.000", discount: "Rp 900.000", afterDiscount: "Rp 1.900.000" },
     ],
     whyInteresting: [
       "Kurikulum modern yang selalu mengikuti tren perkembangan teknologi AI",
@@ -170,16 +170,16 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Sangat cocok untuk staf kantor, administrator, maupun pemilik UMKM",
       "Materi disajikan secara sederhana tanpa latar belakang IT yang rumit",
     ],
-    targetMarket: ["🎓 Mahasiswa & fresh graduate IT/Non-IT", "🏢 Staf administrasi & operasional kantor", "🏪 Pemilik usaha & profesional industri"],
+    targetMarket: ["?? Mahasiswa & fresh graduate IT/Non-IT", "?? Staf administrasi & operasional kantor", "?? Pemilik usaha & profesional industri"],
     disclaimer: "Biaya pendaftaran dapat disesuaikan dengan skema paket promo khusus korporat atau kelompok akademik.",
   },
   "Mental Bahasa Academy": {
-    subtitle: "Sekolah Bahasa & Mental Health — Bangun Kepercayaan Diri",
-    intro: "Gabungkan peningkatan keahlian komunikasi bahasa asing premium dengan penguatan kesehatan mental serta kepercayaan diri interaktif 🌏\n\nProgram pengembangan diri revolusioner yang memadukan latihan percakapan bahasa Inggris aktif (English Speaking), teknik berbicara di depan umum (Public Speaking), serta coaching interpersonal terarah bersama psikolog & praktisi komunikasi ahli.",
+    subtitle: "Sekolah Bahasa & Mental Health � Bangun Kepercayaan Diri",
+    intro: "Gabungkan peningkatan keahlian komunikasi bahasa asing premium dengan penguatan kesehatan mental serta kepercayaan diri interaktif ??\n\nProgram pengembangan diri revolusioner yang memadukan latihan percakapan bahasa Inggris aktif (English Speaking), teknik berbicara di depan umum (Public Speaking), serta coaching interpersonal terarah bersama psikolog & praktisi komunikasi ahli.",
     packages: [
-      { name: "🎤 Public Speaking & Confidence Project Class", price: "Rp 1.500.000", discount: "Rp 700.000", afterDiscount: "Rp 800.000" },
-      { name: "🌏 English Speaking & Confidence Experience", price: "Rp 2.000.000", discount: "Rp 1.000.000", afterDiscount: "Rp 1.000.000" },
-      { name: "🧠 Self Growth, Mental Health & Social Confidence", price: "Rp 1.500.000", discount: "Rp 700.000", afterDiscount: "Rp 800.000" },
+      { name: "?? Public Speaking & Confidence Project Class", price: "Rp 1.500.000", discount: "Rp 700.000", afterDiscount: "Rp 800.000" },
+      { name: "?? English Speaking & Confidence Experience", price: "Rp 2.000.000", discount: "Rp 1.000.000", afterDiscount: "Rp 1.000.000" },
+      { name: "?? Self Growth, Mental Health & Social Confidence", price: "Rp 1.500.000", discount: "Rp 700.000", afterDiscount: "Rp 800.000" },
     ],
     whyInteresting: [
       "Metodologi belajar aktif yang interaktif tanpa tekanan",
@@ -187,15 +187,15 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Pendampingan langsung oleh mentor psikologi & penutur asing",
       "Pengalaman belajar berbasis proyek luar ruangan yang menyenangkan",
     ],
-    targetMarket: ["🎓 Mahasiswa & fresh graduate", "👔 Pekerja profesional", "👥 Siapa saja yang ingin meningkatkan rasa percaya diri berbicara"],
+    targetMarket: ["?? Mahasiswa & fresh graduate", "?? Pekerja profesional", "?? Siapa saja yang ingin meningkatkan rasa percaya diri berbicara"],
     disclaimer: "Skema program penggabungan ini dilakukan secara luring dan daring sesuai modul kesepakatan akademik.",
   },
   "Green Productive Academy": {
-    subtitle: "Sekolah Teknologi Hijau — Inovasi Produk Berbasis Lingkungan",
-    intro: "Pelajari inovasi teknologi berkelanjutan dan rancang produk ramah lingkungan untuk berkontribusi pada kelestarian bumi 🌿\n\nProgram edukasi hijau ini menyajikan kurikulum mendalam seputar prinsip ekonomi sirkular (Circular Economy), pemanfaatan energi bersih skala praktis, pengolahan limbah mandiri, serta penciptaan model bisnis hijau untuk pelaku wirausaha ramah lingkungan.",
+    subtitle: "Sekolah Teknologi Hijau � Inovasi Produk Berbasis Lingkungan",
+    intro: "Pelajari inovasi teknologi berkelanjutan dan rancang produk ramah lingkungan untuk berkontribusi pada kelestarian bumi ??\n\nProgram edukasi hijau ini menyajikan kurikulum mendalam seputar prinsip ekonomi sirkular (Circular Economy), pemanfaatan energi bersih skala praktis, pengolahan limbah mandiri, serta penciptaan model bisnis hijau untuk pelaku wirausaha ramah lingkungan.",
     packages: [
-      { name: "🌱 Program Teknologi Hijau Dasar", price: "Rp 1.500.000", discount: "Rp 500.000", afterDiscount: "Rp 1.000.000" },
-      { name: "♻️ Program Inovasi Produk Berkelanjutan", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
+      { name: "?? Program Teknologi Hijau Dasar", price: "Rp 1.500.000", discount: "Rp 500.000", afterDiscount: "Rp 1.000.000" },
+      { name: "?? Program Inovasi Produk Berkelanjutan", price: "Rp 2.500.000", discount: "Rp 800.000", afterDiscount: "Rp 1.700.000" },
     ],
     whyInteresting: [
       "Modul komprehensif berbasis standar pembangunan berkelanjutan (SDGs)",
@@ -203,16 +203,16 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Cocok dipromosikan bagi mahasiswa teknik, sains, dan pegiat sosial",
       "Membantu merancang inovasi produk bernilai jual tinggi berwawasan hijau",
     ],
-    targetMarket: ["🌿 Aktivis & penggerak sosial lingkungan", "🎓 Mahasiswa sains/teknik", "🏭 Pelaku industri & wirausaha ramah lingkungan"],
+    targetMarket: ["?? Aktivis & penggerak sosial lingkungan", "?? Mahasiswa sains/teknik", "?? Pelaku industri & wirausaha ramah lingkungan"],
     disclaimer: "Kurikulum pembelajaran disesuaikan dengan studi kasus dan peraturan lingkungan terkini di Indonesia.",
   },
   "Brand Siap": {
-    subtitle: "Layanan Branding Cepat — Identitas Visual & Kemasan Produk",
-    intro: "Tingkatkan daya saing produk bisnis Anda di mata konsumen lewat kemasan yang menawan dan logo profesional 🎨\n\nBrand Siap menyajikan workshop khusus pembuatan identitas visual kilat serta layanan terarah bagi UMKM agar memiliki standar logo, palet warna, desain kemasan, serta kelengkapan media pemasaran digital berestetika premium.",
+    subtitle: "Layanan Branding Cepat � Identitas Visual & Kemasan Produk",
+    intro: "Tingkatkan daya saing produk bisnis Anda di mata konsumen lewat kemasan yang menawan dan logo profesional ??\n\nBrand Siap menyajikan workshop khusus pembuatan identitas visual kilat serta layanan terarah bagi UMKM agar memiliki standar logo, palet warna, desain kemasan, serta kelengkapan media pemasaran digital berestetika premium.",
     packages: [
-      { name: "🎨 Paket Logo & Brand Identity", price: "Rp 500.000", discount: "Rp 100.000", afterDiscount: "Rp 400.000" },
-      { name: "📦 Paket Kemasan & Packaging Design", price: "Rp 750.000", discount: "Rp 150.000", afterDiscount: "Rp 600.000" },
-      { name: "🚀 Paket Brand Siap Lengkap", price: "Rp 1.500.000", discount: "Rp 300.000", afterDiscount: "Rp 1.200.000" },
+      { name: "?? Paket Logo & Brand Identity", price: "Rp 500.000", discount: "Rp 100.000", afterDiscount: "Rp 400.000" },
+      { name: "?? Paket Kemasan & Packaging Design", price: "Rp 750.000", discount: "Rp 150.000", afterDiscount: "Rp 600.000" },
+      { name: "?? Paket Brand Siap Lengkap", price: "Rp 1.500.000", discount: "Rp 300.000", afterDiscount: "Rp 1.200.000" },
     ],
     whyInteresting: [
       "Proses konsultasi yang cepat dengan hasil visual berstandar industri",
@@ -220,15 +220,15 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Mendapatkan file master orisinal yang siap cetak & siap pakai",
       "Meningkatkan nilai jual brand berkali-kali lipat",
     ],
-    targetMarket: ["🏪 Pemilik UMKM & usaha mandiri", "🚀 Rintisan wirausaha muda", "🏪 Koperasi & BUMDes lokal"],
+    targetMarket: ["?? Pemilik UMKM & usaha mandiri", "?? Rintisan wirausaha muda", "?? Koperasi & BUMDes lokal"],
     disclaimer: "Jadwal pengerjaan visual dihitung sejak data kelengkapan produk diserahkan secara lengkap ke tim desainer.",
   },
   "Standara Consulting": {
     subtitle: "Konsultan & Pelatihan Standar, Mutu, dan Pengembangan Bisnis",
-    intro: "Tingkatkan efektivitas operasional, tata kelola, dan kepatuhan sistem bisnis Anda berstandar nasional & internasional 💼\n\nStandara Consulting menghadirkan pelatihan serta pendampingan intensif bagi organisasi, koperasi, LPK, IKM, hingga industri menengah dalam menyusun Standard Operating Procedure (SOP), Key Performance Indicators (KPI), persiapan akreditasi, serta sertifikasi mutu resmi.",
+    intro: "Tingkatkan efektivitas operasional, tata kelola, dan kepatuhan sistem bisnis Anda berstandar nasional & internasional ??\n\nStandara Consulting menghadirkan pelatihan serta pendampingan intensif bagi organisasi, koperasi, LPK, IKM, hingga industri menengah dalam menyusun Standard Operating Procedure (SOP), Key Performance Indicators (KPI), persiapan akreditasi, serta sertifikasi mutu resmi.",
     packages: [
       {
-        name: "🥉 Paket Basic Business Improvement",
+        name: "?? Paket Basic Business Improvement",
         price: "Menyesuaikan",
         discount: "Sesuai Proyek",
         suitableFor: "Cocok untuk UMKM, usaha rintisan, dan koperasi yang ingin mulai membangun sistem bisnis yang lebih rapi dan profesional.",
@@ -243,7 +243,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
         goal: "Membantu bisnis lebih tertata, produktif, dan siap berkembang.",
       },
       {
-        name: "🥈 Paket Standard Growth Business",
+        name: "?? Paket Standard Growth Business",
         price: "Menyesuaikan",
         discount: "Sesuai Proyek",
         suitableFor: "Cocok untuk UMKM, IKM, LPK, dan koperasi yang ingin meningkatkan performa bisnis dan pendapatan.",
@@ -259,7 +259,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
         goal: "Meningkatkan efektivitas operasional, kualitas SDM, serta pertumbuhan bisnis dan pendapatan.",
       },
       {
-        name: "🥇 Paket Professional Management System",
+        name: "?? Paket Professional Management System",
         price: "Menyesuaikan",
         discount: "Sesuai Proyek",
         suitableFor: "Cocok untuk perusahaan, lembaga, dan industri yang ingin memiliki sistem kerja profesional dan siap bersaing.",
@@ -282,7 +282,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
       "Penyusunan dokumen SOP aplikatif sesuai kondisi di lapangan",
       "Akses pendampingan berkelanjutan hingga proses sertifikasi mutlak",
     ],
-    targetMarket: ["🏢 Manajemen pabrik & pelaku industri menengah", "👥 Pengurus koperasi & LPK daerah", "🏪 Pemilik usaha skala berkembang"],
+    targetMarket: ["?? Manajemen pabrik & pelaku industri menengah", "?? Pengurus koperasi & LPK daerah", "?? Pemilik usaha skala berkembang"],
     disclaimer: "Estimasi waktu pendampingan dan biaya keseluruhan disesuaikan dengan skala operasional organisasi berdasarkan hasil kesepakatan asesmen awal.",
     consultWa: "https://wa.me/628138298543",
   },
@@ -535,7 +535,7 @@ const pkgSlugMap: Record<string, string> = {
   "standara-consulting": "Standara Consulting",
 };
 
-// ─── ENROLLMENT REGISTER MODAL ───
+// --- ENROLLMENT REGISTER MODAL ---
 function EnrollModal({ 
   product, 
   onClose,
@@ -676,7 +676,7 @@ function EnrollModal({
                 <CheckCircle2 size={36} className="text-emerald-500" />
               </div>
               <div>
-                <h4 className="text-lg font-black text-near-black mb-2">Pendaftaran Berhasil! 🎉</h4>
+                <h4 className="text-lg font-black text-near-black mb-2">Pendaftaran Berhasil! ??</h4>
                 <p className="text-xs text-near-black/60 font-bold leading-relaxed max-w-xs">
                   Data pendaftaran Anda telah kami simpan. Selesaikan proses pendaftaran dengan mentransfer total pembayaran ke rekening resmi kami di bawah ini:
                 </p>
@@ -707,7 +707,7 @@ function EnrollModal({
                       {siteSettings.payment_bank_account || "8882047811"}
                     </p>
                     <p className="text-[10px] text-near-black/60 font-bold mt-0.5">
-                      a.n. {siteSettings.payment_bank_owner || "PT Link Productive Nusantara"}
+                      a.n. {siteSettings.payment_bank_owner || "PT Link Productive Indonesia"}
                     </p>
                   </div>
                   <button
@@ -825,7 +825,7 @@ function EnrollModal({
                   </div>
                   {discountPct > 0 && (
                     <div className="flex justify-between text-xs text-emerald-600">
-                      <span className="font-bold flex items-center gap-1">✨ Diskon Referral ({discountPct}%):</span>
+                      <span className="font-bold flex items-center gap-1">? Diskon Referral ({discountPct}%):</span>
                       <span className="font-black">-Rp {discountAmount.toLocaleString("id-ID")}</span>
                     </div>
                   )}
@@ -836,7 +836,7 @@ function EnrollModal({
                   </div>
                   {discountPct > 0 && (
                     <p className="text-[8px] text-emerald-600 font-bold leading-normal mt-1 uppercase tracking-wider">
-                      🎉 Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
+                      ?? Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
                     </p>
                   )}
                 </div>
@@ -870,7 +870,7 @@ function EnrollModal({
               )}
             </button>
             <p className="text-[9px] text-near-black/30 font-bold text-center mt-2.5 uppercase tracking-wider">
-              Pembayaran Aman via Rekening Resmi PT Link Productive Nusantara
+              Pembayaran Aman via Rekening Resmi PT Link Productive Indonesia
             </p>
           </div>
         )}
@@ -1049,7 +1049,7 @@ function parseProductsFromDb(dbProducts: any[]) {
   return Object.values(grouped);
 }
 
-// ─── MAIN PAGE COMPONENT ───
+// --- MAIN PAGE COMPONENT ---
 function DaftarPelatihanContent() {
   const [productsList, setProductsList] = useState<any[]>([]);
   const [activeProduct, setActiveProduct] = useState<any | null>(null);
@@ -1123,7 +1123,7 @@ function DaftarPelatihanContent() {
     subtitle: "Pelatihan Kompetensi & Keahlian Terintegrasi",
     intro: "Tingkatkan keahlian kompetensi Anda bersama mentor industri ahli melalu kurikulum berbasis praktik nyata.",
     whyInteresting: ["Modul belajar praktis", "Mentor berpengalaman", "Sertifikat resmi", "Akses jaringan industri"],
-    targetMarket: ["🎓 Mahasiswa & alumni", "💼 Profesional muda", "🚀 Wirausaha rintisan"],
+    targetMarket: ["?? Mahasiswa & alumni", "?? Profesional muda", "?? Wirausaha rintisan"],
     disclaimer: "Jadwal dan materi kelas diatur setelah konfirmasi pendaftaran selesai."
   }) : null;
 
@@ -1321,7 +1321,7 @@ function DaftarPelatihanContent() {
       </AnimatePresence>
 
       <main className="min-h-screen bg-slate-50 overflow-x-hidden w-full">
-        {/* ── Premium Asymmetrical White-Dominant Hero Banner for Training ── */}
+        {/* -- Premium Asymmetrical White-Dominant Hero Banner for Training -- */}
         <section className="relative pt-36 pb-20 lg:pt-44 lg:pb-28 overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-white text-slate-800 w-full border-b border-slate-100">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.12),transparent_55%)] z-0 pointer-events-none" />
           
@@ -1378,7 +1378,7 @@ function DaftarPelatihanContent() {
           </div>
         </section>
 
-        {/* ── Products Grid ── */}
+        {/* -- Products Grid -- */}
         <section id="program-list" className="py-24 bg-white">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">

@@ -33,7 +33,7 @@ export default function SettingsPage() {
         affiliate_whatsapp: data.affiliate_whatsapp || data.contact_wa || "6287778059221",
         contact_ig: data.contact_ig || "@linkproductive",
         contact_address: data.contact_address || "Jl. Inovasi Sosial No. 42, Jakarta Selatan",
-        operational_hours: data.operational_hours || "Seninâ€“Sabtu: 09:00 - 18:00",
+        operational_hours: data.operational_hours || "Senin–Sabtu: 09:00 - 18:00",
         hero_eyebrow: data.hero_eyebrow || "Link Productive",
         hero_text_1: data.hero_text_1 || "Inovasi Sosial &",
         hero_highlight_1: data.hero_highlight_1 || "Pendidikan Terintegrasi",
@@ -50,7 +50,7 @@ export default function SettingsPage() {
         affiliate_poster_mental_bahasa: data.affiliate_poster_mental_bahasa || "",
         payment_bank_name: data.payment_bank_name || "BCA (Bank Central Asia)",
         payment_bank_account: data.payment_bank_account || "8882047811",
-        payment_bank_owner: data.payment_bank_owner || "PT Link Productive Nusantara",
+        payment_bank_owner: data.payment_bank_owner || "PT Link Productive Indonesia",
         payment_qris_image: data.payment_qris_image || "",
         training_payment_wa: data.training_payment_wa || "6287778059221",
         payment_dana_number: data.payment_dana_number || "",
@@ -348,7 +348,7 @@ export default function SettingsPage() {
                   value={settings.payment_bank_owner || ""}
                   onChange={(e) => handleChange("payment_bank_owner", e.target.value)}
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                  placeholder="Contoh: PT Link Productive Nusantara"
+                  placeholder="Contoh: PT Link Productive Indonesia"
                 />
               </div>
               <div>
@@ -492,7 +492,7 @@ export default function SettingsPage() {
                   value={settings.operational_hours}
                   onChange={(e) => handleChange("operational_hours", e.target.value)}
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                  placeholder="Contoh: Seninâ€“Sabtu: 09:00 - 18:00"
+                  placeholder="Contoh: Senin–Sabtu: 09:00 - 18:00"
                 />
               </div>
             </div>
@@ -635,7 +635,7 @@ export default function SettingsPage() {
           <div className="p-4 bg-amber-50 border border-amber-200/50 rounded-2xl flex gap-3 text-amber-800">
             <Layers className="w-5 h-5 shrink-0 mt-0.5" />
             <div className="text-xs font-semibold leading-relaxed">
-              <p className="font-bold mb-1">ğŸ“¢ Tips Pengaturan Tata Letak:</p>
+              <p className="font-bold mb-1">?? Tips Pengaturan Tata Letak:</p>
               Gunakan tombol panah di atas untuk menyesuaikan susunan urutan visual landing page utama. Setelah selesai menyusun urutan, pastikan Anda menekan tombol <strong>Simpan</strong> di bagian atas halaman untuk menerapkan susunan tata letak baru ini secara publik.
             </div>
           </div>
