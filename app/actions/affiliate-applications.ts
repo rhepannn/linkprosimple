@@ -219,13 +219,20 @@ export async function updateApplicationStatus(id: string, status: "approved" | "
       }
     }
 
-    const updated = await prisma.affiliateApplication.update({
-      where: { id },
-      data: { status, notes: notes ?? undefined },
-    });
+    if (status === "approved") {
+      // Jika disetujui, aplikasinya dihapus saja dari daftar pendaftaran baru
+      await prisma.affiliateApplication.delete({
+        where: { id },
+      });
+    } else {
+      await prisma.affiliateApplication.update({
+        where: { id },
+        data: { status, notes: notes ?? undefined },
+      });
+    }
     
     revalidatePath("/admin/affiliators");
-    return { success: true, data: updated };
+    return { success: true };
   } catch (err: any) {
     console.error("updateApplicationStatus error:", err);
     return { success: false, error: err.message || "Gagal mengubah status." };
