@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/site";
-import { CustomCursor } from "@/components/ui/custom-cursor";
 import { Toaster } from "sonner";
 
 /* ─── Fonts ─────────────────────────────────────────────── */
@@ -81,7 +80,6 @@ export default function RootLayout({
       <body className="bg-[#f8faff] text-[#0a0e1a] font-[family-name:var(--font-inter)] antialiased cursor-default min-h-screen overflow-x-hidden w-full">
         {/* Viewport lock wrapper */}
         <div className="relative flex min-h-screen flex-col w-full">
-          <CustomCursor />
           {children}
           <Toaster position="top-center" richColors />
         </div>
