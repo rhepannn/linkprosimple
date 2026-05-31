@@ -139,6 +139,30 @@ export default function SettingsPage() {
     handleChange("homepage_section_order", keysString);
   };
 
+  const handleSingleImageUpload = async (key: string, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      toast.loading("Mengunggah gambar...", { id: "upload_single" });
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.url) {
+        handleChange(key, data.url);
+        const saveRes = await updateSiteSettings({ [key]: data.url });
+        if (saveRes.success) {
+          toast.success("Gambar berhasil diunggah!", { id: "upload_single" });
+        } else {
+          toast.error("Gambar terunggah tapi gagal disimpan.", { id: "upload_single" });
+        }
+      }
+    } catch (err) {
+      toast.error("Terjadi kesalahan saat mengunggah gambar.", { id: "upload_single" });
+    }
+  };
+
   const handleImageUpload = async (key: string, file: File) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -630,7 +654,24 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Link Embed YouTube</label>
-                  <input type="text" value={settings.youtube_url} onChange={(e) => handleChange("youtube_url", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="https://www.youtube.com/embed/..." />
+                  <input type="text" value={settings.youtube_url} onChange={(e) => handleChange("youtube_url", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 mb-3" placeholder="https://www.youtube.com/embed/..." />
+                  
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide mt-4">Atau Gambar Thumbnail (Jika Bukan Video)</label>
+                  <div className="flex gap-3">
+                    <input type="text" value={settings.youtube_thumbnail || ""} onChange={(e) => handleChange("youtube_thumbnail", e.target.value)} className="flex-1 px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="https://..." />
+                    <label className="flex items-center gap-2 px-6 py-3 bg-near-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-near-black/90 cursor-pointer transition-colors shadow-sm whitespace-nowrap">
+                      <Upload className="w-4 h-4" /> Unggah Gambar
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleSingleImageUpload("youtube_thumbnail", file);
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

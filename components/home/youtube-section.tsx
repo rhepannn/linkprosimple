@@ -80,15 +80,17 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                   allowFullScreen
                 ></iframe>
               </div>
+            ) : settings.youtube_thumbnail ? (
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                <img src={settings.youtube_thumbnail} alt="YouTube Highlight" className="w-full h-full object-cover" />
+              </div>
             ) : (
               <div className="relative aspect-video rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-6 text-center group hover:border-[#FF0000]/30 transition-colors duration-300">
                 <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:scale-110 group-hover:bg-[#FF0000]/5 group-hover:text-[#FF0000] transition-all duration-300 mb-4 shadow-sm">
-                  <Video size={28} className="stroke-[#FF0000]" />
+                  <Video size={24} />
                 </div>
-                <p className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-1">Embedded YouTube Video</p>
-                <p className="text-[11px] text-slate-400 max-w-[200px] leading-relaxed">
-                  URL Video YouTube utama dapat dikonfigurasi secara dinamis melalui Admin Panel.
-                </p>
+                <h3 className="text-sm font-bold text-slate-700 mb-1">Video Belum Tersedia</h3>
+                <p className="text-xs text-slate-500 max-w-[250px]">Atur tautan video YouTube di Pengaturan Admin untuk menampilkannya di sini.</p>
               </div>
             )}
           </motion.div>
