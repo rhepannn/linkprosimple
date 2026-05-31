@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Video, ExternalLink } from "lucide-react";
 
@@ -12,27 +13,42 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   const youtube_desc = settings.youtube_desc || "Ikuti keseruan program, testimonial eksklusif alumni pelatihan, dokumentasi inisiasi proyek dampak sosial, serta informasi wawasan kewirausahaan secara visual melalui kanal YouTube resmi Link Productive.";
   const youtube_url = settings.youtube_url || "";
   
+  const [videoOverlayTitle, setVideoOverlayTitle] = useState("");
+
   let finalThumbnail = settings.youtube_thumbnail || "";
   let extractedId = "";
 
-  // Coba ekstrak ID dari link video utama
   if (youtube_url.includes("watch?v=")) extractedId = youtube_url.split("watch?v=")[1].split("&")[0];
   else if (youtube_url.includes("youtu.be/")) extractedId = youtube_url.split("youtu.be/")[1].split("?")[0];
   else if (youtube_url.includes("/shorts/")) extractedId = youtube_url.split("/shorts/")[1].split("?")[0];
   
-  // Jika tidak ada di link utama, coba cek barangkali mereka menempelkannya di field thumbnail
   if (!extractedId && finalThumbnail && (finalThumbnail.includes("youtube.com") || finalThumbnail.includes("youtu.be"))) {
     if (finalThumbnail.includes("watch?v=")) extractedId = finalThumbnail.split("watch?v=")[1].split("&")[0];
     else if (finalThumbnail.includes("youtu.be/")) extractedId = finalThumbnail.split("youtu.be/")[1].split("?")[0];
     else if (finalThumbnail.includes("/shorts/")) extractedId = finalThumbnail.split("/shorts/")[1].split("?")[0];
   }
 
-  // Jika dapat ID, otomatis tarik thumbnail dari YouTube
   if (extractedId) {
     finalThumbnail = `https://img.youtube.com/vi/${extractedId}/maxresdefault.jpg`;
   }
   
-  // Link target: prioritas ke video ID, lalu youtube_url asli, lalu link channel
+  useEffect(() => {
+    if (extractedId) {
+      fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${extractedId}&format=json`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.title) {
+            setVideoOverlayTitle(data.title);
+          }
+        })
+        .catch(err => console.error("Gagal mengambil judul video:", err));
+    } else {
+      if (!settings.youtube_thumbnail && site.name) {
+        setVideoOverlayTitle(`${site.name} Official Channel`);
+      }
+    }
+  }, [extractedId, settings.youtube_thumbnail]);
+
   const targetLink = extractedId ? `https://www.youtube.com/watch?v=${extractedId}` : (youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive");
 
   return (
@@ -83,11 +99,21 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
           >
             {finalThumbnail ? (
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer bg-slate-50">
-                <a href={targetLink} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
+                <a href={targetLink} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
                     <Video size={28} className="ml-1" />
                   </div>
                 </a>
+                
+                {/* Overlay Judul mirip YouTube */}
+                {videoOverlayTitle && (
+                  <div className="absolute top-0 left-0 right-0 p-4 pt-5 pb-8 bg-gradient-to-b from-black/80 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity">
+                    <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-1 drop-shadow-md pr-8">
+                      {videoOverlayTitle}
+                    </h3>
+                  </div>
+                )}
+
                 <img 
                   src={finalThumbnail} 
                   alt="YouTube Highlight" 
