@@ -68,11 +68,15 @@ model Product {
   name              String
   sku               String            @unique(map: "Product_sku_key")
   price             Float
+  discount          Float?                               // harga coret / original price sebelum diskon
   stock             Int
   image             String?
   duration          String?           // e.g. "60 menit"
   photoCount        String?           // e.g. "30 foto soft file"
   features          String[]          @default([])
+  details           String?           @db.Text
+  programGroup      String?           @map("program_group")   // e.g. "Tekno AI Academy"
+  description       String?           @db.Text                 // deskripsi paket untuk halaman publik
   isPopular         Boolean           @default(false)
   sortOrder         Int               @default(0)
   categoryId        String

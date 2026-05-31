@@ -34,6 +34,7 @@ interface Product {
   name: string;
   sku: string;
   price: number;
+  discount?: number | null;
   category: string | { name: string };
   image: string | null;
   isActive: boolean;
@@ -41,6 +42,9 @@ interface Product {
   duration?: string;
   photoCount?: string;
   features?: string[];
+  description?: string | null;
+  details?: string | null;
+  programGroup?: string | null;
   isPopular?: boolean;
   sortOrder?: number;
 }
@@ -85,6 +89,10 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
   const [formData, setFormData] = useState({
     name: "",
     price: "",
+    discount: "",
+    description: "",
+    details: "",
+    programGroup: "",
     category: "Layanan",
     isActive: true,
     image: "",
@@ -194,12 +202,16 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
       const res = await updateProduct(editingProduct.id, {
         name: formData.name,
         price: parseFloat(formData.price),
+        discount: formData.discount ? parseFloat(formData.discount) : undefined,
         categoryName: formData.category,
         image: formData.image || undefined,
         isActive: formData.isActive,
         duration: formData.duration || undefined,
         photoCount: formData.photoCount || undefined,
         features: featuresList,
+        description: formData.description || undefined,
+        details: formData.details || undefined,
+        programGroup: formData.programGroup || undefined,
         isPopular: formData.isPopular,
         sortOrder: parseInt(formData.sortOrder) || 0
       });
@@ -213,11 +225,15 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
         name: formData.name,
         sku: `STUDIO-${Date.now()}`,
         price: parseFloat(formData.price),
+        discount: formData.discount ? parseFloat(formData.discount) : undefined,
         categoryName: formData.category,
         image: formData.image || undefined,
         duration: formData.duration || undefined,
         photoCount: formData.photoCount || undefined,
         features: featuresList,
+        description: formData.description || undefined,
+        details: formData.details || undefined,
+        programGroup: formData.programGroup || undefined,
         isPopular: formData.isPopular,
         sortOrder: parseInt(formData.sortOrder) || 0
       });
@@ -231,8 +247,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     setIsModalOpen(false);
     setEditingProduct(null);
     setFormData({
-      name: "", price: "", category: "Layanan", isActive: true, image: "",
-      duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+      name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+      category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
+      features: "", isPopular: false, sortOrder: "0"
     });
     showToast(editingProduct ? "Produk berhasil diperbarui!" : "Produk baru berhasil ditambahkan!", "success");
     fetchProducts();
@@ -316,8 +333,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 onClick={() => {
                   setEditingProduct(null);
                   setFormData({
-                    name: "", price: "", category: "Layanan", isActive: true, image: "",
-                    duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+                    name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+                    category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
+                    features: "", isPopular: false, sortOrder: "0"
                   });
                   setIsModalOpen(true);
                 }}
@@ -378,8 +396,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
               onClick={() => {
                 setEditingProduct(null);
                 setFormData({
-                  name: "", price: "", category: "Layanan", isActive: true, image: "",
-                  duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+                  name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+                  category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
+                  features: "", isPopular: false, sortOrder: "0"
                 });
                 setIsModalOpen(true);
               }}
@@ -441,9 +460,21 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                       </div>
                     )}
 
-                    <p className="text-2xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
-                      Rp {p.price.toLocaleString('id-ID')}
-                    </p>
+                    <div>
+                      {p.discount && p.discount > 0 && (
+                        <p className="text-xs font-bold text-[#1e293b]/30 line-through">
+                          Rp {p.discount.toLocaleString('id-ID')}
+                        </p>
+                      )}
+                      <p className="text-2xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
+                        Rp {p.price.toLocaleString('id-ID')}
+                      </p>
+                      {p.discount && p.discount > 0 && (
+                        <span className="inline-block mt-1 px-2 py-0.5 bg-rose-50 text-rose-500 border border-rose-100 rounded-lg text-[8px] font-black uppercase tracking-widest">
+                          Hemat Rp {(p.discount - p.price).toLocaleString('id-ID')}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
@@ -459,6 +490,10 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                         setFormData({
                           name: p.name,
                           price: p.price.toString(),
+                          discount: p.discount != null ? p.discount.toString() : "",
+                          description: p.description || "",
+                          details: p.details || "",
+                          programGroup: p.programGroup || "",
                           category: typeof p.category === 'string' ? p.category : p.category?.name || "Layanan",
                           isActive: p.isActive,
                           image: p.image || "",
@@ -541,31 +576,56 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                     />
                   </div>
 
+                  {/* Nama Program Induk */}
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Nama Program Induk (programGroup)</label>
+                    <input
+                      type="text"
+                      value={formData.programGroup}
+                      onChange={(e) => setFormData({ ...formData, programGroup: e.target.value })}
+                      className="w-full px-8 py-5 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[24px] text-sm font-bold outline-none transition-all shadow-inner"
+                      placeholder="Contoh: Tekno AI Academy, Baristara Academy"
+                    />
+                  </div>
+
+                  {/* Harga Jual + Harga Coret */}
                   <div className="grid grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Harga (Rp)</label>
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Harga Jual (Rp)</label>
                       <input
                         type="number"
                         required
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner"
-                        placeholder="0"
+                        placeholder="Harga setelah diskon"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Status Ketersediaan</label>
-                      <div className="relative group">
-                        <select
-                          value={formData.isActive ? "Tersedia" : "Kosong"}
-                          onChange={(e) => setFormData({ ...formData, isActive: e.target.value === "Tersedia" })}
-                          className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none appearance-none cursor-pointer shadow-inner"
-                        >
-                          <option value="Tersedia">Tersedia</option>
-                          <option value="Kosong">Nonaktif</option>
-                        </select>
-                        <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-[#1e293b]/20 pointer-events-none" size={18} />
-                      </div>
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Harga Coret / Asli (Rp)</label>
+                      <input
+                        type="number"
+                        value={formData.discount}
+                        onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
+                        className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner"
+                        placeholder="Harga sebelum diskon (opsional)"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Status Ketersediaan */}
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Status Ketersediaan</label>
+                    <div className="relative group">
+                      <select
+                        value={formData.isActive ? "Tersedia" : "Kosong"}
+                        onChange={(e) => setFormData({ ...formData, isActive: e.target.value === "Tersedia" })}
+                        className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none appearance-none cursor-pointer shadow-inner"
+                      >
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Kosong">Nonaktif</option>
+                      </select>
+                      <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-[#1e293b]/20 pointer-events-none" size={18} />
                     </div>
                   </div>
 
@@ -631,38 +691,62 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                   </div>
 
                   <div className="p-6 bg-[#1e293b]/5 rounded-3xl space-y-5 border border-[#1e293b]/5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Detail Program Pelatihan</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Konten Program</p>
 
-                    <div className="grid grid-cols-2 gap-5">
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Durasi Program</label>
-                        <input
-                          type="text"
-                          value={formData.duration}
-                          onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                          className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                          placeholder="Contoh: 3 Bulan, 7 Hari"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Output / Termasuk</label>
-                        <input
-                          type="text"
-                          value={formData.photoCount}
-                          onChange={(e) => setFormData({ ...formData, photoCount: e.target.value })}
-                          className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                          placeholder="Contoh: Sertifikat + Materi Digital"
-                        />
-                      </div>
+                    {/* Nama Paket */}
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Nama Paket (contoh: Starter, Premium)</label>
+                      <input
+                        type="text"
+                        value={formData.duration}
+                        onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
+                        placeholder="Contoh: Starter, Regular, Premium"
+                      />
                     </div>
 
+                    {/* Deskripsi Paket */}
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Fasilitas & Keunggulan (Pisahkan dengan koma)</label>
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Deskripsi Paket</label>
+                      <textarea
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[80px]"
+                        placeholder="Penjelasan singkat tentang paket ini untuk halaman publik..."
+                      />
+                    </div>
+
+                    {/* Keunggulan / Features */}
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Keunggulan Paket — features (pisahkan dengan koma)</label>
                       <textarea
                         value={formData.features}
                         onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[100px]"
+                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[90px]"
                         placeholder="Mentoring 1-on-1, Sertifikat Resmi, Akses Materi Seumur Hidup..."
+                      />
+                    </div>
+
+                    {/* Alasan Memilih Program */}
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Alasan Memilih Program (details)</label>
+                      <textarea
+                        value={formData.details}
+                        onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[90px]"
+                        placeholder="Kenapa peserta harus memilih program ini? Apa keunggulan uniknya?"
+                      />
+                    </div>
+
+                    {/* Output / Termasuk */}
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Output / Termasuk (opsional)</label>
+                      <input
+                        type="text"
+                        value={formData.photoCount}
+                        onChange={(e) => setFormData({ ...formData, photoCount: e.target.value })}
+                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
+                        placeholder="Contoh: Sertifikat + Materi Digital"
                       />
                     </div>
 
@@ -742,9 +826,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
             >
               {/* Icon */}
               <div className={`w-16 h-16 rounded-full flex items-center justify-center shadow-md ${confirmDialog.type === "danger" ? "bg-red-50 text-red-500" :
-                  confirmDialog.type === "warning" ? "bg-amber-50 text-amber-500" :
-                    confirmDialog.type === "success" ? "bg-emerald-50 text-emerald-500" :
-                      "bg-blue-50 text-blue-500"
+                confirmDialog.type === "warning" ? "bg-amber-50 text-amber-500" :
+                  confirmDialog.type === "success" ? "bg-emerald-50 text-emerald-500" :
+                    "bg-blue-50 text-blue-500"
                 }`}>
                 {confirmDialog.type === "danger" && <Trash2 size={28} />}
                 {confirmDialog.type === "warning" && <AlertCircle size={28} />}
@@ -775,9 +859,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 <button
                   onClick={confirmDialog.onConfirm}
                   className={`flex-1 py-3.5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-white shadow-lg transition-all ${confirmDialog.type === "danger" ? "bg-red-500 hover:bg-red-600 shadow-red-500/10" :
-                      confirmDialog.type === "warning" ? "bg-amber-500 hover:bg-amber-600 shadow-amber-500/10" :
-                        confirmDialog.type === "success" ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/10" :
-                          "bg-[#1e293b] hover:bg-[#0ea5e9] shadow-[#1e293b]/10"
+                    confirmDialog.type === "warning" ? "bg-amber-500 hover:bg-amber-600 shadow-amber-500/10" :
+                      confirmDialog.type === "success" ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/10" :
+                        "bg-[#1e293b] hover:bg-[#0ea5e9] shadow-[#1e293b]/10"
                     }`}
                 >
                   {confirmDialog.confirmText || "OK"}

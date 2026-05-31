@@ -17,11 +17,15 @@ export async function getProducts(includeInactive: boolean = false) {
         name: p.name,
         sku: p.sku,
         price: p.price,
+        discount: p.discount ?? null,
         image: p.image,
         category: p.category.name,
         duration: p.duration || "",
         photoCount: p.photoCount || "",
         features: p.features || [],
+        description: p.description || null,
+        details: p.details || null,
+        programGroup: p.programGroup || null,
         isPopular: p.isPopular || false,
         sortOrder: p.sortOrder || 0,
         isActive: p.isActive
@@ -36,11 +40,15 @@ export async function createProduct(data: {
   name: string;
   sku: string;
   price: number;
+  discount?: number;
   categoryName: string;
   image?: string;
   duration?: string;
   photoCount?: string;
   features?: string[];
+  description?: string;
+  details?: string;
+  programGroup?: string;
   isPopular?: boolean;
   sortOrder?: number;
 }) {
@@ -64,12 +72,16 @@ export async function createProduct(data: {
         name: data.name,
         sku: data.sku || `PROD-${Date.now()}`,
         price: data.price,
+        discount: data.discount ?? null,
         stock: 999,
         categoryId: category.id,
         image: data.image,
         duration: data.duration,
         photoCount: data.photoCount,
         features: data.features || [],
+        description: data.description ?? null,
+        details: data.details ?? null,
+        programGroup: data.programGroup ?? null,
         isPopular: data.isPopular || false,
         sortOrder: data.sortOrder || 0,
         isActive: true,
@@ -124,12 +136,16 @@ export async function updateProduct(id: string, data: {
   name?: string;
   sku?: string;
   price?: number;
+  discount?: number;
   categoryName?: string;
   image?: string;
   isActive?: boolean;
   duration?: string;
   photoCount?: string;
   features?: string[];
+  description?: string;
+  details?: string;
+  programGroup?: string;
   isPopular?: boolean;
   sortOrder?: number;
 }) {
@@ -158,12 +174,16 @@ export async function updateProduct(id: string, data: {
         name: data.name,
         sku: data.sku,
         price: data.price,
+        discount: data.discount !== undefined ? data.discount : undefined,
         categoryId: categoryId,
         image: data.image,
         isActive: data.isActive,
         duration: data.duration,
         photoCount: data.photoCount,
         features: data.features,
+        description: data.description !== undefined ? data.description : undefined,
+        details: data.details !== undefined ? data.details : undefined,
+        programGroup: data.programGroup !== undefined ? data.programGroup : undefined,
         isPopular: data.isPopular,
         sortOrder: data.sortOrder,
       }
@@ -306,4 +326,4 @@ export async function seedBrandProducts() {
     console.error("seedBrandProducts Error:", error);
     return { success: false, error: error.message };
   }
-}
+} 

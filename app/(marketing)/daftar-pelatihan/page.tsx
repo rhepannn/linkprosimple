@@ -352,7 +352,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
   };
 
   return (
-    <div className="mb-5 overflow-hidden rounded-2xl border border-near-black/5 aspect-[3/4] bg-near-black/5 relative group/carousel shadow-sm hover:shadow-md transition-shadow">
+    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-near-black/5 relative group/carousel shadow-sm">
       <div className="w-full h-full relative overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
@@ -787,6 +787,7 @@ function parseProductsFromDb(dbProducts: any[]) {
     unit: string;
     icon: any;
     desc: string;
+    image: string | null;
     url: string;
     packages: any[];
   }> = {};
@@ -818,7 +819,8 @@ function parseProductsFromDb(dbProducts: any[]) {
     if (p.name.includes(" - ")) {
       programName = p.name.split(" - ")[0].trim();
     } else {
-      programName = p.category || "Umum";
+      // Nama produk tanpa " - " berarti produk itu sendiri adalah program
+      programName = p.name;
     }
     if (!dbProdsByProgram[programName]) {
       dbProdsByProgram[programName] = [];
@@ -826,12 +828,10 @@ function parseProductsFromDb(dbProducts: any[]) {
     dbProdsByProgram[programName].push(p);
   });
 
-  // Now, iterate through trainingDetails to build the parsed programs with correct pricing
-  Object.keys(trainingDetails).forEach((programName) => {
-    const details = trainingDetails[programName];
-    const dbProds = dbProdsByProgram[programName] || [];
-
-    if (dbProds.length === 0) return; // Skip if no products in database for this program
+  // Iterate dari DB — semua produk aktif di DB pasti muncul
+  Object.keys(dbProdsByProgram).forEach((programName) => {
+    const dbProds = dbProdsByProgram[programName];
+    if (!dbProds || dbProds.length === 0) return;
 
     let IconComp = GraduationCap;
     for (const key of Object.keys(iconMap)) {
@@ -841,110 +841,46 @@ function parseProductsFromDb(dbProducts: any[]) {
       }
     }
 
-    const firstDbProd = dbProds[0];
-    const parsedPackages: any[] = [];
+    // Case-insensitive lookup ke trainingDetails untuk enrichment
+    const tdKey = Object.keys(trainingDetails).find(
+      k => k.toLowerCase() === programName.toLowerCase()
+    );
+    const staticDetails = tdKey ? trainingDetails[tdKey] : undefined;
 
-    details.packages.forEach((staticPkg, index) => {
-      // Find matching db product
-      const clean = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-      const sClean = clean(staticPkg.name);
-
-      const matchedDbProd = dbProds.find((dp) => {
-        const dpParts = dp.name.split(" - ");
-        const dpPkgName = dpParts[1] ? dpParts[1].trim() : dp.name;
-        const dpClean = clean(dpPkgName);
-        return sClean.includes(dpClean) || dpClean.includes(sClean);
-      }) || firstDbProd;
-
-      const basePrice = parsePriceString(staticPkg.price);
-      let discAmount = 0;
-      let afterDiscStr = staticPkg.afterDiscount;
-      let afterDiscVal = 0;
-
-      if (afterDiscStr) {
-        afterDiscVal = parsePriceString(afterDiscStr);
-        discAmount = basePrice - afterDiscVal;
-      } else if (staticPkg.discount && staticPkg.discount !== "-" && staticPkg.discount.toLowerCase() !== "sesuai proyek") {
-        discAmount = parsePriceString(staticPkg.discount);
-        afterDiscVal = basePrice - discAmount;
-        afterDiscStr = `Rp ${afterDiscVal.toLocaleString("id-ID")}`;
-      } else {
-        afterDiscVal = basePrice;
+    const parsedPackages: any[] = dbProds.map((p: any, index: number) => {
+      let packageName = p.name;
+      if (p.name.includes(" - ")) {
+        packageName = p.name.split(" - ").slice(1).join(" - ").trim();
       }
 
-      parsedPackages.push({
-        id: `${matchedDbProd.id}-${index}`, // unique ID for package selection
-        sku: matchedDbProd.sku,
-        name: staticPkg.name,
-        price: staticPkg.price,
-        rawPrice: afterDiscVal > 0 ? afterDiscVal : matchedDbProd.price, // use calculated after-discount promo price as rawPrice for checkout
-        discount: discAmount > 0 ? `Rp ${discAmount.toLocaleString("id-ID")}` : staticPkg.discount,
-        afterDiscount: afterDiscVal > 0 && afterDiscVal < basePrice ? afterDiscStr : undefined,
-        suitableFor: staticPkg.suitableFor || (matchedDbProd.duration ? `Durasi: ${matchedDbProd.duration}` : undefined),
-        services: staticPkg.services || matchedDbProd.features || [],
-        goal: staticPkg.goal || (matchedDbProd.photoCount ? `Sertifikasi: ${matchedDbProd.photoCount}` : undefined)
-      });
+      return {
+        id: `${p.id}-${index}`,
+        sku: p.sku,
+        name: packageName,
+        price: `Rp ${p.price.toLocaleString("id-ID")}`,
+        rawPrice: p.price,
+        discount: "",
+        afterDiscount: undefined,
+        suitableFor: p.duration ? `Durasi: ${p.duration}` : undefined,
+        services: p.features || [],
+        goal: p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined,
+      };
     });
+
+    const desc = staticDetails?.subtitle
+      ? `${staticDetails.subtitle}`
+      : `Program unggulan ${programName} untuk mempersiapkan keahlian profesional Anda.`;
 
     grouped[programName] = {
       name: programName,
       fee: "Sesuai Ketentuan",
-      unit: firstDbProd.sku.startsWith("pkg-") ? "pendaftaran" : "paket",
+      unit: "pendaftaran",
       icon: IconComp,
-      desc: `Program unggulan ${programName} terintegrasi untuk mempersiapkan keahlian profesional masa depan Anda.`,
+      desc,
+      image: dbProds[0].image || null,
       url: `/daftar-pelatihan?pkg=${programName.toLowerCase().replace(/\s+/g, "-")}`,
-      packages: parsedPackages
+      packages: parsedPackages,
     };
-  });
-
-  // Handle any other programs in DB not explicitly in trainingDetails
-  dbProducts.forEach((p) => {
-    let programName = "";
-    let packageName = "";
-
-    if (p.name.includes(" - ")) {
-      const parts = p.name.split(" - ");
-      programName = parts[0].trim();
-      packageName = parts[1].trim();
-    } else {
-      programName = p.category || "Umum";
-      packageName = p.name;
-    }
-
-    if (trainingDetails[programName]) return; // already handled
-
-    if (!grouped[programName]) {
-      let IconComp = GraduationCap;
-      for (const key of Object.keys(iconMap)) {
-        if (programName.toLowerCase().includes(key.toLowerCase())) {
-          IconComp = iconMap[key];
-          break;
-        }
-      }
-
-      grouped[programName] = {
-        name: programName,
-        fee: "Sesuai Ketentuan",
-        unit: p.sku.startsWith("pkg-") ? "pendaftaran" : "paket",
-        icon: IconComp,
-        desc: `Program unggulan ${programName} terintegrasi untuk mempersiapkan keahlian profesional masa depan Anda.`,
-        url: `/daftar-pelatihan?pkg=${programName.toLowerCase().replace(/\s+/g, "-")}`,
-        packages: []
-      };
-    }
-
-    grouped[programName].packages.push({
-      id: p.id,
-      sku: p.sku,
-      name: packageName,
-      price: `Rp ${p.price.toLocaleString("id-ID")}`,
-      rawPrice: p.price,
-      discount: "Diskon Khusus",
-      afterDiscount: p.price > 100000 ? `Rp ${(p.price - 100000).toLocaleString("id-ID")}` : undefined,
-      suitableFor: p.duration ? `Durasi: ${p.duration}` : undefined,
-      services: p.features || [],
-      goal: p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined
-    });
   });
 
   return Object.values(grouped);
@@ -998,13 +934,10 @@ function DaftarPelatihanContent() {
           dbData = productsRes.data.filter((p: any) => p.isActive);
         }
 
-        const dbSkus = new Set(dbData.map(p => p.sku));
-        const mergedProducts = [
-          ...dbData,
-          ...brandProducts.filter(p => !dbSkus.has(p.sku))
-        ];
-
-        const parsed = parseProductsFromDb(mergedProducts);
+        // Gunakan DB sebagai sumber utama.
+        // brandProducts hanya fallback kalau DB kosong sama sekali.
+        const sourceProducts = dbData.length > 0 ? dbData : brandProducts;
+        const parsed = parseProductsFromDb(sourceProducts);
         setProductsList(parsed);
       } catch (err) {
         console.error("Gagal memuat portal pelatihan data:", err);
@@ -1025,7 +958,10 @@ function DaftarPelatihanContent() {
   }
 
   // Active product details resolution
-  const details = activeProduct ? (trainingDetails[activeProduct.name] || {
+  const tdKeyActive = activeProduct
+    ? Object.keys(trainingDetails).find(k => k.toLowerCase() === activeProduct.name.toLowerCase())
+    : undefined;
+  const details = activeProduct ? (tdKeyActive ? trainingDetails[tdKeyActive] : {
     subtitle: "Pelatihan Kompetensi & Keahlian Terintegrasi",
     intro: "Tingkatkan keahlian kompetensi Anda bersama mentor industri ahli melalu kurikulum berbasis praktik nyata.",
     whyInteresting: ["Modul belajar praktis", "Mentor berpengalaman", "Sertifikat resmi", "Akses jaringan industri"],
@@ -1083,9 +1019,15 @@ function DaftarPelatihanContent() {
 
               {/* Poster */}
               {(() => {
-                const posterKey = POSTER_KEYS[activeProduct.name] || `training_poster_${activeProduct.name.toLowerCase().replace(/\s+/g, "_")}`;
-                const rawPosters = settings[posterKey] || DEFAULT_POSTERS[activeProduct.name] || "";
-                const posterUrls = rawPosters.split(",").map((u) => u.trim()).filter(Boolean);
+                // Prioritas: image dari DB → settings poster → DEFAULT_POSTERS fallback
+                const posterKeyCi2 = POSTER_KEYS[activeProduct.name]
+                  || POSTER_KEYS[Object.keys(POSTER_KEYS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
+                  || `training_poster_${activeProduct.name.toLowerCase().replace(/\s+/g, "_")}`;
+                const defaultPosterCi2 = DEFAULT_POSTERS[activeProduct.name]
+                  || DEFAULT_POSTERS[Object.keys(DEFAULT_POSTERS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
+                  || "";
+                const rawPosters = activeProduct.image || settings[posterKeyCi2] || defaultPosterCi2 || "";
+                const posterUrls = rawPosters.split(",").map((u: string) => u.trim()).filter(Boolean);
                 return posterUrls.length > 0 ? (
                   <div className="mb-8 max-w-xs mx-auto">
                     <ProgramPosterCarousel
@@ -1329,11 +1271,18 @@ function DaftarPelatihanContent() {
                 </div>
               ) : (
                 filteredProducts.map((prod, i) => {
-                  const posterKey = POSTER_KEYS[prod.name];
-                  const rawPosters = settings[posterKey] || DEFAULT_POSTERS[prod.name] || "";
+                  // Prioritas: image dari DB → settings poster → DEFAULT_POSTERS fallback
+                  const posterKeyExact = POSTER_KEYS[prod.name];
+                  const posterKeyCi = !posterKeyExact
+                    ? POSTER_KEYS[Object.keys(POSTER_KEYS).find(k => k.toLowerCase() === prod.name.toLowerCase()) || ""] || ""
+                    : posterKeyExact;
+                  const defaultPosterCi = DEFAULT_POSTERS[prod.name]
+                    || DEFAULT_POSTERS[Object.keys(DEFAULT_POSTERS).find(k => k.toLowerCase() === prod.name.toLowerCase()) || ""]
+                    || "";
+                  const rawPosters = prod.image || settings[posterKeyCi] || defaultPosterCi || "";
                   const posterUrls = rawPosters
                     .split(",")
-                    .map((url) => url.trim())
+                    .map((url: string) => url.trim())
                     .filter(Boolean);
 
                   return (
@@ -1343,10 +1292,13 @@ function DaftarPelatihanContent() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.05 }}
-                      className="group p-6 rounded-[2rem] border border-near-black/5 bg-slate-50/50 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+                      className="group overflow-hidden rounded-[2rem] border border-near-black/5 bg-slate-50/50 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
                     >
-                      <div>
-                        <div className="flex items-start justify-between gap-4 mb-4">
+                      {/* Poster Image Carousel - di atas card */}
+                      <ProgramPosterCarousel urls={posterUrls} productName={prod.name} />
+
+                      <div className="p-2">
+                        <div className="flex items-start justify-between gap-4 mb-4 mt-4">
                           <div className="w-12 h-12 rounded-2xl bg-[#004aad]/10 flex items-center justify-center text-[#004aad] group-hover:scale-110 transition-transform border border-[#004aad]/20">
                             <prod.icon size={22} />
                           </div>
@@ -1358,10 +1310,7 @@ function DaftarPelatihanContent() {
                         <p className="text-[11px] text-near-black/60 font-medium leading-relaxed mb-6 line-clamp-3">{prod.desc}</p>
                       </div>
 
-                      {/* Poster Image Carousel */}
-                      <ProgramPosterCarousel urls={posterUrls} productName={prod.name} />
-
-                      <div className="pt-4 border-t border-near-black/5 flex items-center justify-between gap-4 mt-auto">
+                      <div className="px-6 pb-6 pt-4 border-t border-near-black/5 flex items-center justify-between gap-4 mt-auto">
                         <div>
                           <span className="block text-[8px] text-near-black/40 font-black uppercase tracking-wider">Mulai Dari</span>
                           <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
