@@ -59,7 +59,7 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                     Alamat
                   </p>
                   <p className="text-sm text-slate-700 leading-relaxed font-semibold">
-                    {site.contact.address}
+                    {settings.contact_address || site.contact.address}
                   </p>
                 </div>
               </li>
@@ -73,10 +73,10 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                     Email
                   </p>
                   <a
-                    href={`mailto:${site.contact.email}`}
+                    href={`mailto:${settings.contact_email || site.contact.email}`}
                     className="text-sm text-slate-700 hover:text-sky-500 transition-colors font-semibold"
                   >
-                    {site.contact.email}
+                    {settings.contact_email || site.contact.email}
                   </a>
                 </div>
               </li>
@@ -146,7 +146,7 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                 <p className="text-sm text-slate-400 text-center px-4">
                   Peta lokasi akan segera tersedia.<br />
                   <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(site.contact.address)}`}
+                    href={`https://maps.google.com/?q=${encodeURIComponent(settings.contact_address || site.contact.address)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:text-blue-600 underline mt-1 inline-block"

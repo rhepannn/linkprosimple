@@ -34,7 +34,7 @@ const YoutubeIcon = ({ size = 24, className = "" }: { size?: number, className?:
   </svg>
 );
 
-export function Footer() {
+export function Footer({ settings = {} }: { settings?: Record<string, string> }) {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
 
@@ -62,7 +62,7 @@ export function Footer() {
               </div>
             </div>
             <a
-              href={`https://wa.me/${site.contact.whatsapp}?text=Halo%20Link%20Productive,%20saya%20ingin%20bertanya%20tentang%20layanan%20program.`}
+              href={`https://wa.me/${settings.contact_wa || site.contact.whatsapp}?text=Halo%20Link%20Productive,%20saya%20ingin%20bertanya%20tentang%20layanan%20program.`}
               target="_blank"
               rel="noopener noreferrer"
               className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-400 text-white font-bold text-sm rounded-2xl transition-all duration-300 shadow-lg shadow-sky-400/20 hover:scale-[1.03] active:scale-[0.98]"
@@ -96,7 +96,7 @@ export function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-2">
               {[
-                { name: "Instagram", icon: InstagramIcon, href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
+                { name: "Instagram", icon: InstagramIcon, href: settings.contact_ig || site.contact.instagram, color: "from-pink-400 to-purple-400" },
                 { name: "LinkedIn", icon: LinkedinIcon, href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
                 { name: "YouTube", icon: YoutubeIcon, href: site.contact.youtube || "https://www.youtube.com/@link.productive", color: "from-red-400 to-red-500" },
                 { name: "TikTok", icon: TikTokIcon, href: site.contact.tiktok, color: "from-slate-500 to-slate-600" },

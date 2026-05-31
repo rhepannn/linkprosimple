@@ -25,7 +25,7 @@ export default async function MarketingLayout({
       <div className="flex-grow w-full max-w-full overflow-x-hidden">{children}</div>
 
       {/* Global Footer */}
-      <Footer />
+      <Footer settings={settings} />
 
       {/* Floating WhatsApp Button */}
       <WhatsAppButton waNumber={settings.contact_wa} />
