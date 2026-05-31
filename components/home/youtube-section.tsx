@@ -34,7 +34,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   
   useEffect(() => {
     if (extractedId) {
-      fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${extractedId}&format=json`)
+      fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${extractedId}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.title) {
