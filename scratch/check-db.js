@@ -1,25 +1,16 @@
-// Config dotenv
-require('dotenv').config({ path: '.env.local' });
-const { PrismaClient } = require("../prisma/generated/client");
-const { PrismaPg } = require("@prisma/adapter-pg");
-const pg = require("pg");
+const { PrismaClient } = require('../prisma/generated/client');
+const { PrismaPg } = require('@prisma/adapter-pg');
+const pg = require('pg');
 
-const pool = new pg.Pool({ 
-  connectionString: process.env.DATABASE_URL,
-  connectionTimeoutMillis: 15000 
-});
+const connectionString = process.env.DATABASE_URL;
+const pool = new pg.Pool({ connectionString });
 const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
-const prisma = new PrismaClient({
-  adapter,
-  log: ["error", "warn"],
-});
-
-async function main() {
-  const products = await prisma.product.findMany({
-    include: { category: true }
-  });
-  console.log(JSON.stringify(products, null, 2));
+async function check() {
+  const categories = await prisma.category.findMany();
+  console.log('Categories:', categories);
+  const products = await prisma.product.findMany();
+  console.log('Products:', products);
 }
-
-main().catch(console.error).finally(() => prisma.$disconnect());
+check().finally(() => pool.end());

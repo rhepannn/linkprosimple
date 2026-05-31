@@ -192,57 +192,7 @@ export const brandProducts: BrandProduct[] = [
     sortOrder: 2,
   },
 
-  // ── Brand Siap ───────────────────────────────────────
-  {
-    sku: "brand-siap-logo",
-    name: "Brand Siap - Logo & Brand Identity",
-    price: 500000,
-    categoryName: "Branding & Desain",
-    features: ["Desain logo profesional", "Brand identity guidelines", "Color palette & typography", "3 revisi"],
-    sortOrder: 1,
-  },
-  {
-    sku: "brand-siap-packaging",
-    name: "Brand Siap - Kemasan & Packaging Design",
-    price: 750000,
-    categoryName: "Branding & Desain",
-    features: ["Desain kemasan produk", "Packaging concept", "3D mockup", "Print-ready file"],
-    sortOrder: 2,
-  },
-  {
-    sku: "brand-siap-lengkap",
-    name: "Brand Siap - Paket Branding Lengkap",
-    price: 1500000,
-    categoryName: "Branding & Desain",
-    features: ["Logo & brand identity", "Kemasan produk", "Social media kit", "Brand guidelines lengkap"],
-    isPopular: true,
-    sortOrder: 3,
-  },
 
-  // ── Standara Consulting ──────────────────────────────
-  {
-    sku: "standara-basic",
-    name: "Standara Consulting - Basic Business Improvement",
-    price: 5000000,
-    categoryName: "Konsultasi Bisnis",
-    features: ["Konsultasi bisnis dasar", "Penyusunan SOP sederhana", "Evaluasi tata kelola", "Pelatihan manajemen bisnis"],
-    sortOrder: 1,
-  },
-  {
-    sku: "standara-growth",
-    name: "Standara Consulting - Standard Growth Business",
-    price: 10000000,
-    categoryName: "Konsultasi Bisnis",
-    features: ["Penyusunan SOP & sistem kerja", "Pelatihan SDM & produktivitas", "KPI & monitoring", "Business coaching"],
-    isPopular: true,
-    sortOrder: 2,
-  },
-  {
-    sku: "standara-professional",
-    name: "Standara Consulting - Professional Management System",
-    price: 20000000,
-    categoryName: "Konsultasi Bisnis",
-    features: ["Sistem manajemen mutu", "SOP lengkap", "Audit internal", "Leadership training", "Sertifikasi & akreditasi"],
-    sortOrder: 3,
-  },
+
+
 ];

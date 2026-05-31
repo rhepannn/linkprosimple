@@ -188,16 +188,16 @@ export async function seedProductsFromStatic() {
     const count = await prisma.product.count();
     if (count > 5) return { success: true, message: "Already seeded or products exist" };
 
-    // Get or create "Paket Foto" category
+    // Get or create "Pelatihan" category
     let category = await prisma.category.findFirst({
-      where: { name: "Paket Foto" }
+      where: { name: "Pelatihan" }
     });
 
     if (!category) {
       category = await prisma.category.create({
         data: {
-          name: "Paket Foto",
-          slug: "paket-foto"
+          name: "Pelatihan",
+          slug: "pelatihan"
         }
       });
     }
