@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getSiteSettings, updateSiteSettings } from "@/app/actions/settings";
 import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown, HelpCircle, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { faqs as defaultFaqs } from "@/data/faq";
 
 interface SectionItem {
   id: string;
@@ -58,7 +59,7 @@ export default function SettingsPage() {
         payment_gopay_number: data.payment_gopay_number || "",
         payment_gopay_owner: data.payment_gopay_owner || "",
         homepage_section_order: data.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact",
-        faqs: data.faqs || "",
+        faqs: data.faqs || JSON.stringify(defaultFaqs),
       };
 
       setSettings(initialSettings);
