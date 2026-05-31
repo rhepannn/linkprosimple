@@ -82,7 +82,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
               </div>
             ) : settings.youtube_thumbnail ? (
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer">
-                <a href={site.contact.youtube || "https://www.youtube.com/@link.productive"} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
+                <a href={youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive"} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
                     <Video size={28} className="ml-1" />
                   </div>
