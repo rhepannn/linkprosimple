@@ -274,7 +274,7 @@ export default function CheckoutModal({
                   <p className="text-[10px] font-medium text-gray-400">
                     {method === "QRIS"
                       ? "Silakan scan QR code berikut menggunakan aplikasi E-Wallet atau M-Banking Anda."
-                      : "Transaksi berhasil dicatat ke sistem Link Productive."}
+                      : "Transaksi berhasil dicatat ke sistem Sneapici Studio."}
                   </p>
                 </div>
 
@@ -351,7 +351,7 @@ export default function CheckoutModal({
                     <div>
                       <h2 className="text-base font-black text-[#1e293b]">Konfirmasi Bayar</h2>
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">
-                        {items.length} item · Link Productive
+                        {items.length} item · Sneapici Studio
                       </p>
                     </div>
                   </div>
@@ -492,17 +492,15 @@ export default function CheckoutModal({
                         <button
                           key={pm.id}
                           onClick={() => setMethod(pm.id)}
-                          className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${
-                            method === pm.id
+                          className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${method === pm.id
                               ? "bg-[#1e293b]/[0.03] border-[#1e293b]/20 shadow-sm"
                               : "bg-white border-[#1e293b]/5 hover:border-[#1e293b]/10 hover:bg-[#FAFAF8]"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-center gap-3">
                             <div
-                              className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
-                                method === pm.id ? "bg-[#1e293b] shadow-md shadow-[#1e293b]/20" : pm.bg
-                              }`}
+                              className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${method === pm.id ? "bg-[#1e293b] shadow-md shadow-[#1e293b]/20" : pm.bg
+                                }`}
                             >
                               <pm.icon
                                 size={16}
@@ -517,9 +515,8 @@ export default function CheckoutModal({
                             </div>
                           </div>
                           <div
-                            className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${
-                              method === pm.id ? "border-[#1e293b] bg-[#1e293b]" : "border-gray-200"
-                            }`}
+                            className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${method === pm.id ? "border-[#1e293b] bg-[#1e293b]" : "border-gray-200"
+                              }`}
                           >
                             {method === pm.id && (
                               <motion.div
@@ -557,7 +554,7 @@ export default function CheckoutModal({
                                 </div>
                                 <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#1e293b]">LINK PRODUCTIVE</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
                                 </div>
                               </>
                             ) : (
@@ -572,7 +569,7 @@ export default function CheckoutModal({
                                 </div>
                                 <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#1e293b]">LINK PRODUCTIVE</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
                                 </div>
                               </>
                             )}

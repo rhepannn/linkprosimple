@@ -18,7 +18,6 @@ export async function getProducts(includeInactive: boolean = false) {
         sku: p.sku,
         price: p.price,
         image: p.image,
-        description: p.description || "",
         category: p.category.name,
         duration: p.duration || "",
         photoCount: p.photoCount || "",
@@ -39,7 +38,6 @@ export async function createProduct(data: {
   price: number;
   categoryName: string;
   image?: string;
-  description?: string;
   duration?: string;
   photoCount?: string;
   features?: string[];
@@ -69,7 +67,6 @@ export async function createProduct(data: {
         stock: 999,
         categoryId: category.id,
         image: data.image,
-        description: data.description,
         duration: data.duration,
         photoCount: data.photoCount,
         features: data.features || [],
@@ -82,7 +79,7 @@ export async function createProduct(data: {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/daftar-pelatihan");
+    revalidatePath("/packages");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, data: product };
@@ -99,7 +96,7 @@ export async function toggleProductStatus(id: string, isActive: boolean) {
     });
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/daftar-pelatihan");
+    revalidatePath("/packages");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true };
@@ -115,7 +112,7 @@ export async function deleteProduct(id: string) {
     });
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/daftar-pelatihan");
+    revalidatePath("/packages");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true };
@@ -129,7 +126,6 @@ export async function updateProduct(id: string, data: {
   price?: number;
   categoryName?: string;
   image?: string;
-  description?: string;
   isActive?: boolean;
   duration?: string;
   photoCount?: string;
@@ -164,7 +160,6 @@ export async function updateProduct(id: string, data: {
         price: data.price,
         categoryId: categoryId,
         image: data.image,
-        description: data.description,
         isActive: data.isActive,
         duration: data.duration,
         photoCount: data.photoCount,
@@ -176,7 +171,7 @@ export async function updateProduct(id: string, data: {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/daftar-pelatihan");
+    revalidatePath("/packages");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, data: product };
@@ -193,16 +188,16 @@ export async function seedProductsFromStatic() {
     const count = await prisma.product.count();
     if (count > 5) return { success: true, message: "Already seeded or products exist" };
 
-    // Get or create "Pelatihan" category
+    // Get or create "Paket Foto" category
     let category = await prisma.category.findFirst({
-      where: { name: "Pelatihan" }
+      where: { name: "Paket Foto" }
     });
 
     if (!category) {
       category = await prisma.category.create({
         data: {
-          name: "Pelatihan",
-          slug: "pelatihan"
+          name: "Paket Foto",
+          slug: "paket-foto"
         }
       });
     }
@@ -303,7 +298,7 @@ export async function seedBrandProducts() {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/daftar-pelatihan");
+    revalidatePath("/packages");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, message: `Seeded ${created} brand products`, count: created };

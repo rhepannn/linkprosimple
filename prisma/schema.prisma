@@ -70,7 +70,6 @@ model Product {
   price             Float
   stock             Int
   image             String?
-  description       String?           @db.Text
   duration          String?           // e.g. "60 menit"
   photoCount        String?           // e.g. "30 foto soft file"
   features          String[]          @default([])

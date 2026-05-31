@@ -220,7 +220,7 @@ const generatePromoText = (progName: string, refCode: string) => {
   const codeText = refCode ? `@${refCode.trim().replace("@", "")}` : "[KODE_REFERRAL_KAMU]";
   const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
   const slug = Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === progName) || "";
-  const linkText = refCode 
+  const linkText = refCode
     ? `${origin}/booking?ref=${refCode.trim().replace("@", "")}&pkg=${slug}`
     : `${origin}/booking?pkg=${slug}`;
 
@@ -364,10 +364,10 @@ export default function SnapperDashboard() {
   const handleCopyLink = (code: string) => {
     const origin = typeof window !== "undefined" ? window.location.origin : "https://linkproductive.com";
     const target = dashboardData?.referralCode?.targetProductId || "";
-    
+
     const isAffiliate = AFFILIATE_PROGRAMS.some((p) => p.sku === target);
     const path = isAffiliate ? "/daftar" : "/booking";
-    
+
     let shareUrl = `${origin}${path}?ref=${code}`;
     if (target) {
       shareUrl += `&pkg=${target}`;
@@ -420,7 +420,7 @@ export default function SnapperDashboard() {
 
   return (
     <div className="p-8 lg:p-12 space-y-10 max-w-[1600px] mx-auto min-h-screen">
-      
+
       {/* ── Heading ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[#1e293b]/5 pb-10">
         <div className="space-y-2">
@@ -454,7 +454,7 @@ export default function SnapperDashboard() {
       {/* ── Tab Content Switcher ── */}
       {tabParam === "dashboard" && (
         <div className="space-y-10">
-          
+
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
@@ -489,7 +489,7 @@ export default function SnapperDashboard() {
             <div className="lg:col-span-2 p-8 md:p-10 bg-white border border-sky-100 text-slate-800 rounded-[2rem] shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
               {/* Background Orbs */}
               <div className="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-sky-400/10 blur-[80px] pointer-events-none" />
-              
+
               <div className="space-y-4 relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-50 rounded-full border border-sky-100 text-xs font-bold text-sky-600">
                   <Sparkles size={12} /> Link & Kode Referral
@@ -507,10 +507,10 @@ export default function SnapperDashboard() {
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase tracking-wider text-sky-600">Pilih Target Referral Campaign</span>
                   {selectedProductId && (
-                    <button 
+                    <button
                       onClick={() => {
                         setSelectedProductId("");
-                      }} 
+                      }}
                       className="text-[9px] font-bold text-rose-500 hover:underline bg-transparent border-none cursor-pointer"
                     >
                       Reset Target
@@ -658,11 +658,10 @@ export default function SnapperDashboard() {
                         <td className="py-4 font-bold text-[#1e293b]">Rp {comm.booking.finalPrice.toLocaleString("id-ID")}</td>
                         <td className="py-4 font-black text-emerald-600 text-right">Rp {comm.amount.toLocaleString("id-ID")}</td>
                         <td className="py-4 text-right pr-4">
-                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
-                            comm.status === "paid"
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${comm.status === "paid"
                               ? "bg-emerald-50 text-emerald-600"
                               : "bg-amber-50 text-amber-600"
-                          }`}>
+                            }`}>
                             {comm.status === "paid" ? (
                               <><CheckCircle2 size={10} /> Cair</>
                             ) : (
@@ -701,7 +700,7 @@ export default function SnapperDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post) => {
                 const textToCopy = `${post.caption}\n\n${post.hashtags.map((h) => `#${h}`).join(" ")}\n\nGunain kode referral saya untuk diskon tambahan: @${referralCode}`;
-                
+
                 return (
                   <motion.div
                     key={post.id}
@@ -819,21 +818,18 @@ export default function SnapperDashboard() {
                     <button
                       key={prog.sku}
                       onClick={() => setActiveKitSku(prog.sku)}
-                      className={`w-full text-left p-3.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-300 ${
-                        isActive
+                      className={`w-full text-left p-3.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-300 ${isActive
                           ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/15"
                           : "hover:bg-gray-50 text-[#1e293b] border border-transparent"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                          isActive ? "bg-white/10 text-white" : "bg-[#0ea5e9]/10 text-[#0ea5e9]"
-                        }`}>
+                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${isActive ? "bg-white/10 text-white" : "bg-[#0ea5e9]/10 text-[#0ea5e9]"
+                          }`}>
                           <SkuIcon size={16} />
                         </div>
-                        <span className={`text-[11px] font-black uppercase tracking-wide truncate ${
-                          isActive ? "text-white" : "text-[#1e293b]"
-                        }`}>
+                        <span className={`text-[11px] font-black uppercase tracking-wide truncate ${isActive ? "text-white" : "text-[#1e293b]"
+                          }`}>
                           {prog.name}
                         </span>
                       </div>
@@ -940,9 +936,8 @@ export default function SnapperDashboard() {
                               </div>
                               {/* Rows */}
                               {PROGRAM_PACKAGES[prog.name].map((pkg, i) => (
-                                <div key={i} className={`grid grid-cols-4 gap-2 px-3 py-2.5 items-center ${
-                                  i < PROGRAM_PACKAGES[prog.name].length - 1 ? "border-b border-[#f0f7ff]" : ""
-                                }`}>
+                                <div key={i} className={`grid grid-cols-4 gap-2 px-3 py-2.5 items-center ${i < PROGRAM_PACKAGES[prog.name].length - 1 ? "border-b border-[#f0f7ff]" : ""
+                                  }`}>
                                   <span className="text-[10px] font-bold text-[#1e293b] col-span-1 leading-tight">{pkg.name}</span>
                                   <div className="text-center">
                                     <span className="text-[10px] font-bold text-gray-400 line-through block">{pkg.price}</span>
@@ -1035,7 +1030,7 @@ export default function SnapperDashboard() {
             <div className="p-4 bg-amber-50/50 border border-amber-100 rounded-2xl flex gap-3 text-amber-800">
               <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
               <div className="text-[11px] leading-relaxed font-medium">
-                <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
+                <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin studio melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
               </div>
             </div>
           </div>

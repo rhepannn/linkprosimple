@@ -96,7 +96,7 @@ export default function ProductGrid({ onSelect }: { onSelect?: () => void }) {
           />
           <input
             type="text"
-            placeholder="Cari program pelatihan..."
+            placeholder="Cari paket studio..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-11 pr-4 py-3 bg-white border border-[#1e293b]/8 rounded-xl text-sm text-[#1e293b] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 focus:border-[#0ea5e9]/30 transition-all shadow-sm"
@@ -130,11 +130,10 @@ export default function ProductGrid({ onSelect }: { onSelect?: () => void }) {
                     addItem({ id: product.id, name: product.name, price: product.price, qty: 1 });
                     if (onSelect) onSelect();
                   }}
-                  className={`group bg-white rounded-2xl border shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden relative ${
-                    inCart
+                  className={`group bg-white rounded-2xl border shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden relative ${inCart
                       ? "border-[#0ea5e9]/30 shadow-[#0ea5e9]/10"
                       : "border-[#1e293b]/5 hover:border-[#1e293b]/15"
-                  }`}
+                    }`}
                 >
                   {/* In-Cart Badge */}
                   {inCart && (
@@ -171,11 +170,10 @@ export default function ProductGrid({ onSelect }: { onSelect?: () => void }) {
                         Rp {product.price.toLocaleString("id-ID")}
                       </p>
                       <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm ${
-                          inCart
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all shadow-sm ${inCart
                             ? "bg-[#0ea5e9] text-white shadow-[#0ea5e9]/20"
                             : "bg-[#f0f7ff] text-[#1e293b]/30 group-hover:bg-[#1e293b] group-hover:text-white"
-                        }`}
+                          }`}
                       >
                         {inCart ? <Check size={14} strokeWidth={3} /> : <Plus size={14} />}
                       </div>

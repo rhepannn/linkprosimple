@@ -69,8 +69,11 @@ export default async function HomePage() {
     getSiteSettings()
   ]);
 
-  const packagesData = (productsRes.success && Array.isArray(productsRes.data)) 
-    ? (productsRes.data as any[]).filter((p: any) => p.isActive)
+  const packagesData = (productsRes.success && Array.isArray(productsRes.data))
+    ? (productsRes.data as any[]).filter((p: any) => {
+      const cat = p.category.toLowerCase();
+      return cat.includes("foto") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("STUDIO-");
+    })
     : packages;
 
   let faqsData = null;
@@ -78,7 +81,7 @@ export default async function HomePage() {
     if (settings.faqs) {
       faqsData = JSON.parse(settings.faqs);
     }
-  } catch (e) {}
+  } catch (e) { }
 
   // Resolve section rendering order
   const orderString = settings.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact";

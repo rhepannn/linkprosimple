@@ -68,11 +68,11 @@ export default function Receipt({
             <div style={{ fontSize: "18px", fontWeight: 900, letterSpacing: "4px", marginBottom: "4px" }}>
               SNEAPICI
             </div>
-            <div style={{ fontSize: "10px", letterSpacing: "2px", marginBottom: "2px" }}>LINK PRODUCTIVE</div>
+            <div style={{ fontSize: "10px", letterSpacing: "2px", marginBottom: "2px" }}>STUDIO FOTO PROFESIONAL</div>
             <div style={{ borderTop: "1px solid #000", marginTop: "8px", paddingTop: "8px", fontSize: "9px" }}>
               <div>Jl. Contoh No. 123, Kota Anda</div>
               <div>WhatsApp: 0812-3456-7890</div>
-              <div>Instagram: @linkproductive</div>
+              <div>Instagram: @sneapici.studio</div>
             </div>
           </div>
 
@@ -172,8 +172,8 @@ export default function Receipt({
           {/* Footer */}
           <div style={{ textAlign: "center", fontSize: "9px", lineHeight: "1.8", color: "#555" }}>
             <div>— Terima kasih atas kunjungan Anda —</div>
-            <div>Pelatihan dan layanan terbaik hanya di Link Productive</div>
-            <div style={{ marginTop: "6px", fontWeight: 700, letterSpacing: "1px" }}>www.linkproductive.com</div>
+            <div>Hasil foto terbaik hanya di Sneapici Studio</div>
+            <div style={{ marginTop: "6px", fontWeight: 700, letterSpacing: "1px" }}>www.sneapici.studio</div>
           </div>
         </div>
       </div>

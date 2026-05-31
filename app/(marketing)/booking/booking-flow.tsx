@@ -93,7 +93,10 @@ export default function BookingFlow() {
       try {
         const res = await getProducts();
         if (res.success && res.data && res.data.length > 0) {
-          const studio = res.data.filter((p: any) => p.isActive);
+          const studio = res.data.filter((p: any) => {
+            const cat = p.category.toLowerCase();
+            return cat.includes("foto") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("STUDIO-");
+          });
           setPackagesList(studio.length > 0 ? (studio as any[]) : packages);
         } else {
           setPackagesList(packages);
@@ -136,7 +139,7 @@ export default function BookingFlow() {
         {/* Page header */}
         <div className="mb-8 text-center">
           <p className="text-[10px] font-black tracking-[0.35em] text-[#0ea5e9] uppercase mb-2">
-            Pendaftaran Kelas
+            Booking Sesi Foto
           </p>
           <h1
             className="text-3xl sm:text-4xl font-black text-[#1e293b]"
