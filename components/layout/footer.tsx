@@ -3,11 +3,34 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { site } from "@/data/site";
-import { MessageSquare, PhoneCall, MapPin, Sparkles, ArrowRight, Instagram, Linkedin, Youtube } from "lucide-react";
+import { MessageSquare, PhoneCall, MapPin, Sparkles, ArrowRight } from "lucide-react";
 
 const TikTokIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
+
+const InstagramIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+  </svg>
+);
+
+const YoutubeIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
   </svg>
 );
 
@@ -73,9 +96,9 @@ export function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-2">
               {[
-                { name: "Instagram", icon: Instagram, href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
-                { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
-                { name: "YouTube", icon: Youtube, href: "https://youtube.com/@linkproductive", color: "from-red-400 to-red-500" },
+                { name: "Instagram", icon: InstagramIcon, href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
+                { name: "LinkedIn", icon: LinkedinIcon, href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
+                { name: "YouTube", icon: YoutubeIcon, href: "https://youtube.com/@linkproductive", color: "from-red-400 to-red-500" },
                 { name: "TikTok", icon: TikTokIcon, href: site.contact.tiktok, color: "from-slate-500 to-slate-600" },
               ].map((soc) => {
                 const Icon = soc.icon;
