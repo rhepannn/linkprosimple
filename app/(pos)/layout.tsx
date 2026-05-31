@@ -26,6 +26,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { signOut, getSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getPendingCounts } from "@/app/actions/notifications";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/admin" },
@@ -45,6 +46,7 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
   const [loadingSession, setLoadingSession] = useState(true);
   const [timeStr, setTimeStr] = useState("");
+  const [counts, setCounts] = useState({ bookings: 0, affiliates: 0 });
 
   useEffect(() => {
     const updateTime = () => {
@@ -63,6 +65,18 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      const res = await getPendingCounts();
+      setCounts(res);
+    };
+    if (session?.user?.role === "ADMIN") {
+      fetchCounts();
+      const interval = setInterval(fetchCounts, 30000); // refresh every 30s
+      return () => clearInterval(interval);
+    }
+  }, [session]);
 
   useEffect(() => {
     setIsSidebarOpen(false);
@@ -146,10 +160,21 @@ function POSLayoutContent({ children }: { children: React.ReactNode }) {
                 />
               </div>
               <span
-                className={`text-[11px] tracking-wide uppercase font-black`}
+                className={`flex-1 text-[11px] tracking-wide uppercase font-black`}
               >
                 {item.label}
               </span>
+
+              {item.href === "/admin/bookings" && counts.bookings > 0 && (
+                <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full ml-auto">
+                  {counts.bookings > 99 ? "99+" : counts.bookings}
+                </span>
+              )}
+              {item.href === "/admin/affiliators" && counts.affiliates > 0 && (
+                <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full ml-auto">
+                  {counts.affiliates > 99 ? "99+" : counts.affiliates}
+                </span>
+              )}
 
               {isActive && (
                 <motion.div
