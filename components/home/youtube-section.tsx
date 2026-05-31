@@ -3,12 +3,27 @@
 import { motion } from "framer-motion";
 import { Video, ExternalLink } from "lucide-react";
 
+import { site } from "@/data/site";
+
 export function YoutubeSection({ settings = {} }: { settings?: Record<string, string> }) {
   const youtube_eyebrow = settings.youtube_eyebrow || "Video Profile";
   const youtube_title = settings.youtube_title || "Tonton Dokumentasi & Inkubasi Kemitraan Kami";
   const youtube_highlight = settings.youtube_highlight || "";
   const youtube_desc = settings.youtube_desc || "Ikuti keseruan program, testimonial eksklusif alumni pelatihan, dokumentasi inisiasi proyek dampak sosial, serta informasi wawasan kewirausahaan secara visual melalui kanal YouTube resmi Link Productive.";
   const youtube_url = settings.youtube_url || "";
+  
+  let embedUrl = youtube_url.trim();
+  if (embedUrl.includes("watch?v=")) {
+    embedUrl = embedUrl.replace("watch?v=", "embed/");
+    embedUrl = embedUrl.split("&")[0];
+  } else if (embedUrl.includes("youtu.be/")) {
+    embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
+    embedUrl = embedUrl.split("?")[0];
+  }
+  
+  // If the user pasted a channel link instead of a video, it can't be embedded in an iframe.
+  const isEmbeddable = embedUrl.includes("/embed/");
+
   return (
     <section
       id="youtube-profile"
@@ -37,7 +52,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             </p>
             <div className="pt-2">
               <a
-                href={youtube_url || "https://www.youtube.com/@link.productive"}
+                href={site.contact.youtube || "https://www.youtube.com/@link.productive"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FF0000] hover:bg-[#D90000] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#FF0000]/10 hover:scale-[1.02]"
@@ -55,11 +70,11 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             transition={{ duration: 0.6, delay: 0.15 }}
             className="lg:col-span-5"
           >
-            {youtube_url ? (
+            {isEmbeddable ? (
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200">
                 <iframe
                   className="w-full h-full absolute top-0 left-0"
-                  src={youtube_url}
+                  src={embedUrl}
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
