@@ -206,86 +206,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     targetMarket: ["?? Aktivis & penggerak sosial lingkungan", "?? Mahasiswa sains/teknik", "?? Pelaku industri & wirausaha ramah lingkungan"],
     disclaimer: "Kurikulum pembelajaran disesuaikan dengan studi kasus dan peraturan lingkungan terkini di Indonesia.",
   },
-  "Brand Siap": {
-    subtitle: "Layanan Branding Cepat � Identitas Visual & Kemasan Produk",
-    intro: "Tingkatkan daya saing produk bisnis Anda di mata konsumen lewat kemasan yang menawan dan logo profesional ??\n\nBrand Siap menyajikan workshop khusus pembuatan identitas visual kilat serta layanan terarah bagi UMKM agar memiliki standar logo, palet warna, desain kemasan, serta kelengkapan media pemasaran digital berestetika premium.",
-    packages: [
-      { name: "?? Paket Logo & Brand Identity", price: "Rp 500.000", discount: "Rp 100.000", afterDiscount: "Rp 400.000" },
-      { name: "?? Paket Kemasan & Packaging Design", price: "Rp 750.000", discount: "Rp 150.000", afterDiscount: "Rp 600.000" },
-      { name: "?? Paket Brand Siap Lengkap", price: "Rp 1.500.000", discount: "Rp 300.000", afterDiscount: "Rp 1.200.000" },
-    ],
-    whyInteresting: [
-      "Proses konsultasi yang cepat dengan hasil visual berstandar industri",
-      "Dipandu langsung oleh desainer grafis berpengalaman di dunia agensi",
-      "Mendapatkan file master orisinal yang siap cetak & siap pakai",
-      "Meningkatkan nilai jual brand berkali-kali lipat",
-    ],
-    targetMarket: ["?? Pemilik UMKM & usaha mandiri", "?? Rintisan wirausaha muda", "?? Koperasi & BUMDes lokal"],
-    disclaimer: "Jadwal pengerjaan visual dihitung sejak data kelengkapan produk diserahkan secara lengkap ke tim desainer.",
-  },
-  "Standara Consulting": {
-    subtitle: "Konsultan & Pelatihan Standar, Mutu, dan Pengembangan Bisnis",
-    intro: "Tingkatkan efektivitas operasional, tata kelola, dan kepatuhan sistem bisnis Anda berstandar nasional & internasional ??\n\nStandara Consulting menghadirkan pelatihan serta pendampingan intensif bagi organisasi, koperasi, LPK, IKM, hingga industri menengah dalam menyusun Standard Operating Procedure (SOP), Key Performance Indicators (KPI), persiapan akreditasi, serta sertifikasi mutu resmi.",
-    packages: [
-      {
-        name: "?? Paket Basic Business Improvement",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        suitableFor: "Cocok untuk UMKM, usaha rintisan, dan koperasi yang ingin mulai membangun sistem bisnis yang lebih rapi dan profesional.",
-        services: [
-          "Konsultasi bisnis dasar",
-          "Penyusunan SOP sederhana",
-          "Evaluasi tata kelola usaha",
-          "Pelatihan dasar manajemen bisnis",
-          "Pendampingan branding & pemasaran dasar",
-          "Monitoring dan evaluasi usaha",
-        ],
-        goal: "Membantu bisnis lebih tertata, produktif, dan siap berkembang.",
-      },
-      {
-        name: "?? Paket Standard Growth Business",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        suitableFor: "Cocok untuk UMKM, IKM, LPK, dan koperasi yang ingin meningkatkan performa bisnis dan pendapatan.",
-        services: [
-          "Penyusunan SOP & sistem kerja",
-          "Pelatihan SDM dan produktivitas",
-          "Penyusunan KPI sederhana",
-          "Konsultasi pemasaran & pengembangan pasar",
-          "Pendampingan legalitas & administrasi bisnis",
-          "Business coaching dan mentoring",
-          "Pendampingan peningkatan omzet usaha",
-        ],
-        goal: "Meningkatkan efektivitas operasional, kualitas SDM, serta pertumbuhan bisnis dan pendapatan.",
-      },
-      {
-        name: "?? Paket Professional Management System",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        suitableFor: "Cocok untuk perusahaan, lembaga, dan industri yang ingin memiliki sistem kerja profesional dan siap bersaing.",
-        services: [
-          "Implementasi sistem manajemen mutu",
-          "Penyusunan SOP lengkap",
-          "Audit internal & evaluasi kinerja",
-          "Pelatihan leadership & management",
-          "Penyusunan KPI perusahaan",
-          "Konsultasi efisiensi operasional",
-          "Pendampingan pengembangan organisasi",
-          "Persiapan sertifikasi atau akreditasi",
-        ],
-        goal: "Membantu organisasi memiliki tata kelola yang profesional, efisien, dan berdaya saing tinggi.",
-      },
-    ],
-    whyInteresting: [
-      "Bimbingan intensif dari konsultan mutu berpengalaman",
-      "Studi kasus berbasis industri berskala nasional & internasional",
-      "Penyusunan dokumen SOP aplikatif sesuai kondisi di lapangan",
-      "Akses pendampingan berkelanjutan hingga proses sertifikasi mutlak",
-    ],
-    targetMarket: ["?? Manajemen pabrik & pelaku industri menengah", "?? Pengurus koperasi & LPK daerah", "?? Pemilik usaha skala berkembang"],
-    disclaimer: "Estimasi waktu pendampingan dan biaya keseluruhan disesuaikan dengan skala operasional organisasi berdasarkan hasil kesepakatan asesmen awal.",
-    consultWa: "https://wa.me/628138298543",
-  },
+
 };
 
 const products = [
@@ -361,22 +282,6 @@ const products = [
     desc: "Program edukasi dan akselerator produk inovatif berbasis kelestarian lingkungan hidup.",
     url: "/daftar-pelatihan?pkg=green-productive-academy",
   },
-  {
-    name: "Brand Siap",
-    fee: "Sesuai Ketentuan",
-    unit: "paket",
-    icon: ShoppingBag,
-    desc: "Layanan super cepat pembuatan identitas visual, logo, kemasan produk, dan kesiapan branding usaha.",
-    url: "/daftar-pelatihan?pkg=brand-siap",
-  },
-  {
-    name: "Standara Consulting",
-    fee: "Sesuai Ketentuan",
-    unit: "layanan",
-    icon: Handshake,
-    desc: "Konsultasi profesional penyusunan SOP standardisasi bisnis, legalitas usaha, dan sertifikasi.",
-    url: "/daftar-pelatihan?pkg=standara-consulting",
-  },
 ];
 
 const POSTER_KEYS: Record<string, string> = {
@@ -389,8 +294,6 @@ const POSTER_KEYS: Record<string, string> = {
   "Tekno AI Academy": "training_poster_tekno_ai",
   "Mental Bahasa Academy": "training_poster_mental_bahasa",
   "Green Productive Academy": "training_poster_green_productive",
-  "Brand Siap": "training_poster_brand_siap",
-  "Standara Consulting": "training_poster_standara",
 };
 
 const DEFAULT_POSTERS: Record<string, string> = {
@@ -403,8 +306,6 @@ const DEFAULT_POSTERS: Record<string, string> = {
   "Tekno AI Academy": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
   "Mental Bahasa Academy": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop",
   "Green Productive Academy": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
-  "Brand Siap": "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=600&auto=format&fit=crop",
-  "Standara Consulting": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
 };
 
 const slideVariants = {

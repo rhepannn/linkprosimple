@@ -184,129 +184,7 @@ const affiliateDetails: Record<string, { subtitle: string; intro: string; packag
     targetMarket: ["🌿 Aktivis lingkungan", "🎓 Mahasiswa teknik & sains", "🏭 Pelaku industri", "📱 Content creator eco", "♻️ Komunitas hijau & UMKM green"],
     disclaimer: "Program promo, diskon, fee referral, bonus, maupun skema penawaran dalam Program Affiliate Green Productive Academy dapat berubah sewaktu-waktu pada setiap periode promo yang berlaku.",
   },
-  "Brand Siap": {
-    subtitle: "Layanan Branding Cepat — Identitas Visual & Kemasan Produk",
-    intro: "Bantu pelaku usaha tampil profesional dan dapatkan komisi menarik setiap referral berhasil! 🎨\n\nBrand Siap menyediakan layanan super cepat pembuatan identitas visual, logo, kemasan produk, dan kesiapan branding usaha untuk UMKM dan pebisnis yang ingin tampil keren tanpa ribet.\n\nSebagai Affiliate Partner kamu bisa:\n✅ Promosikan layanan branding ke teman/klien yang butuh branding\n✅ Dapatkan komisi setiap proyek berhasil closing\n✅ Fleksibel, bisa dari mana saja",
-    packages: [
-      { name: "🎨 Paket Logo & Brand Identity", price: "Rp 500.000", discount: "Rp 100.000", afterDiscount: "Rp 400.000", commission: "Rp 50.000 / proyek" },
-      { name: "📦 Paket Kemasan & Packaging Design", price: "Rp 750.000", discount: "Rp 150.000", afterDiscount: "Rp 600.000", commission: "Rp 75.000 / proyek" },
-      { name: "🚀 Paket Brand Siap Lengkap", price: "Rp 1.500.000", discount: "Rp 300.000", afterDiscount: "Rp 1.200.000", commission: "Rp 150.000 / proyek" },
-    ],
-    whyInteresting: [
-      "Semua UMKM butuh branding yang kuat",
-      "Layanan cepat, hasil profesional",
-      "Mudah dipromosikan ke pelaku usaha",
-      "Komisi per proyek closing",
-      "Support tim desain berpengalaman",
-      "Bisa dikerjakan tanpa keahlian desain",
-    ],
-    targetMarket: ["🏪 UMKM & pebisnis", "🎓 Mahasiswa wirausaha", "📱 Content creator", "💻 Freelancer marketing", "🤝 Komunitas pebisnis muda"],
-    disclaimer: "Harga layanan Brand Siap sewaktu-waktu dapat berubah mengikuti paket promo yang sedang berjalan. Komisi affiliate diberikan untuk setiap transaksi valid menggunakan kode referral affiliate partner yang terdaftar.",
-  },
 
-  "Standara Consulting": {
-    subtitle: "Konsultan & Pelatihan Standar, Mutu, dan Pengembangan Bisnis",
-    intro: "Standara Consulting hadir sebagai layanan konsultasi, pelatihan, dan pendampingan profesional yang membantu organisasi, UMKM, IKM, koperasi, LPK, hingga industri dalam meningkatkan tata kelola bisnis yang lebih profesional, terstruktur, dan berkelanjutan. 💼\n\nSebagai Affiliate Partner, kamu akan mendapatkan:\n✅ Peluang komisi menarik dari setiap proyek konsultasi B2B\n✅ Kode Referral Affiliate Khusus\n✅ Dukungan tim konsultan senior untuk presentasi ke prospek\n✅ Membantu industri lokal berkembang & terstandardisasi\n✅ Sistem tracking & pelaporan komisi transparan",
-    packages: [
-      {
-        name: "🥉 Paket Basic Business Improvement",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        commission: "Komisi Menarik / Closing",
-        suitableFor: "Cocok untuk UMKM, usaha rintisan, dan koperasi yang ingin mulai membangun sistem bisnis yang lebih rapi dan profesional.",
-        services: [
-          "Konsultasi bisnis dasar",
-          "Penyusunan SOP sederhana",
-          "Evaluasi tata kelola usaha",
-          "Pelatihan dasar manajemen bisnis",
-          "Pendampingan branding & pemasaran dasar",
-          "Monitoring dan evaluasi usaha",
-        ],
-        goal: "Membantu bisnis lebih tertata, produktif, dan siap berkembang.",
-      },
-      {
-        name: "🥈 Paket Standard Growth Business",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        commission: "Komisi Menarik / Closing",
-        suitableFor: "Cocok untuk UMKM, IKM, LPK, dan koperasi yang ingin meningkatkan performa bisnis dan pendapatan.",
-        services: [
-          "Penyusunan SOP & sistem kerja",
-          "Pelatihan SDM dan produktivitas",
-          "Penyusunan KPI sederhana",
-          "Konsultasi pemasaran & pengembangan pasar",
-          "Pendampingan legalitas & administrasi bisnis",
-          "Business coaching dan mentoring",
-          "Pendampingan peningkatan omzet usaha",
-        ],
-        goal: "Meningkatkan efektivitas operasional, kualitas SDM, serta pertumbuhan bisnis dan pendapatan.",
-      },
-      {
-        name: "🥇 Paket Professional Management System",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        commission: "Komisi Menarik / Closing",
-        suitableFor: "Cocok untuk perusahaan, lembaga, dan industri yang ingin memiliki sistem kerja profesional dan siap bersaing.",
-        services: [
-          "Implementasi sistem manajemen mutu",
-          "Penyusunan SOP lengkap",
-          "Audit internal & evaluasi kinerja",
-          "Pelatihan leadership & management",
-          "Penyusunan KPI perusahaan",
-          "Konsultasi efisiensi operasional",
-          "Pendampingan pengembangan organisasi",
-          "Persiapan sertifikasi atau akreditasi",
-        ],
-        goal: "Membantu organisasi memiliki tata kelola yang profesional, efisien, dan berdaya saing tinggi.",
-      },
-      {
-        name: "🤝 Paket Business Expansion & Partnership",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        commission: "Komisi Menarik / Closing",
-        suitableFor: "Cocok untuk bisnis yang ingin memperluas jaringan pasar dan mendapatkan peluang kolaborasi strategis.",
-        services: [
-          "Business matching dengan mitra potensial",
-          "Pendampingan kerja sama bisnis",
-          "Pengembangan strategi kemitraan",
-          "Konsultasi branding & positioning",
-          "Penyusunan proposal kerja sama",
-          "Pengembangan jaringan industri & komunitas",
-          "Pendampingan akses program CSR & kolaborasi",
-        ],
-        goal: "Membantu bisnis memperluas relasi, pasar, dan peluang pertumbuhan usaha.",
-      },
-      {
-        name: "🚀 Paket Integrated Business Transformation",
-        price: "Menyesuaikan",
-        discount: "Sesuai Proyek",
-        commission: "Komisi Menarik / Closing",
-        suitableFor: "Paket pendampingan lengkap dan menyeluruh untuk meningkatkan tata kelola, produktivitas, dan pertumbuhan bisnis secara berkelanjutan.",
-        services: [
-          "Analisa kebutuhan dan kondisi bisnis",
-          "Penyusunan sistem manajemen & SOP",
-          "Pelatihan SDM dan leadership",
-          "Pendampingan produktivitas dan efisiensi bisnis",
-          "Penyusunan KPI dan monitoring kinerja",
-          "Pendampingan branding & pemasaran",
-          "Konsultasi pengembangan usaha",
-          "Business matching dan kemitraan strategis",
-          "Evaluasi perkembangan bisnis berkala",
-        ],
-        goal: "Membantu organisasi dan pelaku usaha meningkatkan kualitas tata kelola, pertumbuhan pendapatan, serta memperluas pasar dan ekosistem bisnis.",
-      },
-    ],
-    whyInteresting: [
-      "Layanan B2B premium dengan nilai kontrak tinggi",
-      "Kebutuhan krusial bagi UMKM & industri (sertifikasi & standardisasi)",
-      "Didukung oleh portofolio industri nasional (Mitsubishi Chemical, Krakatau Steel, dsb.)",
-      "Materi promosi & support konsultasi disediakan penuh",
-      "Skema bagi hasil komisi yang sangat prospektif",
-    ],
-    targetMarket: ["🏪 Pemilik UMKM & IKM", "👥 Pengurus Koperasi", "🏢 Pengelola LPK / Sekolah", "🏭 Manajemen Pabrik / Industri", "📈 Pelaku Bisnis Menengah-Atas"],
-    disclaimer: "Biaya dan skema proyek disesuaikan secara khusus berdasarkan analisis skala bisnis dan kebutuhan operasional perusahaan. Komisi kemitraan dihitung secara persentase/nilai tetap yang disepakati untuk setiap kontrak kerja sama valid yang berhasil ditandatangani.",
-    consultWa: "https://wa.me/628138298543",
-  },
 };
 
 const products = [
@@ -382,22 +260,6 @@ const products = [
     desc: "Program edukasi dan akselerator produk inovatif berbasis kelestarian lingkungan hidup.",
     url: "https://sites.google.com/view/link-productive/services/sekolah-teknologi-hijau/affiliate-sekolah-teknologi-hijau",
   },
-  {
-    name: "Brand Siap",
-    fee: "Sesuai Ketentuan",
-    unit: "paket",
-    icon: ShoppingBag,
-    desc: "Layanan super cepat pembuatan identitas visual, logo, kemasan produk, dan kesiapan branding usaha.",
-    url: "https://sites.google.com/view/link-productive/services/brand-siap/affiliate-brand-siap",
-  },
-  {
-    name: "Standara Consulting",
-    fee: "Sesuai Ketentuan",
-    unit: "layanan",
-    icon: Handshake,
-    desc: "Konsultasi profesional penyusunan SOP standardisasi bisnis, legalitas usaha, dan sertifikasi.",
-    url: "https://www.linkproductive.com/services/standara-consulting",
-  },
 ];
 
 const discountData = [
@@ -410,8 +272,6 @@ const discountData = [
   { name: "Tekno AI Academy", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
   { name: "Mental Bahasa Academy", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
   { name: "Green Productive Academy", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
-  { name: "Standara Consulting", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
-  { name: "Brand Siap", maxDiscount: "Menyesuaikan", fee: "Komisi Menarik" },
 ];
 
 const fallbackPosts = [
@@ -871,9 +731,7 @@ const POSTER_KEYS: Record<string, string> = {
   "Tekno AI Academy": "affiliate_poster_tekno_ai",
   "Mental Bahasa Academy": "affiliate_poster_mental_bahasa",
   "Green Productive Academy": "affiliate_poster_green_productive",
-  "Brand Siap": "affiliate_poster_brand_siap",
   "Link Productive": "affiliate_poster_link_productive",
-  "Standara Consulting": "affiliate_poster_standara",
 };
 
 const DEFAULT_POSTERS: Record<string, string> = {
