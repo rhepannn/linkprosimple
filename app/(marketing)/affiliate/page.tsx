@@ -500,7 +500,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const inputCls = "w-full px-4 py-3 bg-white border border-near-black/10 rounded-xl text-xs font-bold text-near-black focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-all placeholder:text-near-black/30";
+  const inputCls = "w-full px-4 py-3 bg-white border border-near-black/10 rounded-xl text-xs font-bold text-near-black focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all placeholder:text-near-black/30";
   const labelCls = "block text-[10px] font-black uppercase tracking-wider text-near-black/60 mb-1.5";
 
   return (
@@ -518,7 +518,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
         exit={{ y: 60, opacity: 0 }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full sm:max-w-lg bg-warm-white rounded-t-3xl sm:rounded-3xl border border-near-black/10 overflow-hidden shadow-2xl text-near-black flex flex-col"
+        className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl border border-near-black/10 overflow-hidden shadow-2xl text-near-black flex flex-col"
         style={{ maxHeight: "92vh" }}
       >
         {/* Header */}
@@ -550,8 +550,8 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   Data kamu sudah kami terima. Tim kami akan menghubungi kamu via WhatsApp dalam 1×24 jam untuk proses selanjutnya.
                 </p>
               </div>
-              <div className="bg-gold/10 border border-gold/20 rounded-2xl p-4 w-full text-left">
-                <p className="text-[10px] font-black uppercase tracking-wider text-gold mb-2">Info Selanjutnya</p>
+              <div className="bg-[#004aad]/10 border border-[#004aad]/20 rounded-2xl p-4 w-full text-left">
+                <p className="text-[10px] font-black uppercase tracking-wider text-[#004aad] mb-2">Info Selanjutnya</p>
                 <ul className="space-y-1.5">
                   {[
                     "Verifikasi data oleh tim kami",
@@ -559,7 +559,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                     "Akses materi promosi & dukungan tim",
                   ].map((s, i) => (
                     <li key={i} className="flex items-center gap-2 text-[11px] font-bold text-near-black/70">
-                      <CheckCircle2 size={12} className="text-gold flex-shrink-0" />
+                      <CheckCircle2 size={12} className="text-[#004aad] flex-shrink-0" />
                       {s}
                     </li>
                   ))}
@@ -587,7 +587,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
             /* ── Form ── */
             <div className="space-y-4 px-6 py-5">
               {/* Section: Data Diri */}
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gold">Data Diri</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#004aad]">Data Diri</p>
 
               <div className="grid grid-cols-1 gap-4">
                 <div>
@@ -639,7 +639,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Section: Media Sosial */}
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gold pt-2">Media Sosial</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#004aad] pt-2">Media Sosial</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={labelCls}>Instagram</label>
@@ -652,7 +652,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Section: Motivasi */}
-              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gold pt-2">Latar Belakang</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#004aad] pt-2">Latar Belakang</p>
               <div>
                 <label className={labelCls}>Mengapa ingin bergabung?</label>
                 <textarea
@@ -748,7 +748,7 @@ function AffiliateDetailModal({
         <div className="flex-shrink-0 px-6 pt-6 pb-4 border-b border-white/10">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gold/20 flex items-center justify-center text-gold flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#004aad]/20 flex items-center justify-center text-[#004aad] flex-shrink-0">
                 <ProgramIcon size={20} />
               </div>
               <div>
@@ -776,7 +776,7 @@ function AffiliateDetailModal({
 
               {/* Packages */}
               <div>
-                <h3 className="text-[10px] font-black text-gold uppercase tracking-widest mb-3">📦 Detail Program & Komisi</h3>
+                <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-widest mb-3">📦 Detail Program & Komisi</h3>
                 <div className="space-y-3">
                   {detail.packages.map((pkg, i) => (
                     <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -786,9 +786,9 @@ function AffiliateDetailModal({
                           <p className="text-[8px] text-white/40 font-bold uppercase mb-1">Harga Normal</p>
                           <p className="text-[10px] font-black text-white/60 line-through">{pkg.price}</p>
                         </div>
-                        <div className="bg-gold/10 border border-gold/20 rounded-lg p-2 text-center">
-                          <p className="text-[8px] text-gold font-bold uppercase mb-1">Diskon Customer</p>
-                          <p className="text-[10px] font-black text-gold">{pkg.discount}</p>
+                        <div className="bg-[#004aad]/10 border border-[#004aad]/20 rounded-lg p-2 text-center">
+                          <p className="text-[8px] text-[#004aad] font-bold uppercase mb-1">Diskon Customer</p>
+                          <p className="text-[10px] font-black text-[#004aad]">{pkg.discount}</p>
                           {pkg.afterDiscount && (
                             <p className="text-[9px] text-white/60 font-bold mt-0.5">→ {pkg.afterDiscount}</p>
                           )}
@@ -805,11 +805,11 @@ function AffiliateDetailModal({
 
               {/* Why Interesting */}
               <div>
-                <h3 className="text-[10px] font-black text-gold uppercase tracking-widest mb-3">🎯 Kenapa Program Ini Menarik?</h3>
+                <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-widest mb-3">🎯 Kenapa Program Ini Menarik?</h3>
                 <div className="bg-white/5 rounded-2xl p-4 border border-white/5 space-y-2">
                   {detail.whyInteresting.map((reason, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <CheckCircle2 size={13} className="text-gold flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 size={13} className="text-[#004aad] flex-shrink-0 mt-0.5" />
                       <span className="text-[11px] text-white/70 font-medium">{reason}</span>
                     </div>
                   ))}
@@ -818,7 +818,7 @@ function AffiliateDetailModal({
 
               {/* Target Market */}
               <div>
-                <h3 className="text-[10px] font-black text-gold uppercase tracking-widest mb-3">💼 Cocok Untuk</h3>
+                <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-widest mb-3">💼 Cocok Untuk</h3>
                 <div className="flex flex-wrap gap-2">
                   {detail.targetMarket.map((target, i) => (
                     <span key={i} className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/60 font-bold">
@@ -850,7 +850,7 @@ function AffiliateDetailModal({
           </button>
           <button
             onClick={() => { onClose(); onRegister(); }}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gold hover:bg-gold/90 text-near-black text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-gold/20"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#004aad] hover:bg-[#004aad]/90 text-near-black text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-[#004aad]/20"
           >
             Daftar Affiliate Sekarang
             <ArrowRight size={12} />
@@ -997,7 +997,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
                   const dir = idx > currentIndex ? 1 : -1;
                   setPage([idx, dir]);
                 }}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? "bg-gold w-3" : "bg-white/40 hover:bg-white/70"
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? "bg-[#004aad] w-3" : "bg-white/40 hover:bg-white/70"
                   }`}
               />
             ))}
@@ -1312,7 +1312,7 @@ function AffiliateContent() {
             <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 pb-24">
               {/* Program Header */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gold/20 flex items-center justify-center text-gold flex-shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-[#004aad]/20 flex items-center justify-center text-[#004aad] flex-shrink-0">
                   <activeProduct.icon size={26} />
                 </div>
                 <div>
@@ -1346,7 +1346,7 @@ function AffiliateContent() {
 
                   {/* Packages */}
                   <div>
-                    <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">📦 Detail Program & Komisi</h2>
+                    <h2 className="text-[11px] font-black text-[#004aad] uppercase tracking-widest mb-4">📦 Detail Program & Komisi</h2>
                     <div className="space-y-4">
                       {activeProduct.packages.map((pkg: any, i: number) => (
                         <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
@@ -1356,9 +1356,9 @@ function AffiliateContent() {
                               <p className="text-[9px] text-white/40 font-bold uppercase mb-1">Harga Normal</p>
                               <p className="text-[11px] font-black text-white/60 line-through">{pkg.price}</p>
                             </div>
-                            <div className="bg-gold/10 border border-gold/20 rounded-xl p-3 text-center">
-                              <p className="text-[9px] text-gold font-bold uppercase mb-1">Diskon Customer</p>
-                              <p className="text-[11px] font-black text-gold">{pkg.discount}</p>
+                            <div className="bg-[#004aad]/10 border border-[#004aad]/20 rounded-xl p-3 text-center">
+                              <p className="text-[9px] text-[#004aad] font-bold uppercase mb-1">Diskon Customer</p>
+                              <p className="text-[11px] font-black text-[#004aad]">{pkg.discount}</p>
                               {pkg.afterDiscount && <p className="text-[10px] text-white/60 font-bold mt-0.5">→ {pkg.afterDiscount}</p>}
                             </div>
                             <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
@@ -1371,7 +1371,7 @@ function AffiliateContent() {
                             <>
                               <button
                                 onClick={() => setExpandedPkg(expandedPkg === i ? null : i)}
-                                className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/30 text-white/60 hover:text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
+                                className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#004aad]/30 text-white/60 hover:text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all"
                               >
                                 {expandedPkg === i ? "Tutup Detail" : "Lihat Detail"}
                                 <ChevronDown
@@ -1394,7 +1394,7 @@ function AffiliateContent() {
                                       )}
                                       {pkg.services && pkg.services.length > 0 && (
                                         <div>
-                                          <p className="text-[9px] text-gold font-black uppercase tracking-widest mb-2">Layanan dalam Paket</p>
+                                          <p className="text-[9px] text-[#004aad] font-black uppercase tracking-widest mb-2">Layanan dalam Paket</p>
                                           <ul className="space-y-1.5">
                                             {pkg.services.map((svc: string, si: number) => (
                                               <li key={si} className="flex items-start gap-2">
@@ -1406,8 +1406,8 @@ function AffiliateContent() {
                                         </div>
                                       )}
                                       {pkg.goal && (
-                                        <div className="bg-gold/5 border border-gold/20 rounded-xl p-3">
-                                          <p className="text-[9px] text-gold font-black uppercase tracking-widest mb-1">Tujuan</p>
+                                        <div className="bg-[#004aad]/5 border border-[#004aad]/20 rounded-xl p-3">
+                                          <p className="text-[9px] text-[#004aad] font-black uppercase tracking-widest mb-1">Tujuan</p>
                                           <p className="text-[11px] text-white/60 font-medium leading-relaxed">{pkg.goal}</p>
                                         </div>
                                       )}
@@ -1424,11 +1424,11 @@ function AffiliateContent() {
 
                   {/* Why Interesting */}
                   <div>
-                    <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">🎯 Kenapa Program Ini Menarik?</h2>
+                    <h2 className="text-[11px] font-black text-[#004aad] uppercase tracking-widest mb-4">🎯 Kenapa Program Ini Menarik?</h2>
                     <div className="bg-white/5 rounded-2xl p-5 border border-white/5 space-y-3">
                       {details.whyInteresting.map((reason: string, i: number) => (
                         <div key={i} className="flex items-start gap-3">
-                          <CheckCircle2 size={14} className="text-gold flex-shrink-0 mt-0.5" />
+                          <CheckCircle2 size={14} className="text-[#004aad] flex-shrink-0 mt-0.5" />
                           <span className="text-[13px] text-white/70 font-medium">{reason}</span>
                         </div>
                       ))}
@@ -1437,7 +1437,7 @@ function AffiliateContent() {
 
                   {/* Target Market */}
                   <div>
-                    <h2 className="text-[11px] font-black text-gold uppercase tracking-widest mb-4">💼 Cocok Untuk</h2>
+                    <h2 className="text-[11px] font-black text-[#004aad] uppercase tracking-widest mb-4">💼 Cocok Untuk</h2>
                     <div className="flex flex-wrap gap-2">
                       {details.targetMarket.map((target: string, i: number) => (
                         <span key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[11px] text-white/60 font-bold">
@@ -1475,7 +1475,7 @@ function AffiliateContent() {
                 {activeProduct.name === "Link Productive" ? (
                   <a
                     href="/booking"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gold hover:bg-gold/90 text-near-black text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-gold/20"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#004aad]/90 text-near-black text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#004aad]/20"
                   >
                     Booking Sesi Foto Sekarang
                     <Camera size={14} />
@@ -1484,7 +1484,7 @@ function AffiliateContent() {
                   <a
                     href={`/daftar-pelatihan?pkg=${Object.keys(pkgSlugMap).find(key => pkgSlugMap[key] === activeProduct.name) || ""
                       }`}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#C4956A] hover:bg-[#B07D52] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#C4956A]/30"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#003984] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#004aad]/30"
                   >
                     Ikut / Daftar Pelatihan
                     <GraduationCap size={14} />
@@ -1693,15 +1693,15 @@ function AffiliateContent() {
         </section>
 
         {/* ── Galeri Kegiatan & Materi Promosi ── */}
-        <section className="py-20 bg-warm-light/40 border-y border-border/40">
+        <section className="py-20 bg-slate-50 border-y border-border/40">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12 flex flex-col items-center">
-              <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-[10px] font-black uppercase tracking-[0.2em] text-gold">
+              <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-[#004aad]/15 border border-[#004aad]/30 text-[10px] font-black uppercase tracking-[0.2em] text-[#004aad]">
                 <Sparkles size={12} className="animate-pulse" />
                 <span>Galeri & Bahan Promosi</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-near-black uppercase tracking-wider mb-4" style={{ fontFamily: "var(--font-heading)" }}>
-                Galeri Kegiatan <span className="text-gold">& Materi</span>
+                Galeri Kegiatan <span className="text-[#004aad]">& Materi</span>
               </h2>
               <p className="text-near-black/60 text-sm font-bold max-w-xl leading-relaxed text-center">
                 Lihat keseruan event kami atau langsung salin materi promosi (foto & caption) di bawah ini untuk dibagikan ke media sosial Anda!
@@ -1731,7 +1731,7 @@ function AffiliateContent() {
             {/* Grid Materi Promosi */}
             {loading ? (
               <div className="flex justify-center py-20">
-                <div className="w-8 h-8 border-4 border-gold border-t-transparent rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-[#004aad] border-t-transparent rounded-full animate-spin" />
               </div>
             ) : filteredPosts.length === 0 ? (
               <div className="text-center py-16 text-near-black/40 font-bold uppercase tracking-widest text-xs">
@@ -1760,9 +1760,9 @@ function AffiliateContent() {
                       className="bg-white rounded-3xl border border-border/30 shadow-sm hover:shadow-xl hover:shadow-near-black/5 transition-all duration-300 overflow-hidden flex flex-col"
                     >
                       {/* Header Card */}
-                      <div className="flex items-center justify-between px-5 py-4 border-b border-warm-white">
+                      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gold to-near-black flex items-center justify-center text-white font-black text-xs shadow-sm">
+                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#004aad] to-near-black flex items-center justify-center text-white font-black text-xs shadow-sm">
                             SF
                           </div>
                           <div>
@@ -1773,13 +1773,13 @@ function AffiliateContent() {
                             </p>
                           </div>
                         </div>
-                        <span className="px-3 py-1 bg-gold/10 text-gold rounded-full text-[9px] font-black uppercase tracking-wider">
+                        <span className="px-3 py-1 bg-[#004aad]/10 text-[#004aad] rounded-full text-[9px] font-black uppercase tracking-wider">
                           {post.category === "kegiatan" ? "Kegiatan" : "Materi Promo"}
                         </span>
                       </div>
 
                       {/* Image Area */}
-                      <div className="relative aspect-square bg-warm-white overflow-hidden group">
+                      <div className="relative aspect-square bg-white overflow-hidden group">
                         <img
                           src={post.imageUrl}
                           alt="Materi Promosi"
@@ -1805,7 +1805,7 @@ function AffiliateContent() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="px-5 pt-4 pb-2 flex items-center justify-between border-t border-warm-white">
+                      <div className="px-5 pt-4 pb-2 flex items-center justify-between border-t border-slate-100">
                         <div className="flex items-center gap-4">
                           <button
                             onClick={() => handleLike(post.id)}
@@ -1826,7 +1826,7 @@ function AffiliateContent() {
                           onClick={() => handleCopyCaption(post)}
                           className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${isCopied
                               ? "bg-green-50 text-green-700 border border-green-200"
-                              : "bg-gold/10 text-gold hover:bg-gold/20 border border-transparent"
+                              : "bg-[#004aad]/10 text-[#004aad] hover:bg-[#004aad]/20 border border-transparent"
                             }`}
                         >
                           {isCopied ? (
@@ -1853,7 +1853,7 @@ function AffiliateContent() {
                           {post.hashtags && post.hashtags.length > 0 && (
                             <div className="flex flex-wrap gap-1">
                               {post.hashtags.map((tag: string) => (
-                                <span key={tag} className="text-[10px] font-black text-gold/95">
+                                <span key={tag} className="text-[10px] font-black text-[#004aad]">
                                   #{tag}
                                 </span>
                               ))}
@@ -1870,7 +1870,7 @@ function AffiliateContent() {
         </section>
 
         {/* ── Info Columns ── */}
-        <section className="py-20 bg-warm-white">
+        <section className="py-20 bg-white">
           <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -1878,7 +1878,7 @@ function AffiliateContent() {
                 items: ["Promosikan semua produk & layanan", "Bagikan link / kode referral", "Dapatkan peserta / customer", "Capai target & raih komisi", "Buat konten promosi di medsos"],
               },
               {
-                title: "Benefit Affiliate Partner", bg: "bg-gold", textColor: "text-near-black",
+                title: "Benefit Affiliate Partner", bg: "bg-[#004aad]", textColor: "text-near-black",
                 items: ["Penghasilan tanpa batas", "Komisi dari setiap penjualan", "Bonus target bulanan & reward", "Materi promosi & support marketing", "Sertifikat resmi Affiliate Partner", "Komunitas partner aktif", "Peluang jadi Ambassador"],
               },
               {
@@ -1891,7 +1891,7 @@ function AffiliateContent() {
                 <ul className="space-y-3">
                   {col.items.map((text, j) => (
                     <li key={j} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-gold flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 size={16} className="text-[#004aad] flex-shrink-0 mt-0.5" />
                       <span className="text-sm font-bold text-near-black/70">{text}</span>
                     </li>
                   ))}

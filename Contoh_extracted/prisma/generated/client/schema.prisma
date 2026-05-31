@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ReferralCode {
+  id                String          @id @default(uuid())
+  code              String          @unique
+  marketerName      String          @default("") @map("marketer_name")
+  discountPct       Float           @map("discount_pct")
+  maxDiscountAmount Float           @default(0) @map("max_discount_amount")
+  feePercentage     Float           @default(0) @map("fee_percentage")
+  bankName          String?         @map("bank_name")
+  bankAccount       String?         @map("bank_account")
+  expiryDate        DateTime?       @map("expiry_date")
+  usageLimit        Int?            @map("usage_limit")
+  usageCount        Int             @default(0) @map("usage_count")
+  isActive          Boolean         @default(true) @map("is_active")
+  ownerId           String?         @unique @map("owner_id")
+  owner             User?           @relation("UserReferral", fields: [ownerId], references: [id])
+  targetProductId   String?         @map("target_product_id")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  referral_usages   ReferralUsage[]
+  transactions      Transaction[]
+
+  @@map("referral_codes")
+}
+
+model Booking {
+  id            String                @id @default(uuid())
+  invoiceNo     String                @unique @map("invoice_no")
+  packageId     String                @map("package_id")
+  packageName   String                @map("package_name")
+  customerName  String                @map("customer_name")
+  customerPhone String                @map("customer_phone")
+  sessionDate   String                @map("session_date")
+  sessionTime   String                @map("session_time")
+  notes         String?
+  referralCode  String?               @map("referral_code")
+  discountPct   Float                 @default(0) @map("discount_pct")
+  originalPrice Float                 @map("original_price")
+  finalPrice    Float                 @map("final_price")
+  paymentMethod String                @map("payment_method")
+  status        String                @default("pending")
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+  commissions   AffiliateCommission[]
+
+  @@map("bookings")
+}
+
+model Category {
+  id       String    @id(map: "Category_pkey") @default(uuid())
+  name     String
+  slug     String    @unique(map: "Category_slug_key")
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id                String            @id(map: "Product_pkey") @default(uuid())
+  name              String
+  sku               String            @unique(map: "Product_sku_key")
+  price             Float
+  stock             Int
+  image             String?
+  duration          String? // e.g. "60 menit"
+  photoCount        String? // e.g. "30 foto soft file"
+  features          String[]          @default([])
+  isPopular         Boolean           @default(false)
+  sortOrder         Int               @default(0)
+  categoryId        String
+  isActive          Boolean           @default(true)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  category          Category          @relation(fields: [categoryId], references: [id], map: "Product_categoryId_fkey")
+  transaction_items TransactionItem[]
+
+  @@map("products")
+}
+
+model ReferralUsage {
+  id             String       @id(map: "ReferralUsage_pkey") @default(uuid())
+  referralCodeId String
+  transactionId  String       @unique(map: "ReferralUsage_transactionId_key")
+  userId         String
+  usedAt         DateTime     @default(now())
+  referralCode   ReferralCode @relation(fields: [referralCodeId], references: [id], map: "ReferralUsage_referralCodeId_fkey")
+  transaction    Transaction  @relation(fields: [transactionId], references: [id], map: "ReferralUsage_transactionId_fkey")
+  user           User         @relation(fields: [userId], references: [id], map: "ReferralUsage_userId_fkey")
+
+  @@map("referral_usages")
+}
+
+model TransactionItem {
+  id            String      @id(map: "TransactionItem_pkey") @default(uuid())
+  transactionId String
+  productId     String
+  qty           Int
+  price         Float
+  subtotal      Float
+  product       Product     @relation(fields: [productId], references: [id], map: "TransactionItem_productId_fkey")
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, map: "TransactionItem_transactionId_fkey")
+
+  @@map("transaction_items")
+}
+
+model Transaction {
+  id             String            @id(map: "Transaction_pkey") @default(uuid())
+  invoiceNumber  String            @unique(map: "Transaction_invoiceNumber_key")
+  cashierId      String
+  total          Float
+  tax            Float
+  discount       Float             @default(0)
+  paymentMethod  PaymentMethod
+  referralCodeId String?
+  status         TransactionStatus @default(COMPLETED)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  referralUsage  ReferralUsage?
+  items          TransactionItem[]
+  cashier        User              @relation(fields: [cashierId], references: [id], map: "Transaction_cashierId_fkey")
+  referralCode   ReferralCode?     @relation(fields: [referralCodeId], references: [id], map: "Transaction_referralCodeId_fkey")
+
+  @@map("transactions")
+}
+
+model User {
+  id              String                @id(map: "User_pkey") @default(uuid())
+  name            String
+  email           String                @unique(map: "User_email_key")
+  password        String
+  role            Role                  @default(ADMIN)
+  phone           String?
+  bankName        String?               @map("bank_name")
+  bankAccount     String?               @map("bank_account")
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  referral_usages ReferralUsage[]
+  transactions    Transaction[]
+  referralCode    ReferralCode?         @relation("UserReferral")
+  commissions     AffiliateCommission[] @relation("SnapperCommissions")
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  SNAPPER
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  TRANSFER
+  QRIS
+  EWALLET
+}
+
+model GalleryPhoto {
+  id         String   @id @default(uuid())
+  src        String
+  alt        String
+  width      Int
+  height     Int
+  category   String // solo, couple, family, birthday, graduation
+  isFeatured Boolean  @default(false)
+  isHero     Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("gallery_photos")
+}
+
+model SiteSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model AffiliatePost {
+  id          String   @id @default(uuid())
+  imageUrl    String   @map("image_url")
+  caption     String   @db.Text
+  hashtags    String[] @default([])
+  likeCount   Int      @default(0) @map("like_count")
+  isPublished Boolean  @default(true) @map("is_published")
+  postedBy    String   @map("posted_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("affiliate_posts")
+}
+
+model AffiliateCommission {
+  id        String   @id @default(uuid())
+  snapperId String   @map("snapper_id")
+  bookingId String   @map("booking_id")
+  amount    Float
+  status    String   @default("pending") // pending, paid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  snapper   User     @relation("SnapperCommissions", fields: [snapperId], references: [id])
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+
+  @@map("affiliate_commissions")
+}
+
+model AffiliateApplication {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  password   String   @default("")
+  instagram  String?
+  tiktok     String?
+  occupation String? // pelajar, mahasiswa, karyawan, freelancer, wirausaha, lainnya
+  city       String?
+  motivation String?  @db.Text
+  experience String?  @db.Text
+  status     String   @default("pending") // pending, approved, rejected
+  notes      String?  @db.Text
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("affiliate_applications")
+}
+
+model AffiliateLead {
+  id           String   @id @default(uuid())
+  name         String
+  phone        String
+  email        String?
+  city         String?
+  occupation   String?
+  productSku   String?  @map("product_sku")
+  productName  String?  @map("product_name")
+  referralCode String?  @map("referral_code")
+  snapperId    String?  @map("snapper_id")
+  notes        String?  @db.Text
+  status       String   @default("pending") // pending, followed_up, closed
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("affiliate_leads")
+}

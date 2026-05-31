@@ -650,7 +650,7 @@ function EnrollModal({
         exit={{ y: 60, opacity: 0 }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full sm:max-w-lg bg-warm-white rounded-t-3xl sm:rounded-3xl border border-near-black/10 overflow-hidden shadow-2xl text-near-black flex flex-col"
+        className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl border border-near-black/10 overflow-hidden shadow-2xl text-near-black flex flex-col"
         style={{ maxHeight: "92vh" }}
       >
         {/* Header */}
@@ -1092,14 +1092,19 @@ function DaftarPelatihanContent() {
         }
         
         const productsRes = await getProducts();
+        let dbData: any[] = [];
         if (productsRes.success && Array.isArray(productsRes.data)) {
-          const parsed = parseProductsFromDb(productsRes.data.filter((p: any) => p.isActive));
-          setProductsList(parsed);
-        } else {
-          // Fallback to parsed static products list
-          const parsed = parseProductsFromDb(brandProducts as any);
-          setProductsList(parsed);
+          dbData = productsRes.data.filter((p: any) => p.isActive);
         }
+        
+        const dbSkus = new Set(dbData.map(p => p.sku));
+        const mergedProducts = [
+          ...dbData,
+          ...brandProducts.filter(p => !dbSkus.has(p.sku))
+        ];
+        
+        const parsed = parseProductsFromDb(mergedProducts);
+        setProductsList(parsed);
       } catch (err) {
         console.error("Gagal memuat portal pelatihan data:", err);
       } finally {
@@ -1437,7 +1442,7 @@ function DaftarPelatihanContent() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.05 }}
-                      className="group p-6 rounded-[2rem] border border-near-black/5 bg-warm-white/30 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+                      className="group p-6 rounded-[2rem] border border-near-black/5 bg-slate-50/50 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
                     >
                       <div>
                         <div className="flex items-start justify-between gap-4 mb-4">
