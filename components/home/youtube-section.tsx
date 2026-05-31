@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Video, ExternalLink } from "lucide-react";
 
-import { site } from "@/data/site";
 
 export function YoutubeSection({ settings = {} }: { settings?: Record<string, string> }) {
   const youtube_eyebrow = settings.youtube_eyebrow || "Video Profile";
@@ -12,7 +11,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   const youtube_highlight = settings.youtube_highlight || "";
   const youtube_desc = settings.youtube_desc || "Ikuti keseruan program, testimonial eksklusif alumni pelatihan, dokumentasi inisiasi proyek dampak sosial, serta informasi wawasan kewirausahaan secara visual melalui kanal YouTube resmi Link Productive.";
   const youtube_url = settings.youtube_url || "";
-  
+
   const [videoOverlayTitle, setVideoOverlayTitle] = useState("");
 
   let finalThumbnail = settings.youtube_thumbnail || "";
@@ -21,7 +20,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   if (youtube_url.includes("watch?v=")) extractedId = youtube_url.split("watch?v=")[1].split("&")[0];
   else if (youtube_url.includes("youtu.be/")) extractedId = youtube_url.split("youtu.be/")[1].split("?")[0];
   else if (youtube_url.includes("/shorts/")) extractedId = youtube_url.split("/shorts/")[1].split("?")[0];
-  
+
   if (!extractedId && finalThumbnail && (finalThumbnail.includes("youtube.com") || finalThumbnail.includes("youtu.be"))) {
     if (finalThumbnail.includes("watch?v=")) extractedId = finalThumbnail.split("watch?v=")[1].split("&")[0];
     else if (finalThumbnail.includes("youtu.be/")) extractedId = finalThumbnail.split("youtu.be/")[1].split("?")[0];
@@ -31,7 +30,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   if (extractedId) {
     finalThumbnail = `https://img.youtube.com/vi/${extractedId}/maxresdefault.jpg`;
   }
-  
+
   useEffect(() => {
     if (extractedId) {
       fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${extractedId}`)
@@ -43,13 +42,13 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
         })
         .catch(err => console.error("Gagal mengambil judul video:", err));
     } else {
-      if (!settings.youtube_thumbnail && site.name) {
-        setVideoOverlayTitle(`${site.name} Official Channel`);
+      if (!settings.youtube_thumbnail) {
+        setVideoOverlayTitle(`${settings.site_name || "Link Productive"} Official Channel`);
       }
     }
   }, [extractedId, settings.youtube_thumbnail]);
 
-  const targetLink = extractedId ? `https://www.youtube.com/watch?v=${extractedId}` : (youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive");
+  const targetLink = extractedId ? `https://www.youtube.com/watch?v=${extractedId}` : (youtube_url || settings.contact_youtube || "");
 
   return (
     <section
@@ -58,7 +57,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          
+
           {/* ── Kolom Kiri: Teks & Informasi Saluran Youtube ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -79,7 +78,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             </p>
             <div className="pt-2">
               <a
-                href={site.contact.youtube || "https://www.youtube.com/@link.productive"}
+                href={settings.contact_youtube || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FF0000] hover:bg-[#D90000] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#FF0000]/10 hover:scale-[1.02]"
@@ -104,7 +103,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                     <Video size={28} className="ml-1" />
                   </div>
                 </a>
-                
+
                 {/* Overlay Judul mirip YouTube */}
                 {videoOverlayTitle && (
                   <div className="absolute top-0 left-0 right-0 p-4 pt-5 pb-8 bg-gradient-to-b from-black/80 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity">
@@ -114,10 +113,10 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                   </div>
                 )}
 
-                <img 
-                  src={finalThumbnail} 
-                  alt="YouTube Highlight" 
-                  className="w-full h-full object-cover" 
+                <img
+                  src={finalThumbnail}
+                  alt="YouTube Highlight"
+                  className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "https://placehold.co/800x450/f8fafc/94a3b8?text=Image+Not+Found";
                   }}

@@ -243,19 +243,19 @@ export default function AdminDashboard() {
 
       {/* ── Pending Bookings Confirmation ─────────────────── */}
       {upcomingBookings.filter((b: any) => b.status === "pending").length > 0 && (
-        <div className="bg-white rounded-[3rem] p-10 border border-amber-200/50 shadow-sm relative overflow-hidden">
+        <div className="bg-white rounded-[3rem] p-10 border border-sky-200/50 shadow-sm relative overflow-hidden">
           {/* Subtle amber glow */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-amber-400/5 rounded-full blur-[100px] -ml-20 -mt-20 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-64 h-64 bg-sky-400/5 rounded-full blur-[100px] -ml-20 -mt-20 pointer-events-none" />
 
           <div className="relative z-10">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
               <div className="flex items-center gap-3">
-                <div className="p-3 bg-amber-50 rounded-2xl">
-                  <AlertCircle size={20} className="text-amber-600" />
+                <div className="p-3 bg-sky-50 rounded-2xl">
+                  <AlertCircle size={20} className="text-sky-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-near-black">
-                    Pemesanan <span className="text-amber-600 italic">Menunggu Konfirmasi</span>
+                    Pemesanan <span className="text-sky-600 italic">Menunggu Konfirmasi</span>
                   </h3>
                   <p className="text-[11px] font-bold text-near-black/40 uppercase tracking-widest mt-0.5">
                     {upcomingBookings.filter((b: any) => b.status === "pending").length} pemesanan perlu ditindaklanjuti
@@ -276,17 +276,17 @@ export default function AdminDashboard() {
                 .map((booking: any) => (
                   <div
                     key={booking.id}
-                    className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-amber-50/50 border border-amber-100 hover:border-amber-200 transition-all duration-300"
+                    className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl bg-sky-50/50 border border-sky-100 hover:border-sky-200 transition-all duration-300"
                   >
                     {/* Left: booking info */}
                     <div className="flex items-start gap-4 flex-1 min-w-0">
-                      <div className="p-3 bg-white rounded-xl border border-amber-100 shadow-sm shrink-0">
-                        <CalendarIcon size={18} className="text-amber-600" />
+                      <div className="p-3 bg-white rounded-xl border border-sky-100 shadow-sm shrink-0">
+                        <CalendarIcon size={18} className="text-sky-600" />
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <p className="text-sm font-black text-near-black truncate">{booking.customerName}</p>
-                          <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-widest">
+                          <span className="px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 text-[9px] font-black uppercase tracking-widest">
                             ⏳ Pending
                           </span>
                         </div>

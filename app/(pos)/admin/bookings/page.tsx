@@ -61,7 +61,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; 
   "pending": {
     label: "Menunggu",
     color: "#D97706", bg: "rgba(245, 158, 11, 0.08)", border: "rgba(245, 158, 11, 0.15)",
-    icon: Clock, glow: "shadow-amber-500/10",
+    icon: Clock, glow: "shadow-sky-500/10",
   },
   "confirmed": {
     label: "Dikonfirmasi",
@@ -183,7 +183,7 @@ export default function BookingManagement() {
     return () => {
       supabase.removeChannel(channel);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchBookings() {
@@ -220,8 +220,8 @@ export default function BookingManagement() {
         newStatus === "confirmed"
           ? "✅ Pembayaran berhasil dikonfirmasi!"
           : newStatus === "completed"
-          ? "✅ Sesi ditandai selesai!"
-          : "❌ Booking telah dibatalkan."
+            ? "✅ Sesi ditandai selesai!"
+            : "❌ Booking telah dibatalkan."
       );
 
       setBookings(prev =>
@@ -256,7 +256,7 @@ export default function BookingManagement() {
   const handlePackageChange = (pkgName: string, isEdit: boolean) => {
     const foundProduct = products.find(p => p.name === pkgName);
     const price = foundProduct ? foundProduct.price : 0;
-    
+
     if (isEdit) {
       setEditForm(prev => {
         const discPct = prev.discount_pct || 0;
@@ -321,7 +321,7 @@ export default function BookingManagement() {
 
       toast.success("✅ Data booking berhasil diperbarui!");
       setIsEditing(false);
-      
+
       setBookings(prev =>
         prev.map(b => b.id === selectedBooking.id ? updatedBooking : b)
       );
@@ -356,7 +356,7 @@ export default function BookingManagement() {
       toast.error("Mohon lengkapi data wajib (Nama, No. HP, Paket, Tanggal, Jam)");
       return;
     }
-    
+
     setUpdatingStatus(true);
     try {
       const randHex = Math.floor(100000 + Math.random() * 900000).toString();
@@ -388,7 +388,7 @@ export default function BookingManagement() {
 
       toast.success(`➕ Booking ${invoiceNo} berhasil dibuat!`);
       setIsCreateModalOpen(false);
-      
+
       setCreateForm({
         customer_name: "",
         customer_phone: "",
@@ -430,8 +430,8 @@ export default function BookingManagement() {
 
   const filteredBookings = bookings.filter(b => {
     const matchesSearch = b.customer_name.toLowerCase().includes(search.toLowerCase()) ||
-                          b.invoice_no.toLowerCase().includes(search.toLowerCase()) ||
-                          b.package_name.toLowerCase().includes(search.toLowerCase());
+      b.invoice_no.toLowerCase().includes(search.toLowerCase()) ||
+      b.package_name.toLowerCase().includes(search.toLowerCase());
     const matchesFilter = filter === "all" || b.status === filter;
     return matchesSearch && matchesFilter;
   });
@@ -460,7 +460,7 @@ export default function BookingManagement() {
               Data <span className="text-gold italic">Peserta Pelatihan</span>
             </h1>
             {pendingCount > 0 && (
-              <span className="px-3 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full animate-pulse">
+              <span className="px-3 py-1 bg-sky-500 text-white text-[10px] font-black rounded-full animate-pulse">
                 {pendingCount} baru
               </span>
             )}
@@ -499,7 +499,7 @@ export default function BookingManagement() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {[
           { label: "Total Peserta", val: bookings.length, icon: CalendarIcon, color: "text-near-black", bg: "bg-near-black/5" },
-          { label: "Menunggu", val: pendingCount, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+          { label: "Menunggu", val: pendingCount, icon: Clock, color: "text-sky-600", bg: "bg-sky-50" },
           { label: "Dikonfirmasi", val: bookings.filter(b => b.status === "confirmed").length, icon: Zap, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Pendapatan", val: formatRupiah(totalRevenue), icon: CreditCard, color: "text-emerald-600", bg: "bg-emerald-50" },
         ].map((stat, idx) => (
@@ -528,22 +528,20 @@ export default function BookingManagement() {
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`relative px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${
-              filter === f.key
-              ? "bg-near-black text-white shadow-lg shadow-near-black/20"
-              : "bg-white text-near-black/40 border border-near-black/5 hover:border-gold/20 hover:text-gold"
-            }`}
+            className={`relative px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${filter === f.key
+                ? "bg-near-black text-white shadow-lg shadow-near-black/20"
+                : "bg-white text-near-black/40 border border-near-black/5 hover:border-gold/20 hover:text-gold"
+              }`}
           >
             {f.label}
             {f.count > 0 && (
-              <span className={`ml-2 px-1.5 py-0.5 rounded-md text-[8px] ${
-                filter === f.key ? "bg-white/20 text-white" : "bg-near-black/5 text-near-black/30"
-              }`}>
+              <span className={`ml-2 px-1.5 py-0.5 rounded-md text-[8px] ${filter === f.key ? "bg-white/20 text-white" : "bg-near-black/5 text-near-black/30"
+                }`}>
                 {f.count}
               </span>
             )}
             {f.key === "pending" && f.count > 0 && filter !== "pending" && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-sky-500 rounded-full animate-pulse" />
             )}
           </button>
         ))}
@@ -963,7 +961,7 @@ export default function BookingManagement() {
                           <FileText size={12} />
                           <span className="text-[8px] font-black uppercase tracking-widest">Catatan Khusus</span>
                         </div>
-                        <p className="text-xs text-near-black/60 leading-relaxed italic p-4 bg-amber-50/50 border border-amber-100/50 rounded-xl">
+                        <p className="text-xs text-near-black/60 leading-relaxed italic p-4 bg-sky-50/50 border border-sky-100/50 rounded-xl">
                           &ldquo;{selectedBooking.notes}&rdquo;
                         </p>
                       </div>
@@ -974,8 +972,8 @@ export default function BookingManagement() {
                       {/* PENDING → confirmed or cancelled */}
                       {selectedBooking.status === "pending" && (
                         <>
-                          <div className="p-3.5 bg-amber-50 border border-amber-200/50 rounded-xl text-center">
-                            <p className="text-[10px] font-black text-amber-700 uppercase tracking-wider">⏳ Menunggu verifikasi pembayaran</p>
+                          <div className="p-3.5 bg-sky-50 border border-sky-200/50 rounded-xl text-center">
+                            <p className="text-[10px] font-black text-sky-700 uppercase tracking-wider">⏳ Menunggu verifikasi pembayaran</p>
                           </div>
                           <div className="grid grid-cols-2 gap-3">
                             <button

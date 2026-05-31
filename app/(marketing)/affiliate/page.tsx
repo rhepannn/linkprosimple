@@ -433,7 +433,7 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
                   Tutup
                 </button>
                 <a
-                  href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || "6287778059221"}?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
+                  href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || ""}?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-[2] flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
@@ -1314,7 +1314,7 @@ function AffiliateContent() {
                   {/* Konsultasi Lebih Lanjut — WhatsApp CTA (matches linkproductive.com) */}
                   {details.consultWa && (
                     <a
-                      href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || details.consultWa?.replace('https://wa.me/', '') || '6287778059221'}`}
+                      href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || details.consultWa?.replace('https://wa.me/', '') || ''}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-3 w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-lg shadow-emerald-500/20"

@@ -302,6 +302,6 @@ export const affiliateDetails: Record<string, { subtitle: string; intro: string;
     ],
     targetMarket: ["🏪 Pemilik UMKM & IKM", "👥 Pengurus Koperasi", "🏢 Pengelola LPK / Sekolah", "🏭 Manajemen Pabrik / Industri", "📈 Pelaku Bisnis Menengah-Atas"],
     disclaimer: "Biaya dan skema proyek disesuaikan secara khusus berdasarkan analisis skala bisnis dan kebutuhan operasional perusahaan. Komisi kemitraan dihitung secara persentase/nilai tetap yang disepakati untuk setiap kontrak kerja sama valid yang berhasil ditandatangani.",
-    consultWa: "https://wa.me/6287778059221", // This is overridden by settings in UI
+    consultWa: "", // Dikelola via Admin > Pengaturan > Kontak (affiliate_whatsapp)
   },
 };

@@ -133,7 +133,7 @@ export default function SettingsPage() {
     updated[targetIndex] = temp;
 
     setSections(updated);
-    
+
     // Update setting string
     const keysString = updated.map(s => s.id).join(",");
     handleChange("homepage_section_order", keysString);
@@ -358,6 +358,36 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Link TikTok</label>
+                <input
+                  type="text"
+                  value={settings.contact_tiktok}
+                  onChange={(e) => handleChange("contact_tiktok", e.target.value)}
+                  className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+                  placeholder="https://tiktok.com/@linkproductive"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Link YouTube</label>
+                <input
+                  type="text"
+                  value={settings.contact_youtube}
+                  onChange={(e) => handleChange("contact_youtube", e.target.value)}
+                  className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+                  placeholder="https://www.youtube.com/@link.productive"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Google Maps Embed URL</label>
+                <input
+                  type="text"
+                  value={settings.contact_maps_embed}
+                  onChange={(e) => handleChange("contact_maps_embed", e.target.value)}
+                  className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+                  placeholder="https://www.google.com/maps/embed?pb=..."
+                />
+              </div>
+              <div>
                 <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Alamat Kantor</label>
                 <textarea
                   value={settings.contact_address}
@@ -558,241 +588,241 @@ export default function SettingsPage() {
             </div>
           </div>
 
-            {/* Tentang Kami */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
-                  <Layers className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Tentang Kami</h2>
-                </div>
+          {/* Tentang Kami */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                <Layers className="w-5 h-5" />
               </div>
-              <div className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.about_title} onChange={(e) => handleChange("about_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-sky-500">Judul Warna</label>
-                    <input type="text" value={settings.about_highlight} onChange={(e) => handleChange("about_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.about_desc} onChange={(e) => handleChange("about_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Teks Kartu Visual</label>
-                  <input type="text" value={settings.about_card_title} onChange={(e) => handleChange("about_card_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 mb-3" placeholder="Judul Kartu" />
-                  <input type="text" value={settings.about_card_desc} onChange={(e) => handleChange("about_card_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="Deskripsi Kartu" />
-                </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Tentang Kami</h2>
               </div>
             </div>
-
-            {/* Kegiatan */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Kategori Kegiatan</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
-                  <input type="text" value={settings.kegiatan_eyebrow} onChange={(e) => handleChange("kegiatan_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.kegiatan_title} onChange={(e) => handleChange("kegiatan_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-indigo-500">Judul Warna</label>
-                    <input type="text" value={settings.kegiatan_highlight} onChange={(e) => handleChange("kegiatan_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.kegiatan_desc} onChange={(e) => handleChange("kegiatan_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-              </div>
-            </div>
-
-            {/* YouTube */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Video YouTube</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
-                  <input type="text" value={settings.youtube_eyebrow} onChange={(e) => handleChange("youtube_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.youtube_title} onChange={(e) => handleChange("youtube_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-red-500">Judul Warna</label>
-                    <input type="text" value={settings.youtube_highlight} onChange={(e) => handleChange("youtube_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.youtube_desc} onChange={(e) => handleChange("youtube_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Link Embed YouTube</label>
-                  <input type="text" value={settings.youtube_url} onChange={(e) => handleChange("youtube_url", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 mb-3" placeholder="https://www.youtube.com/embed/..." />
-                  
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide mt-4">Atau Gambar Thumbnail (Jika Bukan Video)</label>
-                  <div className="flex gap-3">
-                    <input type="text" value={settings.youtube_thumbnail || ""} onChange={(e) => handleChange("youtube_thumbnail", e.target.value)} className="flex-1 px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="https://..." />
-                    <label className="flex items-center gap-2 px-6 py-3 bg-near-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-near-black/90 cursor-pointer transition-colors shadow-sm whitespace-nowrap">
-                      <Upload className="w-4 h-4" /> Unggah Gambar
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) handleSingleImageUpload("youtube_thumbnail", file);
-                        }}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Program Pelatihan */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center">
-                  <Layers className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Program Pelatihan</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
-                  <input type="text" value={settings.packages_eyebrow} onChange={(e) => handleChange("packages_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.packages_title} onChange={(e) => handleChange("packages_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-orange-500">Judul Warna</label>
-                    <input type="text" value={settings.packages_highlight} onChange={(e) => handleChange("packages_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.packages_desc} onChange={(e) => handleChange("packages_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Testimoni */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center">
-                  <Globe className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Testimoni</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
-                  <input type="text" value={settings.testimonial_eyebrow} onChange={(e) => handleChange("testimonial_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.testimonial_title} onChange={(e) => handleChange("testimonial_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-yellow-500">Judul Warna</label>
-                    <input type="text" value={settings.testimonial_highlight} onChange={(e) => handleChange("testimonial_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.testimonial_desc} onChange={(e) => handleChange("testimonial_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Cara Kerja */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
-                  <Layers className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Cara Kerja</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
-                  <input type="text" value={settings.how_eyebrow} onChange={(e) => handleChange("how_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                    <input type="text" value={settings.how_title} onChange={(e) => handleChange("how_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-green-500">Judul Warna</label>
-                    <input type="text" value={settings.how_highlight} onChange={(e) => handleChange("how_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.how_desc} onChange={(e) => handleChange("how_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
-                </div>
-              </div>
-            </div>
-
-            {/* Kontak */}
-            <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Bagian Kontak</h2>
-                </div>
-              </div>
-              <div className="space-y-5">
+            <div className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
-                  <input type="text" value={settings.contact_title} onChange={(e) => handleChange("contact_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                  <input type="text" value={settings.about_title} onChange={(e) => handleChange("about_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
-                  <textarea value={settings.contact_desc} onChange={(e) => handleChange("contact_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-sky-500">Judul Warna</label>
+                  <input type="text" value={settings.about_highlight} onChange={(e) => handleChange("about_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.about_desc} onChange={(e) => handleChange("about_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Teks Kartu Visual</label>
+                <input type="text" value={settings.about_card_title} onChange={(e) => handleChange("about_card_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 mb-3" placeholder="Judul Kartu" />
+                <input type="text" value={settings.about_card_desc} onChange={(e) => handleChange("about_card_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="Deskripsi Kartu" />
+              </div>
+            </div>
+          </div>
+
+          {/* Kegiatan */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Kategori Kegiatan</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
+                <input type="text" value={settings.kegiatan_eyebrow} onChange={(e) => handleChange("kegiatan_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                  <input type="text" value={settings.kegiatan_title} onChange={(e) => handleChange("kegiatan_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-indigo-500">Judul Warna</label>
+                  <input type="text" value={settings.kegiatan_highlight} onChange={(e) => handleChange("kegiatan_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.kegiatan_desc} onChange={(e) => handleChange("kegiatan_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* YouTube */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Video YouTube</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
+                <input type="text" value={settings.youtube_eyebrow} onChange={(e) => handleChange("youtube_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                  <input type="text" value={settings.youtube_title} onChange={(e) => handleChange("youtube_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-red-500">Judul Warna</label>
+                  <input type="text" value={settings.youtube_highlight} onChange={(e) => handleChange("youtube_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.youtube_desc} onChange={(e) => handleChange("youtube_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Link Embed YouTube</label>
+                <input type="text" value={settings.youtube_url} onChange={(e) => handleChange("youtube_url", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 mb-3" placeholder="https://www.youtube.com/embed/..." />
+
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide mt-4">Atau Gambar Thumbnail (Jika Bukan Video)</label>
+                <div className="flex gap-3">
+                  <input type="text" value={settings.youtube_thumbnail || ""} onChange={(e) => handleChange("youtube_thumbnail", e.target.value)} className="flex-1 px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="https://..." />
+                  <label className="flex items-center gap-2 px-6 py-3 bg-near-black text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-near-black/90 cursor-pointer transition-colors shadow-sm whitespace-nowrap">
+                    <Upload className="w-4 h-4" /> Unggah Gambar
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleSingleImageUpload("youtube_thumbnail", file);
+                      }}
+                      className="hidden"
+                    />
+                  </label>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Program Pelatihan */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Program Pelatihan</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
+                <input type="text" value={settings.packages_eyebrow} onChange={(e) => handleChange("packages_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                  <input type="text" value={settings.packages_title} onChange={(e) => handleChange("packages_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-orange-500">Judul Warna</label>
+                  <input type="text" value={settings.packages_highlight} onChange={(e) => handleChange("packages_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.packages_desc} onChange={(e) => handleChange("packages_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Testimoni */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Testimoni</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
+                <input type="text" value={settings.testimonial_eyebrow} onChange={(e) => handleChange("testimonial_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                  <input type="text" value={settings.testimonial_title} onChange={(e) => handleChange("testimonial_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-yellow-500">Judul Warna</label>
+                  <input type="text" value={settings.testimonial_highlight} onChange={(e) => handleChange("testimonial_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.testimonial_desc} onChange={(e) => handleChange("testimonial_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Cara Kerja */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Cara Kerja</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Eyebrow</label>
+                <input type="text" value={settings.how_eyebrow} onChange={(e) => handleChange("how_eyebrow", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                  <input type="text" value={settings.how_title} onChange={(e) => handleChange("how_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide text-green-500">Judul Warna</label>
+                  <input type="text" value={settings.how_highlight} onChange={(e) => handleChange("how_highlight", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.how_desc} onChange={(e) => handleChange("how_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Kontak */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <Phone className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Bagian Kontak</h2>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Judul Normal</label>
+                <input type="text" value={settings.contact_title} onChange={(e) => handleChange("contact_title", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-near-black mb-2 uppercase tracking-wide">Deskripsi</label>
+                <textarea value={settings.contact_desc} onChange={(e) => handleChange("contact_desc", e.target.value)} className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 min-h-[80px]" />
+              </div>
+            </div>
+          </div>
 
           {/* Poster Program Promosi */}
           <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
@@ -981,7 +1011,7 @@ export default function SettingsPage() {
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
-                      
+
                       <div>
                         <label className="block text-[10px] font-bold text-near-black/70 uppercase tracking-widest mb-1.5">Pertanyaan {idx + 1}</label>
                         <input

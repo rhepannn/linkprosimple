@@ -32,30 +32,27 @@ export const metadata: Metadata = {
 
 /* ─── JSON-LD LocalBusiness Schema ───────────────────────── */
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": "https://linkproductive.com",
-  name: site.name,
-  description: site.description,
-  url: "https://linkproductive.com",
-  image: "https://linkproductive.com/og-image.png",
-  logo: "https://linkproductive.com/logo.svg",
-  telephone: `+${site.contact.whatsapp}`,
-  email: site.contact.email,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: site.contact.address,
-    addressCountry: "ID",
-  },
-  openingHoursSpecification: site.operatingHours.map((h) => ({
-    "@type": "OpeningHoursSpecification",
-    name: h.day,
-    description: h.hours,
-  })),
-  sameAs: [site.contact.instagram, site.contact.tiktok],
-  priceRange: "Rp 150.000 – Rp 300.000",
-};
+function buildJsonLd(s: Record<string, string>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://linkproductive.com",
+    name: "Link Productive",
+    description: s.about_desc || site.description,
+    url: "https://linkproductive.com",
+    image: "https://linkproductive.com/og-image.png",
+    logo: "https://linkproductive.com/logo.svg",
+    telephone: s.contact_wa ? `+${s.contact_wa}` : undefined,
+    email: s.contact_email || undefined,
+    address: s.contact_address ? {
+      "@type": "PostalAddress",
+      streetAddress: s.contact_address,
+      addressCountry: "ID",
+    } : undefined,
+    sameAs: [s.contact_ig, s.contact_tiktok].filter(Boolean),
+    priceRange: "Rp 150.000 – Rp 300.000",
+  };
+}
 
 /* ─── Page ───────────────────────────────────────────────── */
 
@@ -118,7 +115,7 @@ export default async function HomePage() {
       <Script
         id="local-business-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(settings)) }}
         strategy="afterInteractive"
       />
 

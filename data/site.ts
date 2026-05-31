@@ -1,4 +1,6 @@
-// data/site.ts — Info studio, kontak, jam operasional
+// data/site.ts — Konfigurasi statis aplikasi
+// SEMUA info kontak, pembayaran, dan operasional dikelola via Admin > Pengaturan Web
+// Nilai di sini hanya fallback terakhir jika database belum pernah diisi
 
 export const site = {
   name: "Link Productive",
@@ -14,22 +16,20 @@ export const site = {
     yearsActive: "5",
   },
   contact: {
-    address: "Jl. Inovasi Sosial No. 42, Jakarta Selatan",
-    email: "hello@linkproductive.com",
-    whatsapp: "6287778059221", // WA number
-    instagram: "https://instagram.com/linkproductive",
-    tiktok: "https://tiktok.com/@linkproductive", youtube: "https://www.youtube.com/@link.productive",
+    address: "",         // → Admin > Pengaturan > contact_address
+    email: "",           // → Admin > Pengaturan > contact_email
+    whatsapp: "",        // → Admin > Pengaturan > contact_wa
+    instagram: "",       // → Admin > Pengaturan > contact_ig
+    tiktok: "",          // → Admin > Pengaturan > contact_tiktok
+    youtube: "",         // → Admin > Pengaturan > contact_youtube
   },
   payment: {
-    bankName: "BCA (Bank Central Asia)",
-    bankAccount: "8882047811",
-    bankOwner: "PT Integritas Produktivitas Indonesia",
+    bankName: "",        // → Admin > Pengaturan > payment_bank_name
+    bankAccount: "",     // → Admin > Pengaturan > payment_bank_account
+    bankOwner: "",       // → Admin > Pengaturan > payment_bank_owner
   },
-  operatingHours: [
-    { day: "Senin–Jumat", hours: "09.00–18.00" },
-    { day: "Sabtu", hours: "09.00–14.00" },
-  ],
-  mapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.24009279584!2d106.758748!3d-6.229746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x100c5e82dd4b820!2sJakarta!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid",
+  operatingHours: [] as { day: string; hours: string }[], // → Admin > Pengaturan > operational_hours
+  mapsEmbedUrl: "",      // → Admin > Pengaturan > contact_maps_embed
 };
 
 export type Site = typeof site;

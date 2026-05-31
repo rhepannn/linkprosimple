@@ -6,12 +6,12 @@ export const btn = {
   // Tombol primer — aksi utama, warna Warm Tan premium
   primary: [
     "inline-flex items-center justify-center gap-2",
-    "px-8 py-4 bg-[#C88A58] text-white", // Diubah ke Warm Tan yang lebih cerah
+    "px-8 py-4 bg-[#0ea5e9] text-white", // Diubah ke Warm Tan yang lebih cerah
     "text-sm font-bold rounded-xl tracking-wide",
     "transition-all duration-300 transform-gpu",
-    "hover:bg-[#B0764A] hover:shadow-xl hover:shadow-[#C88A58]/20 hover:-translate-y-0.5",
+    "hover:bg-[#0284c7] hover:shadow-xl hover:shadow-[#0ea5e9]/20 hover:-translate-y-0.5",
     "active:scale-[0.98]",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88A58] focus-visible:ring-offset-2",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ea5e9] focus-visible:ring-offset-2",
   ].join(" "),
 
   // Tombol sekunder — outline minimalis premium
@@ -20,9 +20,9 @@ export const btn = {
     "px-8 py-4 border border-[#E0E0DA] text-[#1A1A1A]",
     "text-sm font-bold rounded-xl tracking-wide bg-transparent",
     "transition-all duration-300 transform-gpu",
-    "hover:border-[#C88A58] hover:text-[#C88A58] hover:bg-[#C88A58]/5 hover:-translate-y-0.5",
+    "hover:border-[#0ea5e9] hover:text-[#0ea5e9] hover:bg-[#0ea5e9]/5 hover:-translate-y-0.5",
     "active:scale-[0.98]",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88A58] focus-visible:ring-offset-2",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0ea5e9] focus-visible:ring-offset-2",
   ].join(" "),
 
   // Tombol WhatsApp — brand WA premium

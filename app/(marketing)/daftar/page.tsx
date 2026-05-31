@@ -13,7 +13,6 @@ import { createAffiliateLead } from "@/app/actions/affiliate-leads";
 import { getSiteSettings } from "@/app/actions/settings";
 import { affiliateDetails } from "@/data/affiliate";
 import { brandProducts } from "@/data/brand-products";
-import { site } from "@/data/site";
 import { formatPrice } from "@/lib/utils";
 import { btn } from "@/lib/button-classes";
 
@@ -120,8 +119,7 @@ function DaftarForm() {
   const waNumber =
     (prog as any)?.consultWa?.replace("https://wa.me/", "") ||
     siteSettings.affiliate_whatsapp ||
-    siteSettings.contact_wa ||
-    site.contact.whatsapp;
+    siteSettings.contact_wa || "";
 
   const validate = () => {
     const errs: Record<string, string> = {};
@@ -295,7 +293,7 @@ function DaftarForm() {
                     <h4 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.2em] mb-2 font-black">Tentang Program</h4>
                     <p className="text-xs text-gray-500 leading-relaxed whitespace-pre-line">{prog.intro}</p>
                   </div>
-                  
+
                   {prog.whyInteresting && prog.whyInteresting.length > 0 && (
                     <div className="border-t border-[#E0E0DA] pt-5">
                       <h4 className="text-[10px] font-black text-[#1e293b] uppercase tracking-[0.2em] mb-3 flex items-center gap-1.5 font-black">

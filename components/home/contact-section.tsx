@@ -5,7 +5,6 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Mail, Clock, MessageCircle, ArrowRight } from "lucide-react";
-import { site } from "@/data/site";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export function ContactSection({ settings = {} }: { settings?: Record<string, string> }) {
@@ -59,7 +58,7 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                     Alamat
                   </p>
                   <p className="text-sm text-slate-700 leading-relaxed font-semibold">
-                    {settings.contact_address || site.contact.address}
+                    {settings.contact_address || ""}
                   </p>
                 </div>
               </li>
@@ -73,10 +72,10 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                     Email
                   </p>
                   <a
-                    href={`mailto:${settings.contact_email || site.contact.email}`}
+                    href={`mailto:${settings.contact_email || ""}`}
                     className="text-sm text-slate-700 hover:text-sky-500 transition-colors font-semibold"
                   >
-                    {settings.contact_email || site.contact.email}
+                    {settings.contact_email || ""}
                   </a>
                 </div>
               </li>
@@ -89,14 +88,9 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                   <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-2">
                     Jam Operasional
                   </p>
-                  <ul className="space-y-1">
-                    {site.operatingHours.map((h) => (
-                      <li key={h.day} className="flex gap-3 text-sm font-semibold">
-                        <span className="text-slate-400 w-28">{h.day}</span>
-                        <span className="text-slate-700">{h.hours}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="text-sm text-slate-700 font-semibold whitespace-pre-line leading-relaxed">
+                    {settings.operational_hours || ""}
+                  </p>
                 </div>
               </li>
             </ul>
@@ -116,9 +110,9 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
 
           {/* ── Right: Google Maps ── */}
           <div className="rounded-3xl overflow-hidden border border-sky-100 bg-sky-50/30 aspect-[4/3] lg:aspect-auto lg:h-[500px] shadow-2xl shadow-sky-100/30">
-            {site.mapsEmbedUrl ? (
+            {settings.contact_maps_embed ? (
               <iframe
-                src={site.mapsEmbedUrl}
+                src={settings.contact_maps_embed}
                 width="100%"
                 height="100%"
                 style={{ border: 0, display: "block" }}
@@ -146,7 +140,7 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                 <p className="text-sm text-slate-400 text-center px-4">
                   Peta lokasi akan segera tersedia.<br />
                   <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(settings.contact_address || site.contact.address)}`}
+                    href={`https://maps.google.com/?q=${encodeURIComponent(settings.contact_address || "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:text-blue-600 underline mt-1 inline-block"

@@ -483,7 +483,7 @@ function EnrollModal({
 
   const set = (field: string, val: string) => setForm((f) => ({ ...f, [field]: val }));
 
-  const waNumber = siteSettings.training_payment_wa || siteSettings.affiliate_whatsapp || "6287778059221";
+  const waNumber = siteSettings.training_payment_wa || siteSettings.affiliate_whatsapp || siteSettings.contact_wa || "";
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
