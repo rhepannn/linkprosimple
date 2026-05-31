@@ -532,6 +532,7 @@ export default function SettingsPage() {
                 />
               </div>
             </div>
+          </div>
 
             {/* Tentang Kami */}
             <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
