@@ -587,26 +587,71 @@ function PostModal({
             <div className={`grid ${preview ? "grid-cols-2" : "grid-cols-1"} h-full`}>
               {/* Form */}
               <div className="p-8 space-y-6 border-r border-[#F8F6F4]">
-                {/* Image URL */}
+                {/* Image Upload */}
                 <div>
                   <label className="block text-[10px] font-black text-[#3B2211] uppercase tracking-widest mb-2">
-                    URL Gambar *
+                    Gambar Post *
                   </label>
-                  <div className="relative">
-                    <ImageIcon
-                      size={15}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                    />
+                  
+                  <div className="space-y-3">
                     <input
-                      type="url"
-                      value={form.imageUrl}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, imageUrl: e.target.value }))
-                      }
-                      placeholder="https://example.com/image.jpg"
-                      className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      id="upload-image"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        
+                        const toastId = toast.loading("Mengunggah gambar...");
+                        try {
+                          const res = await fetch("/api/admin/upload", {
+                            method: "POST",
+                            body: formData,
+                          });
+                          const data = await res.json();
+                          if (data.success && data.url) {
+                            setForm((f) => ({ ...f, imageUrl: data.url }));
+                            toast.success("Gambar berhasil diunggah", { id: toastId });
+                          } else {
+                            toast.error(data.error || "Gagal mengunggah gambar", { id: toastId });
+                          }
+                        } catch (err) {
+                          toast.error("Terjadi kesalahan saat mengunggah gambar", { id: toastId });
+                        }
+                      }}
                     />
+                    
+                    <div className="flex gap-2">
+                      <label
+                        htmlFor="upload-image"
+                        className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#F8F6F4] border border-transparent hover:border-[#3B2211]/10 rounded-xl text-sm font-bold text-[#3B2211] cursor-pointer transition-all"
+                      >
+                        <Camera size={18} />
+                        Pilih Gambar dari Perangkat
+                      </label>
+                    </div>
+                    
+                    <div className="relative">
+                      <ImageIcon
+                        size={15}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                      />
+                      <input
+                        type="url"
+                        value={form.imageUrl}
+                        onChange={(e) =>
+                          setForm((f) => ({ ...f, imageUrl: e.target.value }))
+                        }
+                        placeholder="Atau masukkan URL gambar..."
+                        className="w-full pl-11 pr-4 py-3.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#3B2211]/10 transition-all"
+                      />
+                    </div>
                   </div>
+                  
                   {form.imageUrl && (
                     <div className="mt-3 relative aspect-video rounded-xl overflow-hidden bg-[#F8F6F4]">
                       <img

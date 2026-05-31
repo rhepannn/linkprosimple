@@ -38,7 +38,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-slate-50 via-[#f0f7ff] to-white flex items-center justify-center p-6 relative overflow-hidden font-[family-name:var(--font-heading)]">
+    <div className="min-h-screen bg-gradient-to-tr from-slate-50 via-[#f0f7ff] to-white flex items-start md:items-center justify-center p-6 relative overflow-hidden font-[family-name:var(--font-heading)]">
       
       {/* ── Background Mesh & Ambient Glow Orbs ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -105,10 +105,10 @@ function LoginContent() {
       </motion.div>
 
       {/* ── Main Container ── */}
-      <div className="w-full max-w-[440px] relative z-10 pt-28 md:pt-16">
+      <div className="w-full max-w-[440px] relative z-10 pt-12 md:pt-16">
 
         {/* ── Branding Header ── */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
