@@ -129,7 +129,7 @@ interface AffiliateLead {
 }
 
 const APP_STATUS_CONFIG = {
-  pending: { label: "Menunggu", icon: Clock, className: "text-amber-600 bg-amber-50 border-amber-200" },
+  pending: { label: "Menunggu", icon: Clock, className: "text-sky-600 bg-sky-50 border-sky-200" },
   approved: { label: "Disetujui", icon: CheckCircle2, className: "text-emerald-600 bg-emerald-50 border-emerald-200" },
   rejected: { label: "Ditolak", icon: XCircle, className: "text-rose-600 bg-rose-50 border-rose-200" },
 };
@@ -187,7 +187,7 @@ const STATUS_CONFIG = {
   pending: {
     label: "Pending",
     icon: Clock,
-    className: "text-amber-600 bg-amber-50 border-amber-200",
+    className: "text-sky-600 bg-sky-50 border-sky-200",
   },
   inactive: {
     label: "Nonaktif",
@@ -386,7 +386,7 @@ function PostCard({
                   </button>
                   <button
                     onClick={() => { onTogglePublish(post.id, post.isPublished); setMenuOpen(false); }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase text-left hover:bg-amber-50 text-amber-600 tracking-widest transition-colors"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[11px] font-black uppercase text-left hover:bg-sky-50 text-sky-600 tracking-widest transition-colors"
                   >
                     {post.isPublished ? (
                       <><EyeOff size={12} /> Jadikan Draft</>
@@ -445,11 +445,10 @@ function PostCard({
           >
             <Heart
               size={22}
-              className={`transition-colors ${
-                liked
+              className={`transition-colors ${liked
                   ? "fill-rose-500 text-rose-500"
                   : "text-gray-400 hover:text-rose-400"
-              }`}
+                }`}
             />
           </button>
           <CopyButton
@@ -564,11 +563,10 @@ function PostModal({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setPreview((p) => !p)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                  preview
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${preview
                     ? "bg-[#1e293b] text-white"
                     : "bg-[#1e293b]/5 text-[#1e293b]"
-                }`}
+                  }`}
               >
                 <Eye size={13} />
                 Preview
@@ -592,7 +590,7 @@ function PostModal({
                   <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-2">
                     Gambar Post *
                   </label>
-                  
+
                   <div className="space-y-3">
                     <input
                       type="file"
@@ -602,10 +600,10 @@ function PostModal({
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        
+
                         const formData = new FormData();
                         formData.append("file", file);
-                        
+
                         const toastId = toast.loading("Mengunggah gambar...");
                         try {
                           const res = await fetch("/api/admin/upload", {
@@ -624,7 +622,7 @@ function PostModal({
                         }
                       }}
                     />
-                    
+
                     <div className="flex gap-2">
                       <label
                         htmlFor="upload-image"
@@ -634,7 +632,7 @@ function PostModal({
                         Pilih Gambar dari Perangkat
                       </label>
                     </div>
-                    
+
                     <div className="relative">
                       <ImageIcon
                         size={15}
@@ -651,7 +649,7 @@ function PostModal({
                       />
                     </div>
                   </div>
-                  
+
                   {form.imageUrl && (
                     <div className="mt-3 relative aspect-video rounded-xl overflow-hidden bg-[#F8F6F4]">
                       <img
@@ -719,14 +717,12 @@ function PostModal({
                     onClick={() =>
                       setForm((f) => ({ ...f, isPublished: !f.isPublished }))
                     }
-                    className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
-                      form.isPublished ? "bg-emerald-500" : "bg-gray-200"
-                    }`}
+                    className={`relative w-12 h-6 rounded-full transition-all duration-300 ${form.isPublished ? "bg-emerald-500" : "bg-gray-200"
+                      }`}
                   >
                     <div
-                      className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all duration-300 ${
-                        form.isPublished ? "left-7" : "left-1"
-                      }`}
+                      className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all duration-300 ${form.isPublished ? "left-7" : "left-1"
+                        }`}
                     />
                   </button>
                 </div>
@@ -970,7 +966,7 @@ export default function AffiliatorsPage() {
       toast.error("Nama, email, WhatsApp, dan kode referral wajib diisi.");
       return;
     }
-    
+
     let res;
     if (editingItem) {
       res = await updateAffiliator(editingItem.id, {
@@ -1029,7 +1025,7 @@ export default function AffiliatorsPage() {
     if (res.success) {
       toast.success(
         status === "approved" ? "Pendaftaran disetujui!" :
-        status === "rejected" ? "Pendaftaran ditolak." : "Status dikembalikan ke pending."
+          status === "rejected" ? "Pendaftaran ditolak." : "Status dikembalikan ke pending."
       );
       setApplications((prev) => prev.map((a) => a.id === id ? { ...a, status } : a));
       if (selectedApp?.id === id) setSelectedApp((a) => a ? { ...a, status } : null);
@@ -1188,40 +1184,36 @@ export default function AffiliatorsPage() {
       <div className="flex gap-1 bg-[#F8F6F4] p-1.5 rounded-2xl w-fit flex-wrap">
         <button
           onClick={() => setTab("pendaftaran")}
-          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-            tab === "pendaftaran"
-              ? "bg-amber-500 text-white shadow-lg shadow-amber-500/20"
+          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "pendaftaran"
+              ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20"
               : "text-gray-400 hover:text-[#1e293b]"
-          }`}
+            }`}
         >
           <AlertCircle size={14} />
           Pendaftaran Baru
           {applications.filter((a) => a.status === "pending").length > 0 && (
-            <span className={`ml-1 px-2 py-0.5 rounded-full text-[8px] font-black ${
-              tab === "pendaftaran" ? "bg-white/20 text-white" : "bg-amber-500 text-white"
-            }`}>
+            <span className={`ml-1 px-2 py-0.5 rounded-full text-[8px] font-black ${tab === "pendaftaran" ? "bg-white/20 text-white" : "bg-sky-500 text-white"
+              }`}>
               {applications.filter((a) => a.status === "pending").length}
             </span>
           )}
         </button>
         <button
           onClick={() => setTab("affiliators")}
-          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-            tab === "affiliators"
+          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "affiliators"
               ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
               : "text-gray-400 hover:text-[#1e293b]"
-          }`}
+            }`}
         >
           <Users size={14} />
           Daftar Affiliator
         </button>
         <button
           onClick={() => setTab("posts")}
-          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-            tab === "posts"
+          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "posts"
               ? "bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
               : "text-gray-400 hover:text-[#1e293b]"
-          }`}
+            }`}
         >
           <Layers size={14} />
           Konten Post
@@ -1233,18 +1225,16 @@ export default function AffiliatorsPage() {
         </button>
         <button
           onClick={() => setTab("permintaan")}
-          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-            tab === "permintaan"
+          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "permintaan"
               ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
               : "text-gray-400 hover:text-[#1e293b]"
-          }`}
+            }`}
         >
           <Send size={14} />
           Permintaan
           {leads.filter((l) => l.status === "pending").length > 0 && (
-            <span className={`ml-1 px-2 py-0.5 rounded-full text-[8px] font-black ${
-              tab === "permintaan" ? "bg-white/20 text-white" : "bg-blue-500 text-white"
-            }`}>
+            <span className={`ml-1 px-2 py-0.5 rounded-full text-[8px] font-black ${tab === "permintaan" ? "bg-white/20 text-white" : "bg-blue-500 text-white"
+              }`}>
               {leads.filter((l) => l.status === "pending").length}
             </span>
           )}
@@ -1266,7 +1256,7 @@ export default function AffiliatorsPage() {
               {[
                 { label: "Total Affiliator", value: stats.total, icon: Users, color: "text-[#1e293b]", bg: "bg-gray-100" },
                 { label: "Aktif", value: stats.active, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
-                { label: "Pending Review", value: stats.pending, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+                { label: "Pending Review", value: stats.pending, icon: Clock, color: "text-sky-600", bg: "bg-sky-50" },
                 {
                   label: "Total Komisi Dibayar",
                   value: `Rp ${stats.totalEarnings.toLocaleString("id-ID")}`,
@@ -1314,11 +1304,10 @@ export default function AffiliatorsPage() {
                   <button
                     key={s}
                     onClick={() => setStatusFilter(s)}
-                    className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
-                      statusFilter === s
+                    className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${statusFilter === s
                         ? "bg-[#1e293b] text-white shadow-sm"
                         : "text-gray-400 hover:text-[#1e293b]"
-                    }`}
+                      }`}
                   >
                     {s === "all" ? "Semua" : STATUS_CONFIG[s].label}
                   </button>
@@ -1469,7 +1458,7 @@ export default function AffiliatorsPage() {
                                         {a.status !== "inactive" && (
                                           <button
                                             onClick={() => handleStatusChange(a.id, "inactive")}
-                                            className="w-full flex items-center gap-3 px-5 py-3.5 text-[11px] font-black uppercase text-left hover:bg-amber-50 text-amber-600 transition-colors tracking-widest"
+                                            className="w-full flex items-center gap-3 px-5 py-3.5 text-[11px] font-black uppercase text-left hover:bg-sky-50 text-sky-600 transition-colors tracking-widest"
                                           >
                                             <XCircle size={13} /> Nonaktifkan
                                           </button>
@@ -1511,7 +1500,7 @@ export default function AffiliatorsPage() {
             <div className="grid grid-cols-3 gap-6">
               {([
                 { label: "Total Masuk", value: applications.length, icon: Users, color: "text-[#1e293b]", bg: "bg-[#1e293b]/5" },
-                { label: "Menunggu Review", value: applications.filter(a => a.status === "pending").length, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+                { label: "Menunggu Review", value: applications.filter(a => a.status === "pending").length, icon: Clock, color: "text-sky-600", bg: "bg-sky-50" },
                 { label: "Disetujui", value: applications.filter(a => a.status === "approved").length, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
               ] as const).map((s, i) => (
                 <motion.div
@@ -1538,11 +1527,10 @@ export default function AffiliatorsPage() {
                 <button
                   key={s}
                   onClick={() => setAppStatusFilter(s)}
-                  className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
-                    appStatusFilter === s
+                  className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${appStatusFilter === s
                       ? "bg-[#1e293b] text-white shadow-sm"
                       : "text-gray-400 hover:text-[#1e293b]"
-                  }`}
+                    }`}
                 >
                   {s === "all" ? "Semua" : APP_STATUS_CONFIG[s].label}
                 </button>
@@ -1555,7 +1543,7 @@ export default function AffiliatorsPage() {
               <div className={`${selectedApp ? "col-span-3" : "col-span-1"} bg-white rounded-2xl border border-white shadow-sm overflow-hidden`}>
                 {appsLoading ? (
                   <div className="py-20 flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin" />
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
@@ -1592,9 +1580,8 @@ export default function AffiliatorsPage() {
                                 <tr
                                   key={app.id}
                                   onClick={() => setSelectedApp(isSelected ? null : app)}
-                                  className={`cursor-pointer transition-colors ${
-                                    isSelected ? "bg-amber-50 border-l-4 border-l-amber-500" : "hover:bg-[#F8F6F4]/30"
-                                  }`}
+                                  className={`cursor-pointer transition-colors ${isSelected ? "bg-sky-50 border-l-4 border-l-sky-500" : "hover:bg-[#F8F6F4]/30"
+                                    }`}
                                 >
                                   <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
@@ -1795,8 +1782,8 @@ export default function AffiliatorsPage() {
                   label: "Draft",
                   value: draftCount,
                   icon: EyeOff,
-                  color: "text-amber-600",
-                  bg: "bg-amber-50",
+                  color: "text-sky-600",
+                  bg: "bg-sky-50",
                 },
               ].map((s, i) => (
                 <motion.div
@@ -1917,7 +1904,7 @@ export default function AffiliatorsPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { label: "Total Permintaan", value: leads.length, icon: Send, color: "text-blue-600", bg: "bg-blue-50" },
-                { label: "Menunggu Follow-up", value: leads.filter(l => l.status === "pending").length, icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+                { label: "Menunggu Follow-up", value: leads.filter(l => l.status === "pending").length, icon: Clock, color: "text-sky-600", bg: "bg-sky-50" },
                 { label: "Sedang Dihubungi", value: leads.filter(l => l.status === "followed_up").length, icon: AtSign, color: "text-indigo-600", bg: "bg-indigo-50" },
                 { label: "Closed / Deal", value: leads.filter(l => l.status === "closed").length, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
               ].map((s, i) => (
@@ -1949,11 +1936,10 @@ export default function AffiliatorsPage() {
                 <button
                   key={s}
                   onClick={() => setLeadStatusFilter(s)}
-                  className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
-                    leadStatusFilter === s
+                  className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${leadStatusFilter === s
                       ? "bg-blue-500 text-white shadow-sm"
                       : "text-gray-400 hover:text-[#1e293b]"
-                  }`}
+                    }`}
                 >
                   {s === "all" ? "Semua" : s === "pending" ? "Menunggu" : s === "followed_up" ? "Followed Up" : "Closed / Deal"}
                 </button>
@@ -1977,7 +1963,7 @@ export default function AffiliatorsPage() {
                           <th className="px-6 py-5 font-black">Program / Tipe</th>
                           <th className="px-6 py-5 font-black">Referral</th>
                           <th className="px-6 py-5 font-black text-center">Status</th>
-                  <th className="px-6 py-5 font-black text-right">Aksi</th>
+                          <th className="px-6 py-5 font-black text-right">Aksi</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#F8F6F4] text-sm">
@@ -2002,8 +1988,8 @@ export default function AffiliatorsPage() {
                               const cfg = lead.status === "closed"
                                 ? { label: "Closed", icon: CheckCircle2, className: "text-emerald-600 bg-emerald-50 border-emerald-200" }
                                 : lead.status === "followed_up"
-                                ? { label: "Followed Up", icon: AtSign, className: "text-blue-600 bg-blue-50 border-blue-200" }
-                                : { label: "Menunggu", icon: Clock, className: "text-amber-600 bg-amber-50 border-amber-200" };
+                                  ? { label: "Followed Up", icon: AtSign, className: "text-blue-600 bg-blue-50 border-blue-200" }
+                                  : { label: "Menunggu", icon: Clock, className: "text-sky-600 bg-sky-50 border-sky-200" };
 
                               const StatusIcon = cfg.icon;
                               const isSelected = selectedLead?.id === lead.id;
@@ -2012,9 +1998,8 @@ export default function AffiliatorsPage() {
                                 <tr
                                   key={lead.id}
                                   onClick={() => setSelectedLead(isSelected ? null : lead)}
-                                  className={`cursor-pointer transition-colors ${
-                                    isSelected ? "bg-blue-50 border-l-4 border-l-blue-500" : "hover:bg-[#F8F6F4]/30"
-                                  }`}
+                                  className={`cursor-pointer transition-colors ${isSelected ? "bg-blue-50 border-l-4 border-l-blue-500" : "hover:bg-[#F8F6F4]/30"
+                                    }`}
                                 >
                                   <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">

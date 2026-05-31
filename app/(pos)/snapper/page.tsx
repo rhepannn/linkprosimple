@@ -1035,7 +1035,7 @@ export default function SnapperDashboard() {
             <div className="p-4 bg-amber-50/50 border border-amber-100 rounded-2xl flex gap-3 text-amber-800">
               <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
               <div className="text-[11px] leading-relaxed font-medium">
-                <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin studio melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
+                <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
               </div>
             </div>
           </div>

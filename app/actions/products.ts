@@ -18,6 +18,7 @@ export async function getProducts(includeInactive: boolean = false) {
         sku: p.sku,
         price: p.price,
         image: p.image,
+        description: p.description || "",
         category: p.category.name,
         duration: p.duration || "",
         photoCount: p.photoCount || "",
@@ -38,6 +39,7 @@ export async function createProduct(data: {
   price: number;
   categoryName: string;
   image?: string;
+  description?: string;
   duration?: string;
   photoCount?: string;
   features?: string[];
@@ -67,6 +69,7 @@ export async function createProduct(data: {
         stock: 999,
         categoryId: category.id,
         image: data.image,
+        description: data.description,
         duration: data.duration,
         photoCount: data.photoCount,
         features: data.features || [],
@@ -79,7 +82,7 @@ export async function createProduct(data: {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/packages");
+    revalidatePath("/daftar-pelatihan");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, data: product };
@@ -96,7 +99,7 @@ export async function toggleProductStatus(id: string, isActive: boolean) {
     });
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/packages");
+    revalidatePath("/daftar-pelatihan");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true };
@@ -112,7 +115,7 @@ export async function deleteProduct(id: string) {
     });
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/packages");
+    revalidatePath("/daftar-pelatihan");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true };
@@ -126,6 +129,7 @@ export async function updateProduct(id: string, data: {
   price?: number;
   categoryName?: string;
   image?: string;
+  description?: string;
   isActive?: boolean;
   duration?: string;
   photoCount?: string;
@@ -160,6 +164,7 @@ export async function updateProduct(id: string, data: {
         price: data.price,
         categoryId: categoryId,
         image: data.image,
+        description: data.description,
         isActive: data.isActive,
         duration: data.duration,
         photoCount: data.photoCount,
@@ -171,7 +176,7 @@ export async function updateProduct(id: string, data: {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/packages");
+    revalidatePath("/daftar-pelatihan");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, data: product };
@@ -298,7 +303,7 @@ export async function seedBrandProducts() {
 
     revalidatePath("/admin/products");
     revalidatePath("/kasir");
-    revalidatePath("/packages");
+    revalidatePath("/daftar-pelatihan");
     revalidatePath("/booking");
     revalidatePath("/");
     return { success: true, message: `Seeded ${created} brand products`, count: created };

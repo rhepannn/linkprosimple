@@ -279,7 +279,7 @@ const fallbackPosts = [
     id: "fb-1",
     imageUrl: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
     caption: "Keseruan photobooth Link Productive di acara Rata Coffee! 📸 Temen-temen seneng banget bisa langsung cetak foto strip kece dengan warna sepia khas kita. Buruan share kode referral-mu biar temen-temen dapet diskon dan kamu dapet cuan!",
-    hashtags: ["linkproductive", "ratacoffee", "photoboothhits", "cuanbareng"],
+    hashtags: ["linkproductive", "pelatihan", "sertifikasi", "karir"],
     likeCount: 142,
     postedBy: "Link Productive",
     category: "kegiatan",
@@ -289,7 +289,7 @@ const fallbackPosts = [
     id: "fb-2",
     imageUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=600&auto=format&fit=crop",
     caption: "Affiliate Partners Gathering #1! 🤝 Tempat di mana kita bertukar ide, sharing tips cara promosi kreatif di Instagram & Tiktok, dan tentunya ngerayain bonus pencapaian bulanan. Ingin gabung komunitas seru ini? Daftar gratis sekarang!",
-    hashtags: ["linkproductive", "affiliatepartner", "gatheringseru", "belajardigital"],
+    hashtags: ["linkproductive", "affiliatepartner", "kelasbisnis", "belajardigital"],
     likeCount: 98,
     postedBy: "Link Productive",
     category: "kegiatan",
@@ -299,7 +299,7 @@ const fallbackPosts = [
     id: "fb-3",
     imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop",
     caption: "📢 PROMO BUNDLING SPESIAL KELOMPOK! Buat kalian yang mau foto grup bareng sahabat, gunakan kode referral dari affiliate partner kami untuk mendapatkan potongan langsung Rp20.000 + cetakan tambahan gratis!",
-    hashtags: ["promostudio", "fotogrup", "graduationphoto", "diskonspesial"],
+    hashtags: ["promopelatihan", "fotogrup", "graduationphoto", "diskonspesial"],
     likeCount: 215,
     postedBy: "Marketing Link Productive",
     category: "promo",
@@ -744,9 +744,7 @@ const DEFAULT_POSTERS: Record<string, string> = {
   "Tekno AI Academy": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
   "Mental Bahasa Academy": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop",
   "Green Productive Academy": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
-  "Brand Siap": "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=600&auto=format&fit=crop",
   "Link Productive": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop",
-  "Standara Consulting": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
 };
 
 const slideVariants = {
@@ -876,9 +874,7 @@ const pkgSlugMap: Record<string, string> = {
   "tekno-ai-academy": "Tekno AI Academy",
   "mental-bahasa-academy": "Mental Bahasa Academy",
   "green-productive-academy": "Green Productive Academy",
-  "brand-siap": "Brand Siap",
   "link-productive": "Link Productive",
-  "standara-consulting": "Standara Consulting",
 };
 
 const generatePromoText = (progName: string, refCode: string) => {

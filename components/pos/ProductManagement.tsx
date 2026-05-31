@@ -36,6 +36,7 @@ interface Product {
   price: number;
   category: string | { name: string };
   image: string | null;
+  description?: string;
   isActive: boolean;
   stock: number;
   duration?: string;
@@ -91,6 +92,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     duration: "",
     photoCount: "",
     features: "",
+    description: "",
     isPopular: false,
     sortOrder: "0"
   });
@@ -196,6 +198,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
         price: parseFloat(formData.price),
         categoryName: formData.category,
         image: formData.image || undefined,
+        description: formData.description || undefined,
         isActive: formData.isActive,
         duration: formData.duration || undefined,
         photoCount: formData.photoCount || undefined,
@@ -211,10 +214,11 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     } else {
       const res = await createProduct({
         name: formData.name,
-        sku: `STUDIO-${Date.now()}`,
+        sku: `PROD-${Date.now()}`,
         price: parseFloat(formData.price),
         categoryName: formData.category,
         image: formData.image || undefined,
+        description: formData.description || undefined,
         duration: formData.duration || undefined,
         photoCount: formData.photoCount || undefined,
         features: featuresList,
@@ -232,7 +236,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     setEditingProduct(null);
     setFormData({ 
       name: "", price: "", category: "Layanan", isActive: true, image: "",
-      duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+      duration: "", photoCount: "", description: "", features: "", isPopular: false, sortOrder: "0"
     });
     showToast(editingProduct ? "Produk berhasil diperbarui!" : "Produk baru berhasil ditambahkan!", "success");
     fetchProducts();
@@ -317,7 +321,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                   setEditingProduct(null);
                   setFormData({ 
                     name: "", price: "", category: "Layanan", isActive: true, image: "",
-                    duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+                    duration: "", photoCount: "", description: "", features: "", isPopular: false, sortOrder: "0"
                   });
                   setIsModalOpen(true);
                 }}
@@ -379,7 +383,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 setEditingProduct(null);
                 setFormData({ 
                   name: "", price: "", category: "Layanan", isActive: true, image: "",
-                  duration: "", photoCount: "", features: "", isPopular: false, sortOrder: "0"
+                  duration: "", photoCount: "", description: "", features: "", isPopular: false, sortOrder: "0"
                 });
                 setIsModalOpen(true);
               }}
@@ -465,6 +469,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                             image: p.image || "",
                             duration: p.duration || "",
                             photoCount: p.photoCount || "",
+                            description: p.description || "",
                             features: p.features?.join(", ") || "",
                             isPopular: p.isPopular || false,
                             sortOrder: (p.sortOrder || 0).toString()
@@ -572,7 +577,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
 
                      <div className="space-y-3">
                         <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2 flex items-center gap-2">
-                          <ImageIcon size={12} /> Gambar Ruangan / Studio
+                          <ImageIcon size={12} /> Gambar Produk
                         </label>
                         <div className="relative group">
                           <input 
@@ -657,15 +662,15 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Fasilitas & Bonus (Pisahkan dengan koma)</label>
-                          <textarea 
-                            value={formData.features}
-                            onChange={(e) => setFormData({...formData, features: e.target.value})}
-                            className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[100px]" 
-                            placeholder="In our studio, Free accessoris, Props unik..."
-                          />
-                        </div>
+                          <div className="space-y-2">
+                            <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Fasilitas & Bonus (Pisahkan dengan koma)</label>
+                            <textarea 
+                              value={formData.features}
+                              onChange={(e) => setFormData({...formData, features: e.target.value})}
+                              className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[60px]" 
+                              placeholder="Sertifikat Resmi, Mentoring 1-on-1..."
+                            />
+                          </div>
 
                         <div className="grid grid-cols-2 gap-5">
                           <div className="space-y-2">

@@ -216,7 +216,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
           {saveState === "saving"
             ? "Mohon tunggu sebentar."
             : dbStatus === "confirmed"
-            ? "Pembayaran Anda telah diverifikasi. Sampai jumpa di studio sesuai jadwal!"
+            ? "Pembayaran Anda telah diverifikasi. Sampai jumpa di kelas sesuai jadwal!"
             : dbStatus === "completed"
             ? "Terima kasih telah memilih Link Productive."
             : dbStatus === "cancelled"

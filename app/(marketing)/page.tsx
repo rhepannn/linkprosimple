@@ -70,10 +70,7 @@ export default async function HomePage() {
   ]);
 
   const packagesData = (productsRes.success && Array.isArray(productsRes.data)) 
-    ? (productsRes.data as any[]).filter((p: any) => {
-        const cat = p.category.toLowerCase();
-        return cat.includes("foto") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("STUDIO-");
-      })
+    ? (productsRes.data as any[]).filter((p: any) => p.isActive)
     : packages;
 
   let faqsData = null;
