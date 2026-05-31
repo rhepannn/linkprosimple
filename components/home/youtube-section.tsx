@@ -12,32 +12,28 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   const youtube_desc = settings.youtube_desc || "Ikuti keseruan program, testimonial eksklusif alumni pelatihan, dokumentasi inisiasi proyek dampak sosial, serta informasi wawasan kewirausahaan secara visual melalui kanal YouTube resmi Link Productive.";
   const youtube_url = settings.youtube_url || "";
   
-  let embedUrl = youtube_url.trim();
-  if (embedUrl.includes("watch?v=")) {
-    embedUrl = embedUrl.replace("watch?v=", "embed/");
-    embedUrl = embedUrl.split("&")[0];
-  } else if (embedUrl.includes("youtu.be/")) {
-    embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
-    embedUrl = embedUrl.split("?")[0];
-  } else if (embedUrl.includes("/shorts/")) {
-    embedUrl = embedUrl.replace("/shorts/", "/embed/");
-    embedUrl = embedUrl.split("?")[0];
-  }
-  
-  // If the user pasted a channel link instead of a video, it can't be embedded in an iframe.
-  const isEmbeddable = embedUrl.includes("/embed/");
-
   let finalThumbnail = settings.youtube_thumbnail || "";
-  if (finalThumbnail && (finalThumbnail.includes("youtube.com") || finalThumbnail.includes("youtu.be"))) {
-    let extractedId = "";
+  let extractedId = "";
+
+  // Coba ekstrak ID dari link video utama
+  if (youtube_url.includes("watch?v=")) extractedId = youtube_url.split("watch?v=")[1].split("&")[0];
+  else if (youtube_url.includes("youtu.be/")) extractedId = youtube_url.split("youtu.be/")[1].split("?")[0];
+  else if (youtube_url.includes("/shorts/")) extractedId = youtube_url.split("/shorts/")[1].split("?")[0];
+  
+  // Jika tidak ada di link utama, coba cek barangkali mereka menempelkannya di field thumbnail
+  if (!extractedId && finalThumbnail && (finalThumbnail.includes("youtube.com") || finalThumbnail.includes("youtu.be"))) {
     if (finalThumbnail.includes("watch?v=")) extractedId = finalThumbnail.split("watch?v=")[1].split("&")[0];
     else if (finalThumbnail.includes("youtu.be/")) extractedId = finalThumbnail.split("youtu.be/")[1].split("?")[0];
     else if (finalThumbnail.includes("/shorts/")) extractedId = finalThumbnail.split("/shorts/")[1].split("?")[0];
-    
-    if (extractedId) {
-      finalThumbnail = `https://img.youtube.com/vi/${extractedId}/maxresdefault.jpg`;
-    }
   }
+
+  // Jika dapat ID, otomatis tarik thumbnail dari YouTube
+  if (extractedId) {
+    finalThumbnail = `https://img.youtube.com/vi/${extractedId}/maxresdefault.jpg`;
+  }
+  
+  // Link target: prioritas ke video ID, lalu youtube_url asli, lalu link channel
+  const targetLink = extractedId ? `https://www.youtube.com/watch?v=${extractedId}` : (youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive");
 
   return (
     <section
@@ -47,7 +43,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* ── Kolom Kiri: Teks & Informasi Saluran Youtube (Col 7) ── */}
+          {/* ── Kolom Kiri: Teks & Informasi Saluran Youtube ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -77,7 +73,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             </div>
           </motion.div>
 
-          {/* ── Kolom Kanan: Visual Mockup Video / Placeholder (Col 5) ── */}
+          {/* ── Kolom Kanan: Visual Mockup Video / Placeholder ── */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,19 +81,9 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             transition={{ duration: 0.6, delay: 0.15 }}
             className="lg:col-span-5"
           >
-            {isEmbeddable ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-                <iframe
-                  className="w-full h-full absolute top-0 left-0"
-                  src={embedUrl}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            ) : finalThumbnail ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer">
-                <a href={youtube_url || site.contact.youtube || "https://www.youtube.com/@link.productive"} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
+            {finalThumbnail ? (
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer bg-slate-50">
+                <a href={targetLink} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
                     <Video size={28} className="ml-1" />
                   </div>
@@ -105,7 +91,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                 <img 
                   src={finalThumbnail} 
                   alt="YouTube Highlight" 
-                  className="w-full h-full object-contain bg-slate-50" 
+                  className="w-full h-full object-cover" 
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "https://placehold.co/800x450/f8fafc/94a3b8?text=Image+Not+Found";
                   }}
