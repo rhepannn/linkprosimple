@@ -9,7 +9,7 @@ export async function getProducts(includeInactive: boolean = false) {
       where: includeInactive ? {} : { isActive: true },
       include: { category: true }
     });
-    
+
     return {
       success: true,
       data: products.map(p => ({
@@ -52,7 +52,7 @@ export async function createProduct(data: {
 
     if (!category) {
       category = await prisma.category.create({
-        data: { 
+        data: {
           name: data.categoryName,
           slug: data.categoryName.toLowerCase().replace(/\s+/g, '-')
         }
@@ -135,7 +135,7 @@ export async function updateProduct(id: string, data: {
 }) {
   try {
     let categoryId = undefined;
-    
+
     if (data.categoryName) {
       let category = await prisma.category.findFirst({
         where: { name: data.categoryName }
@@ -143,7 +143,7 @@ export async function updateProduct(id: string, data: {
 
       if (!category) {
         category = await prisma.category.create({
-          data: { 
+          data: {
             name: data.categoryName,
             slug: data.categoryName.toLowerCase().replace(/\s+/g, '-')
           }
@@ -183,21 +183,21 @@ export async function updateProduct(id: string, data: {
 export async function seedProductsFromStatic() {
   try {
     const { packages } = await import("@/data/packages");
-    
+
     // Check if already seeded
     const count = await prisma.product.count();
     if (count > 5) return { success: true, message: "Already seeded or products exist" };
 
-    // Get or create "Pelatihan" category
+    // Get or create "Paket Foto" category
     let category = await prisma.category.findFirst({
-      where: { name: "Pelatihan" }
+      where: { name: "Paket Foto" }
     });
 
     if (!category) {
       category = await prisma.category.create({
-        data: { 
-          name: "Pelatihan",
-          slug: "pelatihan"
+        data: {
+          name: "Paket Foto",
+          slug: "paket-foto"
         }
       });
     }

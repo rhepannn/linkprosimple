@@ -56,7 +56,7 @@ function PackageCard({ pkg }: { pkg: PkgProps }) {
               📸 Studio Foto
             </span>
           </div>
-          
+
           <h2
             className="text-xl sm:text-2xl font-black text-[#1e293b] mb-4 leading-tight group-hover:text-black transition-colors"
             style={{ fontFamily: "var(--font-heading)" }}
@@ -71,7 +71,7 @@ function PackageCard({ pkg }: { pkg: PkgProps }) {
               {formatPrice(pkg.price)}
             </span>
           </div>
-          
+
           {/* Subtitle / Details */}
           {(pkg.duration || pkg.photoCount) && (
             <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-2.5">
@@ -141,7 +141,7 @@ export default function PackagesPage() {
         const res = await getProducts();
         if (res.success && res.data) {
           const dbProducts = res.data;
-          
+
           // Only show studio packages: categories containing "foto", "layanan", or starting with "pkg-"/"STUDIO-"
           const studio = dbProducts
             .filter((p: any) => {
@@ -160,14 +160,14 @@ export default function PackagesPage() {
               sku: p.sku
             }));
 
-          setStudioPackages(studio.length > 0 ? studio : (staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
+          setStudioPackages(studio.length > 0 ? studio : (staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
         } else {
           // Fallback to static
-          setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
+          setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
         }
       } catch (err) {
         console.error("Gagal load packages:", err);
-        setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
+        setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
       } finally {
         setLoading(false);
       }
@@ -228,10 +228,10 @@ export default function PackagesPage() {
               </div>
               <div>
                 <h2 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>
-                  Program Pelatihan Link Productive
+                  Layanan Studio Foto Link Productive
                 </h2>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
-                  Program Pelatihan Modern & Profesional
+                  Paket Foto Studio Modern & Minimalis
                 </p>
               </div>
             </div>

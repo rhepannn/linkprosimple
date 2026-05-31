@@ -33,7 +33,7 @@ export default function Step1Package({ packagesList, loading, selected, onSelect
       const found = sortedPackages.find((p) => p.id === pkgId || (p as any).sku === pkgId);
       if (found) onSelect(found);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, packagesList]);
 
   return (
@@ -43,7 +43,7 @@ export default function Step1Package({ packagesList, loading, selected, onSelect
           Langkah 1 dari 5
         </p>
         <h2 className="text-2xl sm:text-3xl font-semibold text-[#1A1A1A]" style={{ fontFamily: "var(--font-heading)" }}>
-          Pilih Pelatihan
+          Pilih Paket Foto
         </h2>
         <p className="text-[#5A5A5A] text-sm mt-2">
           Semua paket sudah termasuk editing profesional dan file resolusi tinggi.
