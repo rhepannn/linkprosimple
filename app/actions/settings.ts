@@ -30,15 +30,19 @@ export async function updateSiteSettings(settings: Record<string, string>) {
       }
     }
 
-    await prisma.$transaction(
-      Object.entries(cleanSettings).map(([key, value]) => 
-        prisma.siteSetting.upsert({
+    // Execute sequentially without transaction to prevent Prisma/pg pool deadlocks
+    for (const [key, value] of Object.entries(cleanSettings)) {
+      try {
+        await prisma.siteSetting.upsert({
           where: { key },
           update: { value },
           create: { key, value },
-        })
-      )
-    );
+        });
+      } catch (err) {
+        console.error(`Failed to upsert key: ${key}`, err);
+        throw err;
+      }
+    }
     
     // Revalidate paths that might use these settings
     revalidatePath("/");
