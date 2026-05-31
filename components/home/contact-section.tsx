@@ -103,7 +103,7 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
 
             {/* WhatsApp CTA */}
             <a
-              href={getWhatsAppUrl("general")}
+              href={getWhatsAppUrl("general", undefined, settings?.contact_wa)}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white font-bold text-sm uppercase tracking-wider rounded-2xl transition-all duration-300 hover:bg-[#20bc5a] hover:-translate-y-1 hover:scale-[1.02] shadow-lg shadow-green-400/20 hover:shadow-xl hover:shadow-green-400/25 active:scale-[0.98]"

@@ -18,9 +18,10 @@ export type WaContext = "general" | "package" | "gallery" | "checkout" | "affili
  */
 export function getWhatsAppUrl(
   context: WaContext,
-  data?: any
+  data?: any,
+  waNumber?: string
 ): string {
-  const WA = site.contact.whatsapp;
+  const WA = waNumber || site.contact.whatsapp || env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
   // Validasi: jika nomor belum dikonfigurasi, kembalikan "#" sebagai fallback
   if (!WA || WA.length < 10) {
@@ -56,5 +57,6 @@ export function getWhatsAppUrl(
   }
 
   const msg = encodeURIComponent(message);
-  return `https://wa.me/${env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${msg}`;
+  const targetNumber = waNumber || env.NEXT_PUBLIC_WHATSAPP_NUMBER || site.contact.whatsapp;
+  return `https://wa.me/${targetNumber}?text=${msg}`;
 }

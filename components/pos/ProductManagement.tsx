@@ -517,9 +517,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 <div className="flex items-center justify-between mb-8">
                   <div className="space-y-1">
                     <h2 className="text-2xl font-bold text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
-                      {editingProduct ? 'Modifikasi Produk' : 'Entri Produk Baru'}
+                      {editingProduct ? 'Edit Program Pelatihan' : 'Tambah Program Pelatihan'}
                     </h2>
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1e293b]/30">Isi detail katalog dengan presisi</p>
+                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1e293b]/30">Isi detail program dengan lengkap</p>
                   </div>
                   <button type="button" onClick={() => setIsModalOpen(false)} className="w-12 h-12 flex items-center justify-center bg-[#FAFAF8] hover:bg-[#1e293b] hover:text-white rounded-2xl text-[#1e293b]/30 transition-all">
                     <X size={24} />
@@ -529,7 +529,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 <div className="space-y-5">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2 flex items-center gap-2">
-                      <Tag size={12} /> Nama Paket / Ruangan
+                      <Tag size={12} /> Nama Program / Pelatihan
                     </label>
                     <input
                       type="text"
@@ -537,7 +537,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-8 py-5 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[24px] text-sm font-bold outline-none transition-all shadow-inner"
-                      placeholder="Contoh: Vintage Room, Vinyl Record, Elevator"
+                      placeholder="Contoh: LP Academic Partner, Baristara Academy"
                     />
                   </div>
 
@@ -571,7 +571,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
 
                   <div className="space-y-3">
                     <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2 flex items-center gap-2">
-                      <ImageIcon size={12} /> Gambar Ruangan / Studio
+                      <ImageIcon size={12} /> Gambar Promosi Program
                     </label>
                     <div className="relative group">
                       <input
@@ -631,38 +631,38 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                   </div>
 
                   <div className="p-6 bg-[#1e293b]/5 rounded-3xl space-y-5 border border-[#1e293b]/5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Marketing Details (Landing Page)</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Detail Program Pelatihan</p>
 
                     <div className="grid grid-cols-2 gap-5">
                       <div className="space-y-2">
-                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Durasi Sesi</label>
+                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Durasi Program</label>
                         <input
                           type="text"
                           value={formData.duration}
                           onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                           className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                          placeholder="Contoh: 10 menit"
+                          placeholder="Contoh: 3 Bulan, 7 Hari"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Hasil Foto / Includes</label>
+                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Output / Termasuk</label>
                         <input
                           type="text"
                           value={formData.photoCount}
                           onChange={(e) => setFormData({ ...formData, photoCount: e.target.value })}
                           className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                          placeholder="Contoh: 2 strap + soft file"
+                          placeholder="Contoh: Sertifikat + Materi Digital"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Fasilitas & Bonus (Pisahkan dengan koma)</label>
+                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Fasilitas & Keunggulan (Pisahkan dengan koma)</label>
                       <textarea
                         value={formData.features}
                         onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                         className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[100px]"
-                        placeholder="In our studio, Free accessoris, Props unik..."
+                        placeholder="Mentoring 1-on-1, Sertifikat Resmi, Akses Materi Seumur Hidup..."
                       />
                     </div>
 

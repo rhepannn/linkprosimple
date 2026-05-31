@@ -4,12 +4,14 @@ import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { ReferralTracker } from "@/components/layout/referral-tracker";
 import { AutoRefresh } from "@/components/auto-refresh";
+import { getSiteSettings } from "@/app/actions/settings";
 
-export default function MarketingLayout({
+export default async function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSiteSettings();
   return (
     <>
       <AutoRefresh interval={5000} />
@@ -26,7 +28,7 @@ export default function MarketingLayout({
       <Footer />
 
       {/* Floating WhatsApp Button */}
-      <WhatsAppButton />
+      <WhatsAppButton waNumber={settings.contact_wa} />
     </>
   );
 }

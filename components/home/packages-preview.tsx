@@ -47,7 +47,7 @@ const tierConfig = [
 
 /* ─── Package Card ───────────────────────────────────────── */
 
-function PackageCard({ pkg, index }: { pkg: (typeof packages)[0]; index: number }) {
+function PackageCard({ pkg, index, settings }: { pkg: (typeof packages)[0]; index: number; settings?: Record<string, string> }) {
   const config = tierConfig[index] || tierConfig[0];
   const Icon = config.icon;
 
@@ -129,7 +129,7 @@ function PackageCard({ pkg, index }: { pkg: (typeof packages)[0]; index: number 
               <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
             </Link>
             <a
-              href={getWhatsAppUrl("package", pkg.name)}
+              href={getWhatsAppUrl("package", pkg.name, settings?.contact_wa)}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full rounded-2xl py-3.5 text-sm font-semibold text-center flex items-center justify-center gap-2 bg-slate-50 text-slate-600 border border-slate-100 hover:bg-slate-100 hover:border-slate-200 transition-all duration-300"
@@ -200,7 +200,7 @@ export function PackagesPreview({
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
           {previewPackages.map((pkg, i) => (
-            <PackageCard key={pkg.id} pkg={pkg as any} index={i} />
+            <PackageCard key={pkg.id || i} pkg={pkg} index={i % 3} settings={settings} />
           ))}
         </div>
 

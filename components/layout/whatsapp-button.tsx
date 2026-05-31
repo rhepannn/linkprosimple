@@ -24,9 +24,9 @@ function WhatsAppIcon({ size = 28 }: { size?: number }) {
 
 /* ─── Component ─────────────────────────────────────────────── */
 
-export function WhatsAppButton() {
+export function WhatsAppButton({ waNumber }: { waNumber?: string }) {
   const pathname = usePathname();
-  const waUrl = getWhatsAppUrl("general");
+  const waUrl = getWhatsAppUrl("general", undefined, waNumber);
 
   // Hide button on POS routes
   if (pathname.startsWith("/admin") || pathname.startsWith("/kasir")) {
