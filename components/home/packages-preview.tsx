@@ -146,7 +146,17 @@ function PackageCard({ pkg, index }: { pkg: (typeof packages)[0]; index: number 
 
 /* ─── Main Section ───────────────────────────────────────── */
 
-export function PackagesPreview({ initialPackages }: { initialPackages?: (typeof packages) }) {
+export function PackagesPreview({
+  initialPackages,
+  settings = {},
+}: {
+  initialPackages?: typeof packages;
+  settings?: Record<string, string>;
+}) {
+  const packages_eyebrow = settings.packages_eyebrow || "Program Kami";
+  const packages_title = settings.packages_title || "Pilih Program";
+  const packages_highlight = settings.packages_highlight || "Pelatihan";
+  const packages_desc = settings.packages_desc || "Tingkatkan skill dan persiapkan karir Anda dengan program pelatihan terstruktur bersama mentor industri.";
   const displayPackages = initialPackages && initialPackages.length > 0
     ? initialPackages
     : packages;
@@ -176,14 +186,14 @@ export function PackagesPreview({ initialPackages }: { initialPackages?: (typeof
         >
           <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-sky-600 uppercase bg-sky-50 px-4 py-2 rounded-full mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-            {displayPackages.length} Program Tersedia
+            {packages_eyebrow}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-5 tracking-tight leading-[1.1]">
-            Pilih Program{" "}
-            <span className="text-gradient-cyan">Pelatihan</span>
+            {packages_title}{" "}
+            {packages_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{packages_highlight}</span>}
           </h2>
           <p className="text-slate-500 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
-            Tingkatkan skill dan persiapkan karir Anda dengan program pelatihan terstruktur bersama mentor industri.
+            {packages_desc}
           </p>
         </motion.div>
 

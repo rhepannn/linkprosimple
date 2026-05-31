@@ -72,8 +72,13 @@ function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
 
 /* ─── Main Section ───────────────────────────────────────── */
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ settings = {} }: { settings?: Record<string, string> }) {
   const [current, setCurrent] = useState(0);
+
+  const testimonial_eyebrow = settings.testimonial_eyebrow || "Testimoni";
+  const testimonial_title = settings.testimonial_title || "Apa Kata";
+  const testimonial_highlight = settings.testimonial_highlight || "Alumni Kami";
+  const testimonial_desc = settings.testimonial_desc || "Cerita sukses dan pengalaman berharga dari para alumni program pelatihan Link Productive.";
 
   const prev = () =>
     setCurrent((c) => (c - 1 + displayed.length) % displayed.length);
@@ -99,15 +104,18 @@ export function TestimonialsSection() {
         >
           <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-sky-600 uppercase bg-sky-50 px-4 py-2 rounded-full mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-            {displayed.length}+ Kisah Sukses Alumni
+            {testimonial_eyebrow}
           </span>
           <h2
             id="testimonials-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight mb-4"
           >
-            Apa Kata{" "}
-            <span className="text-gradient-cyan">Alumni Kami</span>
+            {testimonial_title}{" "}
+            {testimonial_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{testimonial_highlight}</span>}
           </h2>
+          <p className="text-slate-500 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+            {testimonial_desc}
+          </p>
         </motion.div>
 
         {/* ── Desktop: Grid 3 kolom ── */}

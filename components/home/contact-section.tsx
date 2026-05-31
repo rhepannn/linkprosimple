@@ -8,7 +8,10 @@ import { MapPin, Mail, Clock, MessageCircle, ArrowRight } from "lucide-react";
 import { site } from "@/data/site";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 
-export function ContactSection() {
+export function ContactSection({ settings = {} }: { settings?: Record<string, string> }) {
+  const contact_title = settings.contact_title || "Temukan Kami";
+  const contact_desc = settings.contact_desc || "Kami siap membantu Anda merencanakan program pelatihan terstruktur atau kemitraan. Hubungi kami atau langsung kunjungi kantor kami.";
+
   return (
     <section
       id="contact"
@@ -38,12 +41,11 @@ export function ContactSection() {
               id="contact-heading"
               className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 leading-tight tracking-tight"
             >
-              Temukan{" "}
-              <span className="text-gradient-cyan">Kami</span>
+              {contact_title}
             </h2>
 
             <p className="text-slate-500 text-base leading-relaxed mb-10 max-w-sm">
-              Kami siap membantu Anda merencanakan program pelatihan terstruktur atau kemitraan. Hubungi kami atau langsung kunjungi kantor kami.
+              {contact_desc}
             </p>
 
             {/* Contact items */}

@@ -37,7 +37,11 @@ const STEPS = [
   },
 ];
 
-export function HowItWorksSection() {
+export function HowItWorksSection({ settings = {} }: { settings?: Record<string, string> }) {
+  const how_eyebrow = settings.how_eyebrow || "Langkah Mudah";
+  const how_title = settings.how_title || "Cara";
+  const how_highlight = settings.how_highlight || "Kerja";
+  const how_desc = settings.how_desc || "Langkah mudah untuk mulai mengikuti program pelatihan dan sertifikasi bersama Link Productive.";
   return (
     <section
       id="how-it-works"
@@ -59,17 +63,17 @@ export function HowItWorksSection() {
         >
           <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-sky-600 uppercase bg-white px-4 py-2 rounded-full border border-sky-100 shadow-sm mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-            Cara Bergabung
+            {how_eyebrow}
           </span>
           <h2
             id="how-it-works-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight"
           >
-            Langkah{" "}
-            <span className="text-gradient-cyan">Bergabung</span>
+            {how_title}{" "}
+            {how_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{how_highlight}</span>}
           </h2>
-          <p className="text-slate-400 text-base mt-5 max-w-lg mx-auto leading-relaxed">
-            Proses pendaftaran yang cepat dan mudah � ikuti 4 langkah ini untuk memulai transformasi karir Anda.
+          <p className="text-slate-500 text-base mt-5 max-w-lg mx-auto leading-relaxed">
+            {how_desc}
           </p>
         </motion.div>
 

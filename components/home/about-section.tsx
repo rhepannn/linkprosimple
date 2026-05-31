@@ -33,7 +33,13 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 };
 
-export function AboutSection() {
+export function AboutSection({ settings = {} }: { settings?: Record<string, string> }) {
+  const about_title = settings.about_title || "Mengenal Lebih Dekat";
+  const about_highlight = settings.about_highlight || "Link Productive";
+  const about_desc = settings.about_desc || site.description;
+  const about_card_title = settings.about_card_title || "Link Productive";
+  const about_card_desc = settings.about_card_desc || "Inovasi Sosial & Pendidikan Terintegrasi untuk Masa Depan Indonesia";
+
   return (
     <section
       id="about"
@@ -69,10 +75,10 @@ export function AboutSection() {
                     <span className="text-2xl font-black text-sky-500 tracking-tighter">LP</span>
                   </div>
                   <p className="text-sky-600 text-sm font-bold uppercase tracking-[0.2em] mb-2">
-                    Link Productive
+                    {about_card_title}
                   </p>
                   <p className="text-slate-400 text-xs leading-relaxed max-w-[240px]">
-                    Inovasi Sosial & Pendidikan Terintegrasi untuk Masa Depan Indonesia
+                    {about_card_desc}
                   </p>
                 </div>
 
@@ -101,14 +107,18 @@ export function AboutSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
               Tentang Kami
             </span>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-extrabold text-slate-800 tracking-tight leading-[1.15]">
-              Mengenal Lebih Dekat{" "}
-              <span className="text-gradient-cyan">Link Productive</span>
+            <h2
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 tracking-tight leading-[1.15]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {about_title}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">
+                {about_highlight}
+              </span>
             </h2>
 
-            <p className="text-slate-500 text-base sm:text-lg leading-relaxed max-w-xl">
-              {site.description}
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
+              {about_desc}
             </p>
 
 

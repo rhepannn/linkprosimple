@@ -4,7 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ImageOff } from "lucide-react";
 
-export function KegiatansSection() {
+export function KegiatansSection({ settings = {} }: { settings?: Record<string, string> }) {
+  const kegiatan_eyebrow = settings.kegiatan_eyebrow || "Kategori Kegiatan";
+  const kegiatan_title = settings.kegiatan_title || "Program Utama";
+  const kegiatan_highlight = settings.kegiatan_highlight || "";
+  const kegiatan_desc = settings.kegiatan_desc || "Pilihan kegiatan dan program pelatihan reguler maupun bootcamp intensif yang diselenggarakan oleh Link Productive untuk masyarakat umum dan partner B2B.";
   const categories = [
     {
       title: "Kegiatan Inovasi Sosial",
@@ -32,9 +36,12 @@ export function KegiatansSection() {
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#004aad]">Dokumentasi</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Kegiatan Link Productive</h2>
-          <p className="text-slate-500 text-sm font-medium">Klik pada salah satu kategori di bawah ini untuk melihat album lengkap kegiatan kami langsung di halaman Kegiatan.</p>
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#004aad]">{kegiatan_eyebrow}</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            {kegiatan_title}{" "}
+            {kegiatan_highlight && <span className="text-[#004aad]">{kegiatan_highlight}</span>}
+          </h2>
+          <p className="text-slate-500 text-sm font-medium">{kegiatan_desc}</p>
         </div>
 
         {/* 3 Columns Kategori Kegiatan */}

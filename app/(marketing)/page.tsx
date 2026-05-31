@@ -92,21 +92,21 @@ export default async function HomePage() {
       case "hero":
         return <HeroSection key="hero" />;
       case "about":
-        return <AboutSection key="about" />;
+        return <AboutSection key="about" settings={settings} />;
       case "kegiatans":
-        return <KegiatansSection key="kegiatans" />;
+        return <KegiatansSection key="kegiatans" settings={settings} />;
       case "youtube":
-        return <YoutubeSection key="youtube" />;
+        return <YoutubeSection key="youtube" settings={settings} />;
       case "packages":
-        return <PackagesPreview key="packages" initialPackages={packagesData} />;
+        return <PackagesPreview key="packages" initialPackages={packagesData} settings={settings} />;
       case "testimonials":
-        return <TestimonialsSection key="testimonials" />;
+        return <TestimonialsSection key="testimonials" settings={settings} />;
       case "how-it-works":
-        return <HowItWorksSection key="how-it-works" />;
+        return <HowItWorksSection key="how-it-works" settings={settings} />;
       case "faq":
         return <FaqSection key="faq" initialFaqs={faqsData} />;
       case "contact":
-        return <ContactSection key="contact" />;
+        return <ContactSection key="contact" settings={settings} />;
       default:
         return null;
     }

@@ -5,6 +5,7 @@ import { getSiteSettings, updateSiteSettings } from "@/app/actions/settings";
 import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown, HelpCircle, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { faqs as defaultFaqs } from "@/data/faq";
+import { site } from "@/data/site";
 
 interface SectionItem {
   id: string;
@@ -56,10 +57,37 @@ export default function SettingsPage() {
         training_payment_wa: data.training_payment_wa || "6287778059221",
         payment_dana_number: data.payment_dana_number || "",
         payment_dana_owner: data.payment_dana_owner || "",
-        payment_gopay_number: data.payment_gopay_number || "",
         payment_gopay_owner: data.payment_gopay_owner || "",
         homepage_section_order: data.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact",
         faqs: data.faqs || JSON.stringify(defaultFaqs),
+        about_title: data.about_title || "Mengenal Lebih Dekat",
+        about_highlight: data.about_highlight || "Link Productive",
+        about_desc: data.about_desc || site.description,
+        about_card_title: data.about_card_title || "Link Productive",
+        about_card_desc: data.about_card_desc || "Inovasi Sosial & Pendidikan Terintegrasi untuk Masa Depan Indonesia",
+        kegiatan_eyebrow: data.kegiatan_eyebrow || "Kategori Kegiatan",
+        kegiatan_title: data.kegiatan_title || "Program Utama",
+        kegiatan_highlight: data.kegiatan_highlight || "",
+        kegiatan_desc: data.kegiatan_desc || "Pilihan kegiatan dan program pelatihan reguler maupun bootcamp intensif yang diselenggarakan oleh Link Productive untuk masyarakat umum dan partner B2B.",
+        youtube_eyebrow: data.youtube_eyebrow || "Video Profile",
+        youtube_title: data.youtube_title || "Keseruan di",
+        youtube_highlight: data.youtube_highlight || "Link Productive",
+        youtube_desc: data.youtube_desc || "Tonton berbagai kegiatan, pelatihan, dan keseruan para peserta di berbagai program Link Productive melalui channel YouTube resmi kami.",
+        youtube_url: data.youtube_url || "https://www.youtube.com/embed/9G6k18N1dIQ?autoplay=1&mute=1&loop=1&playlist=9G6k18N1dIQ",
+        packages_eyebrow: data.packages_eyebrow || "Program Kami",
+        packages_title: data.packages_title || "Pilihan",
+        packages_highlight: data.packages_highlight || "Program",
+        packages_desc: data.packages_desc || "Berbagai program pelatihan dan sertifikasi yang dirancang untuk meningkatkan skill dan siap menghadapi dunia kerja.",
+        testimonial_eyebrow: data.testimonial_eyebrow || "Testimoni",
+        testimonial_title: data.testimonial_title || "Apa Kata",
+        testimonial_highlight: data.testimonial_highlight || "Mereka",
+        testimonial_desc: data.testimonial_desc || "Cerita sukses dan pengalaman berharga dari para alumni program pelatihan Link Productive.",
+        how_eyebrow: data.how_eyebrow || "Langkah Mudah",
+        how_title: data.how_title || "Cara",
+        how_highlight: data.how_highlight || "Kerja",
+        how_desc: data.how_desc || "Langkah mudah untuk mulai mengikuti program pelatihan dan sertifikasi bersama Link Productive.",
+        contact_title: data.contact_title || "Tetap Terhubung",
+        contact_desc: data.contact_desc || "Punya pertanyaan seputar program atau ingin menjalin kerjasama? Tim kami siap membantu Anda.",
       };
 
       setSettings(initialSettings);
@@ -212,7 +240,7 @@ export default function SettingsPage() {
               onClick={() => setActiveTab("content")}
               className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all ${activeTab === "content" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
             >
-              Hero & Poster
+              Konten Website
             </button>
             <button
               onClick={() => setActiveTab("layout")}
