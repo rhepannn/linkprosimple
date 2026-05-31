@@ -3,7 +3,13 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { site } from "@/data/site";
-import { MessageSquare, PhoneCall, MapPin, Sparkles, ArrowRight } from "lucide-react";
+import { MessageSquare, PhoneCall, MapPin, Sparkles, ArrowRight, Instagram, Linkedin, Youtube } from "lucide-react";
+
+const TikTokIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 export function Footer() {
   const pathname = usePathname();
@@ -67,21 +73,25 @@ export function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-2">
               {[
-                { name: "Instagram", href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
-                { name: "LinkedIn", href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
-                { name: "YouTube", href: "https://youtube.com/@linkproductive", color: "from-red-400 to-red-500" },
-                { name: "TikTok", href: site.contact.tiktok, color: "from-slate-500 to-slate-600" },
-              ].map((soc) => (
-                <a
-                  key={soc.name}
-                  href={soc.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-9 h-9 rounded-xl bg-gradient-to-br ${soc.color} text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all text-xs font-bold uppercase shadow-sm`}
-                >
-                  {soc.name[0]}
-                </a>
-              ))}
+                { name: "Instagram", icon: Instagram, href: site.contact.instagram, color: "from-pink-400 to-purple-400" },
+                { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/linkproductive", color: "from-sky-400 to-sky-500" },
+                { name: "YouTube", icon: Youtube, href: "https://youtube.com/@linkproductive", color: "from-red-400 to-red-500" },
+                { name: "TikTok", icon: TikTokIcon, href: site.contact.tiktok, color: "from-slate-500 to-slate-600" },
+              ].map((soc) => {
+                const Icon = soc.icon;
+                return (
+                  <a
+                    key={soc.name}
+                    href={soc.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-9 h-9 rounded-xl bg-gradient-to-br ${soc.color} text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-sm`}
+                    aria-label={soc.name}
+                  >
+                    <Icon size={16} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

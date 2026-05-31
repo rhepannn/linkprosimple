@@ -21,8 +21,17 @@ export async function updateSiteSettings(settings: Record<string, string>) {
   try {
     // We update sequentially to handle multiple keys
     // Could use a transaction if there are many keys
+    
+    // Clean up settings object to ensure all values are strings
+    const cleanSettings: Record<string, string> = {};
+    for (const [key, value] of Object.entries(settings)) {
+      if (value !== null && value !== undefined) {
+        cleanSettings[key] = String(value);
+      }
+    }
+
     await prisma.$transaction(
-      Object.entries(settings).map(([key, value]) => 
+      Object.entries(cleanSettings).map(([key, value]) => 
         prisma.siteSetting.upsert({
           where: { key },
           update: { value },
@@ -39,6 +48,10 @@ export async function updateSiteSettings(settings: Record<string, string>) {
     return { success: true };
   } catch (error) {
     console.error("Error updating site settings:", error);
+    if (error instanceof Error) {
+      console.error(error.message);
+      console.error(error.stack);
+    }
     return { success: false, error: "Gagal menyimpan pengaturan website" };
   }
 }
