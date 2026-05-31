@@ -81,8 +81,13 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                 ></iframe>
               </div>
             ) : settings.youtube_thumbnail ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-                <img src={settings.youtube_thumbnail} alt="YouTube Highlight" className="w-full h-full object-cover" />
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer">
+                <a href={site.contact.youtube || "https://www.youtube.com/@link.productive"} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
+                  <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
+                    <Video size={28} className="ml-1" />
+                  </div>
+                </a>
+                <img src={settings.youtube_thumbnail} alt="YouTube Highlight" className="w-full h-full object-contain bg-slate-50" />
               </div>
             ) : (
               <div className="relative aspect-video rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-6 text-center group hover:border-[#FF0000]/30 transition-colors duration-300">
