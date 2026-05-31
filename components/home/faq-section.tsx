@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { FaqAccordion } from "@/components/packages/faq-accordion";
 import { faqs } from "@/data/faq";
 
-export function FaqSection() {
+export function FaqSection({ initialFaqs }: { initialFaqs?: typeof faqs | null }) {
+  const displayFaqs = initialFaqs && initialFaqs.length > 0 ? initialFaqs : faqs;
+
   return (
     <section id="faq" className="relative bg-gradient-to-b from-white to-slate-50/50 py-24 lg:py-32 overflow-hidden">
       {/* Background decoration */}
@@ -40,7 +42,7 @@ export function FaqSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <FaqAccordion faqs={faqs} />
+          <FaqAccordion faqs={displayFaqs} />
         </motion.div>
       </div>
     </section>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getSiteSettings, updateSiteSettings } from "@/app/actions/settings";
-import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown } from "lucide-react";
+import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown, HelpCircle, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface SectionItem {
@@ -14,7 +14,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<"contact" | "content" | "layout">("contact");
+  const [activeTab, setActiveTab] = useState<"contact" | "content" | "layout" | "faq">("contact");
   const [sections, setSections] = useState<SectionItem[]>([]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function SettingsPage() {
         affiliate_whatsapp: data.affiliate_whatsapp || data.contact_wa || "6287778059221",
         contact_ig: data.contact_ig || "@linkproductive",
         contact_address: data.contact_address || "Jl. Inovasi Sosial No. 42, Jakarta Selatan",
-        operational_hours: data.operational_hours || "Senin–Sabtu: 09:00 - 18:00",
+        operational_hours: data.operational_hours || "Seninï¿½Sabtu: 09:00 - 18:00",
         hero_eyebrow: data.hero_eyebrow || "Link Productive",
         hero_text_1: data.hero_text_1 || "Inovasi Sosial &",
         hero_highlight_1: data.hero_highlight_1 || "Pendidikan Terintegrasi",
@@ -57,7 +57,8 @@ export default function SettingsPage() {
         payment_dana_owner: data.payment_dana_owner || "",
         payment_gopay_number: data.payment_gopay_number || "",
         payment_gopay_owner: data.payment_gopay_owner || "",
-        homepage_section_order: data.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact"
+        homepage_section_order: data.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact",
+        faqs: data.faqs || "",
       };
 
       setSettings(initialSettings);
@@ -217,6 +218,12 @@ export default function SettingsPage() {
               className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 ${activeTab === "layout" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
             >
               Urutan Section
+            </button>
+            <button
+              onClick={() => setActiveTab("faq")}
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 ${activeTab === "faq" ? "bg-white text-near-black shadow-sm" : "text-gray-400 hover:text-near-black"}`}
+            >
+              FAQ (Tanya Jawab)
             </button>
           </div>
 
@@ -492,7 +499,7 @@ export default function SettingsPage() {
                   value={settings.operational_hours}
                   onChange={(e) => handleChange("operational_hours", e.target.value)}
                   className="w-full px-4 py-3 bg-warm-white/50 border border-near-black/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
-                  placeholder="Contoh: Senin–Sabtu: 09:00 - 18:00"
+                  placeholder="Contoh: Seninï¿½Sabtu: 09:00 - 18:00"
                 />
               </div>
             </div>
@@ -638,6 +645,91 @@ export default function SettingsPage() {
               <p className="font-bold mb-1">?? Tips Pengaturan Tata Letak:</p>
               Gunakan tombol panah di atas untuk menyesuaikan susunan urutan visual landing page utama. Setelah selesai menyusun urutan, pastikan Anda menekan tombol <strong>Simpan</strong> di bagian atas halaman untuk menerapkan susunan tata letak baru ini secara publik.
             </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "faq" && (
+        <div className="bg-white p-8 rounded-2xl border border-near-black/5 shadow-sm max-w-4xl mx-auto space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-near-black/5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#f0f7ff] text-[#004aad] flex items-center justify-center">
+                <HelpCircle className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Tanya Jawab (FAQ)</h2>
+                <p className="text-[11px] text-near-black/50 font-medium">Ubah, tambah, atau hapus pertanyaan dan jawaban di website utama.</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const currentFaqs = settings.faqs ? JSON.parse(settings.faqs) : [];
+                currentFaqs.push({ question: "Pertanyaan Baru", answer: "Jawaban Baru" });
+                handleChange("faqs", JSON.stringify(currentFaqs));
+              }}
+              className="flex items-center gap-2 px-4 py-2 bg-near-black/5 hover:bg-near-black/10 text-near-black rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" /> Tambah FAQ
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {settings.faqs ? (
+              (() => {
+                try {
+                  const parsedFaqs = JSON.parse(settings.faqs);
+                  return parsedFaqs.map((faq: any, idx: number) => (
+                    <div key={idx} className="p-4 border border-near-black/10 rounded-2xl space-y-3 relative group bg-warm-white/20 hover:border-near-black/20 transition-all">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...parsedFaqs];
+                          updated.splice(idx, 1);
+                          handleChange("faqs", JSON.stringify(updated));
+                        }}
+                        className="absolute -top-2 -right-2 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                      
+                      <div>
+                        <label className="block text-[10px] font-bold text-near-black/70 uppercase tracking-widest mb-1.5">Pertanyaan {idx + 1}</label>
+                        <input
+                          type="text"
+                          value={faq.question}
+                          onChange={(e) => {
+                            const updated = [...parsedFaqs];
+                            updated[idx].question = e.target.value;
+                            handleChange("faqs", JSON.stringify(updated));
+                          }}
+                          className="w-full px-4 py-2 bg-white border border-near-black/10 rounded-xl text-sm font-bold focus:outline-none focus:border-near-black/30 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-near-black/70 uppercase tracking-widest mb-1.5">Jawaban</label>
+                        <textarea
+                          value={faq.answer}
+                          onChange={(e) => {
+                            const updated = [...parsedFaqs];
+                            updated[idx].answer = e.target.value;
+                            handleChange("faqs", JSON.stringify(updated));
+                          }}
+                          rows={3}
+                          className="w-full px-4 py-2 bg-white border border-near-black/10 rounded-xl text-sm text-near-black/80 focus:outline-none focus:border-near-black/30 transition-all resize-none"
+                        />
+                      </div>
+                    </div>
+                  ));
+                } catch (e) {
+                  return <p className="text-sm text-rose-500">Data FAQ rusak, silakan simpan ulang pengaturan ini.</p>;
+                }
+              })()
+            ) : (
+              <div className="text-center p-8 border border-dashed border-near-black/20 rounded-2xl">
+                <p className="text-sm font-medium text-near-black/50">Belum ada FAQ. Gunakan FAQ bawaan sistem atau buat baru.</p>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -76,6 +76,13 @@ export default async function HomePage() {
       })
     : packages;
 
+  let faqsData = null;
+  try {
+    if (settings.faqs) {
+      faqsData = JSON.parse(settings.faqs);
+    }
+  } catch (e) {}
+
   // Resolve section rendering order
   const orderString = settings.homepage_section_order || "hero,about,kegiatans,youtube,packages,testimonials,how-it-works,faq,contact";
   const sectionKeys = orderString.split(",");
@@ -97,7 +104,7 @@ export default async function HomePage() {
       case "how-it-works":
         return <HowItWorksSection key="how-it-works" />;
       case "faq":
-        return <FaqSection key="faq" />;
+        return <FaqSection key="faq" initialFaqs={faqsData} />;
       case "contact":
         return <ContactSection key="contact" />;
       default:

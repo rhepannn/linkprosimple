@@ -110,7 +110,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Kuota peserta bootcamp per batch dibatasi demi efektivitas interaksi pendampingan kelompok.",
   },
   "Bisapreneur Academy": {
-    subtitle: "Kelas Wirausaha Pemula — Mulai Usaha Dari Nol",
+    subtitle: "Kelas Wirausaha Pemula ï¿½ Mulai Usaha Dari Nol",
     intro: "Tingkatkan tata kelola operasional, legalitas, serta pemasaran digital bisnis Anda bersama Bisapreneur Academy ??\n\nProgram pembelajaran bisnis berbasis praktik nyata yang dirancang khusus untuk pelaku usaha pemula, UMKM, koperasi, dan calon entrepreneur agar lebih terarah dalam mengelola keuangan, meningkatkan penjualan, dan mengembangkan usahanya secara berkelanjutan.",
     packages: [
       { name: "?? Kelas Wirausaha Pemula", price: "Rp 1.250.000", discount: "Rp 250.000", afterDiscount: "Rp 1.000.000" },
@@ -141,7 +141,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Seluruh bahan praktik pembuatan kopi, modul belajar, dan sertifikat resmi kelulusan telah tercakup di dalam biaya pendaftaran.",
   },
   "Cuan Creator Academy": {
-    subtitle: "Sekolah Digital Marketing — Belajar dari Nol Hingga Bisa Menghasilkan",
+    subtitle: "Sekolah Digital Marketing ï¿½ Belajar dari Nol Hingga Bisa Menghasilkan",
     intro: "Kuasai keahlian pemasaran digital berbasis project nyata bersama Cuan Creator Academy ??\n\nProgram pelatihan digital marketing intensif yang membantu peserta menguasai keterampilan Search Engine Optimization (SEO), periklanan media sosial (Meta/TikTok Ads), optimasi konten, copy writing, hingga analisis kampanye promosi digital secara profesional.",
     packages: [
       { name: "?? Cuan Creator Academy", price: "Rp 3.500.000", discount: "Rp 1.200.000", afterDiscount: "Rp 2.300.000" },
@@ -156,7 +156,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Jadwal pendaftaran batch baru dibuka setiap bulan dengan kuota kelas terbatas demi menjaga kualitas belajar.",
   },
   "Tekno AI Academy": {
-    subtitle: "Sekolah Coding & AI Business — Skill Digital untuk Dunia Kerja & Bisnis",
+    subtitle: "Sekolah Coding & AI Business ï¿½ Skill Digital untuk Dunia Kerja & Bisnis",
     intro: "Mulai pelajari teknologi pemrograman web terkini dan pemanfaatan kecerdasan buatan (AI) untuk meningkatkan produktivitas operasional kerja & bisnis ??\n\nTekno AI Academy menyajikan kurikulum praktis yang menggabungkan kemampuan rekayasa perangkat lunak dengan implementasi sistem cerdas berbasis AI untuk kebutuhan administrasi, manufaktur, dan bisnis digital.",
     packages: [
       { name: "?? AI Business Productivity Class", price: "Rp 2.700.000", discount: "Rp 1.000.000", afterDiscount: "Rp 1.700.000" },
@@ -174,7 +174,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Biaya pendaftaran dapat disesuaikan dengan skema paket promo khusus korporat atau kelompok akademik.",
   },
   "Mental Bahasa Academy": {
-    subtitle: "Sekolah Bahasa & Mental Health — Bangun Kepercayaan Diri",
+    subtitle: "Sekolah Bahasa & Mental Health ï¿½ Bangun Kepercayaan Diri",
     intro: "Gabungkan peningkatan keahlian komunikasi bahasa asing premium dengan penguatan kesehatan mental serta kepercayaan diri interaktif ??\n\nProgram pengembangan diri revolusioner yang memadukan latihan percakapan bahasa Inggris aktif (English Speaking), teknik berbicara di depan umum (Public Speaking), serta coaching interpersonal terarah bersama psikolog & praktisi komunikasi ahli.",
     packages: [
       { name: "?? Public Speaking & Confidence Project Class", price: "Rp 1.500.000", discount: "Rp 700.000", afterDiscount: "Rp 800.000" },
@@ -191,7 +191,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Skema program penggabungan ini dilakukan secara luring dan daring sesuai modul kesepakatan akademik.",
   },
   "Green Productive Academy": {
-    subtitle: "Sekolah Teknologi Hijau — Inovasi Produk Berbasis Lingkungan",
+    subtitle: "Sekolah Teknologi Hijau ï¿½ Inovasi Produk Berbasis Lingkungan",
     intro: "Pelajari inovasi teknologi berkelanjutan dan rancang produk ramah lingkungan untuk berkontribusi pada kelestarian bumi ??\n\nProgram edukasi hijau ini menyajikan kurikulum mendalam seputar prinsip ekonomi sirkular (Circular Economy), pemanfaatan energi bersih skala praktis, pengolahan limbah mandiri, serta penciptaan model bisnis hijau untuk pelaku wirausaha ramah lingkungan.",
     packages: [
       { name: "?? Program Teknologi Hijau Dasar", price: "Rp 1.500.000", discount: "Rp 500.000", afterDiscount: "Rp 1.000.000" },
@@ -207,7 +207,7 @@ const trainingDetails: Record<string, { subtitle: string; intro: string; package
     disclaimer: "Kurikulum pembelajaran disesuaikan dengan studi kasus dan peraturan lingkungan terkini di Indonesia.",
   },
   "Brand Siap": {
-    subtitle: "Layanan Branding Cepat — Identitas Visual & Kemasan Produk",
+    subtitle: "Layanan Branding Cepat ï¿½ Identitas Visual & Kemasan Produk",
     intro: "Tingkatkan daya saing produk bisnis Anda di mata konsumen lewat kemasan yang menawan dan logo profesional ??\n\nBrand Siap menyajikan workshop khusus pembuatan identitas visual kilat serta layanan terarah bagi UMKM agar memiliki standar logo, palet warna, desain kemasan, serta kelengkapan media pemasaran digital berestetika premium.",
     packages: [
       { name: "?? Paket Logo & Brand Identity", price: "Rp 500.000", discount: "Rp 100.000", afterDiscount: "Rp 400.000" },

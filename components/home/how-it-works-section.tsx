@@ -1,7 +1,7 @@
 "use client";
 
 // components/home/how-it-works-section.tsx
-// Light blue + white — 4 steps with gradient numbers
+// Light blue + white ï¿½ 4 steps with gradient numbers
 
 import { motion } from "framer-motion";
 import { BookOpen, UserCheck, CreditCard, GraduationCap } from "lucide-react";
@@ -69,7 +69,7 @@ export function HowItWorksSection() {
             <span className="text-gradient-cyan">Bergabung</span>
           </h2>
           <p className="text-slate-400 text-base mt-5 max-w-lg mx-auto leading-relaxed">
-            Proses pendaftaran yang cepat dan mudah — ikuti 4 langkah ini untuk memulai transformasi karir Anda.
+            Proses pendaftaran yang cepat dan mudah ï¿½ ikuti 4 langkah ini untuk memulai transformasi karir Anda.
           </p>
         </motion.div>
 
