@@ -241,6 +241,11 @@ export async function deleteAffiliator(id: string) {
         where: { snapperId: id },
       });
 
+      // Hapus application jika ada
+      await tx.affiliateApplication.deleteMany({
+        where: { email: user.email },
+      });
+
       // Hapus user
       await tx.user.delete({
         where: { id },

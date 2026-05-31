@@ -235,6 +235,34 @@ export async function updateApplicationStatus(id: string, status: "approved" | "
 /* ── Admin: Hapus pendaftaran ── */
 export async function deleteAffiliateApplication(id: string) {
   try {
+    const app = await prisma.affiliateApplication.findUnique({ where: { id } });
+    if (app) {
+      // Find and delete the user as well if they exist
+      const existingUser = await prisma.user.findUnique({
+        where: { email: app.email },
+        include: { referralCode: true }
+      });
+      
+      if (existingUser && existingUser.role === "SNAPPER") {
+        await prisma.$transaction(async (tx) => {
+          if (existingUser.referralCode) {
+            await tx.referralUsage.deleteMany({
+              where: { referralCodeId: existingUser.referralCode.id },
+            });
+            await tx.referralCode.delete({
+              where: { id: existingUser.referralCode.id },
+            });
+          }
+          await tx.affiliateCommission.deleteMany({
+            where: { snapperId: existingUser.id },
+          });
+          await tx.user.delete({
+            where: { id: existingUser.id },
+          });
+        });
+      }
+    }
+
     await prisma.affiliateApplication.delete({ where: { id } });
     revalidatePath("/admin/affiliators");
     return { success: true };
