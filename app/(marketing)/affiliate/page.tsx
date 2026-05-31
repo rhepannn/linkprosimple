@@ -307,7 +307,7 @@ const fallbackPosts = [
   },
 ];
 
-function RegisterModal({ onClose }: { onClose: () => void }) {
+function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settings?: Record<string, string> }) {
   const [step, setStep] = useState<"form" | "success">("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -433,7 +433,7 @@ function RegisterModal({ onClose }: { onClose: () => void }) {
                   Tutup
                 </button>
                 <a
-                  href={`https://wa.me/6287778059221?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
+                  href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || "6287778059221"}?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner. Mohon informasi lebih lanjut.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-[2] flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
@@ -1141,7 +1141,7 @@ function AffiliateContent() {
     <>
       {/* Register Modal (popup) */}
       <AnimatePresence>
-        {showModal && <RegisterModal onClose={() => setShowModal(false)} />}
+        {showModal && <RegisterModal onClose={() => setShowModal(false)} settings={settings} />}
       </AnimatePresence>
 
       {/* FULL PAGE DETAIL VIEW */}
@@ -1314,7 +1314,7 @@ function AffiliateContent() {
                   {/* Konsultasi Lebih Lanjut — WhatsApp CTA (matches linkproductive.com) */}
                   {details.consultWa && (
                     <a
-                      href={details.consultWa}
+                      href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || details.consultWa?.replace('https://wa.me/', '') || '6287778059221'}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-3 w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-lg shadow-emerald-500/20"
