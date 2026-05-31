@@ -160,14 +160,14 @@ export default function PackagesPage() {
               sku: p.sku
             }));
 
-          setStudioPackages(studio.length > 0 ? studio : (staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
+          setStudioPackages(studio.length > 0 ? studio : (staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
         } else {
           // Fallback to static
-          setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
+          setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
         }
       } catch (err) {
         console.error("Gagal load packages:", err);
-        setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Paket Foto" })));
+        setStudioPackages((staticPackages as any[]).map(p => ({ ...p, category: "Pelatihan" })));
       } finally {
         setLoading(false);
       }
@@ -228,10 +228,10 @@ export default function PackagesPage() {
               </div>
               <div>
                 <h2 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>
-                  Layanan Studio Foto Link Productive
+                  Program Pelatihan Link Productive
                 </h2>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
-                  Paket Foto Studio Modern & Minimalis
+                  Program Pelatihan Modern & Profesional
                 </p>
               </div>
             </div>

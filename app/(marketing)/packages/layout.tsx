@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Paket Foto & Harga",
+  title: "Program & Pelatihan",
   description:
     "Lihat semua program pelatihan Link Productive. Pendaftaran mudah, program berkualitas untuk inovasi sosial dan peningkatan skill profesional.",
   openGraph: {
