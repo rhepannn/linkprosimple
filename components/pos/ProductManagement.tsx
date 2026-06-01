@@ -49,6 +49,17 @@ interface Product {
   sortOrder?: number;
 }
 
+// ── Affiliate Package type (defined outside component to avoid TS re-declaration errors) ──
+interface AffiliatePackage {
+  id: string;
+  name: string;
+  features: string;
+  normalPrice: number;
+  discount: number;
+  finalPrice: number;
+  commission: number;
+}
+
 export default function ProductManagement({ hideHeader = false }: { hideHeader?: boolean }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,8 +99,6 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
 
   const [formData, setFormData] = useState({
     name: "",
-    price: "",
-    discount: "",
     description: "",
     details: "",
     programGroup: "",
@@ -102,6 +111,35 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     isPopular: false,
     sortOrder: "0"
   });
+
+  // ── Affiliate Packages ──
+  const emptyPackage = (): AffiliatePackage => ({
+    id: crypto.randomUUID(),
+    name: "",
+    features: "",
+    normalPrice: 0,
+    discount: 0,
+    finalPrice: 0,
+    commission: 0,
+  });
+
+  const [affiliatePackages, setAffiliatePackages] = useState<AffiliatePackage[]>([]);
+
+  const addPackage = () => setAffiliatePackages(prev => [...prev, emptyPackage()]);
+
+  const updatePackage = (id: string, field: keyof AffiliatePackage, value: string) => {
+    setAffiliatePackages(prev => prev.map(pkg => {
+      if (pkg.id !== id) return pkg;
+      const stringFields: (keyof AffiliatePackage)[] = ["id", "name", "features"];
+      const updated = { ...pkg, [field]: stringFields.includes(field) ? value : parseFloat(value) || 0 };
+      if (field === "normalPrice" || field === "discount") {
+        updated.finalPrice = updated.normalPrice - updated.discount;
+      }
+      return updated;
+    }));
+  };
+
+  const removePackage = (id: string) => setAffiliatePackages(prev => prev.filter(pkg => pkg.id !== id));
 
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -196,24 +234,32 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const featuresList = formData.features.split(",").map(f => f.trim()).filter(Boolean);
+
+    // Derive price & discount from packages (lowest finalPrice / normalPrice)
+    const validPkgs = affiliatePackages.filter(p => p.finalPrice > 0);
+    const derivedPrice = validPkgs.length > 0 ? Math.min(...validPkgs.map(p => p.finalPrice)) : 0;
+    const derivedDiscount = validPkgs.length > 0 ? Math.min(...validPkgs.map(p => p.normalPrice)) : undefined;
+
+    // Serialize packages into details JSON
+    const detailsPayload = JSON.stringify({
+      text: formData.details || "",
+      packages: affiliatePackages.map(({ id, ...rest }) => rest),
+    });
 
     if (editingProduct) {
       const res = await updateProduct(editingProduct.id, {
         name: formData.name,
-        price: parseFloat(formData.price),
-        discount: formData.discount ? parseFloat(formData.discount) : undefined,
+        price: derivedPrice,
+        discount: derivedDiscount,
         categoryName: formData.category,
         image: formData.image || undefined,
         isActive: formData.isActive,
-        duration: formData.duration || undefined,
-        photoCount: formData.photoCount || undefined,
-        features: featuresList,
+        features: [],
         description: formData.description || undefined,
-        details: formData.details || undefined,
-        programGroup: formData.programGroup || undefined,
-        isPopular: formData.isPopular,
-        sortOrder: parseInt(formData.sortOrder) || 0
+        details: detailsPayload,
+        programGroup: undefined,
+        isPopular: false,
+        sortOrder: 0
       });
 
       if (!res.success) {
@@ -224,18 +270,16 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
       const res = await createProduct({
         name: formData.name,
         sku: `STUDIO-${Date.now()}`,
-        price: parseFloat(formData.price),
-        discount: formData.discount ? parseFloat(formData.discount) : undefined,
+        price: derivedPrice,
+        discount: derivedDiscount,
         categoryName: formData.category,
         image: formData.image || undefined,
-        duration: formData.duration || undefined,
-        photoCount: formData.photoCount || undefined,
-        features: featuresList,
+        features: [],
         description: formData.description || undefined,
-        details: formData.details || undefined,
-        programGroup: formData.programGroup || undefined,
-        isPopular: formData.isPopular,
-        sortOrder: parseInt(formData.sortOrder) || 0
+        details: detailsPayload,
+        programGroup: undefined,
+        isPopular: false,
+        sortOrder: 0
       });
 
       if (!res.success) {
@@ -246,8 +290,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
 
     setIsModalOpen(false);
     setEditingProduct(null);
+    setAffiliatePackages([]);
     setFormData({
-      name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+      name: "", description: "", details: "", programGroup: "",
       category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
       features: "", isPopular: false, sortOrder: "0"
     });
@@ -332,8 +377,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
               <button
                 onClick={() => {
                   setEditingProduct(null);
+                  setAffiliatePackages([]);
                   setFormData({
-                    name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+                    name: "", description: "", details: "", programGroup: "",
                     category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
                     features: "", isPopular: false, sortOrder: "0"
                   });
@@ -395,8 +441,9 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
             <button
               onClick={() => {
                 setEditingProduct(null);
+                setAffiliatePackages([]);
                 setFormData({
-                  name: "", price: "", discount: "", description: "", details: "", programGroup: "",
+                  name: "", description: "", details: "", programGroup: "",
                   category: "Layanan", isActive: true, image: "", duration: "", photoCount: "",
                   features: "", isPopular: false, sortOrder: "0"
                 });
@@ -487,12 +534,25 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                     <button
                       onClick={() => {
                         setEditingProduct(p);
+                        // Parse details — may be JSON { text, packages } or plain string
+                        let detailsText = "";
+                        let parsedPackages: AffiliatePackage[] = [];
+                        try {
+                          const parsed = JSON.parse(p.details || "{}");
+                          detailsText = parsed.text || "";
+                          parsedPackages = (parsed.packages || []).map((pkg: Omit<AffiliatePackage, "id">) => ({
+                            ...pkg,
+                            features: pkg.features || "",
+                            id: crypto.randomUUID(),
+                          }));
+                        } catch {
+                          detailsText = p.details || "";
+                        }
+                        setAffiliatePackages(parsedPackages);
                         setFormData({
                           name: p.name,
-                          price: p.price.toString(),
-                          discount: p.discount != null ? p.discount.toString() : "",
                           description: p.description || "",
-                          details: p.details || "",
+                          details: detailsText,
                           programGroup: p.programGroup || "",
                           category: typeof p.category === 'string' ? p.category : p.category?.name || "Layanan",
                           isActive: p.isActive,
@@ -562,6 +622,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                 </div>
 
                 <div className="space-y-5">
+                  {/* 1. Nama Program */}
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2 flex items-center gap-2">
                       <Tag size={12} /> Nama Program / Pelatihan
@@ -572,51 +633,14 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-8 py-5 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[24px] text-sm font-bold outline-none transition-all shadow-inner"
-                      placeholder="Contoh: LP Academic Partner, Baristara Academy"
+                      placeholder="Contoh: Brand Siap, LP Academic Partner"
                     />
                   </div>
 
-                  {/* Nama Program Induk */}
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Nama Program Induk (programGroup)</label>
-                    <input
-                      type="text"
-                      value={formData.programGroup}
-                      onChange={(e) => setFormData({ ...formData, programGroup: e.target.value })}
-                      className="w-full px-8 py-5 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[24px] text-sm font-bold outline-none transition-all shadow-inner"
-                      placeholder="Contoh: Tekno AI Academy, Baristara Academy"
-                    />
-                  </div>
-
-                  {/* Harga Jual + Harga Coret */}
-                  <div className="grid grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Harga Jual (Rp)</label>
-                      <input
-                        type="number"
-                        required
-                        value={formData.price}
-                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner"
-                        placeholder="Harga setelah diskon"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Harga Coret / Asli (Rp)</label>
-                      <input
-                        type="number"
-                        value={formData.discount}
-                        onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                        className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner"
-                        placeholder="Harga sebelum diskon (opsional)"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Status Ketersediaan */}
+                  {/* 2. Status Ketersediaan */}
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Status Ketersediaan</label>
-                    <div className="relative group">
+                    <div className="relative">
                       <select
                         value={formData.isActive ? "Tersedia" : "Kosong"}
                         onChange={(e) => setFormData({ ...formData, isActive: e.target.value === "Tersedia" })}
@@ -629,6 +653,29 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                     </div>
                   </div>
 
+                  {/* 3. Deskripsi Program */}
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Deskripsi Program</label>
+                    <textarea
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner min-h-[90px]"
+                      placeholder="Penjelasan singkat tentang program ini untuk halaman publik..."
+                    />
+                  </div>
+
+                  {/* 4. Alasan Memilih Program */}
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Alasan Memilih Program</label>
+                    <textarea
+                      value={formData.details}
+                      onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                      className="w-full px-6 py-4 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 focus:bg-white rounded-[20px] text-sm font-bold outline-none transition-all shadow-inner min-h-[90px]"
+                      placeholder="Kenapa peserta harus memilih program ini? Apa keunggulan uniknya?"
+                    />
+                  </div>
+
+                  {/* 5. Gambar */}
                   <div className="space-y-3">
                     <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2 flex items-center gap-2">
                       <ImageIcon size={12} /> Gambar Promosi Program
@@ -690,87 +737,131 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                     </div>
                   </div>
 
-                  <div className="p-6 bg-[#1e293b]/5 rounded-3xl space-y-5 border border-[#1e293b]/5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Konten Program</p>
-
-                    {/* Nama Paket */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Nama Paket (contoh: Starter, Premium)</label>
-                      <input
-                        type="text"
-                        value={formData.duration}
-                        onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                        placeholder="Contoh: Starter, Regular, Premium"
-                      />
-                    </div>
-
-                    {/* Deskripsi Paket */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Deskripsi Paket</label>
-                      <textarea
-                        value={formData.description}
-                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[80px]"
-                        placeholder="Penjelasan singkat tentang paket ini untuk halaman publik..."
-                      />
-                    </div>
-
-                    {/* Keunggulan / Features */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Keunggulan Paket — features (pisahkan dengan koma)</label>
-                      <textarea
-                        value={formData.features}
-                        onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[90px]"
-                        placeholder="Mentoring 1-on-1, Sertifikat Resmi, Akses Materi Seumur Hidup..."
-                      />
-                    </div>
-
-                    {/* Alasan Memilih Program */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Alasan Memilih Program (details)</label>
-                      <textarea
-                        value={formData.details}
-                        onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm min-h-[90px]"
-                        placeholder="Kenapa peserta harus memilih program ini? Apa keunggulan uniknya?"
-                      />
-                    </div>
-
-                    {/* Output / Termasuk */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Output / Termasuk (opsional)</label>
-                      <input
-                        type="text"
-                        value={formData.photoCount}
-                        onChange={(e) => setFormData({ ...formData, photoCount: e.target.value })}
-                        className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                        placeholder="Contoh: Sertifikat + Materi Digital"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-5">
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-[#1e293b]/40 uppercase tracking-[0.4em] ml-2">Urutan Tampil</label>
-                        <input
-                          type="number"
-                          value={formData.sortOrder}
-                          onChange={(e) => setFormData({ ...formData, sortOrder: e.target.value })}
-                          className="w-full px-6 py-4 bg-white border border-transparent focus:border-[#1e293b]/10 rounded-[20px] text-sm font-bold outline-none shadow-sm"
-                        />
+                  {/* 6. SECTION PAKET */}
+                  <div className="p-6 bg-[#1e293b]/5 rounded-3xl space-y-4 border border-[#1e293b]/5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1e293b]">Paket Program</p>
+                        <p className="text-[8px] font-medium text-[#1e293b]/30 mt-0.5">Bisa lebih dari satu paket</p>
                       </div>
-                      <div className="flex items-center gap-4 mt-6 ml-4">
-                        <input
-                          type="checkbox"
-                          id="isPopular"
-                          checked={formData.isPopular}
-                          onChange={(e) => setFormData({ ...formData, isPopular: e.target.checked })}
-                          className="w-5 h-5 rounded-lg border-[#1e293b]/20 accent-[#1e293b]"
-                        />
-                        <label htmlFor="isPopular" className="text-[10px] font-black uppercase tracking-widest text-[#1e293b]">Badge Terpopuler</label>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={addPackage}
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#1e293b] text-white rounded-[14px] text-[9px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[#1e293b]/20"
+                      >
+                        <Plus size={12} /> Tambah Paket
+                      </button>
                     </div>
+
+                    {affiliatePackages.length === 0 ? (
+                      <div className="py-8 flex flex-col items-center gap-3 text-center">
+                        <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-[#1e293b]/10 shadow-sm">
+                          <Package size={24} strokeWidth={1.5} />
+                        </div>
+                        <p className="text-[9px] text-[#1e293b]/30 font-medium italic">Belum ada paket. Klik "Tambah Paket" di atas.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {affiliatePackages.map((pkg, idx) => (
+                          <div key={pkg.id} className="bg-white rounded-[20px] p-4 shadow-sm border border-[#1e293b]/5 space-y-3">
+                            {/* Header */}
+                            <div className="flex items-center justify-between">
+                              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#1e293b]/50 bg-[#1e293b]/5 px-3 py-1 rounded-full">Paket {idx + 1}</span>
+                              <button
+                                type="button"
+                                onClick={() => removePackage(pkg.id)}
+                                className="w-7 h-7 flex items-center justify-center bg-red-50 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-all"
+                              >
+                                <X size={12} />
+                              </button>
+                            </div>
+
+                            {/* Nama Paket */}
+                            <div className="space-y-1">
+                              <label className="text-[8px] font-black text-[#1e293b]/30 uppercase tracking-widest ml-1">Nama Paket</label>
+                              <input
+                                type="text"
+                                value={pkg.name}
+                                onChange={(e) => updatePackage(pkg.id, "name", e.target.value)}
+                                placeholder="Contoh: Starter Branding, Growth Digital, Scale Up Brand"
+                                className="w-full px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none"
+                              />
+                            </div>
+
+                            {/* Keunggulan Paket */}
+                            <div className="space-y-1">
+                              <label className="text-[8px] font-black text-[#1e293b]/30 uppercase tracking-widest ml-1">Keunggulan Paket (pisahkan dengan koma)</label>
+                              <textarea
+                                value={pkg.features || ""}
+                                onChange={(e) => updatePackage(pkg.id, "features", e.target.value)}
+                                placeholder="Foto Produk 10 Foto, Desain Feed Instagram, Video Reels 30 Detik..."
+                                className="w-full px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none min-h-[72px] resize-none"
+                              />
+                            </div>
+
+                            {/* Harga Normal + Diskon */}
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="space-y-1">
+                                <label className="text-[8px] font-black text-[#1e293b]/30 uppercase tracking-widest ml-1">Harga Normal (Rp)</label>
+                                <input
+                                  type="number"
+                                  value={pkg.normalPrice || ""}
+                                  onChange={(e) => updatePackage(pkg.id, "normalPrice", e.target.value)}
+                                  placeholder="1500000"
+                                  className="w-full px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none"
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <label className="text-[8px] font-black text-[#1e293b]/30 uppercase tracking-widest ml-1">Diskon Customer (Rp)</label>
+                                <input
+                                  type="number"
+                                  value={pkg.discount || ""}
+                                  onChange={(e) => updatePackage(pkg.id, "discount", e.target.value)}
+                                  placeholder="500000"
+                                  className="w-full px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Harga Final (auto) + Komisi */}
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="space-y-1">
+                                <label className="text-[8px] font-black text-emerald-500/60 uppercase tracking-widest ml-1">Harga Setelah Diskon (Rp)</label>
+                                <input
+                                  type="number"
+                                  value={pkg.finalPrice || ""}
+                                  onChange={(e) => updatePackage(pkg.id, "finalPrice", e.target.value)}
+                                  placeholder="1000000"
+                                  className="w-full px-4 py-3 bg-emerald-50 border border-emerald-100 rounded-[14px] text-xs font-black outline-none text-emerald-700 focus:border-emerald-300"
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <label className="text-[8px] font-black text-amber-500/60 uppercase tracking-widest ml-1">Komisi Affiliator (Rp)</label>
+                                <input
+                                  type="number"
+                                  value={pkg.commission || ""}
+                                  onChange={(e) => updatePackage(pkg.id, "commission", e.target.value)}
+                                  placeholder="100000"
+                                  className="w-full px-4 py-3 bg-amber-50 border border-amber-100 rounded-[14px] text-xs font-black outline-none text-amber-700 focus:border-amber-300"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Preview mini */}
+                            {pkg.normalPrice > 0 && pkg.finalPrice > 0 && (
+                              <div className="flex items-center gap-2 px-3 py-2 bg-[#f0f7ff] rounded-[10px] flex-wrap">
+                                <span className="text-[8px] font-bold text-[#1e293b]/40">Customer bayar:</span>
+                                <span className="text-[8px] font-black text-[#1e293b]/40 line-through">Rp {pkg.normalPrice.toLocaleString("id-ID")}</span>
+                                <span className="text-[8px] font-black text-emerald-600">→ Rp {pkg.finalPrice.toLocaleString("id-ID")}</span>
+                                {pkg.commission > 0 && (
+                                  <span className="ml-auto text-[8px] font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Komisi Rp {pkg.commission.toLocaleString("id-ID")}</span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <button

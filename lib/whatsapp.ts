@@ -21,13 +21,18 @@ export function getWhatsAppUrl(
   data?: any,
   waNumber?: string
 ): string {
-  const WA = waNumber || site.contact.whatsapp || env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+  const rawWA = waNumber || env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
+  let WA = rawWA.replace(/\D/g, "");
+  
+  if (WA.startsWith("0")) {
+    WA = "62" + WA.substring(1);
+  }
 
   // Validasi: jika nomor belum dikonfigurasi, kembalikan "#" sebagai fallback
   if (!WA || WA.length < 10) {
     if (process.env.NODE_ENV === "development") {
       console.warn(
-        "[Link Productive] Nomor WhatsApp belum dikonfigurasi di data/site.ts"
+        "[Link Productive] Nomor WhatsApp belum dikonfigurasi"
       );
     }
     return "#";
@@ -57,6 +62,5 @@ export function getWhatsAppUrl(
   }
 
   const msg = encodeURIComponent(message);
-  const targetNumber = waNumber || env.NEXT_PUBLIC_WHATSAPP_NUMBER || site.contact.whatsapp;
-  return `https://wa.me/${targetNumber}?text=${msg}`;
+  return `https://wa.me/${WA}?text=${msg}`;
 }

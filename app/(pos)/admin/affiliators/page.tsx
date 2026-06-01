@@ -34,6 +34,10 @@ import {
   Camera,
   FileText,
   Layers,
+  Megaphone,
+  ChevronRight,
+  Upload,
+  ExternalLink,
 } from "lucide-react";
 import Image from "next/image";
 import {
@@ -59,6 +63,7 @@ import {
   updateAffiliateLeadStatus,
   deleteAffiliateLead,
 } from "@/app/actions/affiliate-leads";
+import { getProducts, updateProductDetails } from "@/app/actions/products";
 import { toast } from "sonner";
 
 /* ─────────────────────────── Types ─────────────────────────── */
@@ -446,8 +451,8 @@ function PostCard({
             <Heart
               size={22}
               className={`transition-colors ${liked
-                  ? "fill-rose-500 text-rose-500"
-                  : "text-gray-400 hover:text-rose-400"
+                ? "fill-rose-500 text-rose-500"
+                : "text-gray-400 hover:text-rose-400"
                 }`}
             />
           </button>
@@ -564,8 +569,8 @@ function PostModal({
               <button
                 onClick={() => setPreview((p) => !p)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${preview
-                    ? "bg-[#1e293b] text-white"
-                    : "bg-[#1e293b]/5 text-[#1e293b]"
+                  ? "bg-[#1e293b] text-white"
+                  : "bg-[#1e293b]/5 text-[#1e293b]"
                   }`}
               >
                 <Eye size={13} />
@@ -850,7 +855,12 @@ export default function AffiliatorsPage() {
   });
 
   // ── Post state ──
-  const [tab, setTab] = useState<"affiliators" | "posts" | "pendaftaran" | "permintaan">("pendaftaran");
+  const [tab, setTab] = useState<"affiliators" | "posts" | "pendaftaran" | "permintaan" | "kit">("pendaftaran");
+  const [kitProducts, setKitProducts] = useState<any[]>([]);
+  const [kitLoading, setKitLoading] = useState(false);
+  const [activeKitId, setActiveKitId] = useState<string>("");
+  const [kitForm, setKitForm] = useState<{ posterUrls: string; caption: string }>({ posterUrls: "", caption: "" });
+  const [savingKit, setSavingKit] = useState(false);
   const [posts, setPosts] = useState<AffiliatePost[]>([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -1081,6 +1091,24 @@ export default function AffiliatorsPage() {
     if (tab === "pendaftaran") fetchApplications();
     if (tab === "affiliators") fetchAffiliators();
     if (tab === "permintaan") fetchLeads();
+    if (tab === "kit") {
+      setKitLoading(true);
+      getProducts(true).then(res => {
+        if (res.success && res.data) {
+          setKitProducts(res.data);
+          if (res.data.length > 0 && !activeKitId) {
+            const first = res.data[0];
+            setActiveKitId(first.id);
+            const d = (first.details as any) || {};
+            setKitForm({
+              posterUrls: Array.isArray(d.posterUrls) ? d.posterUrls.join(", ") : (d.posterUrls || ""),
+              caption: d.affiliateCaption || ""
+            });
+          }
+        }
+        setKitLoading(false);
+      });
+    }
   }, [tab]);
 
   useEffect(() => {
@@ -1185,8 +1213,8 @@ export default function AffiliatorsPage() {
         <button
           onClick={() => setTab("pendaftaran")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "pendaftaran"
-              ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20"
-              : "text-gray-400 hover:text-[#1e293b]"
+            ? "bg-sky-500 text-white shadow-lg shadow-sky-500/20"
+            : "text-gray-400 hover:text-[#1e293b]"
             }`}
         >
           <AlertCircle size={14} />
@@ -1201,8 +1229,8 @@ export default function AffiliatorsPage() {
         <button
           onClick={() => setTab("affiliators")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "affiliators"
-              ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
-              : "text-gray-400 hover:text-[#1e293b]"
+            ? "bg-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
+            : "text-gray-400 hover:text-[#1e293b]"
             }`}
         >
           <Users size={14} />
@@ -1211,8 +1239,8 @@ export default function AffiliatorsPage() {
         <button
           onClick={() => setTab("posts")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "posts"
-              ? "bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
-              : "text-gray-400 hover:text-[#1e293b]"
+            ? "bg-gradient-to-r from-[#0ea5e9] to-[#1e293b] text-white shadow-lg shadow-[#1e293b]/20"
+            : "text-gray-400 hover:text-[#1e293b]"
             }`}
         >
           <Layers size={14} />
@@ -1226,8 +1254,8 @@ export default function AffiliatorsPage() {
         <button
           onClick={() => setTab("permintaan")}
           className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "permintaan"
-              ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-              : "text-gray-400 hover:text-[#1e293b]"
+            ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
+            : "text-gray-400 hover:text-[#1e293b]"
             }`}
         >
           <Send size={14} />
@@ -1238,6 +1266,16 @@ export default function AffiliatorsPage() {
               {leads.filter((l) => l.status === "pending").length}
             </span>
           )}
+        </button>
+        <button
+          onClick={() => setTab("kit")}
+          className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${tab === "kit"
+            ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20"
+            : "text-gray-400 hover:text-[#1e293b]"
+            }`}
+        >
+          <Megaphone size={14} />
+          Kit Afiliasi
         </button>
       </div>
 
@@ -1305,8 +1343,8 @@ export default function AffiliatorsPage() {
                     key={s}
                     onClick={() => setStatusFilter(s)}
                     className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${statusFilter === s
-                        ? "bg-[#1e293b] text-white shadow-sm"
-                        : "text-gray-400 hover:text-[#1e293b]"
+                      ? "bg-[#1e293b] text-white shadow-sm"
+                      : "text-gray-400 hover:text-[#1e293b]"
                       }`}
                   >
                     {s === "all" ? "Semua" : STATUS_CONFIG[s].label}
@@ -1528,8 +1566,8 @@ export default function AffiliatorsPage() {
                   key={s}
                   onClick={() => setAppStatusFilter(s)}
                   className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${appStatusFilter === s
-                      ? "bg-[#1e293b] text-white shadow-sm"
-                      : "text-gray-400 hover:text-[#1e293b]"
+                    ? "bg-[#1e293b] text-white shadow-sm"
+                    : "text-gray-400 hover:text-[#1e293b]"
                     }`}
                 >
                   {s === "all" ? "Semua" : APP_STATUS_CONFIG[s].label}
@@ -1937,8 +1975,8 @@ export default function AffiliatorsPage() {
                   key={s}
                   onClick={() => setLeadStatusFilter(s)}
                   className={`px-5 py-2.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${leadStatusFilter === s
-                      ? "bg-blue-500 text-white shadow-sm"
-                      : "text-gray-400 hover:text-[#1e293b]"
+                    ? "bg-blue-500 text-white shadow-sm"
+                    : "text-gray-400 hover:text-[#1e293b]"
                     }`}
                 >
                   {s === "all" ? "Semua" : s === "pending" ? "Menunggu" : s === "followed_up" ? "Followed Up" : "Closed / Deal"}
@@ -2168,6 +2206,185 @@ export default function AffiliatorsPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ════════════ KIT AFILIASI TAB ════════════ */}
+      {tab === "kit" && (
+        <motion.div
+          key="kit"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8"
+        >
+          <div>
+            <h3 className="text-lg font-black text-[#1e293b]">Kelola Kit Promosi Affiliate</h3>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
+              Edit poster & caption per produk — akan tampil otomatis di dashboard affiliator
+            </p>
+          </div>
+
+          {kitLoading ? (
+            <div className="py-16 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border-4 border-emerald-200 border-t-emerald-500 animate-spin" />
+            </div>
+          ) : kitProducts.length === 0 ? (
+            <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 py-20 text-center">
+              <p className="font-bold text-[#1e293b]">Belum ada produk</p>
+              <p className="text-gray-400 text-xs mt-1">Tambahkan produk di menu Products terlebih dahulu.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left: product list */}
+              <div className="lg:col-span-4 bg-white rounded-3xl border border-[#e2e8f0] p-5">
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-3">Pilih Produk ({kitProducts.length})</p>
+                <div className="space-y-1.5 max-h-[600px] overflow-y-auto custom-scrollbar pr-1">
+                  {kitProducts.map((prod) => {
+                    const isActive = activeKitId === prod.id;
+                    return (
+                      <button
+                        key={prod.id}
+                        onClick={() => {
+                          setActiveKitId(prod.id);
+                          const d = (prod.details as any) || {};
+                          setKitForm({
+                            posterUrls: Array.isArray(d.posterUrls) ? d.posterUrls.join(", ") : (d.posterUrls || ""),
+                            caption: d.affiliateCaption || ""
+                          });
+                        }}
+                        className={`w-full text-left p-3.5 rounded-2xl flex items-center justify-between gap-3 transition-all duration-200 ${isActive
+                          ? "bg-emerald-600 text-white shadow-lg"
+                          : "hover:bg-gray-50 text-[#1e293b] border border-transparent"
+                          }`}
+                      >
+                        <div className="min-w-0">
+                          <p className={`text-[11px] font-black uppercase tracking-wide truncate ${isActive ? "text-white" : "text-[#1e293b]"}`}>
+                            {prod.name}
+                          </p>
+                          <p className={`text-[9px] font-bold truncate mt-0.5 ${isActive ? "text-emerald-100" : "text-gray-400"}`}>
+                            {prod.sku}
+                          </p>
+                        </div>
+                        <ChevronRight size={14} className={isActive ? "text-white flex-shrink-0" : "text-gray-400 flex-shrink-0"} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Right: Edit form */}
+              {activeKitId && (() => {
+                const prod = kitProducts.find(p => p.id === activeKitId);
+                if (!prod) return null;
+                const d = (prod.details as any) || {};
+                const existingPosterUrls: string[] = Array.isArray(d.posterUrls)
+                  ? d.posterUrls
+                  : (d.posterUrls ? String(d.posterUrls).split(",").map((u: string) => u.trim()).filter(Boolean) : []);
+
+                return (
+                  <div className="lg:col-span-8 bg-white rounded-3xl border border-[#e2e8f0] p-6 lg:p-8 space-y-6">
+                    {/* Header */}
+                    <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                      <div>
+                        <h4 className="text-base font-black text-[#1e293b]">{prod.name}</h4>
+                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">{prod.sku}</p>
+                      </div>
+                      <span className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider ${prod.isActive ? "bg-emerald-50 text-emerald-600" : "bg-gray-100 text-gray-400"}`}>
+                        {prod.isActive ? "Aktif" : "Nonaktif"}
+                      </span>
+                    </div>
+
+                    {/* Poster URLs */}
+                    <div className="space-y-3">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
+                        URL Poster (Pisahkan dengan koma untuk multi-poster)
+                      </label>
+                      <textarea
+                        value={kitForm.posterUrls}
+                        onChange={e => setKitForm(f => ({ ...f, posterUrls: e.target.value }))}
+                        placeholder="https://example.com/poster1.jpg, https://example.com/poster2.jpg"
+                        rows={3}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs text-gray-700 font-medium leading-relaxed resize-none focus:outline-none focus:border-emerald-400 transition-colors"
+                      />
+                      <p className="text-[9px] text-gray-400">
+                        Bisa masukkan 1 atau lebih URL gambar poster. Affiliator bisa navigasi antar poster & langsung share ke Instagram, WA, dll.
+                      </p>
+
+                      {/* Poster previews */}
+                      {kitForm.posterUrls && (
+                        <div className="flex gap-3 flex-wrap mt-2">
+                          {kitForm.posterUrls.split(",").map((u, i) => u.trim()).filter(Boolean).map((url, i) => (
+                            <div key={i} className="w-20 h-28 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative">
+                              <img src={url} alt={`Poster ${i + 1}`} className="w-full h-full object-cover" onError={e => { (e.target as any).style.display = "none"; }} />
+                              <span className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/50 text-white text-[8px] font-bold rounded">
+                                {i + 1}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Caption */}
+                    <div className="space-y-3">
+                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
+                        Caption / Materi Copywriting
+                      </label>
+                      <textarea
+                        value={kitForm.caption}
+                        onChange={e => setKitForm(f => ({ ...f, caption: e.target.value }))}
+                        placeholder="Tulis caption promosi di sini... Kode referral dan link akan otomatis ditambahkan oleh sistem saat affiliator share."
+                        rows={8}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs text-gray-700 font-medium leading-relaxed resize-none focus:outline-none focus:border-emerald-400 transition-colors"
+                      />
+                      <p className="text-[9px] text-gray-400">
+                        Kode referral & link akan otomatis ditambahkan di bawah caption saat affiliator share.
+                      </p>
+                    </div>
+
+                    {/* Save button */}
+                    <div className="flex items-center gap-4 pt-2">
+                      <button
+                        disabled={savingKit}
+                        onClick={async () => {
+                          setSavingKit(true);
+                          try {
+                            const urlsArr = kitForm.posterUrls.split(",").map(u => u.trim()).filter(Boolean);
+                            const res = await updateProductDetails(activeKitId, {
+                              posterUrls: urlsArr,
+                              affiliateCaption: kitForm.caption
+                            });
+                            if (res.success) {
+                              toast.success("Kit promosi berhasil disimpan!");
+                              // Update local state
+                              setKitProducts(prev => prev.map(p =>
+                                p.id === activeKitId
+                                  ? { ...p, details: { ...(p.details || {}), posterUrls: urlsArr, affiliateCaption: kitForm.caption } }
+                                  : p
+                              ));
+                            } else {
+                              toast.error(res.error || "Gagal menyimpan.");
+                            }
+                          } catch {
+                            toast.error("Terjadi kesalahan.");
+                          } finally {
+                            setSavingKit(false);
+                          }
+                        }}
+                        className="flex items-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg shadow-emerald-500/20"
+                      >
+                        <Save size={14} />
+                        {savingKit ? "Menyimpan..." : "Simpan Kit Promosi"}
+                      </button>
+                      <p className="text-[9px] text-gray-400">
+                        Perubahan langsung tampil di dashboard semua affiliator.
+                      </p>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+        </motion.div>
+      )}
 
       {/* ── Affiliator Add/Edit Modal ── */}
       <AnimatePresence>

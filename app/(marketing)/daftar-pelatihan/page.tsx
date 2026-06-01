@@ -1093,7 +1093,7 @@ function DaftarPelatihanContent() {
                     <div className="space-y-4">
                       <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {details.whyInteresting.map((item, idx) => (
+                        {details.whyInteresting.map((item: string, idx: number) => (
                           <li key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-white/80 font-bold flex items-center gap-3">
                             <div className="w-5 h-5 rounded-full bg-[#004aad]/25 border border-[#004aad]/40 flex items-center justify-center text-[#004aad] text-[10px] font-black">{idx + 1}</div>
                             <span>{item}</span>
@@ -1108,7 +1108,7 @@ function DaftarPelatihanContent() {
                     <div className="space-y-3">
                       <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Siapa Yang Cocok Mengikuti?</h3>
                       <div className="flex flex-wrap gap-2">
-                        {details.targetMarket.map((m, idx) => (
+                        {details.targetMarket.map((m: string, idx: number) => (
                           <span key={idx} className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black text-white/70 uppercase tracking-wider">{m}</span>
                         ))}
                       </div>

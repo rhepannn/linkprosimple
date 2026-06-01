@@ -1,9 +1,10 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 
 export async function getSiteSettings() {
+  noStore();
   try {
     const settings = await prisma.siteSetting.findMany();
     // Convert array of { key, value } to an object
@@ -45,9 +46,7 @@ export async function updateSiteSettings(settings: Record<string, string>) {
     }
     
     // Revalidate paths that might use these settings
-    revalidatePath("/");
-    revalidatePath("/admin/settings");
-    revalidatePath("/affiliate");
+    revalidatePath("/", "layout");
     
     return { success: true };
   } catch (error) {

@@ -32,21 +32,36 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
   }
 
   useEffect(() => {
-    if (extractedId) {
-      fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${extractedId}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.title) {
-            setVideoOverlayTitle(data.title);
-          }
-        })
-        .catch(err => console.error("Gagal mengambil judul video:", err));
-    } else {
+    if (!extractedId) {
       if (!settings.youtube_thumbnail) {
         setVideoOverlayTitle(`${settings.site_name || "Link Productive"} Official Channel`);
       }
+      return;
     }
-  }, [extractedId, settings.youtube_thumbnail]);
+
+    const controller = new AbortController();
+
+    const fetchTitle = async () => {
+      try {
+        // Gunakan API route internal agar tidak kena CORS block di browser
+        const res = await fetch(`/api/youtube-title?videoId=${extractedId}`, {
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data?.title) {
+          setVideoOverlayTitle(data.title);
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        console.warn("Gagal mengambil judul video YouTube:", err);
+      }
+    };
+
+    fetchTitle();
+
+    return () => controller.abort();
+  }, [extractedId, settings.youtube_thumbnail, settings.site_name]);
 
   const targetLink = extractedId ? `https://www.youtube.com/watch?v=${extractedId}` : (youtube_url || settings.contact_youtube || "");
 

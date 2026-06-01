@@ -116,10 +116,10 @@ function DaftarForm() {
   const prog = programKey ? affiliateDetails[programKey] : null;
 
   // Determine WhatsApp number - per program or admin settings or default
-  const waNumber =
-    (prog as any)?.consultWa?.replace("https://wa.me/", "") ||
+  const waNumber = (prog as any)?.consultWa?.replace("https://wa.me/", "") ||
     siteSettings.affiliate_whatsapp ||
-    siteSettings.contact_wa || "";
+    siteSettings.contact_wa ||
+    "";
 
   const validate = () => {
     const errs: Record<string, string> = {};
