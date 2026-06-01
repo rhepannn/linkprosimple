@@ -168,9 +168,6 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
 
 // ─── MAIN PAGE ─────────────────────────────────────────────────────────────────
 function AffiliateContent() {
-  const [programs, setPrograms] = useState<any[]>([]);
-  const [activeProgram, setActiveProgram] = useState<any | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -181,22 +178,6 @@ function AffiliateContent() {
 
   const searchParams = useSearchParams();
 
-  const filteredPrograms = programs.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Auto-open program from URL param
-  useEffect(() => {
-    const pkg = searchParams.get("pkg");
-    if (pkg && programs.length > 0) {
-      const found = programs.find((p) =>
-        p.name.toLowerCase().replace(/\s+/g, "-") === pkg.toLowerCase() ||
-        p.name.toLowerCase() === pkg.toLowerCase().replace(/-/g, " ")
-      );
-      if (found) setActiveProgram(found);
-    }
-  }, [searchParams, programs]);
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -206,21 +187,33 @@ function AffiliateContent() {
 
         if (settingsRes) setSettings(settingsRes);
 
-        let raw = productsRes.success && Array.isArray(productsRes.data)
+        let rawProducts = productsRes.success && Array.isArray(productsRes.data)
           ? productsRes.data.filter((p: any) => p.isActive)
           : [];
-        if (raw.length === 0) raw = brandProducts;
-        setPrograms(groupProducts(raw));
 
+        const productPosts = rawProducts
+          .filter((p: any) => p.image)
+          .map((p: any, i: number) => ({
+            id: 'prod-' + (p.id || i),
+            imageUrl: p.image,
+            caption: p.details ? `Ayo tingkatkan skill kamu dengan bergabung di program unggulan: ${p.name}! Daftar sekarang dan dapatkan penawaran spesial.` : `Daftar sekarang untuk program ${p.name}!`,
+            category: 'promo',
+            likeCount: Math.floor(Math.random() * 50) + 10,
+            hashtags: ['linkproductive', p.name.split('-')[0].trim().toLowerCase().replace(/\s+/g, ''), 'pelatihan'],
+            createdAt: p.createdAt || new Date().toISOString(),
+          }));
+
+        let published = [];
         if (postsRes.success && Array.isArray(postsRes.data) && postsRes.data.length > 0) {
-          const published = (postsRes.data as any[]).filter((p: any) => p.isPublished).map((p: any) => ({
+          published = (postsRes.data as any[]).filter((p: any) => p.isPublished).map((p: any) => ({
             ...p,
             category: (p.hashtags || []).some((t: string) =>
               ["kegiatan", "gathering", "event"].includes(t.toLowerCase())
             ) || p.caption.toLowerCase().includes("kegiatan") ? "kegiatan" : "promo",
           }));
-          setPosts(published);
         }
+        
+        setPosts([...productPosts, ...published]);
       } catch (err) {
         console.error("Gagal memuat data affiliate:", err);
       } finally {
@@ -251,11 +244,6 @@ function AffiliateContent() {
   return (
     <>
       <AnimatePresence>{showModal && <RegisterModal onClose={() => setShowModal(false)} settings={settings} />}</AnimatePresence>
-      <AnimatePresence>
-        {activeProgram && (
-          <ProgramDetail program={activeProgram} onClose={() => setActiveProgram(null)} onRegister={() => setShowModal(true)} />
-        )}
-      </AnimatePresence>
 
       <main className="min-h-screen bg-slate-50 overflow-x-hidden w-full">
 
