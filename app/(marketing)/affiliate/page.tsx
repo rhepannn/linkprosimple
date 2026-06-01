@@ -17,85 +17,6 @@ import { getProducts } from "@/app/actions/products";
 import { toast } from "sonner";
 import { brandProducts } from "@/data/brand-products";
 
-// ─── ICON MAP BY KEYWORD ─────────────────────────────────────────────────────
-const ICON_MAP: Record<string, any> = {
-  academic: GraduationCap, career: Award, entrepreneur: TrendingUp,
-  launchpad: TrendingUp, bisapreneur: Building, barista: Coffee,
-  cuan: MonitorPlay, tekno: Presentation, mental: Users, bahasa: Users,
-  green: Recycle, brand: ShoppingBag, standara: Handshake,
-};
-
-function getIcon(programName: string) {
-  const lower = programName.toLowerCase();
-  for (const [key, Icon] of Object.entries(ICON_MAP)) {
-    if (lower.includes(key)) return Icon;
-  }
-  return Package;
-}
-
-// ─── GROUP DB PRODUCTS BY PROGRAM NAME ───────────────────────────────────────
-function groupProducts(dbProducts: any[]) {
-  const grouped: Record<string, {
-    name: string; icon: any; desc: string; image: string | null;
-    packages: { name: string; price: string; commission: string; duration: string; features: string[] }[];
-  }> = {};
-
-  const sorted = [...dbProducts].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
-
-  for (const p of sorted) {
-    let programName: string;
-    let packageName: string;
-
-    if (p.name.includes(" - ")) {
-      const idx = p.name.indexOf(" - ");
-      programName = p.name.substring(0, idx).trim();
-      packageName = p.name.substring(idx + 3).trim();
-    } else {
-      programName = p.name.trim();
-      packageName = "Paket Utama";
-    }
-
-    let descText = `Program unggulan ${programName} untuk pengembangan profesional.`;
-    if (p.details) {
-      try {
-        const parsedDetails = JSON.parse(p.details);
-        if (parsedDetails.text) {
-          descText = parsedDetails.text;
-        } else {
-          descText = p.details;
-        }
-      } catch (e) {
-        descText = p.details;
-      }
-    }
-
-    if (!grouped[programName]) {
-      grouped[programName] = {
-        name: programName,
-        icon: getIcon(programName),
-        desc: descText,
-        image: p.image || null,
-        packages: [],
-      };
-    }
-
-    // Prefer first non-null image
-    if (!grouped[programName].image && p.image) {
-      grouped[programName].image = p.image;
-    }
-
-    grouped[programName].packages.push({
-      name: packageName,
-      price: `Rp ${Number(p.price).toLocaleString("id-ID")}`,
-      commission: p.photoCount || "Sesuai Ketentuan",
-      duration: p.duration || "",
-      features: Array.isArray(p.features) ? p.features : [],
-    });
-  }
-
-  return Object.values(grouped);
-}
-
 // ─── REGISTER MODAL ───────────────────────────────────────────────────────────
 function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settings?: Record<string, string> }) {
   const [step, setStep] = useState<"form" | "success">("form");
@@ -245,98 +166,6 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
   );
 }
 
-// ─── PROGRAM DETAIL FULL PAGE ─────────────────────────────────────────────────
-function ProgramDetail({ program, onClose, onRegister }: { program: any; onClose: () => void; onRegister: () => void }) {
-  const Icon = program.icon;
-  return (
-    <motion.div key="detail" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 40 }} transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[90] bg-near-black overflow-y-auto">
-      {/* Back Bar */}
-      <div className="sticky top-0 z-10 bg-near-black/95 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4 flex items-center justify-between">
-        <button onClick={onClose} className="flex items-center gap-2 text-white/60 hover:text-white transition-colors font-black text-[11px] uppercase tracking-widest">
-          <ArrowLeft size={16} /> Kembali ke Daftar Program
-        </button>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 md:px-8 py-10 pb-24">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#004aad]/20 flex items-center justify-center text-[#004aad] flex-shrink-0">
-            <Icon size={26} />
-          </div>
-          <div>
-            <h1 className="text-xl md:text-2xl font-black text-white uppercase tracking-wide leading-tight">{program.name}</h1>
-            <p className="text-[11px] text-white/40 font-bold mt-1">{program.packages.length} Paket Tersedia</p>
-          </div>
-        </div>
-
-        {/* Poster */}
-        {program.image && (
-          <div className="mb-8 max-w-xs mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-            <img src={program.image} alt={program.name} className="w-full object-cover" />
-          </div>
-        )}
-
-        <div className="space-y-8">
-          {/* Description */}
-          {program.desc && (
-            <div className="bg-white/5 rounded-2xl p-6 border border-white/5">
-              <p className="text-[13px] text-white/75 leading-relaxed whitespace-pre-line">{program.desc}</p>
-            </div>
-          )}
-
-          {/* Packages */}
-          <div>
-            <h2 className="text-[11px] font-black text-[#004aad] uppercase tracking-widest mb-4">📦 Detail Paket & Komisi</h2>
-            <div className="space-y-4">
-              {program.packages.map((pkg: any, i: number) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                  <p className="text-[13px] font-black text-white mb-4">{pkg.name}</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-white/5 rounded-xl p-3 text-center">
-                      <p className="text-[9px] text-white/40 font-bold uppercase mb-1">Harga Program</p>
-                      <p className="text-[12px] font-black text-white">{pkg.price}</p>
-                    </div>
-                    <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
-                      <p className="text-[9px] text-emerald-400 font-bold uppercase mb-1">Komisi Affiliate</p>
-                      <p className="text-[12px] font-black text-emerald-400">{pkg.commission}</p>
-                    </div>
-                  </div>
-                  {(pkg.duration || pkg.features?.length > 0) && (
-                    <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
-                      {pkg.duration && (
-                        <p className="text-[11px] text-white/50 font-bold">⏱ Durasi: {pkg.duration}</p>
-                      )}
-                      {pkg.features?.length > 0 && (
-                        <ul className="space-y-1.5">
-                          {pkg.features.map((f: string, fi: number) => (
-                            <li key={fi} className="flex items-start gap-2">
-                              <CheckCircle2 size={12} className="text-[#004aad] flex-shrink-0 mt-0.5" />
-                              <span className="text-[11px] text-white/60 font-medium">{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-10">
-          <button onClick={() => { onClose(); onRegister(); }}
-            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#003984] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#004aad]/30">
-            Daftar Affiliate Sekarang <ArrowRight size={14} />
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 // ─── MAIN PAGE ─────────────────────────────────────────────────────────────────
 function AffiliateContent() {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -445,8 +274,8 @@ function AffiliateContent() {
                 Bergabunglah bersama ekosistem <span className="text-sky-600 font-bold">Link Productive</span> dan bangun potensi penghasilan pasif tak terbatas setiap bulan.
               </p>
               <div className="flex flex-wrap items-center gap-6">
-                <a href="#programs" className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold uppercase tracking-wider text-xs rounded-2xl hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-sky-500/20">
-                  Lihat Program <ArrowRight size={14} />
+                <a onClick={(e) => { e.preventDefault(); setShowModal(true); }} className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold uppercase tracking-wider text-xs rounded-2xl hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-sky-500/20">
+                  Daftar Sekarang <ArrowRight size={14} />
                 </a>
                 <div className="flex items-center gap-3 bg-white border border-sky-100/60 rounded-2xl px-5 py-3 shadow-sm">
                   <div className="flex flex-col">
@@ -473,92 +302,28 @@ function AffiliateContent() {
           </div>
         </section>
 
-        {/* ── Program Cards (from DB) ── */}
-        <section id="programs" className="py-20 bg-white border-b border-slate-100">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-[#004aad]/10 border border-[#004aad]/20 text-[10px] font-black uppercase tracking-[0.2em] text-[#004aad]">
-                <Sparkles size={12} /> Katalog Program Pelatihan
+        {/* ── Info Columns ── */}
+        <section className="py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "Tugas Affiliate Partner", bg: "bg-near-black", textColor: "text-white", items: ["Promosikan semua program pelatihan", "Bagikan link / kode referral", "Dapatkan peserta / customer", "Capai target & raih komisi", "Buat konten promosi di medsos"] },
+              { title: "Benefit Affiliate Partner", bg: "bg-[#004aad]", textColor: "text-white", items: ["Penghasilan tanpa batas", "Komisi dari setiap penjualan", "Bonus target bulanan & reward", "Materi promosi & support marketing", "Sertifikat resmi Affiliate Partner", "Komunitas partner aktif"] },
+              { title: "Syarat Pendaftaran", bg: "bg-near-black", textColor: "text-white", items: ["Usia minimal 17 tahun", "Punya smartphone & internet", "Aktif di media sosial", "Komunikatif & semangat belajar", "Bersedia bekerja dengan target"] },
+            ].map((col, i) => (
+              <div key={i} className="bg-white rounded-2xl p-8 border border-near-black/10 shadow-sm">
+                <span className={`${col.bg} ${col.textColor} px-4 py-2 rounded-lg inline-block font-black uppercase text-xs mb-6`}>{col.title}</span>
+                <ul className="space-y-3">
+                  {col.items.map((text, j) => (
+                    <li key={j} className="flex items-start gap-3">
+                      <CheckCircle2 size={16} className="text-[#004aad] flex-shrink-0 mt-0.5" />
+                      <span className="text-sm font-bold text-near-black/70">{text}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mb-4">
-                Program yang Bisa Kamu <span className="text-sky-500">Promosikan</span>
-              </h2>
-              <p className="text-slate-500 text-sm font-medium max-w-xl mx-auto">Pilih program yang sesuai dengan audiensmu dan mulai raih komisi menarik.</p>
-            </div>
-
-            {/* Search */}
-            <div className="max-w-md mx-auto mb-10 relative">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input type="text" placeholder="Cari program..." value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition-all placeholder:text-slate-400" />
-            </div>
-
-            {loading ? (
-              <div className="flex justify-center py-20">
-                <div className="w-8 h-8 border-4 border-[#004aad] border-t-transparent rounded-full animate-spin" />
-              </div>
-            ) : filteredPrograms.length === 0 ? (
-              <div className="text-center py-16 text-slate-400 font-bold text-sm">
-                {searchQuery ? "Program tidak ditemukan." : "Belum ada program aktif. Tambahkan dari halaman Admin → Manajemen Program."}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredPrograms.map((prog, i) => {
-                  const Icon = prog.icon;
-                  return (
-                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                      onClick={() => setActiveProgram(prog)}
-                      className="bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-sky-300 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300 cursor-pointer group">
-                      {prog.image ? (
-                        <div className="aspect-video bg-slate-100 overflow-hidden relative group/img">
-                          <img src={prog.image} alt={prog.name} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const a = document.createElement("a");
-                              a.href = `/api/download-image?url=${encodeURIComponent(prog.image)}`;
-                              a.download = `poster-${prog.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
-                              document.body.appendChild(a);
-                              a.click();
-                              document.body.removeChild(a);
-                            }}
-                            className="absolute top-3 right-3 bg-white text-near-black p-2 rounded-full opacity-0 group-hover/img:opacity-100 hover:scale-110 active:scale-95 transition-all shadow-lg cursor-pointer"
-                            title="Unduh Poster Program"
-                          >
-                            <Download size={16} />
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="aspect-video bg-gradient-to-br from-sky-50 to-slate-100 flex items-center justify-center">
-                          <Icon size={40} className="text-sky-300" />
-                        </div>
-                      )}
-                      <div className="p-5">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-[#004aad]/10 flex items-center justify-center text-[#004aad] flex-shrink-0">
-                            <Icon size={17} />
-                          </div>
-                          <h3 className="text-sm font-black text-slate-900 leading-tight">{prog.name}</h3>
-                        </div>
-                        {prog.desc && (
-                          <p className="text-[11px] text-slate-500 font-medium leading-relaxed line-clamp-2 mb-4">{prog.desc}</p>
-                        )}
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{prog.packages.length} Paket</span>
-                          <span className="inline-flex items-center gap-1 text-[10px] font-black text-sky-500 uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                            Lihat Detail <ArrowRight size={10} />
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            )}
+            ))}
           </div>
         </section>
-
         {/* ── CTA Daftar ── */}
         <section className="bg-white text-slate-800 py-20 border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
@@ -633,8 +398,19 @@ function AffiliateContent() {
                       <div className="relative aspect-square bg-white overflow-hidden group">
                         <img src={post.imageUrl} alt="Materi" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-                          <button onClick={() => handleCopyCaption(post)} className="bg-white text-near-black p-3 rounded-full hover:scale-110 transition-all shadow-lg cursor-pointer">
+                          <button onClick={() => handleCopyCaption(post)} className="bg-white text-near-black p-3 rounded-full hover:scale-110 transition-all shadow-lg cursor-pointer" title="Salin Caption">
                             {isCopied ? <Check size={18} className="text-green-600" /> : <Copy size={18} />}
+                          </button>
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            const a = document.createElement("a");
+                            a.href = `/api/download-image?url=${encodeURIComponent(post.imageUrl)}`;
+                            a.download = `promo-${post.id}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                          }} className="bg-white text-near-black p-3 rounded-full hover:scale-110 transition-all shadow-lg cursor-pointer" title="Unduh Gambar">
+                            <Download size={18} />
                           </button>
                         </div>
                       </div>
@@ -666,28 +442,6 @@ function AffiliateContent() {
           </div>
         </section>
 
-        {/* ── Info Columns ── */}
-        <section className="py-20 bg-white">
-          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Tugas Affiliate Partner", bg: "bg-near-black", textColor: "text-white", items: ["Promosikan semua program pelatihan", "Bagikan link / kode referral", "Dapatkan peserta / customer", "Capai target & raih komisi", "Buat konten promosi di medsos"] },
-              { title: "Benefit Affiliate Partner", bg: "bg-[#004aad]", textColor: "text-white", items: ["Penghasilan tanpa batas", "Komisi dari setiap penjualan", "Bonus target bulanan & reward", "Materi promosi & support marketing", "Sertifikat resmi Affiliate Partner", "Komunitas partner aktif"] },
-              { title: "Syarat Pendaftaran", bg: "bg-near-black", textColor: "text-white", items: ["Usia minimal 17 tahun", "Punya smartphone & internet", "Aktif di media sosial", "Komunikatif & semangat belajar", "Bersedia bekerja dengan target"] },
-            ].map((col, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8 border border-near-black/10 shadow-sm">
-                <span className={`${col.bg} ${col.textColor} px-4 py-2 rounded-lg inline-block font-black uppercase text-xs mb-6`}>{col.title}</span>
-                <ul className="space-y-3">
-                  {col.items.map((text, j) => (
-                    <li key={j} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-[#004aad] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm font-bold text-near-black/70">{text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
       </main>
     </>
   );
