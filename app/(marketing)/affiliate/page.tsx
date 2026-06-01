@@ -9,12 +9,13 @@ import {
   TrendingUp, Award, CheckCircle2, ArrowRight, X, Search,
   ArrowLeft, MessageCircle, Heart, Copy, Check, Share2,
   Calendar, Sparkles, Package, Eye, EyeOff, ChevronLeft,
-  ChevronRight,
+  ChevronRight, Download,
 } from "lucide-react";
 import { getAffiliatePosts } from "@/app/actions/affiliate-posts";
 import { getSiteSettings } from "@/app/actions/settings";
 import { getProducts } from "@/app/actions/products";
 import { toast } from "sonner";
+import { brandProducts } from "@/data/brand-products";
 
 // ─── ICON MAP BY KEYWORD ─────────────────────────────────────────────────────
 const ICON_MAP: Record<string, any> = {
@@ -54,11 +55,25 @@ function groupProducts(dbProducts: any[]) {
       packageName = "Paket Utama";
     }
 
+    let descText = `Program unggulan ${programName} untuk pengembangan profesional.`;
+    if (p.details) {
+      try {
+        const parsedDetails = JSON.parse(p.details);
+        if (parsedDetails.text) {
+          descText = parsedDetails.text;
+        } else {
+          descText = p.details;
+        }
+      } catch (e) {
+        descText = p.details;
+      }
+    }
+
     if (!grouped[programName]) {
       grouped[programName] = {
         name: programName,
         icon: getIcon(programName),
-        desc: p.details || `Program unggulan ${programName} untuk pengembangan profesional.`,
+        desc: descText,
         image: p.image || null,
         packages: [],
       };
@@ -362,9 +377,10 @@ function AffiliateContent() {
 
         if (settingsRes) setSettings(settingsRes);
 
-        const raw = productsRes.success && Array.isArray(productsRes.data)
+        let raw = productsRes.success && Array.isArray(productsRes.data)
           ? productsRes.data.filter((p: any) => p.isActive)
           : [];
+        if (raw.length === 0) raw = brandProducts;
         setPrograms(groupProducts(raw));
 
         if (postsRes.success && Array.isArray(postsRes.data) && postsRes.data.length > 0) {
@@ -495,8 +511,23 @@ function AffiliateContent() {
                       onClick={() => setActiveProgram(prog)}
                       className="bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-sky-300 hover:shadow-xl hover:shadow-sky-500/10 transition-all duration-300 cursor-pointer group">
                       {prog.image ? (
-                        <div className="aspect-video bg-slate-100 overflow-hidden">
-                          <img src={prog.image} alt={prog.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="aspect-video bg-slate-100 overflow-hidden relative group/img">
+                          <img src={prog.image} alt={prog.name} className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500" />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const a = document.createElement("a");
+                              a.href = `/api/download-image?url=${encodeURIComponent(prog.image)}`;
+                              a.download = `poster-${prog.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+                              document.body.appendChild(a);
+                              a.click();
+                              document.body.removeChild(a);
+                            }}
+                            className="absolute top-3 right-3 bg-white text-near-black p-2 rounded-full opacity-0 group-hover/img:opacity-100 hover:scale-110 active:scale-95 transition-all shadow-lg cursor-pointer"
+                            title="Unduh Poster Program"
+                          >
+                            <Download size={16} />
+                          </button>
                         </div>
                       ) : (
                         <div className="aspect-video bg-gradient-to-br from-sky-50 to-slate-100 flex items-center justify-center">
