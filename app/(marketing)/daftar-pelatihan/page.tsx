@@ -840,6 +840,8 @@ function parseProductsFromDb(dbProducts: any[]) {
     icon: any;
     desc: string;
     image: string | null;
+    startingPrice?: number;
+    startingDiscountedPrice?: number;
     url: string;
     packages: any[];
   }> = {};
