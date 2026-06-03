@@ -468,9 +468,29 @@ function EnrollModal({
 
   const selectedPkg = product.packages?.find((pkg: any) => pkg.id === selectedPackageId);
   const originalPrice = selectedPkg?.rawPrice || 0;
-  const discountPct = refCode.trim() ? 10 : 0;
-  const discountAmount = originalPrice * (discountPct / 100);
-  const finalPrice = originalPrice - discountAmount;
+  const basePrice = selectedPkg?.discountedPrice || originalPrice;
+  const productDiscountAmount = originalPrice - basePrice;
+  
+  const [referralInfo, setReferralInfo] = useState<{ discountPct: number } | null>(null);
+
+  useEffect(() => {
+    async function checkRef() {
+      if (refCodeParam) {
+        try {
+          const res = await fetch(`/api/referrals/validate?code=${encodeURIComponent(refCodeParam)}`);
+          if (res.ok) {
+            const data = await res.json();
+            setReferralInfo({ discountPct: data.discountPct || 10 });
+          }
+        } catch (err) {}
+      }
+    }
+    checkRef();
+  }, [refCodeParam]);
+
+  const discountPct = referralInfo ? referralInfo.discountPct : 0;
+  const refDiscountAmount = basePrice * (discountPct / 100);
+  const finalPrice = basePrice - refDiscountAmount;
 
   const occupations = [
     { value: "pelajar", label: "Pelajar / Siswa" },
@@ -705,7 +725,33 @@ function EnrollModal({
                 </div>
                 <div>
                   <label className={labelCls}>Kode Referral Affiliate (Jika Ada)</label>
-                  <input type="text" placeholder="Masukkan kode referral dari affiliate partner" value={refCode} onChange={(e) => setRefCode(e.target.value)} className={inputCls} />
+                  <div className="flex gap-2">
+                    <input type="text" placeholder="Masukkan kode referral dari affiliate partner" value={refCode} onChange={(e) => setRefCode(e.target.value)} className={inputCls} />
+                    <button 
+                      type="button"
+                      onClick={async () => {
+                        if (!refCode.trim()) {
+                          setReferralInfo(null);
+                          return;
+                        }
+                        try {
+                          const res = await fetch(`/api/referrals/validate?code=${encodeURIComponent(refCode)}`);
+                          if (res.ok) {
+                            const data = await res.json();
+                            setReferralInfo({ discountPct: data.discountPct || 10 });
+                          } else {
+                            setReferralInfo(null);
+                            alert("Kode referral tidak valid atau tidak ditemukan");
+                          }
+                        } catch (err) {
+                          setReferralInfo(null);
+                        }
+                      }}
+                      className="px-4 py-2 bg-near-black text-white text-xs font-bold rounded-xl whitespace-nowrap"
+                    >
+                      Cek
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label className={labelCls}>Catatan Tambahan (Opsional)</label>
@@ -721,13 +767,19 @@ function EnrollModal({
                 <div className="p-4 bg-sky-50/50 border border-sky-100 rounded-2xl space-y-2 text-left">
                   <p className="text-[9px] font-black uppercase tracking-wider text-sky-600">Rincian Pembayaran &amp; Biaya</p>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500 font-medium">Biaya Pendaftaran Kelas:</span>
-                    <span className="font-bold text-slate-800">Rp {originalPrice.toLocaleString("id-ID")}</span>
+                    <span className="text-slate-500 font-medium">Harga Normal Kelas:</span>
+                    <span className={productDiscountAmount > 0 ? "font-bold text-slate-400 line-through" : "font-bold text-slate-800"}>Rp {originalPrice.toLocaleString("id-ID")}</span>
                   </div>
+                  {productDiscountAmount > 0 && (
+                    <div className="flex justify-between text-xs text-sky-600">
+                      <span className="font-bold flex items-center gap-1">Diskon Promo Kelas:</span>
+                      <span className="font-black">-Rp {productDiscountAmount.toLocaleString("id-ID")}</span>
+                    </div>
+                  )}
                   {discountPct > 0 && (
                     <div className="flex justify-between text-xs text-emerald-600">
-                      <span className="font-bold flex items-center gap-1">? Diskon Referral ({discountPct}%):</span>
-                      <span className="font-black">-Rp {discountAmount.toLocaleString("id-ID")}</span>
+                      <span className="font-bold flex items-center gap-1">Diskon Referral ({discountPct}%):</span>
+                      <span className="font-black">-Rp {refDiscountAmount.toLocaleString("id-ID")}</span>
                     </div>
                   )}
                   <div className="h-px bg-sky-100 my-1" />
@@ -853,14 +905,18 @@ function parseProductsFromDb(dbProducts: any[]) {
         packageName = p.name.split(" - ").slice(1).join(" - ").trim();
       }
 
+      const originalPrice = p.discount ? parseFloat(p.discount) : p.price;
+      const finalPrice = p.price;
+
       return {
         id: `${p.id}-${index}`,
         sku: p.sku,
         name: packageName,
-        price: `Rp ${p.price.toLocaleString("id-ID")}`,
-        rawPrice: p.price,
-        discount: "",
-        afterDiscount: undefined,
+        price: `Rp ${finalPrice.toLocaleString("id-ID")}`,
+        rawPrice: originalPrice,
+        discountedPrice: finalPrice,
+        discount: p.discount || "",
+        afterDiscount: p.discount ? `Rp ${finalPrice.toLocaleString("id-ID")}` : undefined,
         suitableFor: p.duration ? `Durasi: ${p.duration}` : undefined,
         services: p.features || [],
         goal: p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined,
@@ -871,6 +927,14 @@ function parseProductsFromDb(dbProducts: any[]) {
       ? `${staticDetails.subtitle}`
       : `Program unggulan ${programName} untuk mempersiapkan keahlian profesional Anda.`;
 
+    const startingPrice = parsedPackages.length > 0 
+      ? Math.min(...parsedPackages.map((p: any) => p.rawPrice))
+      : 0;
+
+    const startingDiscountedPrice = parsedPackages.length > 0 
+      ? Math.min(...parsedPackages.map((p: any) => p.discountedPrice))
+      : 0;
+
     grouped[programName] = {
       name: programName,
       fee: "Sesuai Ketentuan",
@@ -878,6 +942,8 @@ function parseProductsFromDb(dbProducts: any[]) {
       icon: IconComp,
       desc,
       image: dbProds[0].image || null,
+      startingPrice,
+      startingDiscountedPrice,
       url: `/daftar-pelatihan?pkg=${programName.toLowerCase().replace(/\s+/g, "-")}`,
       packages: parsedPackages,
     };
@@ -1313,9 +1379,20 @@ function DaftarPelatihanContent() {
                       <div className="px-6 pb-6 pt-4 border-t border-near-black/5 flex items-center justify-between gap-4 mt-auto">
                         <div>
                           <span className="block text-[8px] text-near-black/40 font-black uppercase tracking-wider">Mulai Dari</span>
-                          <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
-                            {formatPrice(prod.name === "Standara Consulting" ? 5000000 : 699000)}
-                          </span>
+                          {prod.startingDiscountedPrice < prod.startingPrice ? (
+                            <>
+                              <span className="block text-[10px] text-near-black/40 font-bold line-through mt-0.5">
+                                {formatPrice(prod.startingPrice)}
+                              </span>
+                              <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans">
+                                {formatPrice(prod.startingDiscountedPrice)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
+                              {formatPrice(prod.startingPrice || 699000)}
+                            </span>
+                          )}
                         </div>
                         <button
                           onClick={() => setActiveProduct(prod)}
