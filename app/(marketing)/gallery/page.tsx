@@ -50,7 +50,7 @@ export default function GalleryPage() {
 
   // Filtered List
   const filteredActivities = useMemo(() => {
-    const list = [...dbActivities, ...activities];
+    const list = dbActivities.length > 0 ? dbActivities : activities;
     return activeFilter === "all"
       ? list
       : list.filter((act) => act.category === activeFilter);
@@ -59,7 +59,7 @@ export default function GalleryPage() {
   // Related Activities (exclude selected, same category)
   const relatedActivities = useMemo(() => {
     if (!selectedActivity) return [];
-    const list = [...dbActivities, ...activities];
+    const list = dbActivities.length > 0 ? dbActivities : activities;
     return list.filter(
       (act) => act.category === selectedActivity.category && act.id !== selectedActivity.id
     );
