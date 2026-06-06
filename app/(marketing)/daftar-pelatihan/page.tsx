@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1120,13 +1120,13 @@ function DaftarPelatihanContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[90] bg-[#004aad] overflow-y-auto"
+            className="fixed inset-0 z-[90] bg-[#f8faff] overflow-y-auto"
           >
             {/* Back Bar */}
-            <div className="sticky top-0 z-10 bg-[#004aad]/95 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4 flex items-center justify-between">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-md border-b border-sky-100 px-4 md:px-8 py-4 flex items-center justify-between shadow-sm">
               <button
                 onClick={() => setActiveProduct(null)}
-                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors font-black text-[11px] uppercase tracking-widest cursor-pointer"
+                className="flex items-center gap-2 text-sky-600 hover:text-[#004aad] transition-colors font-black text-[11px] uppercase tracking-widest cursor-pointer"
               >
                 <ArrowLeft size={16} />
                 Kembali ke Daftar Program
@@ -1137,12 +1137,12 @@ function DaftarPelatihanContent() {
             <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 pb-24">
               {/* Program Header */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-[#004aad]/25 border border-[#004aad]/40 flex items-center justify-center text-[#004aad] flex-shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#004aad] flex-shrink-0">
                   <activeProduct.icon size={26} />
                 </div>
                 <div>
-                  <h1 className="text-xl md:text-2xl font-black text-white uppercase tracking-wide leading-tight">{activeProduct.name}</h1>
-                  <p className="text-[11px] text-white/40 font-bold mt-1 uppercase tracking-wider">{details.subtitle}</p>
+                  <h1 className="text-xl md:text-2xl font-black text-[#004aad] uppercase tracking-wide leading-tight">{activeProduct.name}</h1>
+                  <p className="text-[11px] text-sky-500 font-bold mt-1 uppercase tracking-wider">{details.subtitle}</p>
                 </div>
               </div>
 
@@ -1171,7 +1171,7 @@ function DaftarPelatihanContent() {
               {details ? (
                 <div className="space-y-8 mt-6">
                   {/* Intro */}
-                  <p className="text-white/70 text-xs sm:text-sm leading-relaxed whitespace-pre-line border-t border-white/5 pt-6">{details.intro}</p>
+                  <p className="text-sky-900 text-xs sm:text-sm leading-relaxed whitespace-pre-line border-t border-sky-100 pt-6">{details.intro}</p>
 
                   {/* Dynamic Packages */}
                   {activeProduct.packages && activeProduct.packages.length > 0 && (
@@ -1179,17 +1179,17 @@ function DaftarPelatihanContent() {
                       <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Pilihan Paket & Investasi</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {activeProduct.packages.map((pkg: any, idx: number) => (
-                          <div key={idx} className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#004aad]/40 transition-colors flex flex-col justify-between">
+                          <div key={idx} className="p-5 rounded-2xl bg-white border border-sky-100 hover:border-sky-300 shadow-sm transition-all flex flex-col justify-between">
                             <div>
-                              <h4 className="text-xs font-black text-white uppercase tracking-wide">{pkg.name}</h4>
+                              <h4 className="text-xs font-black text-[#004aad] uppercase tracking-wide">{pkg.name.replace(/^[?\s\p{Emoji}]+/gu, '')}</h4>
                               {pkg.suitableFor && (
-                                <p className="text-[9px] text-white/50 mt-1 font-medium leading-relaxed">{pkg.suitableFor}</p>
+                                <p className="text-[9px] text-sky-600 mt-1 font-medium leading-relaxed">{pkg.suitableFor.replace(/^[?\s\p{Emoji}]+/gu, '')}</p>
                               )}
                               {pkg.services && pkg.services.length > 0 && (
                                 <ul className="mt-4 space-y-1.5">
                                   {pkg.services.map((srv: string, sIdx: number) => (
-                                    <li key={sIdx} className="text-[10px] text-white/75 font-bold flex items-start gap-2">
-                                      <CheckCircle2 size={12} className="text-[#004aad] flex-shrink-0 mt-0.5" />
+                                    <li key={sIdx} className="text-[10px] text-sky-800 font-bold flex items-start gap-2">
+                                      <CheckCircle2 size={12} className="text-sky-500 flex-shrink-0 mt-0.5" />
                                       <span>{srv}</span>
                                     </li>
                                   ))}
@@ -1199,15 +1199,15 @@ function DaftarPelatihanContent() {
                                 <p className="text-[9px] text-[#004aad] uppercase font-black tracking-wider mt-4">{pkg.goal}</p>
                               )}
                             </div>
-                            <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                            <div className="mt-6 pt-4 border-t border-sky-100/50 flex items-center justify-between">
                               <div>
-                                <span className="block text-[8px] text-white/40 font-black uppercase tracking-wider">Investasi</span>
-                                <span className="text-xs font-black text-white font-sans">{pkg.price}</span>
+                                <span className="block text-[8px] text-sky-500 font-black uppercase tracking-wider">Investasi</span>
+                                <span className="text-xs font-black text-[#004aad] font-sans">{pkg.price}</span>
                               </div>
                               {pkg.afterDiscount && (
                                 <div className="text-right">
-                                  <span className="block text-[8px] text-sky-400 font-black uppercase tracking-wider">Promo Khusus</span>
-                                  <span className="text-xs font-black text-sky-400 font-sans">{pkg.afterDiscount}</span>
+                                  <span className="block text-[8px] text-sky-500 font-black uppercase tracking-wider">Promo Khusus</span>
+                                  <span className="text-xs font-black text-[#004aad] font-sans">{pkg.afterDiscount}</span>
                                 </div>
                               )}
                             </div>
@@ -1223,8 +1223,8 @@ function DaftarPelatihanContent() {
                       <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {details.whyInteresting.map((item: string, idx: number) => (
-                          <li key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-white/80 font-bold flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-[#004aad]/25 border border-[#004aad]/40 flex items-center justify-center text-[#004aad] text-[10px] font-black">{idx + 1}</div>
+                          <li key={idx} className="p-4 rounded-xl bg-white border border-sky-100 text-xs text-sky-800 font-bold flex items-center gap-3 shadow-sm">
+                            <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 text-[10px] font-black">{idx + 1}</div>
                             <span>{item}</span>
                           </li>
                         ))}
@@ -1238,7 +1238,10 @@ function DaftarPelatihanContent() {
                       <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Siapa Yang Cocok Mengikuti?</h3>
                       <div className="flex flex-wrap gap-2">
                         {details.targetMarket.map((m: string, idx: number) => (
-                          <span key={idx} className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black text-white/70 uppercase tracking-wider">{m}</span>
+                          <span key={idx} className="px-3 py-1.5 rounded-xl bg-white border border-sky-100 text-[9px] font-black text-sky-700 uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                            <CheckCircle2 size={10} className="text-sky-500" />
+                            {m.replace(/^[?\s\p{Emoji}]+/gu, '')}
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -1246,18 +1249,18 @@ function DaftarPelatihanContent() {
 
                   {/* Disclaimer */}
                   {details.disclaimer && (
-                    <p className="text-[10px] text-white/30 italic font-medium leading-relaxed border-t border-white/5 pt-6">{details.disclaimer}</p>
+                    <p className="text-[10px] text-sky-500/80 italic font-medium leading-relaxed border-t border-sky-100 pt-6">{details.disclaimer}</p>
                   )}
                 </div>
               ) : (
-                <p className="text-white/40 text-sm text-center py-16">Detail silabus dan kurikulum program belum tersedia.</p>
+                <p className="text-sky-400 text-sm text-center py-16">Detail silabus dan kurikulum program belum tersedia.</p>
               )}
 
               {/* Bottom CTA to Enroll */}
               <div className="mt-12">
                 <button
                   onClick={() => setShowEnrollModal(true)}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#003984] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#004aad]/20 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#1a6fd4] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-lg shadow-sky-500/20 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                 >
                   Daftar Kelas Pelatihan Sekarang
                   <GraduationCap size={14} />
