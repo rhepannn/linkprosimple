@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -352,7 +352,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
   };
 
   return (
-    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-near-black/5 relative group/carousel shadow-sm">
+    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-[#004aad]/5 relative group/carousel shadow-sm">
       <div className="w-full h-full relative overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
@@ -563,8 +563,8 @@ function EnrollModal({
     }
   };
 
-  const inputCls = "w-full px-4 py-3 bg-white border border-near-black/10 rounded-xl text-xs font-bold text-near-black focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all placeholder:text-near-black/30";
-  const labelCls = "block text-[10px] font-black uppercase tracking-wider text-near-black/60 mb-1.5";
+  const inputCls = "w-full px-4 py-3 bg-white border border-[#004aad]/10 rounded-xl text-xs font-bold text-[#004aad] focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all placeholder:text-sky-400";
+  const labelCls = "block text-[10px] font-black uppercase tracking-wider text-sky-600 mb-1.5";
 
   return (
     <motion.div
@@ -574,27 +574,27 @@ function EnrollModal({
       className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-near-black/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-[#004aad]/80 backdrop-blur-sm" />
       <motion.div
         initial={{ y: 60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 60, opacity: 0 }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl border border-near-black/10 overflow-hidden shadow-2xl text-near-black flex flex-col"
+        className="relative w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl border border-[#004aad]/10 overflow-hidden shadow-2xl text-[#004aad] flex flex-col"
         style={{ maxHeight: "92vh" }}
       >
         {/* Header */}
-        <div className="flex-shrink-0 flex justify-between items-center px-6 pt-6 pb-4 border-b border-near-black/5">
+        <div className="flex-shrink-0 flex justify-between items-center px-6 pt-6 pb-4 border-b border-[#004aad]/5">
           <div>
-            <h3 className="text-sm font-black uppercase tracking-wider text-near-black">
+            <h3 className="text-sm font-black uppercase tracking-wider text-[#004aad]">
               Formulir Pendaftaran Kelas
             </h3>
-            <p className="text-[10px] text-near-black/40 font-bold mt-0.5">
+            <p className="text-[10px] text-sky-500 font-bold mt-0.5">
               Silakan lengkapi data diri Anda untuk bergabung program {product.name}
             </p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-full bg-near-black/5 flex items-center justify-center text-near-black/40 hover:text-near-black transition-all">
+          <button onClick={onClose} className="w-8 h-8 rounded-full bg-[#004aad]/5 flex items-center justify-center text-sky-500 hover:text-[#004aad] transition-all">
             <X size={16} />
           </button>
         </div>
@@ -607,8 +607,8 @@ function EnrollModal({
                 <CheckCircle2 size={36} className="text-emerald-500" />
               </div>
               <div>
-                <h4 className="text-lg font-black text-near-black mb-2">Pendaftaran Berhasil! ??</h4>
-                <p className="text-xs text-near-black/60 font-bold leading-relaxed max-w-xs">
+                <h4 className="text-lg font-black text-[#004aad] mb-2">Pendaftaran Berhasil! ??</h4>
+                <p className="text-xs text-sky-600 font-bold leading-relaxed max-w-xs">
                   Data pendaftaran Anda telah kami simpan. Selesaikan proses pendaftaran dengan mentransfer total pembayaran ke rekening resmi kami di bawah ini:
                 </p>
               </div>
@@ -631,19 +631,19 @@ function EnrollModal({
               {/* Payment Methods (Bank Transfer & QRIS) */}
               <div className="w-full space-y-3">
                 {/* Bank Transfer */}
-                <div className="p-4 bg-white border border-near-black/5 rounded-2xl flex justify-between items-center w-full text-left">
+                <div className="p-4 bg-white border border-[#004aad]/5 rounded-2xl flex justify-between items-center w-full text-left">
                   <div>
-                    <p className="text-[9px] text-near-black/40 uppercase font-black">BCA TRANSFER</p>
-                    <p className="text-sm font-black text-near-black tracking-wider font-mono mt-0.5">
+                    <p className="text-[9px] text-sky-500 uppercase font-black">BCA TRANSFER</p>
+                    <p className="text-sm font-black text-[#004aad] tracking-wider font-mono mt-0.5">
                       {siteSettings.payment_bank_account || "8882047811"}
                     </p>
-                    <p className="text-[10px] text-near-black/60 font-bold mt-0.5">
+                    <p className="text-[10px] text-sky-600 font-bold mt-0.5">
                       a.n. {siteSettings.payment_bank_owner || "PT Link Productive Indonesia"}
                     </p>
                   </div>
                   <button
                     onClick={() => handleCopy(siteSettings.payment_bank_account || "8882047811")}
-                    className="p-2.5 bg-near-black/5 hover:bg-near-black/10 text-near-black rounded-lg border border-near-black/10 transition-colors"
+                    className="p-2.5 bg-[#004aad]/5 hover:bg-[#004aad]/10 text-[#004aad] rounded-lg border border-[#004aad]/10 transition-colors"
                   >
                     {copiedBank ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                   </button>
@@ -651,16 +651,16 @@ function EnrollModal({
 
                 {/* QRIS Code */}
                 {siteSettings.payment_qris_image && (
-                  <div className="p-4 bg-white border border-near-black/5 rounded-2xl flex flex-col items-center justify-center gap-3 w-full">
-                    <p className="text-[9px] text-near-black/40 uppercase font-black text-center w-full">ATAU SCAN QRIS RESMI</p>
-                    <div className="w-44 h-44 border border-near-black/5 rounded-xl overflow-hidden bg-white p-2">
+                  <div className="p-4 bg-white border border-[#004aad]/5 rounded-2xl flex flex-col items-center justify-center gap-3 w-full">
+                    <p className="text-[9px] text-sky-500 uppercase font-black text-center w-full">ATAU SCAN QRIS RESMI</p>
+                    <div className="w-44 h-44 border border-[#004aad]/5 rounded-xl overflow-hidden bg-white p-2">
                       <img
                         src={siteSettings.payment_qris_image}
                         alt="QRIS Pembayaran"
                         className="w-full h-full object-contain"
                       />
                     </div>
-                    <p className="text-[8px] text-near-black/40 font-bold uppercase tracking-widest text-center leading-normal">
+                    <p className="text-[8px] text-sky-500 font-bold uppercase tracking-widest text-center leading-normal">
                       Pindai QR di atas menggunakan aplikasi e-wallet atau mobile banking Anda
                     </p>
                   </div>
@@ -681,7 +681,7 @@ function EnrollModal({
                 </a>
                 <button
                   onClick={onClose}
-                  className="w-full py-3 border border-near-black/10 text-near-black/50 rounded-xl text-xs font-black uppercase tracking-wider hover:border-near-black/20 transition-all"
+                  className="w-full py-3 border border-[#004aad]/10 text-sky-500 rounded-xl text-xs font-black uppercase tracking-wider hover:border-[#004aad]/20 transition-all"
                 >
                   Tutup Portal
                 </button>
@@ -780,7 +780,7 @@ function EnrollModal({
                           setReferralInfo(null);
                         }
                       }}
-                      className="px-4 py-2 bg-near-black text-white text-xs font-bold rounded-xl whitespace-nowrap"
+                      className="px-4 py-2 bg-[#004aad] text-white text-xs font-bold rounded-xl whitespace-nowrap"
                     >
                       Cek
                     </button>
@@ -800,8 +800,8 @@ function EnrollModal({
                 <div className="p-4 bg-sky-50/50 border border-sky-100 rounded-2xl space-y-2 text-left">
                   <p className="text-[9px] font-black uppercase tracking-wider text-sky-600">Rincian Pembayaran &amp; Biaya</p>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-500 font-medium">Harga Normal Kelas:</span>
-                    <span className={productDiscountAmount > 0 || discountPct > 0 ? "font-bold text-slate-400 line-through" : "font-bold text-slate-800"}>Rp {originalPrice.toLocaleString("id-ID")}</span>
+                    <span className="text-sky-600 font-medium">Harga Normal Kelas:</span>
+                    <span className={productDiscountAmount > 0 || discountPct > 0 ? "font-bold text-sky-500 line-through" : "font-bold text-[#1a6fd4]"}>Rp {originalPrice.toLocaleString("id-ID")}</span>
                   </div>
                   {productDiscountAmount > 0 && (
                     <div className="flex justify-between text-xs text-sky-600">
@@ -822,7 +822,7 @@ function EnrollModal({
                   )}
                   <div className="h-px bg-sky-100 my-1" />
                   <div className="flex justify-between text-xs font-black">
-                    <span className="text-slate-800">Total Biaya Akhir:</span>
+                    <span className="text-[#1a6fd4]">Total Biaya Akhir:</span>
                     <span className="text-[#004aad] text-sm">Rp {finalPrice.toLocaleString("id-ID")}</span>
                   </div>
                   {discountPct > 0 ? (
@@ -830,7 +830,7 @@ function EnrollModal({
                       ✅ Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
                     </p>
                   ) : (
-                    <p className="text-[8px] text-slate-400 font-medium leading-normal mt-1">
+                    <p className="text-[8px] text-sky-500 font-medium leading-normal mt-1">
                       💡 Masukkan kode referral di atas untuk mendapatkan diskon.
                     </p>
                   )}
@@ -849,11 +849,11 @@ function EnrollModal({
 
         {/* Footer Submit */}
         {step === "form" && (
-          <div className="flex-shrink-0 px-6 pb-6 pt-4 border-t border-near-black/5">
+          <div className="flex-shrink-0 px-6 pb-6 pt-4 border-t border-[#004aad]/5">
             <button
               onClick={handleSubmit}
               disabled={loading || !form.name || !form.phone}
-              className="w-full py-3.5 bg-near-black hover:bg-near-black/90 disabled:opacity-50 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-near-black/10 cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-[#004aad] hover:bg-[#004aad]/90 disabled:opacity-50 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-sky-900/10 cursor-pointer flex items-center justify-center gap-2"
             >
               {loading ? (
                 <Spinner size={16} className="text-white" />
@@ -864,7 +864,7 @@ function EnrollModal({
                 </>
               )}
             </button>
-            <p className="text-[9px] text-near-black/30 font-bold text-center mt-2.5 uppercase tracking-wider">
+            <p className="text-[9px] text-sky-400 font-bold text-center mt-2.5 uppercase tracking-wider">
               Pembayaran Aman via Rekening Resmi PT Link Productive Indonesia
             </p>
           </div>
@@ -1079,7 +1079,7 @@ function DaftarPelatihanContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-near-black flex flex-col items-center justify-center space-y-4 text-white">
+      <div className="min-h-screen bg-[#004aad] flex flex-col items-center justify-center space-y-4 text-white">
         <Spinner size={32} className="text-[#004aad]" />
         <p className="text-xs text-white/40 font-bold uppercase tracking-wider font-mono">Memuat Halaman Pelatihan...</p>
       </div>
@@ -1120,10 +1120,10 @@ function DaftarPelatihanContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[90] bg-near-black overflow-y-auto"
+            className="fixed inset-0 z-[90] bg-[#004aad] overflow-y-auto"
           >
             {/* Back Bar */}
-            <div className="sticky top-0 z-10 bg-near-black/95 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4 flex items-center justify-between">
+            <div className="sticky top-0 z-10 bg-[#004aad]/95 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4 flex items-center justify-between">
               <button
                 onClick={() => setActiveProduct(null)}
                 className="flex items-center gap-2 text-white/60 hover:text-white transition-colors font-black text-[11px] uppercase tracking-widest cursor-pointer"
@@ -1297,9 +1297,9 @@ function DaftarPelatihanContent() {
         )}
       </AnimatePresence>
 
-      <main className="min-h-screen bg-slate-50 overflow-x-hidden w-full">
+      <main className="min-h-screen bg-[#f0f7ff] overflow-x-hidden w-full">
         {/* -- Premium Asymmetrical White-Dominant Hero Banner for Training -- */}
-        <section className="relative pt-36 pb-20 lg:pt-44 lg:pb-28 overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-white text-slate-800 w-full border-b border-slate-100">
+        <section className="relative pt-36 pb-20 lg:pt-44 lg:pb-28 overflow-hidden bg-gradient-to-br from-white via-sky-50/50 to-white text-[#1a6fd4] w-full border-b border-slate-100">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.12),transparent_55%)] z-0 pointer-events-none" />
 
           {/* Animated subtle background orbs */}
@@ -1313,7 +1313,7 @@ function DaftarPelatihanContent() {
                 Portal Pembelajaran & Karir
               </div>
               <h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#004aad] leading-tight tracking-tight"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Katalog Kelas & <br />
@@ -1347,8 +1347,8 @@ function DaftarPelatihanContent() {
                   <div className="w-10 h-10 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-500 mb-4">
                     <f.icon size={18} />
                   </div>
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{f.title}</h3>
-                  <p className="text-[10px] text-slate-400 font-semibold leading-normal">{f.desc}</p>
+                  <h3 className="font-bold text-[#1a6fd4] text-sm mb-1">{f.title}</h3>
+                  <p className="text-[10px] text-sky-500 font-semibold leading-normal">{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -1359,32 +1359,32 @@ function DaftarPelatihanContent() {
         <section id="program-list" className="py-24 bg-white">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-black text-near-black uppercase tracking-wider mb-3" style={{ fontFamily: "var(--font-heading)" }}>
+              <h2 className="text-3xl sm:text-4xl font-black text-[#004aad] uppercase tracking-wider mb-3" style={{ fontFamily: "var(--font-heading)" }}>
                 Pilihan Kelas & <span className="text-[#004aad]">Pelatihan</span>
               </h2>
-              <p className="text-near-black/50 font-bold max-w-xl mx-auto text-sm">
+              <p className="text-sky-500 font-bold max-w-xl mx-auto text-sm">
                 Klik <span className="text-[#004aad] font-black">Lihat Detail Program</span> pada katalog di bawah ini untuk melihat rincian silabus kelas, skema investasi, dan formulir pendaftaran.
               </p>
             </div>
 
             {/* Search Filter */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 bg-[#f0f7ff]/50 p-4 rounded-3xl border border-near-black/5">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 bg-[#f0f7ff]/50 p-4 rounded-3xl border border-[#004aad]/5">
               <div className="text-xs font-black uppercase tracking-widest text-[#1e293b]/50 pl-2">
                 Daftar Program ({filteredProducts.length})
               </div>
               <div className="relative w-full md:w-80">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-near-black/30" size={16} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-400" size={16} />
                 <input
                   type="text"
                   placeholder="Cari kelas pelatihan..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-10 py-3 bg-white border border-near-black/10 rounded-2xl text-xs font-bold text-near-black focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all shadow-sm"
+                  className="w-full pl-11 pr-10 py-3 bg-white border border-[#004aad]/10 rounded-2xl text-xs font-bold text-[#004aad] focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all shadow-sm"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-near-black/30 hover:text-near-black"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-sky-400 hover:text-[#004aad]"
                   >
                     <X size={14} />
                   </button>
@@ -1395,7 +1395,7 @@ function DaftarPelatihanContent() {
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.length === 0 ? (
-                <div className="col-span-full py-16 text-center text-near-black/40 font-bold uppercase tracking-widest text-xs">
+                <div className="col-span-full py-16 text-center text-sky-500 font-bold uppercase tracking-widest text-xs">
                   Tidak ada kelas pelatihan ditemukan
                 </div>
               ) : (
@@ -1421,7 +1421,7 @@ function DaftarPelatihanContent() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.05 }}
-                      className="group overflow-hidden rounded-[2rem] border border-near-black/5 bg-slate-50/50 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+                      className="group overflow-hidden rounded-[2rem] border border-[#004aad]/5 bg-slate-50/50 hover:bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
                     >
                       {/* Poster Image Carousel - di atas card */}
                       <ProgramPosterCarousel urls={posterUrls} productName={prod.name} />
@@ -1435,16 +1435,16 @@ function DaftarPelatihanContent() {
                             Pendaftaran Aktif
                           </span>
                         </div>
-                        <h3 className="text-sm font-black text-near-black uppercase mb-2 tracking-wide line-clamp-1 group-hover:text-[#004aad] transition-colors">{prod.name}</h3>
-                        <p className="text-[11px] text-near-black/60 font-medium leading-relaxed mb-6 line-clamp-3">{prod.desc}</p>
+                        <h3 className="text-sm font-black text-[#004aad] uppercase mb-2 tracking-wide line-clamp-1 group-hover:text-[#004aad] transition-colors">{prod.name}</h3>
+                        <p className="text-[11px] text-sky-600 font-medium leading-relaxed mb-6 line-clamp-3">{prod.desc}</p>
                       </div>
 
-                      <div className="px-6 pb-6 pt-4 border-t border-near-black/5 flex items-center justify-between gap-4 mt-auto">
+                      <div className="px-6 pb-6 pt-4 border-t border-[#004aad]/5 flex items-center justify-between gap-4 mt-auto">
                         <div>
-                          <span className="block text-[8px] text-near-black/40 font-black uppercase tracking-wider">Mulai Dari</span>
+                          <span className="block text-[8px] text-sky-500 font-black uppercase tracking-wider">Mulai Dari</span>
                           {prod.startingDiscountedPrice < prod.startingPrice ? (
                             <>
-                              <span className="block text-[10px] text-near-black/40 font-bold line-through mt-0.5">
+                              <span className="block text-[10px] text-sky-500 font-bold line-through mt-0.5">
                                 {formatPrice(prod.startingPrice)}
                               </span>
                               <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans">
@@ -1480,7 +1480,7 @@ function DaftarPelatihanContent() {
 export default function DaftarPelatihanPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-near-black flex flex-col items-center justify-center space-y-4 text-white">
+      <div className="min-h-screen bg-[#004aad] flex flex-col items-center justify-center space-y-4 text-white">
         <Spinner size={32} className="text-[#004aad]" />
         <p className="text-xs text-white/40 font-bold uppercase tracking-wider font-mono">Memuat Halaman...</p>
       </div>

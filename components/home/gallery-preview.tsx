@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -51,7 +51,7 @@ export function GalleryPreview({ initialPhotos }: GalleryPreviewProps) {
   return (
     <section
       id="programs"
-      className="relative bg-slate-50 py-24 lg:py-32 overflow-hidden w-full max-w-full"
+      className="relative bg-[#f0f7ff] py-24 lg:py-32 overflow-hidden w-full max-w-full"
       aria-labelledby="programs-heading"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
@@ -68,11 +68,11 @@ export function GalleryPreview({ initialPhotos }: GalleryPreviewProps) {
           </p>
           <h2
             id="programs-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-4 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#004aad] leading-tight mb-4 tracking-tight"
           >
             Pilih Jalur Kesuksesan Anda
           </h2>
-          <p className="text-slate-600 text-base max-w-lg mx-auto leading-relaxed">
+          <p className="text-sky-700 text-base max-w-lg mx-auto leading-relaxed">
             Dari pelatihan intensif hingga inkubasi bisnis, kami menyediakan ekosistem lengkap untuk pertumbuhan karir Anda.
           </p>
         </motion.div>
@@ -88,13 +88,13 @@ export function GalleryPreview({ initialPhotos }: GalleryPreviewProps) {
               transition={{ duration: 0.5, delay: feature.delay }}
               className="group bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-blue-100 transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-blue-50 group-hover:scale-110 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#f0f7ff] flex items-center justify-center mb-6 group-hover:bg-blue-50 group-hover:scale-110 transition-all duration-300">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-xl font-bold text-[#004aad] mb-3">
                 {feature.title}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+              <p className="text-sky-700 text-sm leading-relaxed mb-6">
                 {feature.description}
               </p>
               <Link
@@ -118,7 +118,7 @@ export function GalleryPreview({ initialPhotos }: GalleryPreviewProps) {
         >
           <Link
             href="/packages"
-            className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-slate-800 transition-colors shadow-md"
+            className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-[#004aad] text-white font-semibold text-sm hover:bg-[#1a6fd4] transition-colors shadow-md"
           >
             Lihat Semua Program
             <ArrowRight size={16} className="ml-2" />

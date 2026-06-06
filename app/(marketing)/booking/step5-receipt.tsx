@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import {
@@ -277,7 +277,7 @@ export default function Step5Receipt({
             ) : dbStatus === "cancelled" ? (
               <>
                 <span className="w-2 h-2 rounded-full bg-slate-400" />
-                <span className="text-xs font-semibold text-slate-600">
+                <span className="text-xs font-semibold text-sky-700">
                   Dibatalkan
                 </span>
               </>

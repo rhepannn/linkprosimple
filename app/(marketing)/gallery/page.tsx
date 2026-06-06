@@ -68,9 +68,9 @@ export default function GalleryPage() {
   return (
     <main className="min-h-screen bg-[#f8faff] pb-24 font-[family-name:var(--font-inter)]">
       {/* ── Premium Asymmetrical Hero Banner for Gallery ── */}
-      <div className="relative bg-slate-950 pt-36 pb-20 md:pt-40 md:pb-24 overflow-hidden mb-12">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.15),transparent_50%)] z-0" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-0" />
+      <div className="relative bg-gradient-to-br from-[#004aad] via-[#1a6fd4] to-sky-400 pt-36 pb-20 md:pt-40 md:pb-24 overflow-hidden mb-12">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15),transparent_50%)] z-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#004aad]/30 via-transparent to-transparent z-0" />
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="max-w-3xl space-y-5 text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/20 text-sky-400 text-[10px] font-bold uppercase tracking-[0.15em]">
@@ -84,7 +84,7 @@ export default function GalleryPage() {
               Kegiatan & <br className="hidden sm:inline" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">Inovasi Sosial</span>
             </h1>
-            <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-xl font-medium">
+            <p className="text-sky-100 text-sm md:text-base leading-relaxed max-w-xl font-medium">
               Jelajahi kumpulan dokumentasi, inisiasi inovasi sosial, sinergi pentahelix, serta liputan berita terhangat langsung dari ekosistem Link Productive.
             </p>
           </div>
@@ -115,8 +115,8 @@ export default function GalleryPage() {
                     onClick={() => setActiveFilter(tab.value as any)}
                     className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                       activeFilter === tab.value
-                        ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10 scale-[1.02]"
-                        : "bg-white border border-slate-200/80 text-slate-500 hover:border-slate-300 hover:text-slate-700"
+                        ? "bg-[#004aad] text-white shadow-lg shadow-sky-900/10 scale-[1.02]"
+                        : "bg-white border border-slate-200/80 text-sky-600 hover:border-slate-300 hover:text-sky-700"
                     }`}
                   >
                     {tab.label}
@@ -133,7 +133,7 @@ export default function GalleryPage() {
                     className="group bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col h-full"
                   >
                     {/* Visual documentation image using actual file */}
-                    <div className="relative aspect-[16/10] bg-slate-900 overflow-hidden">
+                    <div className="relative aspect-[16/10] bg-[#004aad] overflow-hidden">
                       <Image
                         src={act.imageUrl}
                         alt={act.title}
@@ -141,7 +141,7 @@ export default function GalleryPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#004aad]/40 via-transparent to-transparent" />
                     </div>
 
                     {/* News Content Preview */}
@@ -151,17 +151,17 @@ export default function GalleryPage() {
                           {act.categoryLabel}
                         </span>
                         <h3 
-                          className="text-xl font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-2 leading-tight"
+                          className="text-xl font-bold text-[#004aad] group-hover:text-sky-600 transition-colors line-clamp-2 leading-tight"
                           style={{ fontFamily: "var(--font-outfit)" }}
                         >
                           {act.title}
                         </h3>
-                        <p className="text-xs text-slate-500 font-medium leading-relaxed line-clamp-3">
+                        <p className="text-xs text-sky-600 font-medium leading-relaxed line-clamp-3">
                           {act.summary}
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-4 border-t border-slate-100/60">
+                      <div className="flex items-center justify-between text-[11px] text-sky-500 font-semibold pt-4 border-t border-slate-100/60">
                         <span className="flex items-center gap-1.5"><Clock size={12} /> {act.date}</span>
                         <span className="inline-flex items-center gap-1 text-sky-600 font-bold group-hover:translate-x-0.5 transition-transform">
                           Baca Detail <ArrowRight size={12} />
@@ -184,7 +184,7 @@ export default function GalleryPage() {
               {/* Back button */}
               <button
                 onClick={() => setSelectedActivity(null)}
-                className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-800 uppercase tracking-wider transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:text-[#1a6fd4] uppercase tracking-wider transition-colors cursor-pointer"
               >
                 <ArrowLeft size={14} /> Kembali ke Kegiatan
               </button>
@@ -198,14 +198,14 @@ export default function GalleryPage() {
                       {selectedActivity.categoryLabel}
                     </span>
                     <h1 
-                      className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight"
+                      className="text-3xl sm:text-4xl font-extrabold text-[#004aad] tracking-tight leading-tight"
                       style={{ fontFamily: "var(--font-outfit)" }}
                     >
                       {selectedActivity.title}
                     </h1>
                     
                     {/* Meta information */}
-                    <div className="flex flex-wrap gap-4 items-center text-xs text-slate-400 font-bold pt-2 border-b border-slate-100 pb-4">
+                    <div className="flex flex-wrap gap-4 items-center text-xs text-sky-500 font-bold pt-2 border-b border-slate-100 pb-4">
                       <span className="flex items-center gap-1.5"><User size={13} /> {selectedActivity.author}</span>
                       <span className="flex items-center gap-1.5"><Clock size={13} /> {selectedActivity.date}</span>
                       <span>&bull;</span>
@@ -214,7 +214,7 @@ export default function GalleryPage() {
                   </div>
 
                   {/* Banner Image using real photo */}
-                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-100 shadow-md">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-[#004aad] border border-sky-200 shadow-md">
                     <Image
                       src={selectedActivity.imageUrl}
                       alt={selectedActivity.title}
@@ -226,7 +226,7 @@ export default function GalleryPage() {
                   </div>
 
                   {/* Full detailed contents */}
-                  <div className="text-slate-700 text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium space-y-4">
+                  <div className="text-sky-700 text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium space-y-4">
                     {selectedActivity.content}
                   </div>
                 </article>
@@ -234,7 +234,7 @@ export default function GalleryPage() {
                 {/* Right Side: Related Activities (Col 4) (1 Kategori yang sama) */}
                 <aside className="lg:col-span-4 space-y-6">
                   <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-5">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-slate-800 border-b border-slate-100 pb-3">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-[#1a6fd4] border-b border-slate-100 pb-3">
                       Kegiatan Terkait
                     </h3>
 
@@ -247,7 +247,7 @@ export default function GalleryPage() {
                             className="group flex gap-4 cursor-pointer"
                           >
                             {/* Tiny real photo thumbnail */}
-                            <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-900 flex-shrink-0 relative border border-slate-100 shadow-sm">
+                            <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#004aad] flex-shrink-0 relative border border-slate-100 shadow-sm">
                               <Image
                                 src={rel.imageUrl}
                                 alt={rel.title}
@@ -258,18 +258,18 @@ export default function GalleryPage() {
                             </div>
                             <div className="space-y-1 flex-1">
                               <h4 
-                                className="text-xs font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-2 leading-snug"
+                                className="text-xs font-bold text-[#004aad] group-hover:text-sky-600 transition-colors line-clamp-2 leading-snug"
                                 style={{ fontFamily: "var(--font-outfit)" }}
                               >
                                 {rel.title}
                               </h4>
-                              <p className="text-[10px] text-slate-400 font-bold">{rel.date}</p>
+                              <p className="text-[10px] text-sky-500 font-bold">{rel.date}</p>
                             </div>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-slate-400 font-bold italic py-4">Belum ada kegiatan terkait di kategori ini.</p>
+                      <p className="text-xs text-sky-500 font-bold italic py-4">Belum ada kegiatan terkait di kategori ini.</p>
                     )}
                   </div>
                 </aside>

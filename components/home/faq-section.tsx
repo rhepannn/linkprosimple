@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { FaqAccordion } from "@/components/packages/faq-accordion";
@@ -25,13 +25,13 @@ export function FaqSection({ initialFaqs }: { initialFaqs?: typeof faqs | null }
             FAQ
           </span>
           <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-5 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] mb-5 tracking-tight"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             Pertanyaan{" "}
             <span className="text-gradient-cyan">Umum</span>
           </h2>
-          <p className="text-slate-500 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="text-sky-600 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
             Jawaban untuk pertanyaan yang paling sering ditanyakan seputar program pelatihan dan ekosistem di Link Productive.
           </p>
         </motion.div>

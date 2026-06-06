@@ -4,30 +4,30 @@
 /* =============================================
    LINK PRODUCTIVE — Global Styles
    Tailwind CSS v4 (theme via @theme)
-   Premium: Light Blue + White Theme
+   Brand: Bright Blue + White Only
    ============================================= */
 
 @theme {
-  /* ── Brand Colors: Light Blue + White ── */
+  /* ── Brand Colors: Bright Blue + White ── */
   --color-warm-white: #ffffff;
   --color-warm-light: #f0f7ff;
-  --color-near-black: #1e293b;
-  --color-dark-gray: #334155;
-  --color-mid-gray: #64748b;
-  --color-muted: #94a3b8;
-  --color-border: #e2e8f0;
-  --color-gold: #0ea5e9;        /* Sky 500 — primary accent */
-  --color-accent: #38bdf8;      /* Sky 400 */
+  --color-near-black: #004aad;      /* Remapped → Brand Blue (kept for compatibility) */
+  --color-dark-gray: #1a6fd4;       /* Remapped → Medium Blue */
+  --color-mid-gray: #4da3f5;        /* Remapped → Light Blue */
+  --color-muted: #93c5fd;           /* Light blue muted */
+  --color-border: #bfdbfe;          /* Sky-200 border */
+  --color-gold: #0ea5e9;            /* Sky 500 — primary accent */
+  --color-accent: #38bdf8;          /* Sky 400 */
 
   /* ── Accent Palette ── */
   --color-electric: #38bdf8;
   --color-glow: #7dd3fc;
-  --color-emerald: #34d399;
-  --color-rose: #fb7185;
+  --color-emerald: #38bdf8;         /* Remapped → Sky */
+  --color-rose: #93c5fd;            /* Remapped → Light Blue */
 
   /* Background/Foreground */
   --color-background: var(--color-warm-white);
-  --color-foreground: var(--color-near-black);
+  --color-foreground: #004aad;      /* Brand blue for all body text */
 
   /* Fonts */
   --font-heading: var(--font-outfit);
@@ -112,7 +112,7 @@ img { max-width: 100%; height: auto; }
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 74, 173, 0.06);
 }
 
 /* =============================================
@@ -172,7 +172,7 @@ img { max-width: 100%; height: auto; }
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #e8ecf4 25%, #d5dbe8 50%, #e8ecf4 75%);
+  background: linear-gradient(90deg, #dbeafe 25%, #bfdbfe 50%, #dbeafe 75%);
   background-size: 800px 100%;
   animation: shimmer 1.6s infinite linear;
   border-radius: 8px;
@@ -199,7 +199,7 @@ img { max-width: 100%; height: auto; }
 
 ::selection {
   background: rgba(56, 189, 248, 0.3);
-  color: var(--color-near-black);
+  color: #004aad;
 }
 
 button, a, [role="button"] {
@@ -228,14 +228,14 @@ html.modal-open, body.modal-open, body.modal-open main > div {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(14, 165, 233, 0.25); }
 
 /* =============================================
-   Studio Input
+   Input Styles
    ============================================= */
 
 .input-studio {
-  background-color: #fafbfc;
-  border: 1px solid rgba(14, 165, 233, 0.08);
+  background-color: #f0f7ff;
+  border: 1px solid rgba(14, 165, 233, 0.15);
   border-radius: 12px;
-  color: #1e293b;
+  color: #004aad;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -246,12 +246,12 @@ html.modal-open, body.modal-open, body.modal-open main > div {
 }
 
 /* =============================================
-   Studio Badge Utilities
+   Badge Utilities
    ============================================= */
 
-.badge-active { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; }
-.badge-inactive { background: #f9fafb; color: #9ca3af; border: 1px solid #f3f4f6; }
-.badge-pending { background: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
+.badge-active { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-inactive { background: #f0f7ff; color: #60a5fa; border: 1px solid #dbeafe; }
+.badge-pending { background: #f0f7ff; color: #0ea5e9; border: 1px solid #bae6fd; }
 
 /* =============================================
    Browser Autofill Override
@@ -266,7 +266,7 @@ input.text-white:-webkit-autofill:active,
 .text-white input:-webkit-autofill:focus,
 .text-white input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 100px #f0f7ff inset !important;
-  -webkit-text-fill-color: #1e293b !important;
-  caret-color: #1e293b !important;
+  -webkit-text-fill-color: #004aad !important;
+  caret-color: #004aad !important;
   transition: background-color 5000s ease-in-out 0s;
 }

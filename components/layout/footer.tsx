@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -42,7 +42,7 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
   }
 
   return (
-    <footer className="bg-white text-slate-700" role="contentinfo">
+    <footer className="bg-white text-sky-700" role="contentinfo">
 
       {/* ── CTA Banner ── */}
       <div className="relative overflow-hidden">
@@ -56,8 +56,8 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
                 <MessageSquare size={24} className="text-sky-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-800 tracking-tight">Hi Productivers,</h3>
-                <p className="text-sm text-slate-400 mt-1 font-medium">Masih Bingung Tentang Layanan di Link Productive?</p>
+                <h3 className="text-xl font-bold text-[#1a6fd4] tracking-tight">Hi Productivers,</h3>
+                <p className="text-sm text-sky-500 mt-1 font-medium">Masih Bingung Tentang Layanan di Link Productive?</p>
               </div>
             </div>
             <a
@@ -84,11 +84,11 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
                 LP
               </div>
               <div>
-                <h4 className="text-base font-extrabold text-slate-800 uppercase tracking-wider">Link Productive</h4>
-                <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">#1 Integrated Tech to Increase Your Productivity</p>
+                <h4 className="text-base font-extrabold text-[#1a6fd4] uppercase tracking-wider">Link Productive</h4>
+                <p className="text-[10px] text-sky-500 font-semibold uppercase tracking-wider">#1 Integrated Tech to Increase Your Productivity</p>
               </div>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed font-medium max-w-sm">
+            <p className="text-xs text-sky-500 leading-relaxed font-medium max-w-sm">
               Part of **PT. INTEGRASI PRODUKTIVITAS INDONESIA**. Platform program pelatihan unggulan, inovasi sosial, dan pengembangan karir.
             </p>
 
@@ -119,19 +119,19 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
 
           {/* Col 2: Offices */}
           <div className="md:col-span-4 space-y-5">
-            <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Kantor Kami</h5>
-            <ul className="space-y-4 text-xs text-slate-500 font-medium">
+            <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-500">Kantor Kami</h5>
+            <ul className="space-y-4 text-xs text-sky-600 font-medium">
               <li className="flex gap-2.5 items-start">
                 <MapPin size={16} className="text-sky-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase">Head Office Cilegon, Banten :</p>
+                  <p className="text-[10px] text-sky-500 font-bold uppercase">Head Office Cilegon, Banten :</p>
                   <p className="mt-0.5 leading-relaxed">Office Business BBS III Blok B3, No 9, Cilegon, Banten</p>
                 </div>
               </li>
               <li className="flex gap-2.5 items-start">
                 <MapPin size={16} className="text-sky-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] text-slate-400 font-bold uppercase">Office Jogja :</p>
+                  <p className="text-[10px] text-sky-500 font-bold uppercase">Office Jogja :</p>
                   <p className="mt-0.5 leading-relaxed">Jl. Daradasih No. 28A, Patangpuluhan, Wirobrajan, Yogyakarta</p>
                 </div>
               </li>
@@ -140,24 +140,24 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
 
           {/* Col 3: Download */}
           <div className="md:col-span-3 space-y-5">
-            <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Unduh Aplikasi</h5>
+            <h5 className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-500">Unduh Aplikasi</h5>
             <div className="flex flex-col gap-2.5">
               <div className="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100 rounded-2xl group hover:bg-sky-50 transition-all duration-300 cursor-pointer">
-                <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-slate-400 group-hover:text-sky-500 transition-colors shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-sky-500 group-hover:text-sky-500 transition-colors shadow-sm">
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <p className="text-[9px] text-slate-400 font-bold uppercase">Unduh di</p>
-                  <p className="text-xs font-bold text-slate-700">Google Play Store</p>
+                  <p className="text-[9px] text-sky-500 font-bold uppercase">Unduh di</p>
+                  <p className="text-xs font-bold text-sky-700">Google Play Store</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-sky-50/60 border border-sky-100 rounded-2xl group hover:bg-sky-50 transition-all duration-300 cursor-pointer">
-                <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-slate-400 group-hover:text-sky-500 transition-colors shadow-sm">
+                <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-sky-500 group-hover:text-sky-500 transition-colors shadow-sm">
                   <Sparkles size={16} />
                 </div>
                 <div>
-                  <p className="text-[9px] text-slate-400 font-bold uppercase">Unduh di</p>
-                  <p className="text-xs font-bold text-slate-700">Apple App Store</p>
+                  <p className="text-[9px] text-sky-500 font-bold uppercase">Unduh di</p>
+                  <p className="text-xs font-bold text-sky-700">Apple App Store</p>
                 </div>
               </div>
             </div>
@@ -168,7 +168,7 @@ export function Footer({ settings = {} }: { settings?: Record<string, string> })
 
       {/* ── Copyright ── */}
       <div className="border-t border-sky-100 py-6 text-center bg-sky-50/30">
-        <div className="max-w-7xl mx-auto px-6 text-xs text-slate-400 font-semibold">
+        <div className="max-w-7xl mx-auto px-6 text-xs text-sky-500 font-semibold">
           © {currentYear} LinkProductive · All Right Reserved
         </div>
       </div>

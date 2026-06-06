@@ -67,7 +67,7 @@ export function HeroSection({ heroPhotos = [] }: { heroPhotos?: any[] }) {
       aria-label="Hero Carousel — Link Productive"
     >
       {/* ── Background Slides with Framer Motion Cross-fade ── */}
-      <div className="absolute inset-0 z-0 bg-slate-950">
+      <div className="absolute inset-0 z-0 bg-[#003494]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -86,16 +86,16 @@ export function HeroSection({ heroPhotos = [] }: { heroPhotos?: any[] }) {
                 className="object-cover object-center"
               />
             ) : (
-              /* Premium blue gradient fallback — shown when no DB images uploaded yet */
-              <div className="absolute inset-0 bg-gradient-to-br from-[#001a4d] via-[#003494] to-[#004aad]">
-                <div className="absolute top-[15%] right-[10%] w-[500px] h-[500px] rounded-full bg-sky-400/10 blur-[120px]" />
-                <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-blue-300/10 blur-[100px]" />
-                <div className="absolute top-[40%] left-[30%] w-[600px] h-[300px] rounded-full bg-sky-500/5 blur-[80px]" />
+              /* Premium bright blue gradient fallback — shown when no DB images uploaded yet */
+              <div className="absolute inset-0 bg-gradient-to-br from-[#004aad] via-[#1a6fd4] to-sky-400">
+                <div className="absolute top-[15%] right-[10%] w-[500px] h-[500px] rounded-full bg-white/10 blur-[120px]" />
+                <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-sky-200/20 blur-[100px]" />
+                <div className="absolute top-[40%] left-[30%] w-[600px] h-[300px] rounded-full bg-white/5 blur-[80px]" />
               </div>
             )}
-            {/* Premium double-gradient layout: bottom deep-dark ocean, top dark vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-[1]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-transparent z-[1]" />
+            {/* Subtle overlay to keep text readable over photos */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#004aad]/70 via-sky-900/20 to-transparent z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#004aad]/30 via-transparent to-transparent z-[1]" />
           </motion.div>
         </AnimatePresence>
       </div>

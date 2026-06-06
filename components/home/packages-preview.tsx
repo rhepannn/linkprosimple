@@ -1,4 +1,4 @@
-// components/home/packages-preview.tsx
+﻿// components/home/packages-preview.tsx
 // Ultra-premium program pricing cards with glassmorphism & gradient accents
 
 "use client";
@@ -88,10 +88,10 @@ function PackageCard({ pkg, index, settings }: { pkg: (typeof packages)[0]; inde
               )}
             </div>
 
-            <p className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase mb-2">
+            <p className="text-[10px] font-bold tracking-[0.2em] text-sky-500 uppercase mb-2">
               {pkg.duration} · {pkg.photoCount}
             </p>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#004aad] mb-4 leading-tight tracking-tight">
               {pkg.name}
             </h3>
 
@@ -109,7 +109,7 @@ function PackageCard({ pkg, index, settings }: { pkg: (typeof packages)[0]; inde
           <div className="flex-1 mb-8">
             <div className="space-y-3.5">
               {pkg.features.slice(0, 5).map((feature, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                <div key={i} className="flex items-start gap-3 text-sm text-sky-700 font-medium">
                   <div className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded-lg ${config.checkBg} flex items-center justify-center`}>
                     <Check size={11} className={config.checkColor} strokeWidth={3} />
                   </div>
@@ -132,7 +132,7 @@ function PackageCard({ pkg, index, settings }: { pkg: (typeof packages)[0]; inde
               href={getWhatsAppUrl("package", pkg.name, settings?.contact_wa)}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full rounded-2xl py-3.5 text-sm font-semibold text-center flex items-center justify-center gap-2 bg-slate-50 text-slate-600 border border-slate-100 hover:bg-slate-100 hover:border-slate-200 transition-all duration-300"
+              className="w-full rounded-2xl py-3.5 text-sm font-semibold text-center flex items-center justify-center gap-2 bg-[#f0f7ff] text-sky-700 border border-slate-100 hover:bg-slate-100 hover:border-slate-200 transition-all duration-300"
             >
               <MessageCircle size={14} />
               Konsultasi Program
@@ -188,11 +188,11 @@ export function PackagesPreview({
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
             {packages_eyebrow}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-5 tracking-tight leading-[1.1]">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] mb-5 tracking-tight leading-[1.1]">
             {packages_title}{" "}
             {packages_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{packages_highlight}</span>}
           </h2>
-          <p className="text-slate-500 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+          <p className="text-sky-600 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
             {packages_desc}
           </p>
         </motion.div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // components/home/testimonials-section.tsx
 // Premium testimonials with gradient quote marks and refined cards
@@ -40,7 +40,7 @@ function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
         <Quote size={16} className="text-sky-400" />
       </div>
 
-      <p className="flex-1 text-sm text-slate-600 leading-relaxed mb-6 line-clamp-5 font-medium">
+      <p className="flex-1 text-sm text-sky-700 leading-relaxed mb-6 line-clamp-5 font-medium">
         &ldquo;{t.text}&rdquo;
       </p>
 
@@ -53,11 +53,11 @@ function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
             </span>
           </div>
           <div>
-            <p className="text-sm font-bold text-slate-900 leading-tight">
+            <p className="text-sm font-bold text-[#004aad] leading-tight">
               {t.name}
             </p>
             {t.sessionType && (
-              <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">
+              <p className="text-[10px] text-sky-500 font-medium uppercase tracking-wider mt-0.5">
                 {t.sessionType}
                 {t.date ? ` · ${t.date}` : ""}
               </p>
@@ -108,12 +108,12 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
           </span>
           <h2
             id="testimonials-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight mb-4"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] tracking-tight mb-4"
           >
             {testimonial_title}{" "}
             {testimonial_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{testimonial_highlight}</span>}
           </h2>
-          <p className="text-slate-500 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+          <p className="text-sky-600 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
             {testimonial_desc}
           </p>
         </motion.div>
@@ -166,7 +166,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               onClick={prev}
-              className="w-11 h-11 rounded-2xl bg-white border border-sky-100 shadow-sm flex items-center justify-center text-slate-500 hover:border-sky-200 hover:text-sky-500 transition-all duration-300"
+              className="w-11 h-11 rounded-2xl bg-white border border-sky-100 shadow-sm flex items-center justify-center text-sky-600 hover:border-sky-200 hover:text-sky-500 transition-all duration-300"
               aria-label="Testimoni sebelumnya"
             >
               <ChevronLeft size={18} />
@@ -186,7 +186,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
                 />
               ))}
               {displayed.length > 6 && (
-                <span className="text-[10px] text-slate-400 font-bold px-1">
+                <span className="text-[10px] text-sky-500 font-bold px-1">
                   +{displayed.length - 6}
                 </span>
               )}
@@ -194,7 +194,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
 
             <button
               onClick={next}
-              className="w-11 h-11 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-500 hover:border-blue-200 hover:text-blue-600 transition-all duration-300"
+              className="w-11 h-11 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-sky-600 hover:border-blue-200 hover:text-blue-600 transition-all duration-300"
               aria-label="Testimoni berikutnya"
             >
               <ChevronRight size={18} />

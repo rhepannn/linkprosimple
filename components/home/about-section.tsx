@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { Users, Star, Calendar, Zap } from "lucide-react";
@@ -77,7 +77,7 @@ export function AboutSection({ settings = {} }: { settings?: Record<string, stri
                   <p className="text-sky-600 text-sm font-bold uppercase tracking-[0.2em] mb-2">
                     {about_card_title}
                   </p>
-                  <p className="text-slate-400 text-xs leading-relaxed max-w-[240px]">
+                  <p className="text-sky-500 text-xs leading-relaxed max-w-[240px]">
                     {about_card_desc}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ export function AboutSection({ settings = {} }: { settings?: Record<string, stri
               Tentang Kami
             </span>
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 tracking-tight leading-[1.15]"
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] mb-6 tracking-tight leading-[1.15]"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               {about_title}{" "}
@@ -117,7 +117,7 @@ export function AboutSection({ settings = {} }: { settings?: Record<string, stri
               </span>
             </h2>
 
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
+            <p className="text-sky-700 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
               {about_desc}
             </p>
 

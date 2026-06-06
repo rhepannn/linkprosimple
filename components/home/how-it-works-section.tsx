@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // components/home/how-it-works-section.tsx
 // Light blue + white � 4 steps with gradient numbers
@@ -67,12 +67,12 @@ export function HowItWorksSection({ settings = {} }: { settings?: Record<string,
           </span>
           <h2
             id="how-it-works-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] tracking-tight"
           >
             {how_title}{" "}
             {how_highlight && <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-400">{how_highlight}</span>}
           </h2>
-          <p className="text-slate-500 text-base mt-5 max-w-lg mx-auto leading-relaxed">
+          <p className="text-sky-600 text-base mt-5 max-w-lg mx-auto leading-relaxed">
             {how_desc}
           </p>
         </motion.div>
@@ -119,10 +119,10 @@ export function HowItWorksSection({ settings = {} }: { settings?: Record<string,
                   {step.number}
                 </span>
 
-                <h3 className="text-lg font-bold text-slate-700 mb-3">
+                <h3 className="text-lg font-bold text-sky-700 mb-3">
                   {step.title}
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed max-w-[250px]">
+                <p className="text-sm text-sky-500 leading-relaxed max-w-[250px]">
                   {step.desc}
                 </p>
               </motion.div>
@@ -169,10 +169,10 @@ export function HowItWorksSection({ settings = {} }: { settings?: Record<string,
                   <span className={`text-xl font-extrabold bg-gradient-to-r ${step.gradient} bg-clip-text text-transparent`}>
                     {step.number}
                   </span>
-                  <h3 className="text-lg font-bold text-slate-700 mt-1 mb-2">
+                  <h3 className="text-lg font-bold text-sky-700 mt-1 mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">
+                  <p className="text-sm text-sky-500 leading-relaxed">
                     {step.desc}
                   </p>
                 </div>

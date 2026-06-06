@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // components/layout/navbar.tsx
 // Premium Navbar: Floating glass desktop / Bottom tab mobile
@@ -127,10 +127,10 @@ export function Navbar() {
                       "relative text-xs md:text-sm font-semibold tracking-[0.12em] uppercase transition-all duration-300",
                       "font-[family-name:var(--font-heading)]",
                       link.isHidden
-                        ? "opacity-0 hover:opacity-100 !text-near-black"
+                        ? "opacity-0 hover:opacity-100 !text-[#004aad]"
                         : isActive(link.href)
-                          ? "text-near-black"
-                          : "text-near-black/50 hover:text-near-black",
+                          ? "text-[#004aad]"
+                          : "text-sky-500 hover:text-[#004aad]",
                       "group/link",
                     ].join(" ")}
                   >
@@ -142,7 +142,7 @@ export function Navbar() {
                       />
                     )}
                     {!isActive(link.href) && (
-                      <span className="absolute -bottom-1.5 left-0 h-0.5 bg-near-black/15 w-0 group-hover/link:w-full transition-all duration-300 ease-out rounded-full" />
+                      <span className="absolute -bottom-1.5 left-0 h-0.5 bg-[#004aad]/15 w-0 group-hover/link:w-full transition-all duration-300 ease-out rounded-full" />
                     )}
                   </Link>
                 </li>
@@ -177,7 +177,7 @@ export function Navbar() {
                     "w-9 h-7 sm:w-12 sm:h-8 flex items-center justify-center rounded-2xl transition-all duration-300",
                     active
                       ? "bg-sky-50 text-sky-500"
-                      : "text-slate-400 group-active:scale-90",
+                      : "text-sky-500 group-active:scale-90",
                   ].join(" ")}
                 >
                   <Icon size={18} className="sm:w-[22px] sm:h-[22px]" strokeWidth={active ? 2.5 : 2} />
@@ -185,7 +185,7 @@ export function Navbar() {
                 <span
                   className={[
                     "text-[8px] sm:text-[10px] font-bold uppercase tracking-wide transition-colors duration-300 mt-0.5",
-                    active ? "text-sky-500" : "text-slate-400",
+                    active ? "text-sky-500" : "text-sky-500",
                   ].join(" ")}
                 >
                   {link.label}

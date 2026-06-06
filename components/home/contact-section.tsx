@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 // components/home/contact-section.tsx
 // Premium Contact section with refined styling
@@ -38,26 +38,26 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
 
             <h2
               id="contact-heading"
-              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 mb-6 leading-tight tracking-tight"
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#1a6fd4] mb-6 leading-tight tracking-tight"
             >
               {contact_title}
             </h2>
 
-            <p className="text-slate-500 text-base leading-relaxed mb-10 max-w-sm">
+            <p className="text-sky-600 text-base leading-relaxed mb-10 max-w-sm">
               {contact_desc}
             </p>
 
             {/* Contact items */}
             <ul className="space-y-6 mb-10">
               <li className="flex items-start gap-4 group">
-                <div className="w-11 h-11 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 group-hover:border-blue-200 group-hover:bg-blue-50 transition-all duration-300">
-                  <MapPin size={18} className="text-slate-500 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
+                <div className="w-11 h-11 rounded-2xl bg-[#f0f7ff] border border-slate-100 flex items-center justify-center flex-shrink-0 group-hover:border-blue-200 group-hover:bg-blue-50 transition-all duration-300">
+                  <MapPin size={18} className="text-sky-600 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">
+                  <p className="text-[10px] text-sky-500 uppercase tracking-[0.2em] font-bold mb-1">
                     Alamat
                   </p>
-                  <p className="text-sm text-slate-700 leading-relaxed font-semibold">
+                  <p className="text-sm text-sky-700 leading-relaxed font-semibold">
                     {settings.contact_address || ""}
                   </p>
                 </div>
@@ -65,15 +65,15 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
 
               <li className="flex items-start gap-4 group">
                 <div className="w-11 h-11 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center flex-shrink-0 group-hover:border-sky-200 group-hover:bg-sky-100 transition-all duration-300">
-                  <Mail size={18} className="text-slate-500 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
+                  <Mail size={18} className="text-sky-600 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">
+                  <p className="text-[10px] text-sky-500 uppercase tracking-[0.2em] font-bold mb-1">
                     Email
                   </p>
                   <a
                     href={`mailto:${settings.contact_email || ""}`}
-                    className="text-sm text-slate-700 hover:text-sky-500 transition-colors font-semibold"
+                    className="text-sm text-sky-700 hover:text-sky-500 transition-colors font-semibold"
                   >
                     {settings.contact_email || ""}
                   </a>
@@ -81,14 +81,14 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
               </li>
 
               <li className="flex items-start gap-4 group">
-                <div className="w-11 h-11 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 group-hover:border-blue-200 group-hover:bg-blue-50 transition-all duration-300">
-                  <Clock size={18} className="text-slate-500 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
+                <div className="w-11 h-11 rounded-2xl bg-[#f0f7ff] border border-slate-100 flex items-center justify-center flex-shrink-0 group-hover:border-blue-200 group-hover:bg-blue-50 transition-all duration-300">
+                  <Clock size={18} className="text-sky-600 group-hover:text-blue-500 transition-colors" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-2">
+                  <p className="text-[10px] text-sky-500 uppercase tracking-[0.2em] font-bold mb-2">
                     Jam Operasional
                   </p>
-                  <p className="text-sm text-slate-700 font-semibold whitespace-pre-line leading-relaxed">
+                  <p className="text-sm text-sky-700 font-semibold whitespace-pre-line leading-relaxed">
                     {settings.operational_hours || ""}
                   </p>
                 </div>
@@ -132,12 +132,12 @@ export function ContactSection({ settings = {} }: { settings?: Record<string, st
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.5"
-                  className="text-slate-300"
+                  className="text-sky-400"
                 >
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
                   <circle cx="12" cy="9" r="2.5" />
                 </svg>
-                <p className="text-sm text-slate-400 text-center px-4">
+                <p className="text-sm text-sky-500 text-center px-4">
                   Peta lokasi akan segera tersedia.<br />
                   <a
                     href={`https://maps.google.com/?q=${encodeURIComponent(settings.contact_address || "")}`}

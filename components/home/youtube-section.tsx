@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -84,11 +84,11 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             <span className="text-[10px] font-black tracking-widest text-[#FF0000] uppercase bg-[#FF0000]/5 px-3 py-1.5 rounded-full w-fit flex items-center gap-1.5">
               <Video size={14} className="stroke-[#FF0000]" /> {youtube_eyebrow}
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#004aad] tracking-tight leading-tight">
               {youtube_title}{" "}
               {youtube_highlight && <span className="text-[#FF0000]">{youtube_highlight}</span>}
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
+            <p className="text-sky-700 text-sm sm:text-base leading-relaxed font-medium">
               {youtube_desc}
             </p>
             <div className="pt-2">
@@ -112,7 +112,7 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
             className="lg:col-span-5"
           >
             {finalThumbnail ? (
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer bg-slate-50">
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer bg-[#f0f7ff]">
                 <a href={targetLink} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-[#FF0000] flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform duration-300">
                     <Video size={28} className="ml-1" />
@@ -138,12 +138,12 @@ export function YoutubeSection({ settings = {} }: { settings?: Record<string, st
                 />
               </div>
             ) : (
-              <div className="relative aspect-video rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-6 text-center group hover:border-[#FF0000]/30 transition-colors duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:scale-110 group-hover:bg-[#FF0000]/5 group-hover:text-[#FF0000] transition-all duration-300 mb-4 shadow-sm">
+              <div className="relative aspect-video rounded-2xl border-2 border-dashed border-slate-200 bg-[#f0f7ff] flex flex-col items-center justify-center p-6 text-center group hover:border-[#FF0000]/30 transition-colors duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-sky-500 group-hover:scale-110 group-hover:bg-[#FF0000]/5 group-hover:text-[#FF0000] transition-all duration-300 mb-4 shadow-sm">
                   <Video size={24} />
                 </div>
-                <h3 className="text-sm font-bold text-slate-700 mb-1">Video Belum Tersedia</h3>
-                <p className="text-xs text-slate-500 max-w-[250px]">Atur tautan video YouTube di Pengaturan Admin untuk menampilkannya di sini.</p>
+                <h3 className="text-sm font-bold text-sky-700 mb-1">Video Belum Tersedia</h3>
+                <p className="text-xs text-sky-600 max-w-[250px]">Atur tautan video YouTube di Pengaturan Admin untuk menampilkannya di sini.</p>
               </div>
             )}
           </motion.div>
