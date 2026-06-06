@@ -57,7 +57,7 @@ interface ReferralCode {
 const emptyForm = {
   code: "",
   marketerName: "",
-  discountPercentage: 10,
+  discountPercentage: 25,
   maxDiscountAmount: 0,
   feePercentage: 0,
   bankName: "",

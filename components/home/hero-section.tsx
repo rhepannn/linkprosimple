@@ -5,10 +5,21 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
-export function HeroSection() {
+export function HeroSection({ heroPhotos = [] }: { heroPhotos?: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const slides = [
+  const getCategoryLabel = (cat: string) => {
+    switch (cat) {
+      case "inovasi-sosial": return "Inovasi Sosial";
+      case "pelatihan-kelas": return "Pelatihan & Kelas";
+      case "kemitraan": return "Kemitraan Pentahelix";
+      case "general":
+      default:
+        return "Umum";
+    }
+  };
+
+  const defaultSlides = [
     {
       image: "/photos/hero-001.png",
       category: "Kemitraan UMKM",
@@ -30,6 +41,14 @@ export function HeroSection() {
       title: "Akselerasi Kompetensi Industri Masa Depan Bersama Mitra Strategis",
     },
   ];
+
+  const slides = heroPhotos.length > 0
+    ? heroPhotos.map(p => ({
+        image: p.src,
+        category: getCategoryLabel(p.category),
+        title: p.alt,
+      }))
+    : defaultSlides;
 
   const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length);

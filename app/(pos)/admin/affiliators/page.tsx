@@ -1362,6 +1362,7 @@ export default function AffiliatorsPage() {
                       <th className="px-8 py-5 font-black">Affiliator</th>
                       <th className="px-8 py-5 font-black">Kontak</th>
                       <th className="px-8 py-5 font-black">Kode Referral</th>
+                      <th className="px-8 py-5 font-black text-center">Diskon / Komisi</th>
                       <th className="px-8 py-5 font-black text-center">Referrals</th>
                       <th className="px-8 py-5 font-black text-right">Total Komisi</th>
                       <th className="px-8 py-5 font-black text-center">Status</th>
@@ -1372,7 +1373,7 @@ export default function AffiliatorsPage() {
                     <AnimatePresence mode="popLayout">
                       {filtered.length === 0 ? (
                         <tr>
-                          <td colSpan={7} className="px-8 py-20 text-center">
+                          <td colSpan={8} className="px-8 py-20 text-center">
                             <div className="flex flex-col items-center gap-3">
                               <AlertCircle size={32} className="text-gray-200" />
                               <p className="text-sm font-black text-gray-300 uppercase tracking-widest">
@@ -1436,6 +1437,16 @@ export default function AffiliatorsPage() {
                                     {a.referralCode}
                                   </span>
                                   <CopyButton text={a.referralCode} />
+                                </div>
+                              </td>
+                              <td className="px-8 py-5 text-center">
+                                <div className="flex flex-col items-center gap-1">
+                                  <span className="text-[10px] font-black text-sky-600 bg-sky-50 px-2.5 py-1 rounded-lg">
+                                    🎁 {a.discountPct ?? 10}%
+                                  </span>
+                                  <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                                    💰 {a.feePercentage ?? 10}%
+                                  </span>
                                 </div>
                               </td>
                               <td className="px-8 py-5 text-center">

@@ -735,8 +735,31 @@ function EnrollModal({
                 </div>
                 <div>
                   <label className={labelCls}>Kode Referral Affiliate (Jika Ada)</label>
+                  {/* Info banner diskon referral */}
+                  {!referralInfo && (
+                    <div className="mb-2 px-3 py-2 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-2">
+                      <span className="text-emerald-500 text-lg">🎁</span>
+                      <p className="text-[10px] font-bold text-emerald-700">
+                        Punya kode referral? Dapatkan <strong>diskon spesial</strong> untuk biaya pendaftaran!
+                      </p>
+                    </div>
+                  )}
+                  {referralInfo && (
+                    <div className="mb-2 px-3 py-2 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2">
+                      <span className="text-emerald-500 text-lg">✅</span>
+                      <p className="text-[10px] font-black text-emerald-700 uppercase tracking-wide">
+                        Kode valid! Diskon <strong>{referralInfo.discountPct}%</strong> berhasil diterapkan.
+                      </p>
+                    </div>
+                  )}
                   <div className="flex gap-2">
-                    <input type="text" placeholder="Masukkan kode referral dari affiliate partner" value={refCode} onChange={(e) => setRefCode(e.target.value)} className={inputCls} />
+                    <input
+                      type="text"
+                      placeholder="Masukkan kode referral dari affiliate partner"
+                      value={refCode}
+                      onChange={(e) => setRefCode(e.target.value)}
+                      className={inputCls}
+                    />
                     <button 
                       type="button"
                       onClick={async () => {
@@ -778,7 +801,7 @@ function EnrollModal({
                   <p className="text-[9px] font-black uppercase tracking-wider text-sky-600">Rincian Pembayaran &amp; Biaya</p>
                   <div className="flex justify-between text-xs">
                     <span className="text-slate-500 font-medium">Harga Normal Kelas:</span>
-                    <span className={productDiscountAmount > 0 ? "font-bold text-slate-400 line-through" : "font-bold text-slate-800"}>Rp {originalPrice.toLocaleString("id-ID")}</span>
+                    <span className={productDiscountAmount > 0 || discountPct > 0 ? "font-bold text-slate-400 line-through" : "font-bold text-slate-800"}>Rp {originalPrice.toLocaleString("id-ID")}</span>
                   </div>
                   {productDiscountAmount > 0 && (
                     <div className="flex justify-between text-xs text-sky-600">
@@ -786,10 +809,15 @@ function EnrollModal({
                       <span className="font-black">-Rp {productDiscountAmount.toLocaleString("id-ID")}</span>
                     </div>
                   )}
-                  {discountPct > 0 && (
+                  {discountPct > 0 ? (
                     <div className="flex justify-between text-xs text-emerald-600">
-                      <span className="font-bold flex items-center gap-1">Diskon Referral ({discountPct}%):</span>
+                      <span className="font-bold flex items-center gap-1">🎁 Diskon Referral ({discountPct}%):</span>
                       <span className="font-black">-Rp {refDiscountAmount.toLocaleString("id-ID")}</span>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between text-xs text-emerald-500/60">
+                      <span className="font-medium italic flex items-center gap-1">🎁 Diskon Referral (belum dipakai):</span>
+                      <span className="font-medium italic">-Rp 0</span>
                     </div>
                   )}
                   <div className="h-px bg-sky-100 my-1" />
@@ -797,9 +825,13 @@ function EnrollModal({
                     <span className="text-slate-800">Total Biaya Akhir:</span>
                     <span className="text-[#004aad] text-sm">Rp {finalPrice.toLocaleString("id-ID")}</span>
                   </div>
-                  {discountPct > 0 && (
+                  {discountPct > 0 ? (
                     <p className="text-[8px] text-emerald-600 font-bold leading-normal mt-1 uppercase tracking-wider">
-                      ?? Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
+                      ✅ Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
+                    </p>
+                  ) : (
+                    <p className="text-[8px] text-slate-400 font-medium leading-normal mt-1">
+                      💡 Masukkan kode referral di atas untuk mendapatkan diskon.
                     </p>
                   )}
                 </div>

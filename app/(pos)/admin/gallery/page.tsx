@@ -155,8 +155,8 @@ export default function GalleryManagement() {
             </Link>
           </div>
           <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.4em]">Visual Management</p>
-          <h1 className="text-4xl font-black text-[#1e293b] tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>Kelola Galeri</h1>
-          <p className="text-sm text-gray-400 font-medium max-w-md">Atur koleksi foto yang ditampilkan pada halaman Landing Page dan Galeri publik.</p>
+          <h1 className="text-4xl font-black text-[#1e293b] tracking-tight" style={{ fontFamily: "var(--font-playfair)" }}>Kelola Kegiatan</h1>
+          <p className="text-sm text-gray-400 font-medium max-w-md">Atur dokumentasi kegiatan dan inovasi sosial yang ditampilkan pada halaman publik.</p>
         </div>
         <div className="flex items-center gap-4">
           <button 
@@ -172,7 +172,7 @@ export default function GalleryManagement() {
             className="px-8 py-4 bg-[#1e293b] !text-white rounded-xl text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-3 shadow-xl shadow-[#1e293b]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Plus size={16} />
-            Tambah Foto
+            Tambah Kegiatan
           </button>
         </div>
       </div>
@@ -183,7 +183,7 @@ export default function GalleryManagement() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input 
             type="text" 
-            placeholder="Cari foto..."
+            placeholder="Cari kegiatan..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-white border border-[#1e293b]/10 rounded-2xl text-sm focus:ring-2 focus:ring-[#0ea5e9] outline-none transition-all"
@@ -269,32 +269,32 @@ export default function GalleryManagement() {
         </div>
       )}
 
-      {/* Add/Edit Modal */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div 
-              initial={{ opacity: 0 }}
+       {/* Add/Edit Modal */}
+       <AnimatePresence>
+         {isModalOpen && (
+           <div className="fixed inset-0 z-[100] flex items-start justify-center p-6 overflow-y-auto md:items-center">
+             <motion.div 
+               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-[#1e293b]/60 backdrop-blur-md"
+              className="fixed inset-0 bg-[#1e293b]/60 backdrop-blur-md"
             />
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-xl bg-white rounded-[32px] shadow-2xl overflow-hidden"
+              className="relative w-full max-w-xl bg-white rounded-[32px] shadow-2xl overflow-hidden my-auto z-10"
             >
               <div className="p-8 md:p-10">
                 <div className="flex items-center justify-between mb-8">
                   <div>
                     <h2 className="text-2xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-playfair)" }}>
-                      {editingPhoto ? "Perbarui Foto" : "Tambah Foto Baru"}
+                      {editingPhoto ? "Perbarui Kegiatan" : "Tambah Kegiatan Baru"}
                     </h2>
                     <p className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mt-1">
-                      {editingPhoto ? "Modify existing entry" : "Create new gallery item"}
+                      {editingPhoto ? "Modify existing entry" : "Create new activity item"}
                     </p>
                   </div>
                   <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-200 transition-colors">
@@ -336,12 +336,12 @@ export default function GalleryManagement() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Deskripsi (Alt Text)</label>
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Deskripsi Kegiatan (Alt Text)</label>
                     <textarea 
                       required
                       value={formData.alt}
                       onChange={(e) => setFormData({...formData, alt: e.target.value})}
-                      placeholder="Deskripsi foto untuk SEO..."
+                      placeholder="Deskripsi kegiatan atau judul berita..."
                       className="w-full px-4 py-4 bg-[#f0f7ff] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#0ea5e9] transition-all h-24 resize-none"
                     />
                   </div>
@@ -364,6 +364,19 @@ export default function GalleryManagement() {
                     </div>
                   )}
 
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Kategori Kegiatan</label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({...formData, category: e.target.value})}
+                      className="w-full px-4 py-4 bg-[#f0f7ff] border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#0ea5e9] transition-all cursor-pointer font-bold"
+                    >
+                      <option value="general">Umum (General)</option>
+                      <option value="inovasi-sosial">Inovasi Sosial</option>
+                      <option value="pelatihan-kelas">Pelatihan & Kelas</option>
+                      <option value="kemitraan">Kemitraan Pentahelix</option>
+                    </select>
+                  </div>
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Width</label>
@@ -435,7 +448,7 @@ export default function GalleryManagement() {
                       disabled={loading}
                       className="flex-[2] px-8 py-4 bg-[#1e293b] !text-white rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-xl shadow-[#1e293b]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                     >
-                      {loading ? <RefreshCw className="animate-spin mx-auto" size={16} /> : (editingPhoto ? "Simpan Perubahan" : "Tambahkan Foto")}
+                      {loading ? <RefreshCw className="animate-spin mx-auto" size={16} /> : (editingPhoto ? "Simpan Perubahan" : "Tambahkan Kegiatan")}
                     </button>
                   </div>
                 </form>

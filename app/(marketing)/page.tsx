@@ -87,7 +87,10 @@ export default async function HomePage() {
   const renderSection = (key: string) => {
     switch (key.trim()) {
       case "hero":
-        return <HeroSection key="hero" />;
+        const heroPhotos = (allRes.success && Array.isArray(allRes.data))
+          ? allRes.data.filter((p: any) => p.isHero)
+          : [];
+        return <HeroSection key="hero" heroPhotos={heroPhotos} />;
       case "about":
         return <AboutSection key="about" settings={settings} />;
       case "kegiatans":

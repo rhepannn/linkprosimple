@@ -31,7 +31,7 @@ import { getPendingCounts } from "@/app/actions/notifications";
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/admin" },
   { label: "Manajemen Program", icon: Package, href: "/admin/products" },
-  { label: "Kelola Galeri", icon: ImageIcon, href: "/admin/gallery" },
+  { label: "Kelola Kegiatan", icon: ImageIcon, href: "/admin/gallery" },
   { label: "Data Peserta", icon: Users, href: "/admin/bookings" },
   { label: "Promo & Referral", icon: Ticket, href: "/admin/referrals" },
   { label: "Kelola Affiliasi", icon: HeartHandshake, href: "/admin/affiliators" },

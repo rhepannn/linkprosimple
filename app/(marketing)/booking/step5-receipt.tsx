@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, Copy, Check, RotateCcw, AlertCircle, Loader2 } from "lucide-react";
+import {
+  MessageCircle,
+  Copy,
+  Check,
+  RotateCcw,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import { Package } from "@/data/packages";
 import { formatPrice } from "@/lib/utils";
 import { applyDiscount, ReferralCode } from "@/lib/referral";
 import { BookingFormData } from "./step2-personal";
 import { PaymentMethod } from "./step4-payment";
-import { site } from "@/data/site";
 import { btn } from "@/lib/button-classes";
 import { createClient } from "@/lib/supabase/client";
 import { createBooking, getBookingStatus } from "@/app/actions/bookings";
@@ -17,7 +23,12 @@ import { motion, AnimatePresence } from "framer-motion";
 function formatDate(dateStr: string): string {
   if (!dateStr) return "-";
   const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  return d.toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 function generateInvoice(): string {
@@ -36,8 +47,17 @@ interface Step5Props {
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
-export default function Step5Receipt({ pkg, formData, referral, paymentMethod, onReset, siteSettings = {} }: Step5Props) {
-  const finalPrice = referral ? applyDiscount(pkg.price, referral.discountPct, referral.maxDiscountAmount) : pkg.price;
+export default function Step5Receipt({
+  pkg,
+  formData,
+  referral,
+  paymentMethod,
+  onReset,
+  siteSettings = {},
+}: Step5Props) {
+  const finalPrice = referral
+    ? applyDiscount(pkg.price, referral.discountPct, referral.maxDiscountAmount)
+    : pkg.price;
   const discount = pkg.price - finalPrice;
   const [invoice] = useState(generateInvoice);
   const [saveState, setSaveState] = useState<SaveState>("idle");
@@ -76,7 +96,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
           if (payload.new && payload.new.status) {
             setDbStatus(payload.new.status);
           }
-        }
+        },
       )
       .subscribe();
 
@@ -131,13 +151,16 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
         setSaveState("saved");
       } catch (err: any) {
         console.error("[Link Productive] Booking save failed:", err);
-        setSaveError(err.message || "Booking gagal disimpan ke database. Silakan konfirmasi manual via WhatsApp.");
+        setSaveError(
+          err.message ||
+            "Booking gagal disimpan ke database. Silakan konfirmasi manual via WhatsApp.",
+        );
         setSaveState("error");
       }
     }
 
     saveBooking();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function getPaymentMethodLabel() {
@@ -164,35 +187,44 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
       ``,
       `💳 *Pembayaran*`,
       `• Metode: ${getPaymentMethodLabel()}`,
-      referral ? `• Kode Referral: ${referral.code} (diskon ${referral.discountPct}%)` : "",
+      referral
+        ? `• Kode Referral: ${referral.code} (diskon ${referral.discountPct}%)`
+        : "",
       referral ? `• Diskon: - ${formatPrice(discount)}` : "",
       `• Total: ${formatPrice(finalPrice)}`,
       ``,
       `🧾 No. Invoice: ${invoice}`,
       ``,
       `Berikut saya lampirkan bukti transfer pembayarannya. Mohon segera dikonfirmasi ya, terima kasih! 🙏`,
-    ].filter(Boolean).join("\n");
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     // Gunakan custom WA number dari setting admin jika ada, jika tidak fallback ke default site WA
-    const waNumber = siteSettings.training_payment_wa || site.contact.whatsapp;
+    const waNumber =
+      siteSettings.training_payment_wa || siteSettings.contact_wa || "";
     return `https://wa.me/${waNumber}?text=${encodeURIComponent(lines)}`;
   }
 
-  const dottedDivider = <div className="border-t border-dashed border-[#E0E0DA] my-4" />;
+  const dottedDivider = (
+    <div className="border-t border-dashed border-[#E0E0DA] my-4" />
+  );
 
   return (
     <div>
       <div className="mb-8 text-center">
-        <div className={[
-          "w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-500",
-          saveState === "saving"
-            ? "bg-[#E0E0DA]"
-            : dbStatus === "confirmed" || dbStatus === "completed"
-            ? "bg-emerald-500"
-            : dbStatus === "cancelled"
-            ? "bg-red-500"
-            : "bg-amber-500"
-        ].join(" ")}>
+        <div
+          className={[
+            "w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-500",
+            saveState === "saving"
+              ? "bg-[#E0E0DA]"
+              : dbStatus === "confirmed" || dbStatus === "completed"
+                ? "bg-emerald-500"
+                : dbStatus === "cancelled"
+                  ? "bg-red-500"
+                  : "bg-amber-500",
+          ].join(" ")}
+        >
           {saveState === "saving" ? (
             <Loader2 size={24} className="text-[#888888] animate-spin" />
           ) : dbStatus === "confirmed" || dbStatus === "completed" ? (
@@ -201,49 +233,60 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
             <AlertCircle size={26} className="text-white" />
           )}
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-[#1e293b] tracking-tight transition-all duration-300" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2
+          className="text-2xl sm:text-3xl font-black text-[#1e293b] tracking-tight transition-all duration-300"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
           {saveState === "saving"
             ? "Menyimpan Booking..."
             : dbStatus === "confirmed"
-            ? "Booking Dikonfirmasi!"
-            : dbStatus === "completed"
-            ? "Sesi Foto Selesai!"
-            : dbStatus === "cancelled"
-            ? "Booking Dibatalkan"
-            : "Pesanan Menunggu Konfirmasi"}
+              ? "Booking Dikonfirmasi!"
+              : dbStatus === "completed"
+                ? "Sesi Foto Selesai!"
+                : dbStatus === "cancelled"
+                  ? "Booking Dibatalkan"
+                  : "Pesanan Menunggu Konfirmasi"}
         </h2>
         <p className="text-gray-500 text-sm mt-2 transition-all duration-300 font-bold">
           {saveState === "saving"
             ? "Mohon tunggu sebentar."
             : dbStatus === "confirmed"
-            ? "Pembayaran Anda telah diverifikasi. Sampai jumpa di kelas sesuai jadwal!"
-            : dbStatus === "completed"
-            ? "Terima kasih telah memilih Link Productive."
-            : dbStatus === "cancelled"
-            ? "Booking Anda telah dibatalkan. Silakan hubungi admin jika ada pertanyaan."
-            : "Selesaikan pembayaran dan kirimkan bukti transfer ke WhatsApp admin melalui link di bawah."}
+              ? "Pembayaran Anda telah diverifikasi. Sampai jumpa di kelas sesuai jadwal!"
+              : dbStatus === "completed"
+                ? "Terima kasih telah memilih Link Productive."
+                : dbStatus === "cancelled"
+                  ? "Booking Anda telah dibatalkan. Silakan hubungi admin jika ada pertanyaan."
+                  : "Selesaikan pembayaran dan kirimkan bukti transfer ke WhatsApp admin melalui link di bawah."}
         </p>
         {saveState === "saved" && (
           <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-500 bg-amber-50 border-amber-200">
             {dbStatus === "confirmed" ? (
               <>
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="text-xs font-semibold text-emerald-700">Pembayaran Dikonfirmasi</span>
+                <span className="text-xs font-semibold text-emerald-700">
+                  Pembayaran Dikonfirmasi
+                </span>
               </>
             ) : dbStatus === "completed" ? (
               <>
                 <span className="w-2 h-2 rounded-full bg-blue-500" />
-                <span className="text-xs font-semibold text-blue-700">Sesi Selesai</span>
+                <span className="text-xs font-semibold text-blue-700">
+                  Sesi Selesai
+                </span>
               </>
             ) : dbStatus === "cancelled" ? (
               <>
                 <span className="w-2 h-2 rounded-full bg-red-500" />
-                <span className="text-xs font-semibold text-red-700">Dibatalkan</span>
+                <span className="text-xs font-semibold text-red-700">
+                  Dibatalkan
+                </span>
               </>
             ) : (
               <>
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-xs font-semibold text-amber-700">Menunggu Konfirmasi Admin</span>
+                <span className="text-xs font-semibold text-amber-700">
+                  Menunggu Konfirmasi Admin
+                </span>
               </>
             )}
           </div>
@@ -252,11 +295,17 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
 
       {saveState === "error" && (
         <div className="flex items-start gap-3 mb-6 p-4 rounded-xl border border-red-200 bg-red-50 max-w-md mx-auto">
-          <AlertCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
+          <AlertCircle
+            size={16}
+            className="text-red-500 flex-shrink-0 mt-0.5"
+          />
           <div>
             <p className="text-sm text-red-700">{saveError}</p>
             <button
-              onClick={() => { hasSaved.current = false; setSaveState("idle"); }}
+              onClick={() => {
+                hasSaved.current = false;
+                setSaveState("idle");
+              }}
               className="text-xs text-red-600 underline mt-1"
             >
               Coba lagi
@@ -269,32 +318,49 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
       <div className="rounded-2xl border border-[#E0E0DA] bg-white overflow-hidden mb-6 max-w-md mx-auto">
         {/* Header */}
         <div className="bg-[#1e293b] text-[#FAFAF8] px-6 py-5 text-center">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#FAFAF8]/60 mb-1">Struk Digital</p>
-          <h3 className="text-lg font-bold" style={{ fontFamily: "var(--font-heading)" }}>Link Productive</h3>
-          <p className="text-xs text-[#FAFAF8]/60 mt-0.5">{site.tagline}</p>
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#FAFAF8]/60 mb-1">
+            Struk Digital
+          </p>
+          <h3
+            className="text-lg font-bold"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            Link Productive
+          </h3>
+          <p className="text-xs text-[#FAFAF8]/60 mt-0.5">
+            {siteSettings.site_tagline ||
+              "PT Integritas Produktivitas Indonesia"}
+          </p>
           <p className="text-xs font-mono text-[#FAFAF8]/50 mt-2">{invoice}</p>
         </div>
 
         <div className="px-6 py-5">
           {/* Booking Details */}
           {[
-            { label: "Nama",     value: formData.name },
+            { label: "Nama", value: formData.name },
             { label: "WhatsApp", value: formData.whatsapp },
-            { label: "Paket",    value: pkg.name },
-            { label: "Durasi",   value: pkg.duration || "-" },
-            { label: "Foto",     value: pkg.photoCount || "-" },
-            { label: "Tanggal",  value: formatDate(formData.date) },
-            { label: "Jam",      value: `${formData.time} WIB` },
+            { label: "Paket", value: pkg.name },
+            { label: "Durasi", value: pkg.duration || "-" },
+            { label: "Foto", value: pkg.photoCount || "-" },
+            { label: "Tanggal", value: formatDate(formData.date) },
+            { label: "Jam", value: `${formData.time} WIB` },
           ].map(({ label, value }) => (
-            <div key={label} className="flex justify-between gap-4 py-1.5 text-xs">
+            <div
+              key={label}
+              className="flex justify-between gap-4 py-1.5 text-xs"
+            >
               <span className="text-[#888888]">{label}</span>
-              <span className="text-[#1A1A1A] font-bold text-right max-w-[55%]">{value}</span>
+              <span className="text-[#1A1A1A] font-bold text-right max-w-[55%]">
+                {value}
+              </span>
             </div>
           ))}
           {formData.notes && (
             <div className="flex justify-between gap-4 py-1.5 text-xs">
               <span className="text-[#888888]">Catatan</span>
-              <span className="text-[#1A1A1A] font-bold text-right max-w-[55%]">{formData.notes}</span>
+              <span className="text-[#1A1A1A] font-bold text-right max-w-[55%]">
+                {formData.notes}
+              </span>
             </div>
           )}
 
@@ -304,32 +370,46 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs">
               <span className="text-[#888888]">Harga normal</span>
-              <span className="text-[#1A1A1A] font-medium">{formatPrice(pkg.price)}</span>
+              <span className="text-[#1A1A1A] font-medium">
+                {formatPrice(pkg.price)}
+              </span>
             </div>
             {referral && (
               <div className="flex justify-between text-xs">
                 <span className="text-[#5A371F] font-bold">
                   Diskon {referral.discountPct}% ({referral.code})
                 </span>
-                <span className="text-[#5A371F] font-bold">- {formatPrice(discount)}</span>
+                <span className="text-[#5A371F] font-bold">
+                  - {formatPrice(discount)}
+                </span>
               </div>
             )}
             <div className="flex justify-between text-sm font-black pt-1">
               <span className="text-[#1e293b]">TOTAL</span>
-              <span className="text-[#1e293b]" style={{ fontFamily: "var(--font-heading)" }}>{formatPrice(finalPrice)}</span>
+              <span
+                className="text-[#1e293b]"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {formatPrice(finalPrice)}
+              </span>
             </div>
           </div>
 
           {dottedDivider}
 
           <p className="text-xs text-gray-500 mb-3 font-bold">
-            Metode Pembayaran: <span className="font-black text-[#1e293b]">{getPaymentMethodLabel()}</span>
+            Metode Pembayaran:{" "}
+            <span className="font-black text-[#1e293b]">
+              {getPaymentMethodLabel()}
+            </span>
           </p>
 
           {/* Dynamic Payment Details Display */}
           {paymentMethod === "transfer" && (
             <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Transfer Ke Rekening Bank</p>
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">
+                Silakan Transfer Ke Rekening Bank
+              </p>
               <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
@@ -337,15 +417,19 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
               <div className="text-xs text-left w-full space-y-1 py-2 px-3 bg-white/60 rounded-lg font-bold text-gray-600">
                 <div className="flex justify-between">
                   <span>Bank:</span>
-                  <span className="text-[#1e293b]">{siteSettings.payment_bank_name || site.payment.bankName}</span>
+                  <span className="text-[#1e293b]">
+                    {siteSettings.payment_bank_name || ""}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>No. Rekening:</span>
                   <span className="text-[#1e293b] font-mono flex items-center gap-1">
-                    {siteSettings.payment_bank_account || site.payment.bankAccount}
-                    <button 
+                    {siteSettings.payment_bank_account || ""}
+                    <button
                       onClick={() => {
-                        navigator.clipboard.writeText(siteSettings.payment_bank_account || site.payment.bankAccount);
+                        navigator.clipboard.writeText(
+                          siteSettings.payment_bank_account || "",
+                        );
                         toast.success("Nomor rekening disalin!");
                       }}
                       className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
@@ -357,7 +441,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#1e293b]">{siteSettings.payment_bank_owner || site.payment.bankOwner}</span>
+                  <span className="text-[#1e293b]">
+                    {siteSettings.payment_bank_owner || ""}
+                  </span>
                 </div>
               </div>
             </div>
@@ -365,7 +451,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
 
           {paymentMethod === "dana" && (
             <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Kirim Saldo DANA</p>
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">
+                Silakan Kirim Saldo DANA
+              </p>
               <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
@@ -375,9 +463,11 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                   <span>No. DANA:</span>
                   <span className="text-[#1e293b] font-mono flex items-center gap-1">
                     {siteSettings.payment_dana_number || "081234567890"}
-                    <button 
+                    <button
                       onClick={() => {
-                        navigator.clipboard.writeText(siteSettings.payment_dana_number || "081234567890");
+                        navigator.clipboard.writeText(
+                          siteSettings.payment_dana_number || "081234567890",
+                        );
                         toast.success("Nomor DANA disalin!");
                       }}
                       className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
@@ -389,7 +479,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#1e293b]">{siteSettings.payment_dana_owner || "Link Productive"}</span>
+                  <span className="text-[#1e293b]">
+                    {siteSettings.payment_dana_owner || "Link Productive"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -397,7 +489,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
 
           {paymentMethod === "gopay" && (
             <div className="flex flex-col items-center py-4 bg-[#f0f7ff] rounded-xl mt-3 px-4 text-center space-y-2 border border-[#E0E0DA]/50">
-              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Silakan Kirim Saldo GoPay</p>
+              <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">
+                Silakan Kirim Saldo GoPay
+              </p>
               <p className="text-xl font-black text-[#0ea5e9] my-1 font-mono">
                 {formatPrice(finalPrice)}
               </p>
@@ -407,9 +501,11 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                   <span>No. GoPay:</span>
                   <span className="text-[#1e293b] font-mono flex items-center gap-1">
                     {siteSettings.payment_gopay_number || "081234567890"}
-                    <button 
+                    <button
                       onClick={() => {
-                        navigator.clipboard.writeText(siteSettings.payment_gopay_number || "081234567890");
+                        navigator.clipboard.writeText(
+                          siteSettings.payment_gopay_number || "081234567890",
+                        );
                         toast.success("Nomor GoPay disalin!");
                       }}
                       className="p-1 hover:bg-[#f0f7ff] rounded text-[#0ea5e9] transition-colors"
@@ -421,14 +517,18 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 </div>
                 <div className="flex justify-between">
                   <span>Atas Nama:</span>
-                  <span className="text-[#1e293b]">{siteSettings.payment_gopay_owner || "Link Productive"}</span>
+                  <span className="text-[#1e293b]">
+                    {siteSettings.payment_gopay_owner || "Link Productive"}
+                  </span>
                 </div>
               </div>
             </div>
           )}
 
           {dottedDivider}
-          <p className="text-center text-[10px] text-gray-300 font-bold uppercase tracking-widest">Terima kasih telah memilih Link Productive ✦</p>
+          <p className="text-center text-[10px] text-gray-300 font-bold uppercase tracking-widest">
+            Terima kasih telah memilih Link Productive ✦
+          </p>
         </div>
       </div>
 
@@ -438,7 +538,10 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
           href={buildWhatsAppMsg()}
           target="_blank"
           rel="noopener noreferrer"
-          className={[btn.whatsapp, "w-full rounded-xl justify-center py-4 text-base font-black uppercase tracking-wider"].join(" ")}
+          className={[
+            btn.whatsapp,
+            "w-full rounded-xl justify-center py-4 text-base font-black uppercase tracking-wider",
+          ].join(" ")}
         >
           <MessageCircle size={20} />
           Kirim Bukti Pembayaran (WA)
@@ -446,7 +549,10 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
 
         <button
           onClick={onReset}
-          className={[btn.secondary, "w-full rounded-xl justify-center gap-2 font-bold text-xs uppercase tracking-widest py-3"].join(" ")}
+          className={[
+            btn.secondary,
+            "w-full rounded-xl justify-center gap-2 font-bold text-xs uppercase tracking-widest py-3",
+          ].join(" ")}
         >
           <RotateCcw size={15} />
           Booking Sesi Baru
@@ -479,7 +585,7 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                   type: "spring",
                   stiffness: 100,
                   damping: 10,
-                  delay: 0.3
+                  delay: 0.3,
                 }}
                 className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6"
               >
@@ -494,7 +600,11 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                   animate={{ strokeDashoffset: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
                 </motion.svg>
               </motion.div>
 
@@ -515,7 +625,9 @@ export default function Step5Receipt({ pkg, formData, referral, paymentMethod, o
                 className="text-xs text-gray-500 font-bold"
               >
                 Terima kasih, pembayaran Anda berhasil diverifikasi oleh admin.
-                <span className="block mt-2 font-medium text-[#0ea5e9] animate-pulse">Mengalihkan ke beranda...</span>
+                <span className="block mt-2 font-medium text-[#0ea5e9] animate-pulse">
+                  Mengalihkan ke beranda...
+                </span>
               </motion.p>
             </div>
           </motion.div>

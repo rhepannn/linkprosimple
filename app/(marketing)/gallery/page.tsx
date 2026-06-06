@@ -1,29 +1,69 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Clock, User, ArrowRight, Sparkles } from "lucide-react";
 import { activities, Activity, ActivityCategory } from "@/data/activities";
+import { getGalleryPhotos } from "@/app/actions/gallery";
 
 export default function GalleryPage() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [activeFilter, setActiveFilter] = useState<ActivityCategory | "all">("all");
+  const [dbActivities, setDbActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await getGalleryPhotos();
+        if (res.success && Array.isArray(res.data)) {
+          const mapped: Activity[] = res.data.map((p: any) => {
+            const catLabelMap: Record<string, string> = {
+              "inovasi-sosial": "Inovasi Sosial",
+              "pelatihan-kelas": "Pelatihan & Kelas",
+              "kemitraan": "Kemitraan Pentahelix",
+            };
+            const dateStr = p.createdAt 
+              ? new Date(p.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
+              : "Baru saja";
+            return {
+              id: p.id,
+              title: p.alt || "Dokumentasi Kegiatan",
+              summary: p.alt || "Dokumentasi kegiatan ekosistem Link Productive.",
+              content: p.alt || "Dokumentasi kegiatan ekosistem Link Productive.",
+              imageUrl: p.src,
+              category: (p.category === "general" || !p.category ? "inovasi-sosial" : p.category) as any,
+              categoryLabel: catLabelMap[p.category] || "Inovasi Sosial",
+              author: "Tim Media Link Productive",
+              date: dateStr,
+              readTime: "2 menit baca",
+            };
+          });
+          setDbActivities(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to load db activities:", err);
+      }
+    }
+    load();
+  }, []);
 
   // Filtered List
   const filteredActivities = useMemo(() => {
+    const list = [...dbActivities, ...activities];
     return activeFilter === "all"
-      ? activities
-      : activities.filter((act) => act.category === activeFilter);
-  }, [activeFilter]);
+      ? list
+      : list.filter((act) => act.category === activeFilter);
+  }, [activeFilter, dbActivities]);
 
   // Related Activities (exclude selected, same category)
   const relatedActivities = useMemo(() => {
     if (!selectedActivity) return [];
-    return activities.filter(
+    const list = [...dbActivities, ...activities];
+    return list.filter(
       (act) => act.category === selectedActivity.category && act.id !== selectedActivity.id
     );
-  }, [selectedActivity]);
+  }, [selectedActivity, dbActivities]);
 
   return (
     <main className="min-h-screen bg-[#f8faff] pb-24 font-[family-name:var(--font-inter)]">
