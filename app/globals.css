@@ -11,10 +11,10 @@
   /* ── Brand Colors: Bright Blue + White ── */
   --color-warm-white: #ffffff;
   --color-warm-light: #f0f7ff;
-  --color-near-black: #004aad;      /* Remapped → Brand Blue (kept for compatibility) */
-  --color-dark-gray: #1a6fd4;       /* Remapped → Medium Blue */
-  --color-mid-gray: #4da3f5;        /* Remapped → Light Blue */
-  --color-muted: #93c5fd;           /* Light blue muted */
+  --color-near-black: #004aad;      /* Brand Blue for headings & primary actions */
+  --color-dark-gray: #1e293b;       /* Charcoal for premium readable body text */
+  --color-mid-gray: #475569;        /* Medium slate for secondary text */
+  --color-muted: #64748b;           /* Slate-500 muted text */
   --color-border: #bfdbfe;          /* Sky-200 border */
   --color-gold: #0ea5e9;            /* Sky 500 — primary accent */
   --color-accent: #38bdf8;          /* Sky 400 */
@@ -27,7 +27,7 @@
 
   /* Background/Foreground */
   --color-background: var(--color-warm-white);
-  --color-foreground: #004aad;      /* Brand blue for all body text */
+  --color-foreground: var(--color-dark-gray);      /* Readable charcoal for all body text */
 
   /* Fonts */
   --font-heading: var(--font-outfit);
