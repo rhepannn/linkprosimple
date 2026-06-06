@@ -840,7 +840,7 @@ function ProductListItem({
             </>
           ) : (
             <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
-              {formatPrice(startingPrice || 699000)}
+              {formatPrice(startingPrice || product.price || 0)}
             </span>
           )}
         </div>
