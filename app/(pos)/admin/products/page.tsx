@@ -14,7 +14,23 @@ import {
   CheckCircle2,
   Image as ImageIcon,
   GripVertical,
+  Coffee,
+  GraduationCap,
+  Award,
+  TrendingUp,
+  Building,
+  MonitorPlay,
+  Presentation,
+  Users,
+  Recycle,
+  ShoppingBag,
+  Handshake,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  Upload,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -43,6 +59,163 @@ interface ProductDetail {
   targetMarket: string[];
   disclaimer: string;
   posterUrls: string[];
+}
+
+const iconMap: Record<string, any> = {
+  "LP Academic Partner": GraduationCap,
+  "LP Career Ready": Award,
+  "LP Entrepreneur Launchpad": TrendingUp,
+  "Bisapreneur Academy": Building,
+  "Baristara Academy": Coffee,
+  "Cuan Creator Academy": MonitorPlay,
+  "Tekno AI Academy": Presentation,
+  "Mental Bahasa Academy": Users,
+  "Green Productive Academy": Recycle,
+  "Brand Siap": ShoppingBag,
+  "Standara Consulting": Handshake,
+};
+
+const POSTER_KEYS: Record<string, string> = {
+  "LP Academic Partner": "training_poster_academic",
+  "LP Career Ready": "training_poster_career",
+  "LP Entrepreneur Launchpad": "training_poster_entrepreneur",
+  "Bisapreneur Academy": "training_poster_bisapreneur",
+  "Baristara Academy": "training_poster_baristara",
+  "Cuan Creator Academy": "training_poster_cuan_creator",
+  "Tekno AI Academy": "training_poster_tekno_ai",
+  "Mental Bahasa Academy": "training_poster_mental_bahasa",
+  "Green Productive Academy": "training_poster_green_productive",
+};
+
+const DEFAULT_POSTERS: Record<string, string> = {
+  "LP Academic Partner": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop",
+  "LP Career Ready": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop",
+  "LP Entrepreneur Launchpad": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop",
+  "Bisapreneur Academy": "https://images.unsplash.com/photo-1542744094-3a31f103e35f?q=80&w=600&auto=format&fit=crop",
+  "Baristara Academy": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600&auto=format&fit=crop",
+  "Cuan Creator Academy": "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop",
+  "Tekno AI Academy": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
+  "Mental Bahasa Academy": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop",
+  "Green Productive Academy": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
+};
+
+const formatPrice = (p: number) => "Rp " + p.toLocaleString("id-ID");
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
+function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: string[]; productName: string; onImageClick?: (url: string) => void }) {
+  const [[page, direction], setPage] = useState([0, 0]);
+
+  if (urls.length === 0) return null;
+
+  const currentIndex = ((page % urls.length) + urls.length) % urls.length;
+
+  const paginate = (newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  const nextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    paginate(1);
+  };
+
+  const prevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    paginate(-1);
+  };
+
+  return (
+    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-slate-900/5 relative group/carousel shadow-sm">
+      <div className="w-full h-full relative overflow-hidden">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.img
+            key={page}
+            src={urls[currentIndex]}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag={urls.length > 1 ? "x" : false}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
+            }}
+            alt={`${productName} poster ${currentIndex + 1}`}
+            className="absolute inset-0 w-full h-full object-contain bg-[#1A1A1A] select-none touch-pan-y cursor-zoom-in"
+            onClick={() => onImageClick?.(urls[currentIndex])}
+            loading="lazy"
+          />
+        </AnimatePresence>
+      </div>
+
+      {urls.length > 1 && (
+        <>
+          <button
+            onClick={prevSlide}
+            type="button"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            onClick={nextSlide}
+            type="button"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
+          >
+            <ChevronRight size={16} />
+          </button>
+
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm border border-white/5">
+            {urls.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const dir = idx > currentIndex ? 1 : -1;
+                  setPage([idx, dir]);
+                }}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? "bg-[#004aad] w-3" : "bg-white/40 hover:bg-white/70"
+                  }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -219,6 +392,8 @@ function PosterManager({
   urls: string[];
   onChange: (urls: string[]) => void;
 }) {
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
+
   const add = () => onChange([...urls, ""]);
   const update = (i: number, val: string) => {
     const n = [...urls];
@@ -227,30 +402,74 @@ function PosterManager({
   };
   const remove = (i: number) => onChange(urls.filter((_, idx) => idx !== i));
 
+  const handleFileUpload = async (i: number, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    setUploadingIdx(i);
+    try {
+      toast.loading("Mengunggah gambar...", { id: `upload-${i}` });
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.url) {
+        update(i, data.url);
+        toast.success("Gambar berhasil diunggah!", { id: `upload-${i}` });
+      } else {
+        toast.error("Gagal mengunggah gambar.", { id: `upload-${i}` });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Terjadi kesalahan saat mengunggah.", { id: `upload-${i}` });
+    } finally {
+      setUploadingIdx(null);
+    }
+  };
+
   return (
     <div className="space-y-2">
       <FieldLabel>URL Gambar Poster</FieldLabel>
       <p className="text-[9px] text-slate-400 font-medium mb-2">
-        Bisa lebih dari satu (carousel). Bingkai otomatis menyesuaikan ukuran
-        gambar asli.
+        Bisa berupa link URL langsung atau unggah file gambar dari perangkat Anda. Bingkai otomatis menyesuaikan ukuran gambar.
       </p>
       {urls.map((url, i) => (
-        <div key={i} className="flex gap-2 items-start">
-          <div className="flex-1 space-y-1.5">
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => update(i, e.target.value)}
-              placeholder="https://example.com/poster.jpg"
-              className={inputCls}
-            />
+        <div key={i} className="flex gap-2 items-start border border-slate-100 p-3 rounded-2xl bg-slate-50/40">
+          <div className="flex-1 space-y-2">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => update(i, e.target.value)}
+                placeholder="https://example.com/poster.jpg atau unggah file..."
+                className={inputCls}
+              />
+              <label className="flex items-center gap-1.5 px-3.5 py-2.5 bg-sky-50 hover:bg-sky-100 text-[#004aad] rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer border border-sky-100 transition-all whitespace-nowrap">
+                {uploadingIdx === i ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Upload className="w-3.5 h-3.5" />
+                )}
+                Unggah File
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleFileUpload(i, file);
+                  }}
+                  className="hidden"
+                  disabled={uploadingIdx !== null}
+                />
+              </label>
+            </div>
             {url && (
               <div className="w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
                 {/* Adaptive: w-full h-auto, ukuran bingkai ikut rasio gambar */}
                 <img
                   src={url}
                   alt={`Preview ${i + 1}`}
-                  className="w-full h-auto object-contain block max-h-80"
+                  className="w-full h-auto object-contain block max-h-80 mx-auto"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
@@ -548,51 +767,140 @@ function ProductListItem({
 }) {
   const hasDetail =
     product.subtitle || product.intro || product.packages.length > 0;
+  
+  // Resolve poster URLs
+  const posterKeyExact = POSTER_KEYS[product.name];
+  const posterKeyCi = !posterKeyExact
+    ? POSTER_KEYS[Object.keys(POSTER_KEYS).find(k => k.toLowerCase() === product.name.toLowerCase()) || ""] || ""
+    : posterKeyExact;
+  const defaultPosterCi = DEFAULT_POSTERS[product.name]
+    || DEFAULT_POSTERS[Object.keys(DEFAULT_POSTERS).find(k => k.toLowerCase() === product.name.toLowerCase()) || ""]
+    || "";
+  const posterUrls = product.posterUrls.length > 0 ? product.posterUrls : (defaultPosterCi ? [defaultPosterCi] : []);
+
+  // Icon mapping
+  let IconComp = Package;
+  for (const key of Object.keys(iconMap)) {
+    if (product.name.toLowerCase().includes(key.toLowerCase())) {
+      IconComp = iconMap[key];
+      break;
+    }
+  }
+
+  // Prices calculation
+  const parsedPrices = product.packages.map((pkg) => {
+    const cleanPrice = (priceStr: string) => {
+      if (!priceStr || priceStr.toLowerCase().includes("menyesuaikan")) return 0;
+      const clean = priceStr.replace(/[^0-9]/g, "");
+      return parseInt(clean, 10) || 0;
+    };
+    return {
+      rawPrice: cleanPrice(pkg.price),
+      discountedPrice: cleanPrice(pkg.afterDiscount || pkg.price),
+    };
+  });
+
+  const startingPrice = parsedPrices.length > 0 
+    ? Math.min(...parsedPrices.map((p) => p.rawPrice))
+    : product.price;
+
+  const startingDiscountedPrice = parsedPrices.length > 0 
+    ? Math.min(...parsedPrices.map((p) => p.discountedPrice))
+    : product.price;
+
   return (
-    <div className="flex items-center justify-between p-4 rounded-2xl border border-slate-100 bg-white hover:border-[#004aad]/20 hover:shadow-md transition-all">
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 flex-shrink-0">
-          <Package size={18} />
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="group overflow-hidden rounded-[2rem] border border-slate-200 bg-white hover:border-[#004aad]/30 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+    >
+      {/* Poster Image Carousel */}
+      {posterUrls.length > 0 ? (
+        <ProgramPosterCarousel urls={posterUrls} productName={product.name} />
+      ) : (
+        <div className="aspect-[16/9] bg-slate-100 flex flex-col items-center justify-center text-slate-300 border-b border-slate-100">
+          <ImageIcon size={32} />
+          <span className="text-[10px] uppercase tracking-wider font-bold mt-2">Belum Ada Poster</span>
         </div>
-        <div className="min-w-0">
-          <h3 className="text-sm font-black text-slate-800 truncate">
+      )}
+
+      <div className="p-6 flex-grow flex flex-col justify-between">
+        <div>
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#004aad]/10 flex items-center justify-center text-[#004aad] group-hover:scale-110 transition-transform border border-[#004aad]/20 flex-shrink-0">
+              <IconComp size={22} />
+            </div>
+            <span
+              className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
+                product.isActive
+                  ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                  : "bg-slate-100 text-slate-400 border-slate-200"
+              }`}
+            >
+              {product.isActive ? "Aktif" : "Nonaktif"}
+            </span>
+          </div>
+          
+          <h3 className="text-sm font-black text-slate-800 uppercase mb-2 tracking-wide line-clamp-1 group-hover:text-[#004aad] transition-colors">
             {product.name}
           </h3>
-          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-              SKU: {product.sku}
-            </span>
+          
+          <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider mb-2">
+            SKU: {product.sku}
+          </p>
+
+          <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4 line-clamp-3">
+            {product.subtitle || product.intro || "Belum ada deskripsi untuk program pelatihan ini."}
+          </p>
+
+          <div className="flex flex-wrap gap-2 mb-4">
             {hasDetail ? (
-              <span className="flex items-center gap-0.5 text-[9px] font-black text-emerald-500">
+              <span className="flex items-center gap-0.5 text-[9px] font-black text-emerald-500 uppercase tracking-wider">
                 <CheckCircle2 size={10} /> Detail Lengkap
               </span>
             ) : (
-              <span className="text-[9px] font-black text-amber-400">
+              <span className="text-[9px] font-black text-amber-500 uppercase tracking-wider">
                 Belum Ada Detail
               </span>
             )}
             {product.posterUrls.length > 0 && (
-              <span className="flex items-center gap-0.5 text-[9px] font-black text-sky-400">
+              <span className="flex items-center gap-0.5 text-[9px] font-black text-sky-500 uppercase tracking-wider">
                 <ImageIcon size={10} /> {product.posterUrls.length} Foto
               </span>
             )}
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 flex-shrink-0">
-        <span
-          className={`px-2 py-0.5 text-[9px] font-black uppercase tracking-wider rounded-full ${product.isActive ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-slate-100 text-slate-400 border border-slate-200"}`}
-        >
-          {product.isActive ? "Aktif" : "Nonaktif"}
-        </span>
+
+      <div className="px-6 pb-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-4 mt-auto">
+        <div>
+          <span className="block text-[8px] text-slate-400 font-black uppercase tracking-wider">Mulai Dari</span>
+          {startingDiscountedPrice < startingPrice ? (
+            <>
+              <span className="block text-[10px] text-slate-400 font-bold line-through mt-0.5">
+                {formatPrice(startingPrice)}
+              </span>
+              <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans">
+                {formatPrice(startingDiscountedPrice)}
+              </span>
+            </>
+          ) : (
+            <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
+              {formatPrice(startingPrice || 699000)}
+            </span>
+          )}
+        </div>
         <button
+          type="button"
           onClick={onEdit}
-          className="flex items-center gap-1.5 px-3 py-2 bg-[#004aad] hover:bg-[#003984] text-white text-[9px] font-black uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-4.5 py-2.5 bg-[#004aad] hover:bg-[#003984] text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
         >
-          <Edit3 size={11} /> Edit Detail
+          Edit Detail
+          <Edit3 size={11} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -731,7 +1039,7 @@ export default function AdminProductsPage() {
           {searchQuery ? "Tidak ada produk yang cocok." : "Belum ada produk."}
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((prod) => (
             <ProductListItem
               key={prod.id}
