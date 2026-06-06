@@ -741,7 +741,7 @@ function ProductListItem({
   }
 
   // Prices calculation
-  const parsedPrices = product.packages.map((pkg) => {
+  const parsedPrices = (product.packages || []).map((pkg) => {
     const cleanPrice = (priceStr: string) => {
       if (!priceStr || priceStr.toLowerCase().includes("menyesuaikan")) return 0;
       const clean = priceStr.replace(/[^0-9]/g, "");
@@ -874,7 +874,7 @@ export default function AdminProductsPage() {
   const loadProducts = async () => {
     setLoading(true);
     try {
-      const res = await getProducts();
+      const res = await getProducts(true);
       if (res.success && Array.isArray(res.data)) {
         const mapped: ProductDetail[] = res.data.map((p: any) => {
           let detail: any = {};
