@@ -462,16 +462,22 @@ function EnrollModal({
   });
   const [refCode, setRefCode] = useState(refCodeParam);
   const [copiedBank, setCopiedBank] = useState(false);
-  const [selectedPackageId, setSelectedPackageId] = useState(
-    product.packages && product.packages.length > 0 ? product.packages[0].id : ""
-  );
+  const [selectedPackageId, setSelectedPackageId] = useState(() => {
+    if (!product.packages || product.packages.length === 0) return "";
+    const targetSku = searchParams.get("pkg");
+    if (targetSku) {
+      const match = product.packages.find((p: any) => p.sku === targetSku);
+      if (match) return match.id;
+    }
+    return product.packages[0].id;
+  });
 
   const selectedPkg = product.packages?.find((pkg: any) => pkg.id === selectedPackageId);
   const originalPrice = selectedPkg?.rawPrice || 0;
   const basePrice = selectedPkg?.discountedPrice || originalPrice;
   const productDiscountAmount = originalPrice - basePrice;
   
-  const [referralInfo, setReferralInfo] = useState<{ discountPct: number } | null>(null);
+  const [referralInfo, setReferralInfo] = useState<{ discountPct: number; maxDiscountAmount: number } | null>(null);
 
   useEffect(() => {
     async function checkRef() {
@@ -480,7 +486,7 @@ function EnrollModal({
           const res = await fetch(`/api/referrals/validate?code=${encodeURIComponent(refCodeParam)}`);
           if (res.ok) {
             const data = await res.json();
-            setReferralInfo({ discountPct: data.discountPct || 10 });
+            setReferralInfo({ discountPct: data.discountPct || 0, maxDiscountAmount: data.maxDiscountAmount || 0 });
           }
         } catch (err) {}
       }
@@ -489,7 +495,11 @@ function EnrollModal({
   }, [refCodeParam]);
 
   const discountPct = referralInfo ? referralInfo.discountPct : 0;
-  const refDiscountAmount = basePrice * (discountPct / 100);
+  const maxDiscountAmount = referralInfo ? referralInfo.maxDiscountAmount : 0;
+  let refDiscountAmount = basePrice * (discountPct / 100);
+  if (maxDiscountAmount > 0 && refDiscountAmount > maxDiscountAmount) {
+    refDiscountAmount = maxDiscountAmount;
+  }
   const finalPrice = basePrice - refDiscountAmount;
 
   const occupations = [
@@ -689,7 +699,7 @@ function EnrollModal({
                     onChange={(e) => setSelectedPackageId(e.target.value)}
                     className={inputCls + " cursor-pointer font-bold text-xs"}
                   >
-                    {product.packages && product.packages.map((pkg: any) => (
+                    {product.packages && product.packages.filter((pkg: any) => searchParams.get("pkg") === pkg.sku ? true : !searchParams.get("pkg") || !product.packages.some((p: any) => p.sku === searchParams.get("pkg"))).map((pkg: any) => (
                       <option key={pkg.id} value={pkg.id}>
                         {pkg.name} ({pkg.afterDiscount || pkg.price})
                       </option>
@@ -738,7 +748,7 @@ function EnrollModal({
                           const res = await fetch(`/api/referrals/validate?code=${encodeURIComponent(refCode)}`);
                           if (res.ok) {
                             const data = await res.json();
-                            setReferralInfo({ discountPct: data.discountPct || 10 });
+                            setReferralInfo({ discountPct: data.discountPct || 0, maxDiscountAmount: data.maxDiscountAmount || 0 });
                           } else {
                             setReferralInfo(null);
                             alert("Kode referral tidak valid atau tidak ditemukan");
@@ -975,10 +985,29 @@ function DaftarPelatihanContent() {
   useEffect(() => {
     const pkg = searchParams.get("pkg");
     if (pkg && productsList.length > 0) {
-      const targetName = pkgSlugMap[pkg.toLowerCase()];
-      const found = productsList.find((p) => p.name === (targetName || pkg) || p.name.toLowerCase() === pkg.toLowerCase().replace(/-/g, " "));
+      let found: any = null;
+      let targetPackageId = "";
+
+      // Try finding exact match by sku
+      for (const product of productsList) {
+        const pkgMatch = product.packages?.find((p: any) => p.sku === pkg);
+        if (pkgMatch) {
+          found = product;
+          targetPackageId = pkgMatch.id;
+          break;
+        }
+      }
+
+      if (!found) {
+        const targetName = pkgSlugMap[pkg.toLowerCase()];
+        found = productsList.find((p) => p.name === (targetName || pkg) || p.name.toLowerCase() === pkg.toLowerCase().replace(/-/g, " "));
+      }
+
       if (found) {
         setActiveProduct(found);
+        if (targetPackageId) {
+          setShowEnrollModal(true);
+        }
       }
     }
   }, [searchParams, productsList]);
