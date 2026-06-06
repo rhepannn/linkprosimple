@@ -96,7 +96,7 @@ export default function ProductGrid({ onSelect }: { onSelect?: () => void }) {
           />
           <input
             type="text"
-            placeholder="Cari paket studio..."
+            placeholder="Cari paket..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-11 pr-4 py-3 bg-white border border-[#1e293b]/8 rounded-xl text-sm text-[#1e293b] placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/20 focus:border-[#0ea5e9]/30 transition-all shadow-sm"

@@ -190,7 +190,7 @@ function DaftarForm() {
                 transition={{ type: "spring", delay: 0.1 }}
                 className="flex justify-center"
               >
-                <div className="w-20 h-20 rounded-full bg-emerald-50 border-4 border-white shadow-xl flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-sky-50 border-4 border-white shadow-xl flex items-center justify-center">
                   <CheckCircle2 size={40} className="text-emerald-500" />
                 </div>
               </motion.div>
@@ -302,7 +302,7 @@ function DaftarForm() {
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {prog.whyInteresting.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2.5 text-xs text-gray-600">
-                            <span className="text-emerald-500 font-bold mt-0.5">✓</span>
+                            <span className="text-sky-500 font-bold mt-0.5">✓</span>
                             <span>{item}</span>
                           </li>
                         ))}

@@ -23,7 +23,7 @@ function StarRating({ rating }: { rating: number }) {
           fill={i < rating ? "currentColor" : "transparent"}
           stroke={i < rating ? "currentColor" : "var(--color-slate-200)"}
           strokeWidth={1.5}
-          className={i < rating ? "text-amber-400" : "text-slate-200"}
+          className={i < rating ? "text-sky-400" : "text-slate-200"}
         />
       ))}
     </div>

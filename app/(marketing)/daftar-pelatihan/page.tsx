@@ -603,7 +603,7 @@ function EnrollModal({
         <div className="flex-1 overflow-y-auto">
           {step === "success" ? (
             <div className="flex flex-col items-center justify-center gap-5 px-8 py-12 text-center">
-              <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-sky-50 border-2 border-sky-200 flex items-center justify-center">
                 <CheckCircle2 size={36} className="text-emerald-500" />
               </div>
               <div>
@@ -621,7 +621,7 @@ function EnrollModal({
                     Rp {finalPrice.toLocaleString("id-ID")}
                   </p>
                   {discountPct > 0 && (
-                    <p className="text-[8px] text-emerald-600 font-bold uppercase tracking-wider">
+                    <p className="text-[8px] text-sky-600 font-bold uppercase tracking-wider">
                       Sudah termasuk diskon referral {discountPct}%!
                     </p>
                   )}
@@ -674,7 +674,7 @@ function EnrollModal({
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-3 bg-[#004aad] hover:bg-[#003984] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
                 >
                   <MessageCircle size={14} />
                   Konfirmasi Pembayaran via WhatsApp
@@ -693,7 +693,7 @@ function EnrollModal({
 
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className={labelCls}>Pilih Program / Tingkatan Kelas <span className="text-rose-400">*</span></label>
+                  <label className={labelCls}>Pilih Program / Tingkatan Kelas <span className="text-sky-500">*</span></label>
                   <select
                     value={selectedPackageId}
                     onChange={(e) => setSelectedPackageId(e.target.value)}
@@ -707,11 +707,11 @@ function EnrollModal({
                   </select>
                 </div>
                 <div>
-                  <label className={labelCls}>Nama Lengkap <span className="text-rose-400">*</span></label>
+                  <label className={labelCls}>Nama Lengkap <span className="text-sky-500">*</span></label>
                   <input type="text" placeholder="Masukkan nama lengkap Anda" value={form.name} onChange={(e) => set("name", e.target.value)} className={inputCls} />
                 </div>
                 <div>
-                  <label className={labelCls}>No. WhatsApp <span className="text-rose-400">*</span></label>
+                  <label className={labelCls}>No. WhatsApp <span className="text-sky-500">*</span></label>
                   <input type="tel" placeholder="Contoh: 081234567890" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={inputCls} />
                 </div>
                 <div>
@@ -737,17 +737,17 @@ function EnrollModal({
                   <label className={labelCls}>Kode Referral Affiliate (Jika Ada)</label>
                   {/* Info banner diskon referral */}
                   {!referralInfo && (
-                    <div className="mb-2 px-3 py-2 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-2">
-                      <span className="text-emerald-500 text-lg">🎁</span>
-                      <p className="text-[10px] font-bold text-emerald-700">
+                    <div className="mb-2 px-3 py-2 bg-sky-50 border border-sky-100 rounded-xl flex items-center gap-2">
+                      <span className="text-sky-500 text-lg">🎁</span>
+                      <p className="text-[10px] font-bold text-sky-700">
                         Punya kode referral? Dapatkan <strong>diskon spesial</strong> untuk biaya pendaftaran!
                       </p>
                     </div>
                   )}
                   {referralInfo && (
-                    <div className="mb-2 px-3 py-2 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2">
-                      <span className="text-emerald-500 text-lg">✅</span>
-                      <p className="text-[10px] font-black text-emerald-700 uppercase tracking-wide">
+                    <div className="mb-2 px-3 py-2 bg-sky-50 border border-sky-200 rounded-xl flex items-center gap-2">
+                      <span className="text-sky-500 text-lg">✅</span>
+                      <p className="text-[10px] font-black text-sky-700 uppercase tracking-wide">
                         Kode valid! Diskon <strong>{referralInfo.discountPct}%</strong> berhasil diterapkan.
                       </p>
                     </div>
@@ -810,12 +810,12 @@ function EnrollModal({
                     </div>
                   )}
                   {discountPct > 0 ? (
-                    <div className="flex justify-between text-xs text-emerald-600">
+                    <div className="flex justify-between text-xs text-sky-600">
                       <span className="font-bold flex items-center gap-1">🎁 Diskon Referral ({discountPct}%):</span>
                       <span className="font-black">-Rp {refDiscountAmount.toLocaleString("id-ID")}</span>
                     </div>
                   ) : (
-                    <div className="flex justify-between text-xs text-emerald-500/60">
+                    <div className="flex justify-between text-xs text-sky-500/60">
                       <span className="font-medium italic flex items-center gap-1">🎁 Diskon Referral (belum dipakai):</span>
                       <span className="font-medium italic">-Rp 0</span>
                     </div>
@@ -826,7 +826,7 @@ function EnrollModal({
                     <span className="text-[#004aad] text-sm">Rp {finalPrice.toLocaleString("id-ID")}</span>
                   </div>
                   {discountPct > 0 ? (
-                    <p className="text-[8px] text-emerald-600 font-bold leading-normal mt-1 uppercase tracking-wider">
+                    <p className="text-[8px] text-sky-600 font-bold leading-normal mt-1 uppercase tracking-wider">
                       ✅ Kode Referral Terpasang! Diskon {discountPct}% berhasil diterapkan.
                     </p>
                   ) : (
@@ -838,9 +838,9 @@ function EnrollModal({
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
-                  <X size={14} className="text-rose-500 flex-shrink-0" />
-                  <p className="text-xs font-bold text-rose-600">{error}</p>
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl">
+                  <X size={14} className="text-red-500 flex-shrink-0" />
+                  <p className="text-xs font-bold text-red-600">{error}</p>
                 </div>
               )}
             </div>
@@ -1206,8 +1206,8 @@ function DaftarPelatihanContent() {
                               </div>
                               {pkg.afterDiscount && (
                                 <div className="text-right">
-                                  <span className="block text-[8px] text-emerald-400 font-black uppercase tracking-wider">Promo Khusus</span>
-                                  <span className="text-xs font-black text-emerald-400 font-sans">{pkg.afterDiscount}</span>
+                                  <span className="block text-[8px] text-sky-400 font-black uppercase tracking-wider">Promo Khusus</span>
+                                  <span className="text-xs font-black text-sky-400 font-sans">{pkg.afterDiscount}</span>
                                 </div>
                               )}
                             </div>
@@ -1431,7 +1431,7 @@ function DaftarPelatihanContent() {
                           <div className="w-12 h-12 rounded-2xl bg-[#004aad]/10 flex items-center justify-center text-[#004aad] group-hover:scale-110 transition-transform border border-[#004aad]/20">
                             <prod.icon size={22} />
                           </div>
-                          <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 border border-emerald-100">
+                          <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-sky-600 border border-emerald-100">
                             Pendaftaran Aktif
                           </span>
                         </div>

@@ -70,7 +70,7 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
         <div className="flex-1 overflow-y-auto">
           {step === "success" ? (
             <div className="flex flex-col items-center justify-center gap-5 px-8 py-12 text-center">
-              <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-sky-50 border-2 border-sky-200 flex items-center justify-center">
                 <CheckCircle2 size={36} className="text-emerald-500" />
               </div>
               <div>
@@ -83,7 +83,7 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
                 <button onClick={onClose} className="flex-1 py-3 border border-near-black/10 text-near-black/50 rounded-xl text-xs font-black uppercase tracking-wider hover:border-near-black/20 transition-all">Tutup</button>
                 <a href={`https://wa.me/${settings.affiliate_whatsapp || settings.contact_wa || ""}?text=${encodeURIComponent(`Halo Link Productive! Saya ${form.name} baru saja mendaftar sebagai affiliate partner.`)}`}
                   target="_blank" rel="noopener noreferrer"
-                  className="flex-[2] flex items-center justify-center gap-2 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all">
+                  className="flex-[2] flex items-center justify-center gap-2 py-3 bg-[#004aad] hover:bg-[#003984] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all">
                   <MessageCircle size={14} /> Hubungi via WhatsApp
                 </a>
               </div>
@@ -92,19 +92,19 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
             <div className="space-y-4 px-6 py-5">
               <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#004aad]">Data Diri</p>
               <div>
-                <label className={lbl}>Nama Lengkap <span className="text-rose-400">*</span></label>
+                <label className={lbl}>Nama Lengkap <span className="text-sky-500">*</span></label>
                 <input type="text" placeholder="Masukkan nama lengkap" value={form.name} onChange={(e) => set("name", e.target.value)} className={cls} />
               </div>
               <div>
-                <label className={lbl}>Email <span className="text-rose-400">*</span></label>
+                <label className={lbl}>Email <span className="text-sky-500">*</span></label>
                 <input type="email" placeholder="nama@email.com" value={form.email} onChange={(e) => set("email", e.target.value)} className={cls} />
               </div>
               <div>
-                <label className={lbl}>No. WhatsApp <span className="text-rose-400">*</span></label>
+                <label className={lbl}>No. WhatsApp <span className="text-sky-500">*</span></label>
                 <input type="tel" placeholder="081234567890" value={form.phone} onChange={(e) => set("phone", e.target.value)} className={cls} />
               </div>
               <div>
-                <label className={lbl}>Kata Sandi Akun <span className="text-rose-400">*</span></label>
+                <label className={lbl}>Kata Sandi Akun <span className="text-sky-500">*</span></label>
                 <div className="relative">
                   <input type={showPassword ? "text" : "password"} placeholder="Minimal 6 karakter" value={form.password} onChange={(e) => set("password", e.target.value)} className={cls + " pr-10"} />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-near-black/30 hover:text-near-black cursor-pointer">
@@ -144,9 +144,9 @@ function RegisterModal({ onClose, settings = {} }: { onClose: () => void; settin
                 <textarea placeholder="Ceritakan alasanmu..." value={form.motivation} onChange={(e) => set("motivation", e.target.value)} rows={3} className={cls + " resize-none"} />
               </div>
               {error && (
-                <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
-                  <X size={14} className="text-rose-500 flex-shrink-0" />
-                  <p className="text-xs font-bold text-rose-600">{error}</p>
+                <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl">
+                  <X size={14} className="text-red-500 flex-shrink-0" />
+                  <p className="text-xs font-bold text-red-600">{error}</p>
                 </div>
               )}
             </div>
@@ -387,7 +387,7 @@ function AffiliateContent() {
                         <img src={post.imageUrl} alt="Materi" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                           <button onClick={() => handleCopyCaption(post)} className="bg-white text-near-black p-3 rounded-full hover:scale-110 transition-all shadow-lg cursor-pointer" title="Salin Caption">
-                            {isCopied ? <Check size={18} className="text-green-600" /> : <Copy size={18} />}
+                            {isCopied ? <Check size={18} className="text-sky-600" /> : <Copy size={18} />}
                           </button>
                           <button onClick={(e) => {
                             e.stopPropagation();
@@ -404,11 +404,11 @@ function AffiliateContent() {
                       </div>
                       <div className="px-5 pt-4 pb-2 flex items-center justify-between border-t border-slate-100">
                         <button onClick={() => handleLike(post.id)} className="flex items-center gap-1.5 group/like cursor-pointer">
-                          <Heart size={20} className={`transition-all group-hover/like:scale-110 ${isLiked ? "fill-rose-500 text-rose-500" : "text-near-black/40 hover:text-rose-500"}`} />
+                          <Heart size={20} className={`transition-all group-hover/like:scale-110 ${isLiked ? "fill-sky-500 text-sky-500" : "text-near-black/40 hover:text-sky-500"}`} />
                           <span className="text-xs font-black text-near-black/70">{post.likeCount}</span>
                         </button>
                         <button onClick={() => handleCopyCaption(post)}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${isCopied ? "bg-green-50 text-green-700 border border-green-200" : "bg-[#004aad]/10 text-[#004aad] hover:bg-[#004aad]/20"}`}>
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${isCopied ? "bg-sky-50 text-sky-700 border border-sky-200" : "bg-[#004aad]/10 text-[#004aad] hover:bg-[#004aad]/20"}`}>
                           {isCopied ? <><Check size={12} /> Tersalin</> : <><Copy size={12} /> Salin Caption</>}
                         </button>
                       </div>

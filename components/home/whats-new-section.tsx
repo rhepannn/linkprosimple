@@ -19,7 +19,7 @@ export function WhatsNewSection() {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-100 text-xs font-bold text-orange-700 uppercase tracking-wider"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-xs font-bold text-sky-700 uppercase tracking-wider"
             >
               <Award size={12} /> What's New?
             </motion.div>
@@ -58,7 +58,7 @@ export function WhatsNewSection() {
                 </div>
               </div>
               <div className="flex gap-3 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600 flex-shrink-0">
                   <MessageSquare size={18} />
                 </div>
                 <div>

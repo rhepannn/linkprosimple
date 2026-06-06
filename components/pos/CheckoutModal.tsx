@@ -274,7 +274,7 @@ export default function CheckoutModal({
                   <p className="text-[10px] font-medium text-gray-400">
                     {method === "QRIS"
                       ? "Silakan scan QR code berikut menggunakan aplikasi E-Wallet atau M-Banking Anda."
-                      : "Transaksi berhasil dicatat ke sistem Sneapici Studio."}
+                      : "Transaksi berhasil dicatat ke sistem Link Productive."}
                   </p>
                 </div>
 
@@ -351,7 +351,7 @@ export default function CheckoutModal({
                     <div>
                       <h2 className="text-base font-black text-[#1e293b]">Konfirmasi Bayar</h2>
                       <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">
-                        {items.length} item · Sneapici Studio
+                        {items.length} item · Link Productive
                       </p>
                     </div>
                   </div>
@@ -554,7 +554,7 @@ export default function CheckoutModal({
                                 </div>
                                 <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">LINK PRODUCTIVE</span>
                                 </div>
                               </>
                             ) : (
@@ -569,7 +569,7 @@ export default function CheckoutModal({
                                 </div>
                                 <div className="pt-2 mt-1 border-t border-[#1e293b]/5 flex justify-between items-center">
                                   <span className="text-[9px] font-bold text-gray-400">Atas Nama</span>
-                                  <span className="text-[9px] font-black text-[#1e293b]">SNEAPICI STUDIO</span>
+                                  <span className="text-[9px] font-black text-[#1e293b]">LINK PRODUCTIVE</span>
                                 </div>
                               </>
                             )}

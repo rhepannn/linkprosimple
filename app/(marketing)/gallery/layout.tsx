@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Galeri Foto",
+  title: "Kegiatan",
   description:
-    "Jelajahi galeri dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
+    "Jelajahi dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
   openGraph: {
-    title: `Galeri Kegiatan | ${site.name}`,
+    title: `Kegiatan | ${site.name}`,
     description:
-      "Jelajahi galeri dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
+      "Jelajahi dokumentasi program, kegiatan sosial, dan pelatihan Link Productive.",
     url: "https://linkproductive.com/gallery",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },

@@ -22,7 +22,7 @@ const features = [
     delay: 0.2,
   },
   {
-    icon: <Briefcase className="text-indigo-600" size={24} />,
+    icon: <Briefcase className="text-sky-600" size={24} />,
     title: "Persiapan Karir",
     description: "Mentorship eksklusif, review CV, dan simulasi interview kerja.",
     delay: 0.3,
@@ -40,7 +40,7 @@ const features = [
     delay: 0.5,
   },
   {
-    icon: <Lightbulb className="text-indigo-600" size={24} />,
+    icon: <Lightbulb className="text-sky-600" size={24} />,
     title: "Inkubator Bisnis",
     description: "Wujudkan ide startup Anda dari validasi hingga tahap pendanaan awal.",
     delay: 0.6,

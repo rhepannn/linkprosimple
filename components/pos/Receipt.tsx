@@ -25,7 +25,7 @@ export default function Receipt({
 
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `Struk_Sneapici_${new Date().getTime()}`,
+    documentTitle: `Struk_LinkProductive_${new Date().getTime()}`,
   });
 
   const subtotal = total + discount;
@@ -66,13 +66,13 @@ export default function Receipt({
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: "16px" }}>
             <div style={{ fontSize: "18px", fontWeight: 900, letterSpacing: "4px", marginBottom: "4px" }}>
-              SNEAPICI
+              LINK PRODUCTIVE
             </div>
-            <div style={{ fontSize: "10px", letterSpacing: "2px", marginBottom: "2px" }}>STUDIO FOTO PROFESIONAL</div>
+            <div style={{ fontSize: "10px", letterSpacing: "2px", marginBottom: "2px" }}>PLATFORM PENGEMBANGAN DIRI</div>
             <div style={{ borderTop: "1px solid #000", marginTop: "8px", paddingTop: "8px", fontSize: "9px" }}>
-              <div>Jl. Contoh No. 123, Kota Anda</div>
+              <div>Cilegon, Banten</div>
               <div>WhatsApp: 0812-3456-7890</div>
-              <div>Instagram: @sneapici.studio</div>
+              <div>Instagram: @linkproductive</div>
             </div>
           </div>
 
@@ -171,9 +171,9 @@ export default function Receipt({
 
           {/* Footer */}
           <div style={{ textAlign: "center", fontSize: "9px", lineHeight: "1.8", color: "#555" }}>
-            <div>— Terima kasih atas kunjungan Anda —</div>
-            <div>Hasil foto terbaik hanya di Sneapici Studio</div>
-            <div style={{ marginTop: "6px", fontWeight: 700, letterSpacing: "1px" }}>www.sneapici.studio</div>
+            <div>— Terima kasih atas kepercayaan Anda —</div>
+            <div>Kembangkan potensimu bersama Link Productive</div>
+            <div style={{ marginTop: "6px", fontWeight: 700, letterSpacing: "1px" }}>www.linkproductive.com</div>
           </div>
         </div>
       </div>

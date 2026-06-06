@@ -21,24 +21,19 @@ export function HeroSection({ heroPhotos = [] }: { heroPhotos?: any[] }) {
 
   const defaultSlides = [
     {
-      image: "/photos/hero-001.png",
-      category: "Kemitraan UMKM",
-      title: "Kunjungan UMKM Pasca Program Inkubator Bisnis Berkelanjutan di UMKM Dimajopa Craft",
+      image: "",
+      category: "Ekosistem Inovasi",
+      title: "Membangun Ekosistem Inovasi Sosial Terintegrasi Bersama Link Productive",
     },
     {
-      image: "/photos/couple-001.png",
-      category: "Konsultasi Karir",
-      title: "Konsultasi Karir Intensif Career Ready Program Link Productive",
+      image: "",
+      category: "Kemitraan Pentahelix",
+      title: "Sinergi Kolaboratif Antara Pemerintah, Industri, dan Akademisi",
     },
     {
-      image: "/photos/family-001.png",
-      category: "Inovasi Sosial",
-      title: "Kolaborasi Dampak Nyata Dalam Social Innovation Bootcamp",
-    },
-    {
-      image: "/photos/studio-bg.jpg",
+      image: "",
       category: "Akselerasi Kompetensi",
-      title: "Akselerasi Kompetensi Industri Masa Depan Bersama Mitra Strategis",
+      title: "Akselerasi Kompetensi Masa Depan Melalui Program Pelatihan Profesional",
     },
   ];
 
@@ -82,13 +77,22 @@ export function HeroSection({ heroPhotos = [] }: { heroPhotos?: any[] }) {
             transition={{ duration: 1.0, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full"
           >
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority
-              className="object-cover object-center"
-            />
+            {slide.image ? (
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority
+                className="object-cover object-center"
+              />
+            ) : (
+              /* Premium blue gradient fallback — shown when no DB images uploaded yet */
+              <div className="absolute inset-0 bg-gradient-to-br from-[#001a4d] via-[#003494] to-[#004aad]">
+                <div className="absolute top-[15%] right-[10%] w-[500px] h-[500px] rounded-full bg-sky-400/10 blur-[120px]" />
+                <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-blue-300/10 blur-[100px]" />
+                <div className="absolute top-[40%] left-[30%] w-[600px] h-[300px] rounded-full bg-sky-500/5 blur-[80px]" />
+              </div>
+            )}
             {/* Premium double-gradient layout: bottom deep-dark ocean, top dark vignette */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-[1]" />
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-transparent z-[1]" />

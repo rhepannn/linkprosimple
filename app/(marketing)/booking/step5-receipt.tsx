@@ -219,10 +219,10 @@ export default function Step5Receipt({
             saveState === "saving"
               ? "bg-[#E0E0DA]"
               : dbStatus === "confirmed" || dbStatus === "completed"
-                ? "bg-emerald-500"
+                ? "bg-sky-500"
                 : dbStatus === "cancelled"
-                  ? "bg-red-500"
-                  : "bg-amber-500",
+                  ? "bg-slate-400"
+                  : "bg-sky-400",
           ].join(" ")}
         >
           {saveState === "saving" ? (
@@ -259,32 +259,32 @@ export default function Step5Receipt({
                   : "Selesaikan pembayaran dan kirimkan bukti transfer ke WhatsApp admin melalui link di bawah."}
         </p>
         {saveState === "saved" && (
-          <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-500 bg-amber-50 border-amber-200">
+          <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-500 bg-sky-50 border-sky-200">
             {dbStatus === "confirmed" ? (
               <>
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="text-xs font-semibold text-emerald-700">
+                <span className="w-2 h-2 rounded-full bg-sky-500" />
+                <span className="text-xs font-semibold text-sky-700">
                   Pembayaran Dikonfirmasi
                 </span>
               </>
             ) : dbStatus === "completed" ? (
               <>
-                <span className="w-2 h-2 rounded-full bg-blue-500" />
-                <span className="text-xs font-semibold text-blue-700">
+                <span className="w-2 h-2 rounded-full bg-sky-500" />
+                <span className="text-xs font-semibold text-sky-700">
                   Sesi Selesai
                 </span>
               </>
             ) : dbStatus === "cancelled" ? (
               <>
-                <span className="w-2 h-2 rounded-full bg-red-500" />
-                <span className="text-xs font-semibold text-red-700">
+                <span className="w-2 h-2 rounded-full bg-slate-400" />
+                <span className="text-xs font-semibold text-slate-600">
                   Dibatalkan
                 </span>
               </>
             ) : (
               <>
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-xs font-semibold text-amber-700">
+                <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                <span className="text-xs font-semibold text-sky-700">
                   Menunggu Konfirmasi Admin
                 </span>
               </>
@@ -587,7 +587,7 @@ export default function Step5Receipt({
                   damping: 10,
                   delay: 0.3,
                 }}
-                className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6"
+                className="w-24 h-24 rounded-full bg-sky-100 flex items-center justify-center mb-6"
               >
                 <motion.svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -595,7 +595,7 @@ export default function Step5Receipt({
                   viewBox="0 0 24 24"
                   strokeWidth={4}
                   stroke="currentColor"
-                  className="w-12 h-12 text-[#22C55E]"
+                  className="w-12 h-12 text-sky-500"
                   initial={{ strokeDasharray: 50, strokeDashoffset: 50 }}
                   animate={{ strokeDashoffset: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}

@@ -16,8 +16,8 @@ const stats = [
     value: `${site.stats.yearsActive} Th`,
     label: "Pengalaman",
     icon: Calendar,
-    color: "from-emerald-400 to-teal-400",
-    bg: "bg-emerald-50",
+    color: "from-sky-400 to-blue-500",
+    bg: "bg-sky-50",
   },
 ];
 
