@@ -886,6 +886,7 @@ function parseProductsFromDb(dbProducts: any[]) {
     startingDiscountedPrice?: number;
     url: string;
     packages: any[];
+    dbDetails?: any;
   }> = {};
 
   const iconMap: Record<string, any> = {
