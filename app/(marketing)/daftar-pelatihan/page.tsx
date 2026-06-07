@@ -470,11 +470,22 @@ function EnrollModal({
                     onChange={(e) => setSelectedPackageId(e.target.value)}
                     className={inputCls + " cursor-pointer font-bold text-xs"}
                   >
-                    {product.packages && product.packages.filter((pkg: any) => searchParams.get("pkg") === pkg.sku ? true : !searchParams.get("pkg") || !product.packages.some((p: any) => p.sku === searchParams.get("pkg"))).map((pkg: any) => (
-                      <option key={pkg.id} value={pkg.id}>
-                        {pkg.name} ({pkg.afterDiscount || pkg.price})
-                      </option>
-                    ))}
+                    {product.packages && product.packages.filter((pkg: any) => searchParams.get("pkg") === pkg.sku ? true : !searchParams.get("pkg") || !product.packages.some((p: any) => p.sku === searchParams.get("pkg"))).map((pkg: any) => {
+                      const formatOptionPrice = (priceVal: any) => {
+                        if (!priceVal) return "-";
+                        const priceStr = String(priceVal);
+                        if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
+                        const numsOnly = priceStr.replace(/[^0-9]/g, "");
+                        if (!numsOnly) return priceStr;
+                        return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
+                      };
+
+                      return (
+                        <option key={pkg.id} value={pkg.id}>
+                          {pkg.name} ({formatOptionPrice(pkg.afterDiscount || pkg.price)})
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
                 <div>
@@ -687,7 +698,6 @@ function parseProductsFromDb(dbProducts: any[]) {
     if (p.name.includes(" - ")) {
       programName = p.name.split(" - ")[0].trim();
     } else {
-      // Nama produk tanpa " - " berarti produk itu sendiri adalah program
       programName = p.name;
     }
     if (!dbProdsByProgram[programName]) {
@@ -696,7 +706,6 @@ function parseProductsFromDb(dbProducts: any[]) {
     dbProdsByProgram[programName].push(p);
   });
 
-  // Iterate dari DB — semua produk aktif di DB pasti muncul
   Object.keys(dbProdsByProgram).forEach((programName) => {
     const dbProds = dbProdsByProgram[programName];
     if (!dbProds || dbProds.length === 0) return;
@@ -709,8 +718,6 @@ function parseProductsFromDb(dbProducts: any[]) {
       }
     }
 
-    // Resolve subtitle/desc
-    // Parse DB details if present on the first product in the group
     let dbDetails: any = null;
     const firstProd = dbProds[0];
     if (firstProd && firstProd.details) {
@@ -721,38 +728,53 @@ function parseProductsFromDb(dbProducts: any[]) {
       }
     }
 
-    const parsedPackages: any[] = dbProds.map((p: any, index: number) => {
-      let packageName = p.name;
-      if (p.name.includes(" - ")) {
-        packageName = p.name.split(" - ").slice(1).join(" - ").trim();
-      }
+    let parsedPackages: any[] = [];
+    if (dbDetails && Array.isArray(dbDetails.packages) && dbDetails.packages.length > 0) {
+      parsedPackages = dbDetails.packages.map((dp: any, index: number) => {
+        const rawPrice = parsePriceString(dp.price || "0");
+        const discountedPrice = parsePriceString(dp.afterDiscount || dp.price || "0");
+        return {
+          id: dp.id || `${firstProd.id}-pkg-${index}`,
+          sku: firstProd.sku,
+          name: dp.name,
+          price: dp.price || `Rp ${discountedPrice.toLocaleString("id-ID")}`,
+          rawPrice: rawPrice || firstProd.price,
+          discountedPrice: discountedPrice || firstProd.price,
+          discount: dp.price && dp.afterDiscount && rawPrice > discountedPrice ? `${Math.round((1 - discountedPrice / rawPrice) * 100)}%` : "",
+          afterDiscount: dp.afterDiscount && dp.afterDiscount !== dp.price ? dp.afterDiscount : undefined,
+          suitableFor: dp.suitableFor,
+          services: dp.services || [],
+          goal: dp.goal,
+          imageUrl: dp.imageUrl || null,
+        };
+      });
+    } else {
+      parsedPackages = dbProds.map((p: any, index: number) => {
+        let packageName = p.name;
+        if (p.name.includes(" - ")) {
+          packageName = p.name.split(" - ").slice(1).join(" - ").trim();
+        }
 
-      const originalPrice = p.discount ? parseFloat(p.discount) : p.price;
-      const finalPrice = p.price;
+        const originalPrice = p.discount ? parseFloat(p.discount) : p.price;
+        const finalPrice = p.price;
 
-      // Check if custom package parameters are stored in parsed dbDetails
-      let dbPkg = null;
-      if (dbDetails && Array.isArray(dbDetails.packages)) {
-        dbPkg = dbDetails.packages.find((dp: any) => dp.sku === p.sku || dp.name === packageName);
-      }
+        return {
+          id: `${p.id}-${index}`,
+          sku: p.sku,
+          name: packageName,
+          price: `Rp ${finalPrice.toLocaleString("id-ID")}`,
+          rawPrice: originalPrice,
+          discountedPrice: finalPrice,
+          discount: p.discount || "",
+          afterDiscount: p.discount ? `Rp ${finalPrice.toLocaleString("id-ID")}` : undefined,
+          suitableFor: p.duration ? `Durasi: ${p.duration}` : undefined,
+          services: p.features || [],
+          goal: p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined,
+          imageUrl: null,
+        };
+      });
+    }
 
-      return {
-        id: `${p.id}-${index}`,
-        sku: p.sku,
-        name: packageName,
-        price: `Rp ${finalPrice.toLocaleString("id-ID")}`,
-        rawPrice: originalPrice,
-        discountedPrice: finalPrice,
-        discount: p.discount || "",
-        afterDiscount: p.discount ? `Rp ${finalPrice.toLocaleString("id-ID")}` : undefined,
-        suitableFor: dbPkg?.suitableFor || (p.duration ? `Durasi: ${p.duration}` : undefined),
-        services: dbPkg?.services || p.features || [],
-        goal: dbPkg?.goal || (p.photoCount ? `Sertifikasi: ${p.photoCount}` : undefined),
-        imageUrl: dbPkg?.imageUrl || null,
-      };
-    });
-
-    // Resolve subtitle/desc
     let desc = dbDetails?.subtitle || `Program unggulan ${programName} untuk mempersiapkan keahlian profesional Anda.`;
 
     const startingPrice = parsedPackages.length > 0 
@@ -763,7 +785,6 @@ function parseProductsFromDb(dbProducts: any[]) {
       ? Math.min(...parsedPackages.map((p: any) => p.discountedPrice))
       : 0;
 
-    // Resolve poster URLs priority: dbDetails.posterUrls -> dbProds[0].image
     let posterImageStr = null;
     if (dbDetails && Array.isArray(dbDetails.posterUrls) && dbDetails.posterUrls.length > 0) {
       posterImageStr = dbDetails.posterUrls.join(",");
@@ -967,50 +988,65 @@ function DaftarPelatihanContent() {
                   {/* Dynamic Packages */}
                   {activeProduct.packages && activeProduct.packages.length > 0 && (
                     <div className="space-y-4">
-                      <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Pilihan Paket & Investasi</h3>
+                      <h3 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.2em]">Pilihan Paket & Biaya Pelatihan</h3>
                       <div className="grid grid-cols-1 gap-6">
-                        {activeProduct.packages.map((pkg: any, idx: number) => (
-                          <div key={idx} className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#004aad]/40 transition-colors flex flex-col md:flex-row gap-6 justify-between">
-                            {pkg.imageUrl && (
-                              <div className="w-full md:w-80 aspect-video md:aspect-[4/3] rounded-xl overflow-hidden border border-white/10 flex-shrink-0 bg-slate-900/10">
-                                <img src={pkg.imageUrl} alt={pkg.name} className="w-full h-full object-cover" />
-                              </div>
-                            )}
-                            <div className="flex-1 flex flex-col justify-between">
-                              <div>
-                                <h4 className="text-xs font-black text-white uppercase tracking-wide">{pkg.name}</h4>
-                                {pkg.suitableFor && (
-                                  <p className="text-[9px] text-white/50 mt-1 font-medium leading-relaxed">{pkg.suitableFor}</p>
-                                )}
-                                {pkg.services && pkg.services.length > 0 && (
-                                  <ul className="mt-4 space-y-1.5">
-                                    {pkg.services.map((srv: string, sIdx: number) => (
-                                      <li key={sIdx} className="text-[10px] text-white/75 font-bold flex items-start gap-2">
-                                        <CheckCircle2 size={12} className="text-[#004aad] flex-shrink-0 mt-0.5" />
-                                        <span>{srv}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                )}
-                                {pkg.goal && (
-                                  <p className="text-[9px] text-[#004aad] uppercase font-black tracking-wider mt-4">{pkg.goal}</p>
-                                )}
-                              </div>
-                              <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
-                                <div>
-                                  <span className="block text-[8px] text-white/40 font-black uppercase tracking-wider">Investasi</span>
-                                  <span className="text-xs font-black text-white font-sans">{pkg.price}</span>
+                        {activeProduct.packages.map((pkg: any, idx: number) => {
+                          const formatDisplayPrice = (priceVal: any) => {
+                            if (!priceVal) return "-";
+                            const priceStr = String(priceVal);
+                            if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
+                            const numsOnly = priceStr.replace(/[^0-9]/g, "");
+                            if (!numsOnly) return priceStr;
+                            return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
+                          };
+
+                          return (
+                            <div key={idx} className="p-5 rounded-3xl bg-slate-900/20 hover:bg-slate-900/35 border border-white/10 hover:border-sky-500/30 transition-all duration-300 flex flex-col md:flex-row gap-6 justify-between items-start shadow-md">
+                              {pkg.imageUrl && (
+                                <div className="w-full md:w-80 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0 relative">
+                                  <img 
+                                    src={pkg.imageUrl} 
+                                    alt={pkg.name} 
+                                    className="w-full h-auto block" 
+                                  />
                                 </div>
-                                {pkg.afterDiscount && (
-                                  <div className="text-right">
-                                    <span className="block text-[8px] text-sky-400 font-black uppercase tracking-wider">Promo Khusus</span>
-                                    <span className="text-xs font-black text-sky-400 font-sans">{pkg.afterDiscount}</span>
+                              )}
+                              <div className="flex-1 flex flex-col justify-between py-1">
+                                <div>
+                                  <h4 className="text-sm font-black text-white uppercase tracking-wider">{pkg.name}</h4>
+                                  {pkg.suitableFor && (
+                                    <p className="text-[10px] text-sky-400/70 mt-1.5 font-bold uppercase tracking-wider">{pkg.suitableFor}</p>
+                                  )}
+                                  {pkg.services && pkg.services.length > 0 && (
+                                    <ul className="mt-4 space-y-2">
+                                      {pkg.services.map((srv: string, sIdx: number) => (
+                                        <li key={sIdx} className="text-[10px] text-white/80 font-bold flex items-start gap-2.5">
+                                          <CheckCircle2 size={13} className="text-sky-400 flex-shrink-0 mt-0.5" />
+                                          <span>{srv}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                  {pkg.goal && (
+                                    <p className="text-[9px] text-sky-400 uppercase font-black tracking-wider mt-4 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-md inline-block">{pkg.goal}</p>
+                                  )}
+                                </div>
+                                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                                  <div>
+                                    <span className="block text-[8px] text-white/40 font-black uppercase tracking-wider">Biaya</span>
+                                    <span className="text-xs font-black text-white font-sans">{formatDisplayPrice(pkg.price)}</span>
                                   </div>
-                                )}
+                                  {pkg.afterDiscount && (
+                                    <div className="text-right">
+                                      <span className="block text-[8px] text-sky-400 font-black uppercase tracking-wider">Promo Khusus</span>
+                                      <span className="text-xs font-black text-sky-400 font-sans">{formatDisplayPrice(pkg.afterDiscount)}</span>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -1237,27 +1273,10 @@ function DaftarPelatihanContent() {
                         <p className="text-[11px] text-sky-600 font-medium leading-relaxed mb-6 line-clamp-3">{prod.desc}</p>
                       </div>
 
-                      <div className="px-6 pb-6 pt-4 border-t border-[#004aad]/5 flex items-center justify-between gap-4 mt-auto">
-                        <div>
-                          <span className="block text-[8px] text-sky-500 font-black uppercase tracking-wider">Mulai Dari</span>
-                          {prod.startingDiscountedPrice < prod.startingPrice ? (
-                            <>
-                              <span className="block text-[10px] text-sky-500 font-bold line-through mt-0.5">
-                                {formatPrice(prod.startingPrice)}
-                              </span>
-                              <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans">
-                                {formatPrice(prod.startingDiscountedPrice)}
-                              </span>
-                            </>
-                          ) : (
-                            <span className="block text-sm font-black text-[#004aad] tracking-wide font-sans mt-0.5">
-                              {formatPrice(prod.startingPrice || 699000)}
-                            </span>
-                          )}
-                        </div>
+                      <div className="px-6 pb-6 pt-4 border-t border-[#004aad]/5 mt-auto">
                         <button
                           onClick={() => setActiveProduct(prod)}
-                          className="inline-flex items-center gap-1.5 px-4.5 py-2.5 bg-[#004aad] hover:bg-[#003984] text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
+                          className="w-full flex items-center justify-center gap-1.5 px-4 py-3 bg-[#004aad] hover:bg-[#003984] text-white text-[10px] font-black uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
                         >
                           Detail Program
                           <ChevronRight size={12} />

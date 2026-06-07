@@ -833,7 +833,7 @@ function ProductDetailForm({
       {/* Paket & Harga */}
       <div className="pt-4 border-t border-slate-100 space-y-4">
         <div className="flex items-center justify-between">
-          <SectionLabel>Pilihan Paket & Investasi</SectionLabel>
+          <SectionLabel>Pilihan Paket & Biaya Pelatihan</SectionLabel>
           <button
             onClick={() =>
               setForm((f) => ({
