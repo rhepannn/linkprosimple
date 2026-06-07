@@ -58,6 +58,7 @@ interface AffiliatePackage {
   discount: number;
   finalPrice: number;
   commission: number;
+  imageUrl?: string;
 }
 
 export default function ProductManagement({ hideHeader = false }: { hideHeader?: boolean }) {
@@ -121,6 +122,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
     discount: 0,
     finalPrice: 0,
     commission: 0,
+    imageUrl: "",
   });
 
   const [affiliatePackages, setAffiliatePackages] = useState<AffiliatePackage[]>([]);
@@ -130,7 +132,7 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
   const updatePackage = (id: string, field: keyof AffiliatePackage, value: string) => {
     setAffiliatePackages(prev => prev.map(pkg => {
       if (pkg.id !== id) return pkg;
-      const stringFields: (keyof AffiliatePackage)[] = ["id", "name", "features"];
+      const stringFields: (keyof AffiliatePackage)[] = ["id", "name", "features", "imageUrl"];
       const updated = { ...pkg, [field]: stringFields.includes(field) ? value : parseFloat(value) || 0 };
       if (field === "normalPrice" || field === "discount") {
         updated.finalPrice = updated.normalPrice - updated.discount;
@@ -786,6 +788,46 @@ export default function ProductManagement({ hideHeader = false }: { hideHeader?:
                                 placeholder="Contoh: Starter Branding, Growth Digital, Scale Up Brand"
                                 className="w-full px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none"
                               />
+                            </div>
+
+                            {/* Gambar Paket */}
+                            <div className="space-y-1">
+                              <label className="text-[8px] font-black text-[#1e293b]/30 uppercase tracking-widest ml-1">Gambar Paket (URL / Upload)</label>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={pkg.imageUrl || ""}
+                                  onChange={(e) => updatePackage(pkg.id, "imageUrl", e.target.value)}
+                                  placeholder="https://example.com/image.jpg atau unggah file..."
+                                  className="flex-1 px-4 py-3 bg-[#FAFAF8] border border-transparent focus:border-[#1e293b]/10 rounded-[14px] text-xs font-bold outline-none"
+                                />
+                                <label className="flex items-center gap-1.5 px-4 py-3 bg-sky-50 hover:bg-sky-100 text-[#004aad] rounded-[14px] text-xs font-bold cursor-pointer transition-all whitespace-nowrap">
+                                  Unggah
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                      const file = e.target.files?.[0];
+                                      if (!file) return;
+                                      const fd = new FormData();
+                                      fd.append("file", file);
+                                      try {
+                                        const res = await fetch("/api/admin/upload", {
+                                          method: "POST",
+                                          body: fd,
+                                        });
+                                        const data = await res.json();
+                                        if (data.success && data.url) {
+                                          updatePackage(pkg.id, "imageUrl", data.url);
+                                        }
+                                      } catch (err) {
+                                        console.error(err);
+                                      }
+                                    }}
+                                    className="hidden"
+                                  />
+                                </label>
+                              </div>
                             </div>
 
                             {/* Keunggulan Paket */}
