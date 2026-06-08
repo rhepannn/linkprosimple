@@ -145,7 +145,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
   };
 
   return (
-    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-slate-900/5 relative group/carousel shadow-sm">
+    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-slate-50 relative group/carousel shadow-sm">
       <div className="w-full h-full relative overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
@@ -173,7 +173,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
               }
             }}
             onClick={() => onImageClick?.(urls[currentIndex])}
-            className="absolute w-full h-full object-cover cursor-zoom-in"
+            className="absolute inset-0 w-full h-full object-cover object-center cursor-zoom-in"
             alt={productName}
           />
         </AnimatePresence>

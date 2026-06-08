@@ -123,7 +123,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
   };
 
   return (
-    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-[#004aad]/5 relative group/carousel shadow-sm">
+    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-slate-50 relative group/carousel shadow-sm">
       <div className="w-full h-full relative overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
@@ -151,7 +151,7 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
               }
             }}
             alt={`${productName} poster ${currentIndex + 1}`}
-            className="absolute inset-0 w-full h-full object-contain bg-[#1A1A1A] select-none touch-pan-y cursor-zoom-in"
+            className="absolute inset-0 w-full h-full object-cover object-center select-none touch-pan-y cursor-zoom-in"
             onClick={() => onImageClick?.(urls[currentIndex])}
             loading="lazy"
           />
@@ -988,7 +988,7 @@ function DaftarPelatihanContent() {
                   {/* Dynamic Packages */}
                   {activeProduct.packages && activeProduct.packages.length > 0 && (
                     <div className="space-y-4">
-                      <h3 className="text-[10px] font-black text-[#0ea5e9] uppercase tracking-[0.2em]">Pilihan Paket & Biaya Pelatihan</h3>
+                      <h3 className="text-xs sm:text-sm font-black text-[#0ea5e9] uppercase tracking-[0.2em]">Pilihan Paket & Biaya Pelatihan</h3>
                       <div className="grid grid-cols-1 gap-6">
                         {activeProduct.packages.map((pkg: any, idx: number) => {
                           const formatDisplayPrice = (priceVal: any) => {
@@ -1054,11 +1054,11 @@ function DaftarPelatihanContent() {
                   {/* Why Interesting */}
                   {details.whyInteresting && details.whyInteresting.length > 0 && (
                     <div className="space-y-4">
-                      <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
+                      <h3 className="text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {details.whyInteresting.map((item: string, idx: number) => (
                           <li key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-white/80 font-bold flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-[#004aad]/25 border border-[#004aad]/40 flex items-center justify-center text-[#004aad] text-[10px] font-black">{idx + 1}</div>
+                            <div className="w-5 h-5 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white text-[10px] font-black">{idx + 1}</div>
                             <span>{item}</span>
                           </li>
                         ))}
@@ -1069,7 +1069,7 @@ function DaftarPelatihanContent() {
                   {/* Target Market */}
                   {details.targetMarket && details.targetMarket.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="text-[10px] font-black text-[#004aad] uppercase tracking-[0.2em]">Siapa Yang Cocok Mengikuti?</h3>
+                      <h3 className="text-xs sm:text-sm font-black text-amber-400 uppercase tracking-[0.2em]">Siapa Yang Cocok Mengikuti?</h3>
                       <div className="flex flex-wrap gap-2">
                         {details.targetMarket.map((m: string, idx: number) => (
                           <span key={idx} className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black text-white/70 uppercase tracking-wider">{m}</span>
