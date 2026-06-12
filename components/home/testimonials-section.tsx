@@ -1,15 +1,11 @@
 ﻿"use client";
 
-// components/home/testimonials-section.tsx
-// Premium testimonials with gradient quote marks and refined cards
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+import { getActiveTestimonials } from "@/app/actions/testimonials";
 
 const MAX = 9;
-const displayed = testimonials.slice(0, MAX);
 
 /* ─── Star Rating ────────────────────────────────────────── */
 
@@ -32,7 +28,7 @@ function StarRating({ rating }: { rating: number }) {
 
 /* ─── Testimonial Card ───────────────────────────────────── */
 
-function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
+function TestimonialCard({ t }: { t: any }) {
   return (
     <div className="flex flex-col h-full bg-white border border-slate-100 rounded-3xl p-8 hover:border-sky-100 transition-all duration-500 shadow-sm hover:shadow-xl hover:shadow-sky-50/50 group hover:-translate-y-1">
       {/* Quote icon */}
@@ -47,18 +43,26 @@ function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
       {/* Footer */}
       <div className="flex items-center justify-between gap-3 pt-6 border-t border-slate-50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-100 to-sky-50 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-bold text-sky-500 uppercase">
-              {t.name.charAt(0)}
-            </span>
-          </div>
+          {t.photoUrl ? (
+            <img
+              src={t.photoUrl}
+              alt={t.name}
+              className="w-10 h-10 rounded-full object-cover border-2 border-sky-100 flex-shrink-0"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-sky-100 to-sky-50 flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-bold text-sky-500 uppercase">
+                {t.name?.charAt(0) || "?"}
+              </span>
+            </div>
+          )}
           <div>
             <p className="text-sm font-bold text-[#004aad] leading-tight">
               {t.name}
             </p>
-            {t.sessionType && (
+            {(t.role || t.programName) && (
               <p className="text-[10px] text-sky-500 font-medium uppercase tracking-wider mt-0.5">
-                {t.sessionType}
+                {t.role}{t.role && t.programName ? " · " : ""}{t.programName}
                 {t.date ? ` · ${t.date}` : ""}
               </p>
             )}
@@ -73,7 +77,17 @@ function TestimonialCard({ t }: { t: (typeof displayed)[0] }) {
 /* ─── Main Section ───────────────────────────────────────── */
 
 export function TestimonialsSection({ settings = {} }: { settings?: Record<string, string> }) {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    getActiveTestimonials(MAX).then((res) => {
+      if (res.success && res.data) {
+        const shuffled = [...res.data].sort(() => Math.random() - 0.5);
+        setTestimonials(shuffled);
+      }
+    });
+  }, []);
 
   const testimonial_eyebrow = settings.testimonial_eyebrow || "Testimoni";
   const testimonial_title = settings.testimonial_title || "Apa Kata";
@@ -81,8 +95,10 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
   const testimonial_desc = settings.testimonial_desc || "Cerita sukses dan pengalaman berharga dari para alumni program pelatihan Link Productive.";
 
   const prev = () =>
-    setCurrent((c) => (c - 1 + displayed.length) % displayed.length);
-  const next = () => setCurrent((c) => (c + 1) % displayed.length);
+    setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
+  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section
@@ -129,7 +145,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
             visible: { transition: { staggerChildren: 0.1 } },
           }}
         >
-          {displayed.map((t) => (
+          {testimonials.slice(0, MAX).map((t) => (
             <motion.div
               key={t.id}
               variants={{
@@ -157,7 +173,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
               >
-                <TestimonialCard t={displayed[current]} />
+                <TestimonialCard t={testimonials[current]} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -173,7 +189,7 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
             </button>
 
             <div className="flex items-center gap-2">
-              {displayed.slice(0, 6).map((_, i) => (
+              {testimonials.slice(0, 6).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
@@ -185,9 +201,9 @@ export function TestimonialsSection({ settings = {} }: { settings?: Record<strin
                   aria-label={`Testimoni ${i + 1}`}
                 />
               ))}
-              {displayed.length > 6 && (
+              {testimonials.length > 6 && (
                 <span className="text-[10px] text-sky-500 font-bold px-1">
-                  +{displayed.length - 6}
+                  +{testimonials.length - 6}
                 </span>
               )}
             </div>

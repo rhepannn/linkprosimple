@@ -8,11 +8,12 @@ import {
   GraduationCap, Users, Building, ShoppingBag, Handshake,
   TrendingUp, Award, CheckCircle2, ChevronRight, ChevronLeft,
   ChevronDown, ArrowRight, X, Search, ArrowLeft, MessageCircle,
-  Sparkles, CreditCard, Copy, Check, Eye
+  Sparkles, Star, Clock, Phone, ExternalLink, Trophy, Check, Copy,
 } from "lucide-react";
 import { getProducts } from "@/app/actions/products";
 import { createAffiliateLead } from "@/app/actions/affiliate-leads";
 import { getSiteSettings } from "@/app/actions/settings";
+import { getSuccessStories } from "@/app/actions/success-stories";
 import { formatPrice } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -101,7 +102,21 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: string[]; productName: string; onImageClick?: (url: string) => void }) {
+function ProgramPosterCarousel({ 
+  urls, 
+  productName, 
+  onImageClick,
+  aspectRatio = "aspect-[16/9]",
+  roundedClass = "rounded-t-[1.8rem] rounded-b-none",
+  showThumbnails = false
+}: { 
+  urls: string[]; 
+  productName: string; 
+  onImageClick?: (url: string) => void;
+  aspectRatio?: string;
+  roundedClass?: string;
+  showThumbnails?: boolean;
+}) {
   const [[page, direction], setPage] = useState([0, 0]);
 
   if (urls.length === 0) return null;
@@ -122,72 +137,82 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
     paginate(-1);
   };
 
-  return (
-    <div className="overflow-hidden rounded-t-[1.8rem] rounded-b-none border-0 aspect-[16/9] bg-slate-50 relative group/carousel shadow-sm">
-      <div className="w-full h-full relative overflow-hidden">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.img
-            key={page}
-            src={urls[currentIndex]}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            drag={urls.length > 1 ? "x" : false}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = swipePower(offset.x, velocity.x);
+  const isAutoAspect = aspectRatio === "aspect-auto";
 
-              if (swipe < -swipeConfidenceThreshold) {
-                paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
-                paginate(-1);
-              }
-            }}
-            alt={`${productName} poster ${currentIndex + 1}`}
-            className="absolute inset-0 w-full h-full object-cover object-center select-none touch-pan-y cursor-zoom-in"
-            onClick={() => onImageClick?.(urls[currentIndex])}
-            loading="lazy"
-          />
-        </AnimatePresence>
+  return (
+    <div className="space-y-3">
+      <div className={`overflow-hidden border-0 relative group/carousel shadow-sm ${roundedClass} bg-slate-50 ${isAutoAspect ? "" : aspectRatio}`}>
+        <div className={`w-full relative overflow-hidden ${isAutoAspect ? "" : "h-full"}`}>
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <motion.img
+              key={page}
+              src={urls[currentIndex]}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+              }}
+              drag={urls.length > 1 ? "x" : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = swipePower(offset.x, velocity.x);
+
+                if (swipe < -swipeConfidenceThreshold) {
+                  paginate(1);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  paginate(-1);
+                }
+              }}
+              alt={`${productName} poster ${currentIndex + 1}`}
+              className={`w-full select-none touch-pan-y cursor-zoom-in ${isAutoAspect ? "relative block h-auto object-contain" : "absolute inset-0 h-full object-cover object-center"}`}
+              onClick={() => onImageClick?.(urls[currentIndex])}
+              loading="lazy"
+            />
+          </AnimatePresence>
+        </div>
+
+        {urls.length > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </>
+        )}
       </div>
 
-      {urls.length > 1 && (
-        <>
-          <button
-            onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 z-10 cursor-pointer border border-white/10"
-          >
-            <ChevronRight size={16} />
-          </button>
-
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm border border-white/5">
-            {urls.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const dir = idx > currentIndex ? 1 : -1;
-                  setPage([idx, dir]);
-                }}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? "bg-[#004aad] w-3" : "bg-white/40 hover:bg-white/70"
-                  }`}
-              />
-            ))}
-          </div>
-        </>
+      {/* Thumbnails below the image */}
+      {showThumbnails && urls.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto py-1 custom-scrollbar">
+          {urls.map((url, idx) => (
+            <button
+              key={idx}
+              onClick={(e) => {
+                e.stopPropagation();
+                const dir = idx > currentIndex ? 1 : -1;
+                setPage([idx, dir]);
+              }}
+              className={`w-12 h-12 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 cursor-pointer ${
+                currentIndex === idx ? "border-[#004aad] scale-105" : "border-slate-200 hover:border-slate-400"
+              }`}
+            >
+              <img src={url} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -211,11 +236,13 @@ const pkgSlugMap: Record<string, string> = {
 function EnrollModal({
   product,
   onClose,
-  siteSettings
+  siteSettings,
+  defaultPackageId
 }: {
   product: any;
   onClose: () => void;
   siteSettings: Record<string, string>;
+  defaultPackageId?: string;
 }) {
   const searchParams = useSearchParams();
   const refCodeParam = searchParams.get("ref") || "";
@@ -234,6 +261,7 @@ function EnrollModal({
   const [refCode, setRefCode] = useState(refCodeParam);
   const [copiedBank, setCopiedBank] = useState(false);
   const [selectedPackageId, setSelectedPackageId] = useState(() => {
+    if (defaultPackageId) return defaultPackageId;
     if (!product.packages || product.packages.length === 0) return "";
     const targetSku = searchParams.get("pkg");
     if (targetSku) {
@@ -818,6 +846,10 @@ function DaftarPelatihanContent() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [expandedPkg, setExpandedPkg] = useState<number | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [enrollPackageId, setEnrollPackageId] = useState<string>("");
+  const [urlPackageSku, setUrlPackageSku] = useState<string | null>(null);
+  const [successStories, setSuccessStories] = useState<any[]>([]);
+  const [storiesLoading, setStoriesLoading] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -829,6 +861,7 @@ function DaftarPelatihanContent() {
   useEffect(() => {
     const pkg = searchParams.get("pkg");
     if (pkg && productsList.length > 0) {
+      setUrlPackageSku(pkg);
       let found: any = null;
       let targetPackageId = "";
 
@@ -850,15 +883,34 @@ function DaftarPelatihanContent() {
       if (found) {
         setActiveProduct(found);
         if (targetPackageId) {
-          setShowEnrollModal(true);
+          setEnrollPackageId(targetPackageId);
         }
       }
     }
   }, [searchParams, productsList]);
 
-  // Reset expanded package when active product changes
+  // Reset expanded package and handle url package sku matching
   useEffect(() => {
     setExpandedPkg(null);
+    const pkg = searchParams.get("pkg");
+    if (activeProduct && activeProduct.packages) {
+      const isUrlProduct = activeProduct.packages.some((p: any) => p.sku === pkg);
+      if (!isUrlProduct) {
+        setEnrollPackageId("");
+      }
+    } else if (!activeProduct) {
+      setEnrollPackageId("");
+    }
+  }, [activeProduct, searchParams]);
+
+  // Fetch success stories when product detail opens
+  useEffect(() => {
+    if (!activeProduct) return;
+    setStoriesLoading(true);
+    getSuccessStories(activeProduct.id).then((res) => {
+      if (res.success && res.data) setSuccessStories(res.data);
+      else setSuccessStories([]);
+    }).finally(() => setStoriesLoading(false));
   }, [activeProduct]);
 
   useEffect(() => {
@@ -918,7 +970,11 @@ function DaftarPelatihanContent() {
           <EnrollModal
             product={activeProduct}
             siteSettings={settings}
-            onClose={() => setShowEnrollModal(false)}
+            defaultPackageId={enrollPackageId}
+            onClose={() => {
+              setShowEnrollModal(false);
+              setEnrollPackageId("");
+            }}
           />
         )}
       </AnimatePresence>
@@ -932,13 +988,13 @@ function DaftarPelatihanContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[90] bg-[#004aad] overflow-y-auto"
+            className="fixed inset-0 z-[90] bg-[#f8fafc] overflow-y-auto"
           >
             {/* Back Bar */}
-            <div className="sticky top-0 z-10 bg-[#004aad]/95 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4 flex items-center justify-between">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-4 flex items-center justify-between shadow-sm">
               <button
                 onClick={() => setActiveProduct(null)}
-                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors font-black text-[11px] uppercase tracking-widest cursor-pointer"
+                className="flex items-center gap-2 text-slate-600 hover:text-[#004aad] transition-colors font-black text-[11px] uppercase tracking-widest cursor-pointer"
               >
                 <ArrowLeft size={16} />
                 Kembali ke Daftar Program
@@ -946,156 +1002,321 @@ function DaftarPelatihanContent() {
             </div>
 
             {/* Content */}
-            <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 pb-24">
+            <div className="max-w-5xl mx-auto px-4 md:px-8 py-10 pb-24 text-slate-800">
               {/* Program Header */}
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-[#004aad]/25 border border-[#004aad]/40 flex items-center justify-center text-[#004aad] flex-shrink-0">
+              <div className="flex items-center gap-4 mb-8 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                <div className="w-14 h-14 rounded-2xl bg-[#004aad]/10 border border-[#004aad]/25 flex items-center justify-center text-[#004aad] flex-shrink-0">
                   <activeProduct.icon size={26} />
                 </div>
                 <div>
-                  <h1 className="text-xl md:text-2xl font-black text-white uppercase tracking-wide leading-tight">{activeProduct.name}</h1>
-                  <p className="text-[11px] text-white/40 font-bold mt-1 uppercase tracking-wider">{details.subtitle}</p>
+                  <h1 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-wide leading-tight">{activeProduct.name}</h1>
+                  <p className="text-[11px] text-slate-500 font-bold mt-1 uppercase tracking-wider">{details.subtitle}</p>
                 </div>
               </div>
 
-              {/* Poster */}
-              {(() => {
-                // Prioritas: image dari DB → settings poster → DEFAULT_POSTERS fallback
-                const posterKeyCi2 = POSTER_KEYS[activeProduct.name]
-                  || POSTER_KEYS[Object.keys(POSTER_KEYS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
-                  || `training_poster_${activeProduct.name.toLowerCase().replace(/\s+/g, "_")}`;
-                const defaultPosterCi2 = DEFAULT_POSTERS[activeProduct.name]
-                  || DEFAULT_POSTERS[Object.keys(DEFAULT_POSTERS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
-                  || "";
-                const rawPosters = activeProduct.image || settings[posterKeyCi2] || defaultPosterCi2 || "";
-                const posterUrls = rawPosters.split(",").map((u: string) => u.trim()).filter(Boolean);
-                return posterUrls.length > 0 ? (
-                  <div className="mb-8 max-w-xs mx-auto">
-                    <ProgramPosterCarousel
-                      urls={posterUrls}
-                      productName={activeProduct.name}
-                      onImageClick={(url) => setLightboxUrl(url)}
-                    />
-                  </div>
-                ) : null;
-              })()}
-
               {details ? (
-                <div className="space-y-8 mt-6">
-                  {/* Intro */}
-                  <p className="text-white/70 text-xs sm:text-sm leading-relaxed whitespace-pre-line border-t border-white/5 pt-6">{details.intro}</p>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-6">
+                  {/* Left Column: Poster, Info & Registration Workflow — Sticky */}
+                  <div className="lg:col-span-5 lg:sticky lg:top-6 space-y-5">
+                    {/* Poster */}
+                    {(() => {
+                      // Prioritas: image dari DB → settings poster → DEFAULT_POSTERS fallback
+                      const posterKeyCi2 = POSTER_KEYS[activeProduct.name]
+                        || POSTER_KEYS[Object.keys(POSTER_KEYS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
+                        || `training_poster_${activeProduct.name.toLowerCase().replace(/\s+/g, "_")}`;
+                      const defaultPosterCi2 = DEFAULT_POSTERS[activeProduct.name]
+                        || DEFAULT_POSTERS[Object.keys(DEFAULT_POSTERS).find(k => k.toLowerCase() === activeProduct.name.toLowerCase()) || ""]
+                        || "";
+                      const rawPosters = activeProduct.image || settings[posterKeyCi2] || defaultPosterCi2 || "";
+                      const posterUrls = rawPosters.split(",").map((u: string) => u.trim()).filter(Boolean);
+                      return posterUrls.length > 0 ? (
+                        <div className="bg-white p-3 rounded-3xl border border-slate-100 shadow-sm">
+                          <ProgramPosterCarousel
+                            urls={posterUrls}
+                            productName={activeProduct.name}
+                            onImageClick={(url) => setLightboxUrl(url)}
+                            aspectRatio="aspect-auto"
+                            roundedClass="rounded-2xl"
+                            showThumbnails={posterUrls.length > 1}
+                          />
+                        </div>
+                      ) : null;
+                    })()}
 
-                  {/* Dynamic Packages */}
-                  {activeProduct.packages && activeProduct.packages.length > 0 && (
-                    <div className="space-y-4">
-                      <h3 className="text-xs sm:text-sm font-black text-[#0ea5e9] uppercase tracking-[0.2em]">Pilihan Paket & Biaya Pelatihan</h3>
-                      <div className="grid grid-cols-1 gap-6">
-                        {activeProduct.packages.map((pkg: any, idx: number) => {
-                          const formatDisplayPrice = (priceVal: any) => {
-                            if (!priceVal) return "-";
-                            const priceStr = String(priceVal);
-                            if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
-                            const numsOnly = priceStr.replace(/[^0-9]/g, "");
-                            if (!numsOnly) return priceStr;
-                            return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
-                          };
+                    {/* Quick Program Stats */}
+                    <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
+                      <div className="grid grid-cols-2 gap-3">
+                        {activeProduct.packages && activeProduct.packages.length > 0 && (
+                          <div className="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-100 rounded-2xl p-4 text-center">
+                            <span className="block text-2xl font-black text-[#004aad]">{activeProduct.packages.length}</span>
+                            <span className="block text-[9px] font-bold text-sky-600 uppercase tracking-wider mt-1">Pilihan Paket</span>
+                          </div>
+                        )}
+                        {details.targetMarket && details.targetMarket.length > 0 && (
+                          <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-4 text-center">
+                            <span className="block text-2xl font-black text-emerald-600">{details.targetMarket.length}</span>
+                            <span className="block text-[9px] font-bold text-emerald-600 uppercase tracking-wider mt-1">Segmen Peserta</span>
+                          </div>
+                        )}
+                        {details.whyInteresting && details.whyInteresting.length > 0 && (
+                          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4 text-center">
+                            <span className="block text-2xl font-black text-amber-600">{details.whyInteresting.length}</span>
+                            <span className="block text-[9px] font-bold text-amber-600 uppercase tracking-wider mt-1">Keunggulan</span>
+                          </div>
+                        )}
+                        <div className="bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-100 rounded-2xl p-4 text-center">
+                          <span className="block text-2xl font-black text-violet-600">✓</span>
+                          <span className="block text-[9px] font-bold text-violet-600 uppercase tracking-wider mt-1">Bersertifikat</span>
+                        </div>
+                      </div>
+                    </div>
 
-                          return (
-                            <div key={idx} className="p-5 rounded-3xl bg-slate-900/20 hover:bg-slate-900/35 border border-white/10 hover:border-sky-500/30 transition-all duration-300 flex flex-col md:flex-row gap-6 justify-between items-start shadow-md">
-                              {pkg.imageUrl && (
-                                <div className="w-full md:w-80 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0 relative">
-                                  <img 
-                                    src={pkg.imageUrl} 
-                                    alt={pkg.name} 
-                                    className="w-full h-auto block" 
-                                  />
-                                </div>
-                              )}
-                              <div className="flex-1 flex flex-col justify-between py-1">
-                                <div>
-                                  <h4 className="text-sm font-black text-white uppercase tracking-wider">{pkg.name}</h4>
-                                  {pkg.suitableFor && (
-                                    <p className="text-[10px] text-sky-400/70 mt-1.5 font-bold uppercase tracking-wider">{pkg.suitableFor}</p>
-                                  )}
-                                  {pkg.services && pkg.services.length > 0 && (
-                                    <ul className="mt-4 space-y-2">
-                                      {pkg.services.map((srv: string, sIdx: number) => (
-                                        <li key={sIdx} className="text-[10px] text-white/80 font-bold flex items-start gap-2.5">
-                                          <CheckCircle2 size={13} className="text-sky-400 flex-shrink-0 mt-0.5" />
-                                          <span>{srv}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  )}
-                                  {pkg.goal && (
-                                    <p className="text-[9px] text-sky-400 uppercase font-black tracking-wider mt-4 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-md inline-block">{pkg.goal}</p>
-                                  )}
-                                </div>
-                                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
-                                  <div>
-                                    <span className="block text-[8px] text-white/40 font-black uppercase tracking-wider">Biaya</span>
-                                    <span className="text-xs font-black text-white font-sans">{formatDisplayPrice(pkg.price)}</span>
+                    {/* Registration Workflow Card */}
+                    <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                      <h3 className="text-xs font-black text-[#004aad] uppercase tracking-[0.2em] flex items-center gap-1.5">
+                        ⚡ Cara Pendaftaran
+                      </h3>
+                      
+                      <div className="space-y-4">
+                        <div className="flex gap-3 items-start">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-100 text-[#004aad] flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5">1</div>
+                          <div>
+                            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">{settings.training_step_1_title || "Pilih Paket Belajar"}</h4>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{settings.training_step_1_desc || "Tentukan tingkat kompetensi yang ingin Anda ikuti di tabel sebelah kanan."}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3 items-start">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-100 text-[#004aad] flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5">2</div>
+                          <div>
+                            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">{settings.training_step_2_title || "Isi Formulir"}</h4>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{settings.training_step_2_desc || "Klik tombol \"Pilih Paket\" pada paket tersebut dan lengkapi data diri Anda."}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3 items-start">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-100 text-[#004aad] flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5">3</div>
+                          <div>
+                            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">{settings.training_step_3_title || "Transfer Investasi"}</h4>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{settings.training_step_3_desc || "Lakukan pembayaran sesuai nominal paket ke rekening bank resmi atau scan QRIS yang tampil."}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3 items-start">
+                          <div className="w-5 h-5 rounded-full bg-sky-50 border border-sky-100 text-[#004aad] flex items-center justify-center text-[10px] font-black flex-shrink-0 mt-0.5">4</div>
+                          <div>
+                            <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider">{settings.training_step_4_title || "Konfirmasi WhatsApp"}</h4>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-0.5">{settings.training_step_4_desc || "Kirim bukti transfer ke admin via WhatsApp untuk verifikasi kelas & aktivasi akun."}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Target Market */}
+                    {details.targetMarket && details.targetMarket.length > 0 && (
+                      <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+                        <h3 className="text-xs font-black text-[#004aad] uppercase tracking-[0.2em] flex items-center gap-1.5">🎯 Target Peserta</h3>
+                        <div className="flex flex-wrap gap-2">
+                          {details.targetMarket.map((m: string, idx: number) => (
+                            <span key={idx} className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-100 text-[9px] font-black text-slate-600 uppercase tracking-wider">{m}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Column: Intro, Advantages & Packages */}
+                  <div className="lg:col-span-7 space-y-6">
+                    {/* Intro */}
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+                      <h3 className="text-xs font-black text-sky-600 uppercase tracking-[0.2em]">Tentang Program</h3>
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line">{details.intro}</p>
+                    </div>
+
+                    {/* Why Interesting */}
+                    {details.whyInteresting && details.whyInteresting.length > 0 && (
+                      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                        <h3 className="text-xs font-black text-emerald-600 uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {details.whyInteresting.map((item: string, idx: number) => (
+                            <li key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-700 font-bold flex items-center gap-3">
+                              <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-[10px] font-black">{idx + 1}</div>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Dynamic Packages */}
+                    {activeProduct.packages && activeProduct.packages.length > 0 && (
+                      <div className="space-y-4">
+                        <h3 className="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-[0.2em] pl-1">Pilihan Paket & Biaya Pelatihan</h3>
+                        <div className="grid grid-cols-1 gap-6">
+                          {activeProduct.packages.map((pkg: any, idx: number) => {
+                            const formatDisplayPrice = (priceVal: any) => {
+                              if (!priceVal) return "-";
+                              const priceStr = String(priceVal);
+                              if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
+                              const numsOnly = priceStr.replace(/[^0-9]/g, "");
+                              if (!numsOnly) return priceStr;
+                              return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
+                            };
+                            const isSelected = enrollPackageId === pkg.id;
+
+                            return (
+                              <div 
+                                key={idx} 
+                                className={`relative p-5 rounded-3xl bg-white border transition-all duration-300 flex flex-col md:flex-row gap-6 justify-between items-start shadow-sm ${
+                                  isSelected ? "border-[#004aad] ring-2 ring-[#004aad]/10 shadow-[#004aad]/5" : "border-slate-100 hover:border-sky-500/30"
+                                }`}
+                              >
+                                {pkg.imageUrl && (
+                                  <div className="w-full md:w-44 rounded-2xl overflow-hidden border border-slate-100 flex-shrink-0 relative">
+                                    <img 
+                                      src={pkg.imageUrl} 
+                                      alt={pkg.name} 
+                                      className="w-full h-auto block" 
+                                    />
                                   </div>
-                                  {pkg.afterDiscount && (
-                                    <div className="text-right">
-                                      <span className="block text-[8px] text-sky-400 font-black uppercase tracking-wider">Promo Khusus</span>
-                                      <span className="text-xs font-black text-sky-400 font-sans">{formatDisplayPrice(pkg.afterDiscount)}</span>
+                                )}
+                                <div className="flex-1 flex flex-col justify-between py-1 w-full">
+                                  <div>
+                                    {isSelected && (
+                                      <div className="inline-flex items-center gap-1 mb-2 bg-gradient-to-r from-sky-400 to-sky-500 text-white text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm">
+                                        <span>✨</span> Pilihan Rekomendasi
+                                      </div>
+                                    )}
+                                    <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider">{pkg.name}</h4>
+                                    {pkg.suitableFor && (
+                                      <p className="text-[10px] text-slate-500 mt-1.5 font-bold uppercase tracking-wider">{pkg.suitableFor}</p>
+                                    )}
+                                    {pkg.services && pkg.services.length > 0 && (
+                                      <ul className="mt-4 space-y-2">
+                                        {pkg.services.map((srv: string, sIdx: number) => (
+                                          <li key={sIdx} className="text-[10px] text-slate-600 font-bold flex items-start gap-2.5">
+                                            <CheckCircle2 size={13} className="text-sky-500 flex-shrink-0 mt-0.5" />
+                                            <span>{srv}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    )}
+                                    {pkg.goal && (
+                                      <p className="text-[9px] text-[#004aad] uppercase font-black tracking-wider mt-4 bg-[#004aad]/5 border border-[#004aad]/10 px-2.5 py-1 rounded-md inline-block">{pkg.goal}</p>
+                                    )}
+                                  </div>
+                                  <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+                                    <div className="flex gap-6">
+                                      <div>
+                                        <span className="block text-[8px] text-slate-400 font-black uppercase tracking-wider">Biaya</span>
+                                        <span className={`text-xs font-black font-sans ${pkg.afterDiscount ? "line-through text-slate-400 text-[10px]" : "text-slate-800"}`}>{formatDisplayPrice(pkg.price)}</span>
+                                      </div>
+                                      {pkg.afterDiscount && (
+                                        <div>
+                                          <span className="block text-[8px] text-sky-500 font-black uppercase tracking-wider">Promo Khusus</span>
+                                          <span className="text-xs font-black text-sky-500 font-sans">{formatDisplayPrice(pkg.afterDiscount)}</span>
+                                        </div>
+                                      )}
                                     </div>
-                                  )}
+                                    <button
+                                      onClick={() => {
+                                        setEnrollPackageId(pkg.id);
+                                        setShowEnrollModal(true);
+                                      }}
+                                      className="flex items-center gap-1.5 px-4.5 py-2.5 bg-[#004aad] hover:bg-[#003984] text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all cursor-pointer shadow-md shadow-[#004aad]/10"
+                                    >
+                                      Pilih Paket <ArrowRight size={10} />
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Why Interesting */}
-                  {details.whyInteresting && details.whyInteresting.length > 0 && (
-                    <div className="space-y-4">
-                      <h3 className="text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-[0.2em]">Mengapa Memilih Program Ini?</h3>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {details.whyInteresting.map((item: string, idx: number) => (
-                          <li key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-white/80 font-bold flex items-center gap-3">
-                            <div className="w-5 h-5 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white text-[10px] font-black">{idx + 1}</div>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Target Market */}
-                  {details.targetMarket && details.targetMarket.length > 0 && (
-                    <div className="space-y-3">
-                      <h3 className="text-xs sm:text-sm font-black text-amber-400 uppercase tracking-[0.2em]">Siapa Yang Cocok Mengikuti?</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {details.targetMarket.map((m: string, idx: number) => (
-                          <span key={idx} className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black text-white/70 uppercase tracking-wider">{m}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Disclaimer */}
-                  {details.disclaimer && (
-                    <p className="text-[10px] text-white/30 italic font-medium leading-relaxed border-t border-white/5 pt-6">{details.disclaimer}</p>
-                  )}
+                    {/* Disclaimer */}
+                    {details.disclaimer && (
+                      <p className="text-[10px] text-slate-400 italic font-medium leading-relaxed border-t border-slate-200/60 pt-6">{details.disclaimer}</p>
+                    )}
+                  </div>
                 </div>
               ) : (
-                <p className="text-white/40 text-sm text-center py-16">Detail silabus dan kurikulum program belum tersedia.</p>
+                <p className="text-slate-400 text-sm text-center py-16">{settings.training_empty_text || "Detail silabus dan kurikulum program belum tersedia."}</p>
               )}
 
-              {/* Bottom CTA to Enroll */}
-              <div className="mt-12">
-                <button
-                  onClick={() => setShowEnrollModal(true)}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#004aad] hover:bg-[#003984] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-[#004aad]/20 cursor-pointer"
+              {/* ── Success Stories ── */}
+              {successStories.length > 0 && (
+                <div className="space-y-4 pt-4 border-t border-slate-100">
+                  <h3 className="text-xs font-black text-[#004aad] uppercase tracking-[0.2em] flex items-center gap-1.5">
+                    <Trophy size={14} /> Cerita Sukses Alumni
+                  </h3>
+                  <div className="space-y-4">
+                    {successStories.map((s: any) => (
+                      <div key={s.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div className="flex items-start gap-4">
+                          {s.photoUrl ? (
+                            <img src={s.photoUrl} alt={s.name} className="w-12 h-12 rounded-xl object-cover border border-slate-100 flex-shrink-0" />
+                          ) : (
+                            <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-400 font-black text-sm flex-shrink-0">
+                              {s.name?.charAt(0)?.toUpperCase() || "?"}
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <div>
+                                <p className="text-[11px] font-black text-slate-800">{s.name}</p>
+                                {s.role && <p className="text-[9px] text-slate-400 font-medium">{s.role}</p>}
+                              </div>
+                              {s.achievement && (
+                                <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 text-[8px] font-black uppercase flex-shrink-0">{s.achievement}</span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed">{s.story}</p>
+
+                            {/* Before / After */}
+                            {(s.beforeLabel || s.afterLabel) && (
+                              <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-slate-50">
+                                {s.beforeLabel && (
+                                  <div className="bg-rose-50/50 rounded-xl p-3 border border-rose-100">
+                                    <p className="text-[8px] font-black text-rose-400 uppercase tracking-wider mb-0.5">Sebelum</p>
+                                    <p className="text-[10px] font-bold text-rose-600">{s.beforeLabel}</p>
+                                  </div>
+                                )}
+                                {s.afterLabel && (
+                                  <div className="bg-emerald-50/50 rounded-xl p-3 border border-emerald-100">
+                                    <p className="text-[8px] font-black text-emerald-400 uppercase tracking-wider mb-0.5">Sesudah</p>
+                                    <p className="text-[10px] font-bold text-emerald-600">{s.afterLabel}</p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Consultation CTA */}
+              <div className="mt-12 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-left">
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">{settings.training_cta_title || "Masih Bingung Memilih Paket?"}</h4>
+                  <p className="text-[10px] text-slate-500 font-bold mt-1">{settings.training_cta_desc || "Konsultasikan kebutuhan belajar atau pertanyaan Anda secara gratis dengan tim admin kami."}</p>
+                </div>
+                <a
+                  href={`https://wa.me/${settings.training_payment_wa || settings.affiliate_whatsapp || settings.contact_wa || "628138298543"}?text=${encodeURIComponent(
+                    `Halo Admin! Saya tertarik dengan program *${activeProduct.name}* tetapi ingin berkonsultasi terlebih dahulu mengenai pilihan paket yang paling cocok untuk saya.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-xl shadow-emerald-500/10 cursor-pointer"
                 >
-                  Daftar Kelas Pelatihan Sekarang
-                  <GraduationCap size={14} />
-                </button>
+                  {settings.training_cta_btn || "Tanya Admin via WhatsApp"}
+                  <MessageCircle size={14} />
+                </a>
               </div>
             </div>
           </motion.div>
@@ -1144,24 +1365,23 @@ function DaftarPelatihanContent() {
             <div className="flex-1 text-left space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-[10px] font-bold uppercase tracking-[0.15em]">
                 <Sparkles size={12} className="animate-pulse" />
-                Portal Pembelajaran & Karir
+                {settings.training_hero_badge || "Portal Pembelajaran & Karir"}
               </div>
               <h1
                 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#004aad] leading-tight tracking-tight"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
-                Katalog Kelas & <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-600">Pelatihan Premium</span>
+                {settings.training_hero_title || "Katalog Kelas & Pelatihan Premium"}
               </h1>
               <p className="text-slate-505 text-base md:text-lg leading-relaxed max-w-xl font-medium">
-                Tingkatkan kompetensi Anda melalui program pelatihan intensif, bimbingan tugas akhir privat, serta sertifikasi keahlian berstandar industri bersama mentor senior.
+                {settings.training_hero_desc || "Tingkatkan kompetensi Anda melalui program pelatihan intensif, bimbingan tugas akhir privat, serta sertifikasi keahlian berstandar industri bersama mentor senior."}
               </p>
               <div className="pt-2">
                 <a
                   href="#program-list"
                   className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-500 hover:to-sky-600 text-white font-bold uppercase tracking-wider text-xs rounded-2xl hover:scale-[1.03] active:scale-[0.97] transition-all shadow-lg shadow-sky-500/20"
                 >
-                  Jelajahi Program Pelatihan
+                  {settings.training_hero_btn || "Jelajahi Program Pelatihan"}
                   <ArrowRight size={14} className="hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>
@@ -1169,10 +1389,10 @@ function DaftarPelatihanContent() {
 
             <div className="w-full lg:w-[420px] grid grid-cols-2 gap-4">
               {[
-                { icon: GraduationCap, title: "Privat Intensif", desc: "Bimbingan satu-satu terarah" },
-                { icon: Sparkles, title: "Praktisi Ahli", desc: "Didampingi mentor industri senior" },
-                { icon: TrendingUp, title: "Karir Akseleratif", desc: "Persiapan matang ke dunia kerja" },
-                { icon: Award, title: "Sertifikat Resmi", desc: "Kredensial berharga portofolio" },
+                { icon: GraduationCap, title: settings.training_feature_1_title || "Privat Intensif", desc: settings.training_feature_1_desc || "Bimbingan satu-satu terarah" },
+                { icon: Sparkles, title: settings.training_feature_2_title || "Praktisi Ahli", desc: settings.training_feature_2_desc || "Didampingi mentor industri senior" },
+                { icon: TrendingUp, title: settings.training_feature_3_title || "Karir Akseleratif", desc: settings.training_feature_3_desc || "Persiapan matang ke dunia kerja" },
+                { icon: Award, title: settings.training_feature_4_title || "Sertifikat Resmi", desc: settings.training_feature_4_desc || "Kredensial berharga portofolio" },
               ].map((f, i) => (
                 <div
                   key={i}
@@ -1194,10 +1414,10 @@ function DaftarPelatihanContent() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-black text-[#004aad] uppercase tracking-wider mb-3" style={{ fontFamily: "var(--font-heading)" }}>
-                Pilihan Kelas & <span className="text-[#004aad]">Pelatihan</span>
+                {settings.training_section_title || "Pilihan Kelas & Pelatihan"}
               </h2>
               <p className="text-sky-500 font-bold max-w-xl mx-auto text-sm">
-                Klik <span className="text-[#004aad] font-black">Lihat Detail Program</span> pada katalog di bawah ini untuk melihat rincian silabus kelas, skema investasi, dan formulir pendaftaran.
+                {settings.training_section_desc || "Klik Lihat Detail Program pada katalog di bawah ini untuk melihat rincian silabus kelas, skema investasi, dan formulir pendaftaran."}
               </p>
             </div>
 
@@ -1210,7 +1430,7 @@ function DaftarPelatihanContent() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-400" size={16} />
                 <input
                   type="text"
-                  placeholder="Cari kelas pelatihan..."
+                  placeholder={settings.training_search_placeholder || "Cari kelas pelatihan..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-11 pr-10 py-3 bg-white border border-[#004aad]/10 rounded-2xl text-xs font-bold text-[#004aad] focus:outline-none focus:ring-2 focus:ring-[#004aad]/30 focus:border-[#004aad] transition-all shadow-sm"
@@ -1266,7 +1486,7 @@ function DaftarPelatihanContent() {
                             <prod.icon size={22} />
                           </div>
                           <span className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-50 text-sky-600 border border-emerald-100">
-                            Pendaftaran Aktif
+                            {settings.training_card_badge || "Pendaftaran Aktif"}
                           </span>
                         </div>
                         <h3 className="text-sm font-black text-[#004aad] uppercase mb-2 tracking-wide line-clamp-1 group-hover:text-[#004aad] transition-colors">{prod.name}</h3>

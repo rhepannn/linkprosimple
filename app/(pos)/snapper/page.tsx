@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getSession } from "next-auth/react";
 import {
@@ -10,12 +10,14 @@ import {
   CheckCircle2, Calendar, ImageIcon, BookOpen, AlertCircle, Phone,
   GraduationCap, Award, Building, Coffee, MonitorPlay, Presentation,
   Recycle, ShoppingBag, Camera, Handshake, ChevronDown, ChevronUp, ChevronRight,
-  Download, Megaphone, Send, ChevronLeft, X
+  Download, Megaphone, Send, ChevronLeft, Save, Filter, ReceiptText, Search, Bell
 } from "lucide-react";
-import { getSnapperDashboardData, updateSnapperReferralProduct } from "@/app/actions/snapper";
+import { getSnapperDashboardData, updateSnapperReferralProduct, getAffiliateTransactions } from "@/app/actions/snapper";
+import { selfUpdateReferralCode } from "@/app/actions/affiliators";
 import { getAffiliatePosts } from "@/app/actions/affiliate-posts";
 import { getProducts } from "@/app/actions/products";
 import { getSiteSettings } from "@/app/actions/settings";
+import { getAffiliateNotifications, markNotificationRead, markAllNotificationsRead } from "@/app/actions/notifications";
 import { toast } from "sonner";
 
 interface Commission {
@@ -142,13 +144,33 @@ export default function SnapperDashboard() {
   // Referral campaign States
   const [productsList, setProductsList] = useState<any[]>([]);
   const [selectedProductId, setSelectedProductId] = useState<string>("");
+
   const [savingProduct, setSavingProduct] = useState(false);
+  const [savingCode, setSavingCode] = useState(false);
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [activeKitProductId, setActiveKitProductId] = useState<string>("");
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+  const [createCodeInput, setCreateCodeInput] = useState("");
 
   // Share modal state
   const [shareModal, setShareModal] = useState<{ open: boolean; product: any | null }>({ open: false, product: null });
   const [activePosterIdx, setActivePosterIdx] = useState(0);
+
+  // Sharing states for promotions
+  const [sharingPostId, setSharingPostId] = useState<string | null>(null);
+  const [downloadingPostId, setDownloadingPostId] = useState<string | null>(null);
+  const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({});
+
+  // ── Transactions tab states ──
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactionsSummary, setTransactionsSummary] = useState<any>(null);
+  const [transactionsLoading, setTransactionsLoading] = useState(false);
+  const [filterMonth, setFilterMonth] = useState(new Date().getMonth() + 1);
+  const [filterYear, setFilterYear] = useState(new Date().getFullYear());
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifUnread, setNotifUnread] = useState(0);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
 
   // Auto-redirect if not logged in or wrong role
   useEffect(() => {
@@ -214,7 +236,45 @@ export default function SnapperDashboard() {
     }
 
     fetchData();
-  }, [session]);
+  }, [session, refetchTrigger]);
+
+  // ── Fetch transactions when tab active or filters change ──
+  useEffect(() => {
+    if (!session || tabParam !== "transactions") return;
+    async function fetchTransactions() {
+      setTransactionsLoading(true);
+      try {
+        const res = await getAffiliateTransactions(session.user.id, {
+          month: filterMonth,
+          year: filterYear,
+          status: filterStatus,
+        });
+        if (res.success && res.data) {
+          setTransactions(res.data.transactions);
+          setTransactionsSummary(res.data.summary);
+        } else {
+          toast.error(res.error || "Gagal memuat data transaksi.");
+        }
+      } catch {
+        toast.error("Terjadi kesalahan saat memuat transaksi.");
+      } finally {
+        setTransactionsLoading(false);
+      }
+    }
+    fetchTransactions();
+  }, [session, tabParam, filterMonth, filterYear, filterStatus]);
+
+  // ── Fetch notifications when tab active ──
+  useEffect(() => {
+    if (!session || tabParam !== "notifications") return;
+    setNotificationsLoading(true);
+    getAffiliateNotifications(session.user.id).then((res) => {
+      if (res.success && res.data) {
+        setNotifications(res.data.notifications);
+        setNotifUnread(res.data.unreadCount);
+      }
+    }).finally(() => setNotificationsLoading(false));
+  }, [session, tabParam]);
 
   // Calculate statistics
   const stats = useMemo(() => {
@@ -275,6 +335,73 @@ export default function SnapperDashboard() {
     }
   };
 
+  const handleSharePost = async (post: any, textToCopy: string) => {
+    if (!post) return;
+    setSharingPostId(post.id);
+    try {
+      if (post.imageUrl && navigator.share && navigator.canShare) {
+        try {
+          const proxyUrl = `/api/download-image?url=${encodeURIComponent(post.imageUrl)}&filename=promosi-${post.id}.jpg`;
+          const response = await fetch(proxyUrl);
+          const blob = await response.blob();
+          
+          const file = new File([blob], `poster-promosi-${post.id}.jpg`, { type: blob.type || "image/jpeg" });
+          
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: "Bahan Promosi Link Productive",
+              text: textToCopy,
+            });
+            toast.success("Berhasil membagikan poster & caption!");
+            return;
+          }
+        } catch (shareErr) {
+          console.warn("Gagal menggunakan Web Share API file sharing, beralih ke download + salin:", shareErr);
+        }
+      }
+
+      await navigator.clipboard.writeText(textToCopy);
+      if (post.imageUrl) {
+        const downloadUrl = `/api/download-image?url=${encodeURIComponent(post.imageUrl)}&filename=promosi-${post.id}.jpg`;
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = `poster-promosi-${post.id}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        toast.success("Poster berhasil diunduh & Caption disalin ke clipboard!");
+      } else {
+        toast.success("Caption berhasil disalin ke clipboard!");
+      }
+    } catch (err) {
+      console.error("Gagal share:", err);
+      toast.error("Gagal membagikan konten. Silakan salin caption secara manual.");
+    } finally {
+      setSharingPostId(null);
+    }
+  };
+
+  const handleDownloadPostImage = async (post: any) => {
+    if (!post || !post.imageUrl) return;
+    setDownloadingPostId(post.id);
+    try {
+      const downloadUrl = `/api/download-image?url=${encodeURIComponent(post.imageUrl)}&filename=promosi-${post.id}.jpg`;
+      const a = document.createElement("a");
+      a.href = downloadUrl;
+      a.download = `poster-promosi-${post.id}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast.success("Poster berhasil diunduh!");
+    } catch (err) {
+      console.error("Gagal download poster:", err);
+      toast.error("Gagal mengunduh poster.");
+    } finally {
+      setDownloadingPostId(null);
+    }
+  };
+
   // Get poster URLs and caption from product details
   function getProductKit(product: any) {
     const details = (product.details as Record<string, any>) || {};
@@ -290,6 +417,132 @@ export default function SnapperDashboard() {
       <div className="min-h-[80vh] flex flex-col items-center justify-center space-y-4">
         <div className="w-12 h-12 rounded-full border-4 border-[#0ea5e9]/20 border-t-[#0ea5e9] animate-spin" />
         <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Memuat Dashboard Affiliate...</p>
+      </div>
+    );
+  }
+
+  // ── Wajib buat kode referral dulu ──
+  if (!dashboardData.referralCode) {
+    const handleCreateCode = async () => {
+      if (!session || !createCodeInput.trim()) return;
+      setSavingCode(true);
+      try {
+        const res = await selfUpdateReferralCode(session.user.id, createCodeInput.trim());
+        if (res.success) {
+          toast.success(`Kode referral @${res.newCode} berhasil dibuat!`);
+          setCreateCodeInput("");
+          setRefetchTrigger(t => t + 1);
+        } else {
+          toast.error(res.error || "Gagal membuat kode referral.");
+        }
+      } catch {
+        toast.error("Terjadi kesalahan sistem.");
+      } finally {
+        setSavingCode(false);
+      }
+    };
+
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center p-8 lg:p-12 max-w-[1600px] mx-auto space-y-10">
+        {/* Welcome Heading */}
+        <div className="text-center space-y-4 max-w-xl">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0ea5e9] to-[#1e293b] flex items-center justify-center text-white shadow-xl shadow-[#0ea5e9]/20 mx-auto">
+            <Gift size={32} />
+          </div>
+          <h1 className="text-3xl font-black text-[#1e293b] tracking-tight font-[family-name:var(--font-outfit)]">
+            Halo, {dashboardData.name}!
+          </h1>
+          <p className="text-sm text-gray-400 font-medium leading-relaxed">
+            Akun affiliator kamu sudah aktif. Sebelum mulai, kamu wajib membuat <strong className="text-[#1e293b]">kode referral</strong> milikmu sendiri. Kode ini yang akan kamu bagikan ke calon pelanggan.
+          </p>
+        </div>
+
+        {/* Create Code Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-md bg-white rounded-3xl border border-sky-100 shadow-xl shadow-sky-500/5 p-8 space-y-6"
+        >
+          <div className="space-y-2">
+            <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
+              Buat Kode Referral Kamu *
+            </label>
+            <p className="text-[10px] text-gray-400 font-medium">
+              Kode ini jadi identitas unik kamu. Pilih yang mudah diingat pelanggan.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-400 font-black text-sm">@</span>
+              <input
+                type="text"
+                value={createCodeInput}
+                onChange={(e) => setCreateCodeInput(e.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, ""))}
+                placeholder="NAMAKAMU10"
+                maxLength={20}
+                autoFocus
+                onKeyDown={(e) => { if (e.key === "Enter") handleCreateCode(); }}
+                className="w-full pl-8 pr-4 py-4 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-black tracking-widest text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-sky-300 transition-all"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-[9px] text-gray-400 font-medium">Huruf kapital, angka, _ atau - • Min 4, Maks 20 karakter</p>
+              <span className={`text-[9px] font-black ${createCodeInput.length < 4 ? "text-rose-400" : "text-emerald-500"}`}>
+                {createCodeInput.length}/20
+              </span>
+            </div>
+          </div>
+
+          {/* Preview */}
+          {createCodeInput.length >= 4 && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-4 bg-sky-50 border border-sky-100 rounded-2xl space-y-1.5"
+            >
+              <p className="text-[9px] font-black text-sky-400 uppercase tracking-widest">Preview Kode Kamu</p>
+              <p className="text-xl font-black text-sky-600 tracking-widest">@{createCodeInput}</p>
+              <p className="text-[9px] text-sky-400 font-mono truncate">
+                /daftar-pelatihan?ref={createCodeInput}
+              </p>
+            </motion.div>
+          )}
+
+          <button
+            onClick={handleCreateCode}
+            disabled={savingCode || createCodeInput.length < 4}
+            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-[11px] font-black uppercase tracking-widest transition-all disabled:opacity-40 disabled:pointer-events-none shadow-lg shadow-sky-500/20"
+          >
+            {savingCode ? (
+              <span className="animate-spin inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full" />
+            ) : (
+              <><Save size={14} /> Aktifkan Kode Referral</>
+            )}
+          </button>
+        </motion.div>
+
+        {/* Info card */}
+        <div className="w-full max-w-md bg-white rounded-3xl border border-[#1e293b]/5 p-6 space-y-3">
+          <div className="flex items-center gap-2">
+            <BookOpen size={16} className="text-[#0ea5e9]" />
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#1e293b]">Kenapa Harus Bikin Kode?</h4>
+          </div>
+          <ul className="space-y-2 text-xs text-gray-500 font-medium">
+            <li className="flex gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
+              Setiap pelanggan yang pakai kode kamu dapat diskon otomatis.
+            </li>
+            <li className="flex gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
+              Kamu dapat komisi dari setiap transaksi yang menggunakan kode.
+            </li>
+            <li className="flex gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] mt-1.5 flex-shrink-0" />
+              Setelah kode aktif, kamu bisa akses semua fitur dashboard.
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
@@ -424,12 +677,14 @@ export default function SnapperDashboard() {
                     <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Kode Referral Anda</p>
                     <p className="text-lg font-black tracking-wider text-sky-600">@{referralCode}</p>
                   </div>
-                  <button
-                    onClick={() => handleCopyCode(referralCode)}
-                    className="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-xl transition-all cursor-pointer border-none"
-                  >
-                    {copiedCode ? <Check size={16} /> : <Copy size={16} />}
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => handleCopyCode(referralCode)}
+                      className="p-2.5 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-xl transition-all cursor-pointer border-none"
+                    >
+                      {copiedCode ? <Check size={16} /> : <Copy size={16} />}
+                    </button>
+                  </div>
                 </div>
                 <div className="p-4 bg-sky-50/40 rounded-2xl border border-sky-100 flex items-center justify-between">
                   <div className="truncate mr-2">
@@ -550,7 +805,7 @@ export default function SnapperDashboard() {
           </div>
 
           {posts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
               {posts.map((post) => {
                 const textToCopy = `${post.caption}\n\n${post.hashtags.map((h) => `#${h}`).join(" ")}\n\nGunain kode referral saya untuk diskon tambahan: @${referralCode}`;
                 return (
@@ -567,11 +822,11 @@ export default function SnapperDashboard() {
                         <p className="text-[8px] text-gray-400 font-bold">Materi Promosi Resmi</p>
                       </div>
                     </div>
-                    <div className="aspect-square bg-[#f0f7ff] relative overflow-hidden">
+                    <div className="bg-[#f0f7ff] relative overflow-hidden">
                       {post.imageUrl ? (
-                        <img src={post.imageUrl} alt="Promo" className="w-full h-full object-cover" />
+                        <img src={post.imageUrl} alt="Promo" className="w-full h-auto block" />
                       ) : (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-300">
+                        <div className="aspect-square flex flex-col items-center justify-center text-gray-300">
                           <ImageIcon size={40} />
                         </div>
                       )}
@@ -579,20 +834,71 @@ export default function SnapperDashboard() {
                     <div className="p-5 space-y-4">
                       <div className="flex justify-between items-center">
                         <span className="text-[9px] font-black uppercase tracking-wider text-gray-400">Siap Share ke Medsos</span>
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <button
+                          onClick={() => handleSharePost(post, textToCopy)}
+                          disabled={sharingPostId === post.id}
+                          className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border-none shadow-md shadow-sky-500/10 cursor-pointer"
+                        >
+                          {sharingPostId === post.id ? (
+                            <span className="animate-spin inline-block w-3 h-3 border-2 border-white/30 border-t-white rounded-full" />
+                          ) : (
+                            <Send size={11} />
+                          )}
+                          Bagikan
+                        </button>
+
+                        {post.imageUrl && (
+                          <button
+                            onClick={() => handleDownloadPostImage(post)}
+                            disabled={downloadingPostId === post.id}
+                            className="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 border border-slate-200 rounded-xl transition-all cursor-pointer flex items-center justify-center"
+                            title="Unduh Poster"
+                          >
+                            {downloadingPostId === post.id ? (
+                              <span className="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-400/30 border-t-slate-500 rounded-full" />
+                            ) : (
+                              <Download size={13} />
+                            )}
+                          </button>
+                        )}
+
                         <button
                           onClick={() => {
                             navigator.clipboard.writeText(textToCopy);
                             toast.success("Caption & kode referral berhasil disalin!");
                           }}
-                          className="flex items-center gap-1.5 px-4 py-2 bg-[#1e293b] hover:bg-[#0ea5e9] text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
+                          className="p-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 border border-slate-200 rounded-xl transition-all cursor-pointer flex items-center justify-center"
+                          title="Salin Caption"
                         >
-                          <Copy size={11} /> Salin Caption
+                          <Copy size={13} />
                         </button>
                       </div>
                       <div className="h-px bg-gray-100" />
                       <div className="space-y-1.5">
-                        <p className="text-[11px] text-gray-700 leading-relaxed line-clamp-3">{post.caption}</p>
-                        <p className="text-[10px] text-[#0ea5e9] font-bold">{post.hashtags.map((h) => `#${h}`).join(" ")}</p>
+                        {(() => {
+                          const isLong = post.caption && (post.caption.length > 80 || post.caption.includes("\n"));
+                          const isExpanded = !!expandedPosts[post.id];
+                          return (
+                            <>
+                              <p className={`text-[11px] text-gray-700 leading-relaxed whitespace-pre-line ${(isLong && !isExpanded) ? "line-clamp-3" : ""}`}>
+                                {post.caption}
+                              </p>
+                              {isLong && (
+                                <button
+                                  onClick={() => setExpandedPosts(prev => ({ ...prev, [post.id]: !prev[post.id] }))}
+                                  className="text-[10px] font-black text-sky-500 hover:text-sky-600 focus:outline-none cursor-pointer mt-1 block border-none bg-transparent p-0"
+                                >
+                                  {isExpanded ? "Lihat Lebih Sedikit" : "Lihat Selengkapnya"}
+                                </button>
+                              )}
+                            </>
+                          );
+                        })()}
+                        <p className="text-[10px] text-[#0ea5e9] font-bold mt-1">
+                          {post.hashtags.map((h) => `#${h}`).join(" ")}
+                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -940,6 +1246,240 @@ export default function SnapperDashboard() {
                 <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin studio melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {tabParam === "transactions" && (
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Riwayat Transaksi Referral</h3>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
+              Pantau semua transaksi yang menggunakan kode referral Anda
+            </p>
+          </div>
+
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              { label: "Total Transaksi Bulan Ini", val: transactionsSummary?.totalTransactionsThisMonth ?? 0, suffix: " transaksi", icon: ReceiptText, color: "text-blue-600", bg: "bg-blue-50" },
+              { label: "Total Komisi Bulan Ini", val: `Rp ${(transactionsSummary?.totalCommissionThisMonth ?? 0).toLocaleString("id-ID")}`, suffix: "", icon: DollarSign, color: "text-emerald-600", bg: "bg-emerald-50" },
+            ].map((card, idx) => (
+              <motion.div
+                key={card.label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="p-7 bg-white rounded-3xl border border-white shadow-sm hover:shadow-xl hover:shadow-[#1e293b]/5 transition-all duration-500"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center ${card.color}`}>
+                    <card.icon size={22} />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{card.label}</p>
+                  <span className="text-2xl font-black text-[#1e293b] tracking-tighter">{card.val}{card.suffix}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Filters */}
+          <div className="bg-white rounded-2xl border border-[#1e293b]/5 p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-400">
+              <Filter size={14} />
+              <span className="text-[10px] font-black uppercase tracking-wider">Filter</span>
+            </div>
+
+            {/* Month */}
+            <select
+              value={filterMonth}
+              onChange={(e) => setFilterMonth(parseInt(e.target.value))}
+              className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#1e293b] focus:outline-none focus:border-sky-400 transition-colors"
+            >
+              {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((m, i) => (
+                <option key={i} value={i + 1}>{m}</option>
+              ))}
+            </select>
+
+            {/* Year */}
+            <select
+              value={filterYear}
+              onChange={(e) => setFilterYear(parseInt(e.target.value))}
+              className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#1e293b] focus:outline-none focus:border-sky-400 transition-colors"
+            >
+              {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+
+            {/* Status */}
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#1e293b] focus:outline-none focus:border-sky-400 transition-colors"
+            >
+              <option value="all">Semua Status</option>
+              <option value="pending">Pending</option>
+              <option value="paid">Cair</option>
+            </select>
+          </div>
+
+          {/* Table */}
+          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 shadow-sm">
+            {transactionsLoading ? (
+              <div className="py-16 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full border-4 border-[#0ea5e9]/20 border-t-[#0ea5e9] animate-spin" />
+              </div>
+            ) : transactions.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="border-b border-gray-100 text-gray-400 uppercase tracking-wider font-black text-[9px]">
+                      <th className="py-4 pr-4">Tanggal</th>
+                      <th className="py-4 pr-4">Pembeli</th>
+                      <th className="py-4 pr-4">Program</th>
+                      <th className="py-4 pr-4 text-right">Harga Dibayar</th>
+                      <th className="py-4 pr-4 text-right">Komisi (10%)</th>
+                      <th className="py-4 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transactions.map((tx: any, idx: number) => (
+                      <motion.tr
+                        key={tx.id}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.03 }}
+                        className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                      >
+                        <td className="py-4 pr-4 font-medium text-gray-500">
+                          {new Date(tx.transactionDate).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                        </td>
+                        <td className="py-4 pr-4 font-bold text-[#1e293b]">{tx.buyerNameMasked}</td>
+                        <td className="py-4 pr-4 text-gray-500 font-medium">{tx.productName}</td>
+                        <td className="py-4 pr-4 text-right font-bold text-[#1e293b]">Rp {tx.amountPaid.toLocaleString("id-ID")}</td>
+                        <td className="py-4 pr-4 text-right font-black text-emerald-600">Rp {tx.commissionAmount.toLocaleString("id-ID")}</td>
+                        <td className="py-4 text-right">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${tx.commissionStatus === "paid" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"}`}>
+                            {tx.commissionStatus === "paid" ? <><CheckCircle2 size={10} /> Cair</> : <><Clock size={10} /> Pending</>}
+                          </span>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="py-16 text-center space-y-4">
+                <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center mx-auto text-gray-300">
+                  <ReceiptText size={24} />
+                </div>
+                <div>
+                  <h5 className="font-bold text-[#1e293b]">Belum Ada Transaksi</h5>
+                  <p className="text-gray-400 text-xs mt-1">
+                    {filterStatus !== "all" || filterMonth !== new Date().getMonth() + 1
+                      ? "Tidak ada transaksi dengan filter yang dipilih. Coba ubah filter."
+                      : "Bagikan kode referral Anda dan dapatkan komisi dari setiap transaksi!"}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {tabParam === "notifications" && (
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Notifikasi</h3>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
+              Semua notifikasi komisi dan aktivitas referral Anda
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 shadow-sm">
+            {notificationsLoading ? (
+              <div className="py-16 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full border-4 border-[#0ea5e9]/20 border-t-[#0ea5e9] animate-spin" />
+              </div>
+            ) : notifications.length > 0 ? (
+              <div className="space-y-1">
+                {/* Mark all read button */}
+                {notifUnread > 0 && (
+                  <div className="flex justify-end mb-4">
+                    <button
+                      onClick={async () => {
+                        if (session?.user?.id) {
+                          await markAllNotificationsRead(session.user.id);
+                          setNotifUnread(0);
+                          setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+                          toast.success("Semua notifikasi ditandai sudah dibaca.");
+                        }
+                      }}
+                      className="text-[9px] font-black text-sky-500 hover:text-sky-600 uppercase tracking-wider px-3 py-1.5 rounded-lg hover:bg-sky-50 transition-all"
+                    >
+                      Tandai Semua Sudah Dibaca ({notifUnread})
+                    </button>
+                  </div>
+                )}
+
+                {notifications.map((n) => {
+                  const typeConfig: Record<string, { icon: string; bg: string; color: string; label: string }> = {
+                    new_referral: { icon: "💰", bg: "bg-emerald-50", color: "text-emerald-600", label: "Komisi Baru" },
+                    commission_paid: { icon: "✅", bg: "bg-sky-50", color: "text-sky-600", label: "Komisi Cair" },
+                    payout_processed: { icon: "🏦", bg: "bg-amber-50", color: "text-amber-600", label: "Payout Diproses" },
+                  };
+                  const tc = typeConfig[n.type] || { icon: "📌", bg: "bg-gray-50", color: "text-gray-500", label: "Info" };
+
+                  return (
+                    <motion.div
+                      key={n.id}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className={`p-4 rounded-2xl flex items-start gap-4 transition-all cursor-pointer ${!n.isRead ? "bg-sky-50/40 border border-sky-100" : "bg-white hover:bg-gray-50 border border-transparent"}`}
+                      onClick={async () => {
+                        if (!n.isRead) {
+                          await markNotificationRead(n.id);
+                          setNotifications((prev) => prev.map((x) => (x.id === n.id ? { ...x, isRead: true } : x)));
+                          setNotifUnread((c) => Math.max(0, c - 1));
+                        }
+                      }}
+                    >
+                      <div className={`w-10 h-10 rounded-xl ${tc.bg} ${tc.color} flex items-center justify-center flex-shrink-0 text-lg`}>
+                        {tc.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className={`text-xs font-black ${!n.isRead ? "text-[#1e293b]" : "text-gray-500"}`}>{n.title}</p>
+                              {!n.isRead && <span className="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0" />}
+                            </div>
+                            <span className={`inline-block text-[9px] font-bold uppercase tracking-wider mt-0.5 ${tc.color}`}>{tc.label}</span>
+                          </div>
+                          <span className="text-[9px] text-gray-400 font-bold flex-shrink-0 uppercase">{n.timeAgo}</span>
+                        </div>
+                        <p className="text-[10px] text-gray-500 font-medium mt-1.5 leading-relaxed">{n.message}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="py-16 text-center space-y-4">
+                <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center mx-auto text-gray-300">
+                  <Bell size={24} />
+                </div>
+                <div>
+                  <h5 className="font-bold text-[#1e293b]">Belum Ada Notifikasi</h5>
+                  <p className="text-gray-400 text-xs mt-1">
+                    Notifikasi akan muncul saat ada komisi baru, komisi cair, atau payout diproses.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

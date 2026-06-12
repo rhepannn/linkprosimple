@@ -260,3 +260,78 @@ export async function deleteAffiliator(id: string) {
     return { success: false, error: err.message || "Gagal menghapus data affiliator." };
   }
 }
+
+// Affiliator mengubah kode referralnya sendiri
+export async function selfUpdateReferralCode(userId: string, newCode: string) {
+  try {
+    const cleanCode = newCode.trim().toUpperCase();
+
+    if (!cleanCode || cleanCode.length < 4) {
+      return { success: false, error: "Kode referral minimal 4 karakter." };
+    }
+    if (cleanCode.length > 20) {
+      return { success: false, error: "Kode referral maksimal 20 karakter." };
+    }
+    if (!/^[A-Z0-9_-]+$/.test(cleanCode)) {
+      return { success: false, error: "Kode hanya boleh huruf kapital, angka, _ atau -." };
+    }
+
+    // Ambil user + referralCode saat ini
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { referralCode: true },
+    });
+
+    if (!user || user.role !== "SNAPPER") {
+      return { success: false, error: "Affiliator tidak ditemukan." };
+    }
+    if (!user.referralCode) {
+      // Cek duplikat
+      const dup = await prisma.referralCode.findUnique({ where: { code: cleanCode } });
+      if (dup) {
+        return { success: false, error: "Kode referral sudah digunakan orang lain. Coba kode lain." };
+      }
+
+      // Buat baru
+      await prisma.referralCode.create({
+        data: {
+          code: cleanCode,
+          marketerName: user.name,
+          discountPct: 10.0,
+          maxDiscountAmount: 50000,
+          feePercentage: 10.0,
+          ownerId: userId,
+          isActive: true,
+        }
+      });
+
+      revalidatePath("/snapper");
+      revalidatePath("/admin/affiliators");
+      return { success: true, newCode: cleanCode };
+    }
+
+    // Tidak perlu update jika kode sama
+    if (user.referralCode.code === cleanCode) {
+      return { success: false, error: "Kode baru sama dengan kode yang sudah ada." };
+    }
+
+    // Cek duplikat
+    const dup = await prisma.referralCode.findUnique({ where: { code: cleanCode } });
+    if (dup) {
+      return { success: false, error: "Kode referral sudah digunakan orang lain. Coba kode lain." };
+    }
+
+    // Update kode
+    await prisma.referralCode.update({
+      where: { id: user.referralCode.id },
+      data: { code: cleanCode },
+    });
+
+    revalidatePath("/snapper");
+    revalidatePath("/admin/affiliators");
+    return { success: true, newCode: cleanCode };
+  } catch (err: any) {
+    console.error("selfUpdateReferralCode error:", err);
+    return { success: false, error: err.message || "Gagal mengubah kode referral." };
+  }
+}

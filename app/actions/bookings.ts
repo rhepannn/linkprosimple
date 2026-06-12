@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { createAffiliateNotification } from "@/app/actions/notifications";
 
 // Helper to map Prisma Booking model (camelCase) to snake_case structure expected by frontend
 function mapPrismaBookingToSnakeCase(b: any) {
@@ -78,6 +79,15 @@ export async function updateBookingStatus(id: string, status: string) {
                   status: "pending"
                 }
               });
+
+              // ── Notifikasi: komisi baru masuk ──
+              await createAffiliateNotification(
+                ref.ownerId,
+                "new_referral",
+                "Komisi Baru Masuk!",
+                `${booking.customerName} baru saja mendaftar ${booking.packageName} dengan kode referral kamu. Komisi Rp ${commissionAmount.toLocaleString("id-ID")} menunggu verifikasi.`
+              );
+
               console.log(`[Commission] Successfully awarded Rp ${commissionAmount} to Snapper ${ref.owner.name} (Code: ${code})`);
             }
           }

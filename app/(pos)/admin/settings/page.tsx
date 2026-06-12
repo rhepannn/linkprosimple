@@ -88,6 +88,35 @@ export default function SettingsPage() {
         how_desc: data.how_desc || "Langkah mudah untuk mulai mengikuti program pelatihan dan sertifikasi bersama Link Productive.",
         contact_title: data.contact_title || "Tetap Terhubung",
         contact_desc: data.contact_desc || "Punya pertanyaan seputar program atau ingin menjalin kerjasama? Tim kami siap membantu Anda.",
+        // ── Halaman Daftar Pelatihan ──
+        training_hero_badge: data.training_hero_badge || "Portal Pembelajaran & Karir",
+        training_hero_title: data.training_hero_title || "Katalog Kelas & Pelatihan Premium",
+        training_hero_desc: data.training_hero_desc || "Tingkatkan kompetensi Anda melalui program pelatihan intensif, bimbingan tugas akhir privat, serta sertifikasi keahlian berstandar industri bersama mentor senior.",
+        training_hero_btn: data.training_hero_btn || "Jelajahi Program Pelatihan",
+        training_feature_1_title: data.training_feature_1_title || "Privat Intensif",
+        training_feature_1_desc: data.training_feature_1_desc || "Bimbingan satu-satu terarah",
+        training_feature_2_title: data.training_feature_2_title || "Praktisi Ahli",
+        training_feature_2_desc: data.training_feature_2_desc || "Didampingi mentor industri senior",
+        training_feature_3_title: data.training_feature_3_title || "Karir Akseleratif",
+        training_feature_3_desc: data.training_feature_3_desc || "Persiapan matang ke dunia kerja",
+        training_feature_4_title: data.training_feature_4_title || "Sertifikat Resmi",
+        training_feature_4_desc: data.training_feature_4_desc || "Kredensial berharga portofolio",
+        training_section_title: data.training_section_title || "Pilihan Kelas & Pelatihan",
+        training_section_desc: data.training_section_desc || "Klik Lihat Detail Program pada katalog di bawah ini untuk melihat rincian silabus kelas, skema investasi, dan formulir pendaftaran.",
+        training_search_placeholder: data.training_search_placeholder || "Cari kelas pelatihan...",
+        training_step_1_title: data.training_step_1_title || "Pilih Paket Belajar",
+        training_step_1_desc: data.training_step_1_desc || "Tentukan tingkat kompetensi yang ingin Anda ikuti di tabel sebelah kanan.",
+        training_step_2_title: data.training_step_2_title || "Isi Formulir",
+        training_step_2_desc: data.training_step_2_desc || "Klik tombol \"Pilih Paket\" pada paket tersebut dan lengkapi data diri Anda.",
+        training_step_3_title: data.training_step_3_title || "Transfer Investasi",
+        training_step_3_desc: data.training_step_3_desc || "Lakukan pembayaran sesuai nominal paket ke rekening bank resmi atau scan QRIS yang tampil.",
+        training_step_4_title: data.training_step_4_title || "Konfirmasi WhatsApp",
+        training_step_4_desc: data.training_step_4_desc || "Kirim bukti transfer ke admin via WhatsApp untuk verifikasi kelas & aktivasi akun.",
+        training_cta_title: data.training_cta_title || "Masih Bingung Memilih Paket?",
+        training_cta_desc: data.training_cta_desc || "Konsultasikan kebutuhan belajar atau pertanyaan Anda secara gratis dengan tim admin kami.",
+        training_cta_btn: data.training_cta_btn || "Tanya Admin via WhatsApp",
+        training_card_badge: data.training_card_badge || "Pendaftaran Aktif",
+        training_empty_text: data.training_empty_text || "Detail silabus dan kurikulum program belum tersedia.",
       };
 
       setSettings(initialSettings);
@@ -231,6 +260,29 @@ export default function SettingsPage() {
       setIsSaving(false);
     }
   };
+
+  const InputRow = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => (
+    <div className="space-y-1.5">
+      <label className="block text-[10px] font-bold text-near-black/60 uppercase tracking-wide">{label}</label>
+      <input
+        type="text"
+        value={value || ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full px-3 py-2 bg-warm-white/50 border border-near-black/10 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all"
+      />
+    </div>
+  );
+
+  const InputRowTextarea = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => (
+    <div className="space-y-1.5">
+      <label className="block text-[10px] font-bold text-near-black/60 uppercase tracking-wide">{label}</label>
+      <textarea
+        value={value || ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full px-3 py-2 bg-warm-white/50 border border-near-black/10 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-gold/50 transition-all min-h-[60px]"
+      />
+    </div>
+  );
 
   if (isLoading) {
     return (
@@ -903,6 +955,72 @@ export default function SettingsPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+
+          {/* ── Halaman Daftar Pelatihan ── */}
+          <div className="bg-white p-6 rounded-2xl border border-near-black/5 shadow-sm space-y-5">
+            <div className="flex items-center gap-3 pb-4 border-b border-near-black/5">
+              <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-500 flex items-center justify-center">
+                <Type className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm font-bold text-near-black uppercase tracking-widest">Halaman Daftar Pelatihan</h2>
+                <p className="text-[11px] text-near-black/50 font-medium">Atur teks hero banner, kartu fitur, langkah pendaftaran, dan CTA</p>
+              </div>
+            </div>
+
+            <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+              {/* Hero Section */}
+              <div className="space-y-3 border-b border-near-black/5 pb-5">
+                <h3 className="text-[11px] font-black text-near-black uppercase tracking-wider">Hero Banner</h3>
+                <InputRow label="Badge" value={settings.training_hero_badge} onChange={(v) => handleChange("training_hero_badge", v)} />
+                <InputRow label="Judul Utama" value={settings.training_hero_title} onChange={(v) => handleChange("training_hero_title", v)} />
+                <InputRowTextarea label="Deskripsi" value={settings.training_hero_desc} onChange={(v) => handleChange("training_hero_desc", v)} />
+                <InputRow label="Tombol CTA" value={settings.training_hero_btn} onChange={(v) => handleChange("training_hero_btn", v)} />
+              </div>
+
+              {/* Feature Cards */}
+              <div className="space-y-3 border-b border-near-black/5 pb-5">
+                <h3 className="text-[11px] font-black text-near-black uppercase tracking-wider">Kartu Fitur (4 Kolom)</h3>
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="space-y-2 p-3 bg-near-black/[0.02] rounded-xl">
+                    <p className="text-[10px] font-bold text-near-black/60 uppercase">Fitur #{n}</p>
+                    <InputRow label="Judul" value={settings[`training_feature_${n}_title`]} onChange={(v) => handleChange(`training_feature_${n}_title`, v)} />
+                    <InputRow label="Deskripsi" value={settings[`training_feature_${n}_desc`]} onChange={(v) => handleChange(`training_feature_${n}_desc`, v)} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Program Section */}
+              <div className="space-y-3 border-b border-near-black/5 pb-5">
+                <h3 className="text-[11px] font-black text-near-black uppercase tracking-wider">Heading Program</h3>
+                <InputRow label="Judul Section" value={settings.training_section_title} onChange={(v) => handleChange("training_section_title", v)} />
+                <InputRowTextarea label="Subtitle" value={settings.training_section_desc} onChange={(v) => handleChange("training_section_desc", v)} />
+                <InputRow label="Placeholder Search" value={settings.training_search_placeholder} onChange={(v) => handleChange("training_search_placeholder", v)} />
+                <InputRow label="Badge Kartu" value={settings.training_card_badge} onChange={(v) => handleChange("training_card_badge", v)} />
+                <InputRow label="Teks Kosong" value={settings.training_empty_text} onChange={(v) => handleChange("training_empty_text", v)} />
+              </div>
+
+              {/* Registration Steps */}
+              <div className="space-y-3 border-b border-near-black/5 pb-5">
+                <h3 className="text-[11px] font-black text-near-black uppercase tracking-wider">Langkah Pendaftaran (4 Step)</h3>
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="space-y-2 p-3 bg-near-black/[0.02] rounded-xl">
+                    <p className="text-[10px] font-bold text-near-black/60 uppercase">Step #{n}</p>
+                    <InputRow label="Judul" value={settings[`training_step_${n}_title`]} onChange={(v) => handleChange(`training_step_${n}_title`, v)} />
+                    <InputRow label="Deskripsi" value={settings[`training_step_${n}_desc`]} onChange={(v) => handleChange(`training_step_${n}_desc`, v)} />
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="space-y-3 pb-2">
+                <h3 className="text-[11px] font-black text-near-black uppercase tracking-wider">CTA Konsultasi (Bawah Detail)</h3>
+                <InputRow label="Judul" value={settings.training_cta_title} onChange={(v) => handleChange("training_cta_title", v)} />
+                <InputRowTextarea label="Deskripsi" value={settings.training_cta_desc} onChange={(v) => handleChange("training_cta_desc", v)} />
+                <InputRow label="Tombol" value={settings.training_cta_btn} onChange={(v) => handleChange("training_cta_btn", v)} />
+              </div>
             </div>
           </div>
         </div>

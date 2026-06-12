@@ -20,21 +20,6 @@ export interface AffiliateApplicationInput {
   experience?: string;
 }
 
-async function generateUniqueReferralCode(name: string): Promise<string> {
-  const cleanName = name.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-  const baseCode = cleanName.substring(0, 6) || "REF";
-  let code = `${baseCode}10`;
-  
-  // Check if code exists
-  let existing = await prisma.referralCode.findUnique({ where: { code } });
-  while (existing) {
-    const randomNum = Math.floor(10 + Math.random() * 90); // 2 digit random
-    code = `${baseCode}${randomNum}`;
-    existing = await prisma.referralCode.findUnique({ where: { code } });
-  }
-  return code;
-}
-
 /* ── Public: Submit pendaftaran affiliate ── */
 export async function submitAffiliateApplication(data: AffiliateApplicationInput) {
   try {
@@ -134,55 +119,28 @@ export async function updateApplicationStatus(id: string, status: "approved" | "
           return { success: false, error: "Email pendaftar sudah terdaftar sebagai administrator di sistem." };
         }
 
-        // Jika sudah ada sebagai SNAPPER, pastikan mereka memiliki ReferralCode dan aktifkan
+        // Jika sudah ada sebagai SNAPPER, pastikan ReferralCode mereka aktif (jika sudah punya)
         if (existingUser.referralCode) {
           await prisma.referralCode.update({
             where: { id: existingUser.referralCode.id },
             data: { isActive: true }
           });
-        } else {
-          // Jika belum punya kode referral, buat baru
-          const generatedReferralCode = await generateUniqueReferralCode(application.name);
-          await prisma.referralCode.create({
-            data: {
-              code: generatedReferralCode,
-              marketerName: application.name,
-              discountPct: 10.0,
-              maxDiscountAmount: 50000,
-              feePercentage: 10.0,
-              ownerId: existingUser.id,
-              isActive: true,
-            }
-          });
         }
+        // Jika belum punya kode referral, biarkan — affiliator akan membuatnya sendiri dari dashboard
       } else {
-        // Buat user SNAPPER baru
+        // Buat user SNAPPER baru (tanpa ReferralCode — affiliator buat sendiri dari dashboard)
         const hashedPassword = await bcrypt.hash(application.password || "default123", 10);
-        const generatedReferralCode = await generateUniqueReferralCode(application.name);
 
-        await prisma.$transaction(async (tx) => {
-          const user = await tx.user.create({
-            data: {
-              name: application.name,
-              email: application.email,
-              phone: application.phone,
-              password: hashedPassword,
-              role: "SNAPPER",
-            }
-          });
-
-          await tx.referralCode.create({
-            data: {
-              code: generatedReferralCode,
-              marketerName: application.name,
-              discountPct: 10.0,
-              maxDiscountAmount: 50000,
-              feePercentage: 10.0,
-              ownerId: user.id,
-              isActive: true,
-            }
-          });
+        await prisma.user.create({
+          data: {
+            name: application.name,
+            email: application.email,
+            phone: application.phone,
+            password: hashedPassword,
+            role: "SNAPPER",
+          }
         });
+        // Tidak membuat ReferralCode — affiliator akan generate kode sendiri dari halaman /snapper
       }
     } else {
       // Jika status diubah ke pending atau rejected (non-approved), hapus user SNAPPER & referral code mereka agar hilang dari daftar affiliator

@@ -184,12 +184,14 @@ function ProgramPosterCarousel({ urls, productName, onImageClick }: { urls: stri
           <button
             className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-700 flex items-center justify-center shadow-md opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10"
             onClick={prevSlide}
+            aria-label="Slide sebelumnya"
           >
             <ChevronLeft size={16} />
           </button>
           <button
             className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-slate-700 flex items-center justify-center shadow-md opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10"
             onClick={nextSlide}
+            aria-label="Slide berikutnya"
           >
             <ChevronRight size={16} />
           </button>
@@ -317,6 +319,7 @@ function PackageEditor({
         <button
           onClick={onRemove}
           className="w-7 h-7 rounded-lg flex items-center justify-center text-rose-400 hover:bg-rose-50 border border-rose-100 transition-colors"
+          aria-label="Hapus paket"
         >
           <Trash2 size={13} />
         </button>
@@ -548,6 +551,7 @@ function PosterManager({
           <button
             onClick={() => remove(i)}
             className="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-rose-400 hover:bg-rose-50 border border-rose-100 transition-colors mt-0.5"
+            aria-label="Hapus poster"
           >
             <X size={13} />
           </button>
@@ -601,6 +605,7 @@ function StringListEditor({
               <button
                 onClick={() => remove(i)}
                 className="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-rose-400 hover:bg-rose-50 border border-rose-100 transition-colors"
+                aria-label="Hapus item"
               >
                 <X size={13} />
               </button>
@@ -835,13 +840,14 @@ function ProductDetailForm({
         <div className="flex items-center justify-between">
           <SectionLabel>Pilihan Paket & Biaya Pelatihan</SectionLabel>
           <button
+            type="button"
             onClick={() =>
               setForm((f) => ({
                 ...f,
                 packages: [...f.packages, emptyPackage()],
               }))
             }
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#004aad] hover:bg-[#003984] text-white text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#004aad] hover:bg-[#003984] text-white text-[10px] font-black uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
           >
             <Plus size={12} /> Tambah Paket
           </button>
