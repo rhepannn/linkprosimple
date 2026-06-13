@@ -1,11 +1,22 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "ADMIN") {
+    throw new Error("Unauthorized.");
+  }
+}
 
 export async function getDashboardStats() {
   try {
+    await requireAdmin();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     const [
       transactionsToday,
@@ -15,14 +26,11 @@ export async function getDashboardStats() {
       posRevenue,
       bookingRevenue
     ] = await Promise.all([
-      // Transactions count today (POS)
-      prisma.transaction.count({
-        where: { 
-          createdAt: { gte: today },
-          status: "COMPLETED"
-        }
+      // New bookings created today
+      prisma.booking.count({
+        where: { createdAt: { gte: today } }
       }),
-      // Bookings count today (Online)
+      // Bookings with session date today
       prisma.booking.count({
         where: {
           sessionDate: today.toISOString().split("T")[0],
@@ -37,32 +45,32 @@ export async function getDashboardStats() {
       prisma.referralCode.count({
         where: { isActive: true }
       }),
-      // POS Revenue today
+      // POS Revenue this month
       prisma.transaction.aggregate({
         _sum: { total: true },
-        where: { 
-          createdAt: { gte: today },
+        where: {
+          createdAt: { gte: startOfMonth },
           status: "COMPLETED"
         }
       }),
-      // Booking Revenue today
+      // Booking Revenue this month
       prisma.booking.aggregate({
         _sum: { finalPrice: true },
         where: {
-          sessionDate: today.toISOString().split("T")[0],
+          createdAt: { gte: startOfMonth },
           status: { in: ["confirmed", "completed", "success"] }
         }
       })
     ]);
 
-    const totalRevenueToday = (posRevenue._sum.total || 0) + (bookingRevenue._sum.finalPrice || 0);
+    const revenueThisMonth = (posRevenue._sum.total || 0) + (bookingRevenue._sum.finalPrice || 0);
 
     return {
       success: true,
       data: {
         posToday: transactionsToday,
         bookingsToday: bookingsToday,
-        revenue: totalRevenueToday,
+        revenue: revenueThisMonth,
         activeProducts,
         referrals: activeReferrals
       }
@@ -75,6 +83,7 @@ export async function getDashboardStats() {
 
 export async function getBookingCategoryStats() {
   try {
+    await requireAdmin();
     const bookings = await prisma.booking.findMany({
       where: {
         status: { in: ["confirmed", "completed", "success"] }
@@ -100,6 +109,7 @@ export async function getBookingCategoryStats() {
 
 export async function getRecentTransactions() {
   try {
+    await requireAdmin();
     const [transactions, bookings] = await Promise.all([
       prisma.transaction.findMany({
         take: 5,
@@ -159,6 +169,7 @@ export async function getRecentTransactions() {
 
 export async function getUpcomingBookings() {
   try {
+    await requireAdmin();
     const today = new Date().toISOString().split("T")[0];
     
     const bookings = await prisma.booking.findMany({
@@ -199,6 +210,7 @@ export async function getUpcomingBookings() {
 
 export async function getChartData(period: "daily" | "weekly" | "monthly" = "daily") {
   try {
+    await requireAdmin();
     const now = new Date();
     let startDate = new Date();
     let days = 7;

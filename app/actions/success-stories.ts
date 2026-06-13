@@ -7,24 +7,39 @@ export interface SuccessStoryInput {
   productId: string;
   name: string;
   role?: string;
+  companyName?: string;
   photoUrl?: string;
   achievement?: string;
   story: string;
   beforeLabel?: string;
   afterLabel?: string;
+  linkedinUrl?: string;
+  linkedinScreenshot?: string;
   sortOrder?: number;
   isActive?: boolean;
 }
 
-export async function getSuccessStories(productId?: string) {
+export async function getSuccessStories(productIds?: string | string[]) {
   try {
-    const where: any = productId ? { productId, isActive: true } : {};
+    const ids = productIds
+      ? (Array.isArray(productIds) ? productIds : [productIds]).filter(Boolean)
+      : [];
+    const where: any = ids.length > 0
+      ? { productId: { in: ids }, isActive: true }
+      : { isActive: true };
     const stories = await prisma.successStory.findMany({
       where,
       include: { product: { select: { name: true, sku: true } } },
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
-    return { success: true, data: stories };
+    return {
+      success: true,
+      data: stories.map((s) => ({
+        ...s,
+        createdAt: s.createdAt.toISOString(),
+        updatedAt: s.updatedAt.toISOString(),
+      })),
+    };
   } catch (error: any) {
     console.error("getSuccessStories error:", error);
     return { success: false, error: error.message, data: [] };
@@ -37,7 +52,14 @@ export async function getAllSuccessStories() {
       include: { product: { select: { name: true, sku: true } } },
       orderBy: [{ productId: "asc" }, { sortOrder: "asc" }, { createdAt: "desc" }],
     });
-    return { success: true, data: stories };
+    return {
+      success: true,
+      data: stories.map((s) => ({
+        ...s,
+        createdAt: s.createdAt.toISOString(),
+        updatedAt: s.updatedAt.toISOString(),
+      })),
+    };
   } catch (error: any) {
     console.error("getAllSuccessStories error:", error);
     return { success: false, error: error.message, data: [] };
@@ -55,11 +77,14 @@ export async function createSuccessStory(data: SuccessStoryInput) {
         productId: data.productId,
         name: data.name.trim(),
         role: data.role?.trim() || null,
+        companyName: data.companyName?.trim() || null,
         photoUrl: data.photoUrl?.trim() || null,
         achievement: data.achievement?.trim() || null,
         story: data.story.trim(),
         beforeLabel: data.beforeLabel?.trim() || null,
         afterLabel: data.afterLabel?.trim() || null,
+        linkedinUrl: data.linkedinUrl?.trim() || null,
+        linkedinScreenshot: data.linkedinScreenshot?.trim() || null,
         sortOrder: data.sortOrder ?? 0,
         isActive: data.isActive ?? true,
       },
@@ -67,6 +92,7 @@ export async function createSuccessStory(data: SuccessStoryInput) {
 
     revalidatePath("/admin/success-stories");
     revalidatePath("/daftar-pelatihan");
+    revalidatePath("/success-stories");
     return { success: true };
   } catch (error: any) {
     console.error("createSuccessStory error:", error);
@@ -83,11 +109,14 @@ export async function updateSuccessStory(id: string, data: Partial<SuccessStoryI
     if (data.productId !== undefined) updateData.productId = data.productId;
     if (data.name !== undefined) updateData.name = data.name.trim();
     if (data.role !== undefined) updateData.role = data.role?.trim() || null;
+    if (data.companyName !== undefined) updateData.companyName = data.companyName?.trim() || null;
     if (data.photoUrl !== undefined) updateData.photoUrl = data.photoUrl?.trim() || null;
     if (data.achievement !== undefined) updateData.achievement = data.achievement?.trim() || null;
     if (data.story !== undefined) updateData.story = data.story.trim();
     if (data.beforeLabel !== undefined) updateData.beforeLabel = data.beforeLabel?.trim() || null;
     if (data.afterLabel !== undefined) updateData.afterLabel = data.afterLabel?.trim() || null;
+    if (data.linkedinUrl !== undefined) updateData.linkedinUrl = data.linkedinUrl?.trim() || null;
+    if (data.linkedinScreenshot !== undefined) updateData.linkedinScreenshot = data.linkedinScreenshot?.trim() || null;
     if (data.sortOrder !== undefined) updateData.sortOrder = data.sortOrder;
     if (data.isActive !== undefined) updateData.isActive = data.isActive;
 
@@ -95,6 +124,7 @@ export async function updateSuccessStory(id: string, data: Partial<SuccessStoryI
 
     revalidatePath("/admin/success-stories");
     revalidatePath("/daftar-pelatihan");
+    revalidatePath("/success-stories");
     return { success: true };
   } catch (error: any) {
     console.error("updateSuccessStory error:", error);
@@ -107,6 +137,7 @@ export async function deleteSuccessStory(id: string) {
     await prisma.successStory.delete({ where: { id } });
     revalidatePath("/admin/success-stories");
     revalidatePath("/daftar-pelatihan");
+    revalidatePath("/success-stories");
     return { success: true };
   } catch (error: any) {
     console.error("deleteSuccessStory error:", error);
@@ -119,6 +150,7 @@ export async function toggleSuccessStoryActive(id: string, isActive: boolean) {
     await prisma.successStory.update({ where: { id }, data: { isActive } });
     revalidatePath("/admin/success-stories");
     revalidatePath("/daftar-pelatihan");
+    revalidatePath("/success-stories");
     return { success: true };
   } catch (error: any) {
     console.error("toggleSuccessStoryActive error:", error);

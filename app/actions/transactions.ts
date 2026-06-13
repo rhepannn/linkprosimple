@@ -22,41 +22,10 @@ export async function saveTransaction(data: {
   console.log("Saving transaction data:", JSON.stringify(data, null, 2));
   try {
     const session = await auth();
-    let userId = (session?.user as any)?.id;
-
-    const fs = require("fs");
-    fs.writeFileSync("prisma_keys.txt", Object.keys(prisma).filter(k => !k.startsWith("_") && !k.startsWith("$")).join("\n"));
+    const userId = (session?.user as any)?.id;
 
     if (!userId) {
-      console.warn("SaveTransaction: No session found, attempting fallback user");
-      
-      // Cari admin (harus huruf besar sesuai Enum)
-      let fallbackUser = await prisma.user.findFirst({
-        where: { role: "ADMIN" }
-      });
-
-      // Jika tidak ada admin, ambil user pertama mana saja
-      if (!fallbackUser) {
-        fallbackUser = await prisma.user.findFirst();
-      }
-
-      // Jika database benar-benar kosong, buat user sistem baru
-      if (!fallbackUser) {
-        console.log("Database empty, creating auto-system-user");
-        fallbackUser = await prisma.user.create({
-          data: {
-            id: crypto.randomUUID(),
-            name: "System Admin",
-            email: "admin@system.com",
-            password: "system_admin_pass", // Wajib diisi sesuai skema
-            role: "ADMIN",
-            updatedAt: new Date()
-          }
-        });
-      }
-
-      userId = fallbackUser.id;
-      console.log("Using Fallback User ID:", userId);
+      return { success: false, error: "Sesi tidak ditemukan. Silakan login kembali." };
     }
 
     // 1. Validasi Produk & Filter Custom Items
@@ -181,7 +150,7 @@ export async function saveTransaction(data: {
     revalidatePath("/admin/customers");
     revalidatePath("/kasir");
 
-    return { success: true, data: transaction };
+    return { success: true };
   } catch (error: any) {
     console.error("CRITICAL ERROR saving transaction:", error);
     // Tampilkan detail error agar bisa diperbaiki

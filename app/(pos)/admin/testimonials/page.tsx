@@ -8,6 +8,7 @@ import {
 import { getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial, toggleTestimonialActive } from "@/app/actions/testimonials";
 import { getProducts } from "@/app/actions/products";
 import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export default function TestimonialsManagement() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
@@ -16,6 +17,9 @@ export default function TestimonialsManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const confirm = useConfirm();
+  const setFormDirty = (updater: any) => { setForm(updater); setIsDirty(true); };
   const [programs, setPrograms] = useState<any[]>([]);
 
   const emptyForm = {
@@ -50,9 +54,19 @@ export default function TestimonialsManagement() {
     t.text.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const closeModal = async () => {
+    if (isDirty) {
+      const ok = await confirm({ title: "Tutup Modal?", message: "Ada perubahan yang belum disimpan.", confirmText: "Ya, Tutup" });
+      if (!ok) return;
+    }
+    setIsModalOpen(false);
+    setIsDirty(false);
+  };
+
   const openAdd = () => {
     setEditingId(null);
     setForm({ ...emptyForm });
+    setIsDirty(false);
     setIsModalOpen(true);
   };
 
@@ -68,6 +82,7 @@ export default function TestimonialsManagement() {
       date: t.date || "",
       sortOrder: t.sortOrder ?? 0,
     });
+    setIsDirty(false);
     setIsModalOpen(true);
   };
 
@@ -80,7 +95,7 @@ export default function TestimonialsManagement() {
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
       const data = await res.json();
       if (data.url) {
-        setForm((f) => ({ ...f, photoUrl: data.url }));
+        setFormDirty((f: any) => ({ ...f, photoUrl: data.url }));
         toast.success("Foto berhasil diunggah!", { id: "upload-photo" });
       } else {
         toast.error("Gagal mengunggah foto.", { id: "upload-photo" });
@@ -108,11 +123,13 @@ export default function TestimonialsManagement() {
     }
     setLoading(false);
     setIsModalOpen(false);
+    setIsDirty(false);
     fetchData();
   };
 
   const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Hapus testimoni dari "${name}"?`)) return;
+    const ok = await confirm({ title: "Hapus Testimoni?", message: `Hapus testimoni dari "${name}"? Tindakan ini tidak bisa dibatalkan.`, danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     const res = await deleteTestimonial(id);
     if (res.success) toast.success("Testimoni dihapus.");
     else toast.error(res.error || "Gagal menghapus.");
@@ -135,7 +152,7 @@ export default function TestimonialsManagement() {
         key={i}
         type="button"
         disabled={!interactive}
-        onClick={() => interactive && setForm((f) => ({ ...f, rating: i + 1 }))}
+        onClick={() => interactive && setFormDirty((f: any) => ({ ...f, rating: i + 1 }))}
         className={`${interactive ? "cursor-pointer hover:scale-110" : "cursor-default"} transition-transform`}
       >
         <Star size={interactive ? 20 : 14} className={i < rating ? "text-amber-400 fill-amber-400" : "text-gray-200"} />
@@ -281,7 +298,7 @@ export default function TestimonialsManagement() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
             />
             <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
@@ -303,7 +320,7 @@ export default function TestimonialsManagement() {
                       </p>
                     </div>
                   </div>
-                  <button onClick={() => setIsModalOpen(false)} className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-gray-100 rounded-xl">
+                  <button onClick={closeModal} className="p-2 text-gray-300 hover:text-[#1e293b] hover:bg-gray-100 rounded-xl">
                     <X size={18} />
                   </button>
                 </div>
@@ -314,7 +331,7 @@ export default function TestimonialsManagement() {
                     <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Nama Alumni *</label>
                     <input
                       type="text" value={form.name}
-                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                      onChange={(e) => setFormDirty((f: any) => ({ ...f, name: e.target.value }))}
                       placeholder="cth: Rina Amelia"
                       className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                     />
@@ -326,7 +343,7 @@ export default function TestimonialsManagement() {
                       <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Role / Jabatan</label>
                       <input
                         type="text" value={form.role}
-                        onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}
+                        onChange={(e) => setFormDirty((f: any) => ({ ...f, role: e.target.value }))}
                         placeholder="cth: Mahasiswa UI"
                         className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                       />
@@ -335,7 +352,7 @@ export default function TestimonialsManagement() {
                       <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Program</label>
                       <select
                         value={form.programName}
-                        onChange={(e) => setForm((f) => ({ ...f, programName: e.target.value }))}
+                        onChange={(e) => setFormDirty((f: any) => ({ ...f, programName: e.target.value }))}
                         className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                       >
                         <option value="">-- Pilih Program --</option>
@@ -352,7 +369,7 @@ export default function TestimonialsManagement() {
                     <div className="flex gap-2">
                       <input
                         type="text" value={form.photoUrl}
-                        onChange={(e) => setForm((f) => ({ ...f, photoUrl: e.target.value }))}
+                        onChange={(e) => setFormDirty((f: any) => ({ ...f, photoUrl: e.target.value }))}
                         placeholder="https://..."
                         className="flex-1 px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                       />
@@ -378,7 +395,7 @@ export default function TestimonialsManagement() {
                     <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Teks Testimoni *</label>
                     <textarea
                       value={form.text}
-                      onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
+                      onChange={(e) => setFormDirty((f: any) => ({ ...f, text: e.target.value }))}
                       rows={4}
                       placeholder="Tulis cerita sukses atau testimoni alumni..."
                       className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-medium resize-y focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
@@ -391,7 +408,7 @@ export default function TestimonialsManagement() {
                       <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Tanggal (tampilan)</label>
                       <input
                         type="text" value={form.date}
-                        onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+                        onChange={(e) => setFormDirty((f: any) => ({ ...f, date: e.target.value }))}
                         placeholder="cth: Desember 2024"
                         className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                       />
@@ -400,7 +417,7 @@ export default function TestimonialsManagement() {
                       <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest mb-1.5">Urutan</label>
                       <input
                         type="number" value={form.sortOrder}
-                        onChange={(e) => setForm((f) => ({ ...f, sortOrder: parseInt(e.target.value) || 0 }))}
+                        onChange={(e) => setFormDirty((f: any) => ({ ...f, sortOrder: parseInt(e.target.value) || 0 }))}
                         className="w-full px-3.5 py-2.5 bg-[#F8F6F4] border border-transparent rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all"
                       />
                     </div>
@@ -409,7 +426,7 @@ export default function TestimonialsManagement() {
 
                 <div className="px-8 py-5 border-t border-slate-100 bg-slate-50/50 flex gap-3 rounded-b-3xl">
                   <button
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={closeModal}
                     className="flex-1 py-3.5 rounded-xl border border-slate-200 text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#1e293b] transition-all"
                   >
                     Batal

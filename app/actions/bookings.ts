@@ -1,7 +1,15 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { createAffiliateNotification } from "@/app/actions/notifications";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "ADMIN") {
+    throw new Error("Unauthorized.");
+  }
+}
 
 // Helper to map Prisma Booking model (camelCase) to snake_case structure expected by frontend
 function mapPrismaBookingToSnakeCase(b: any) {
@@ -26,22 +34,9 @@ function mapPrismaBookingToSnakeCase(b: any) {
   };
 }
 
-export async function getBookings() {
-  try {
-    // Fix #2: Fetch semua booking (untuk halaman bookings management)
-    // Untuk customers page, gunakan getTransactionReports yang sudah difilter by status
-    const bookings = await prisma.booking.findMany({
-      orderBy: { createdAt: "desc" }
-    });
-    return { data: bookings.map(mapPrismaBookingToSnakeCase), error: null };
-  } catch (error: any) {
-    console.error("Error fetching bookings via Prisma:", error);
-    return { data: [], error: error.message };
-  }
-}
-
 export async function updateBookingStatus(id: string, status: string) {
   try {
+    await requireAdmin();
     await prisma.booking.update({
       where: { id },
       data: { status }
@@ -63,32 +58,28 @@ export async function updateBookingStatus(id: string, status: string) {
 
           // Award fee if referral code is owned by a SNAPPER
           if (ref && ref.ownerId && ref.owner && ref.owner.role === "SNAPPER") {
-            // Prevent duplicate commission entries for same booking
-            const existingCommission = await prisma.affiliateCommission.findFirst({
-              where: { bookingId: id }
-            });
+            const commissionAmount = booking.finalPrice * (ref.feePercentage / 100);
 
-            if (!existingCommission) {
-              const commissionAmount = booking.finalPrice * (ref.feePercentage / 100);
+            // upsert is atomic — safe against concurrent calls for same booking
+            const { created } = await prisma.affiliateCommission.upsert({
+              where: { bookingId: id },
+              create: {
+                snapperId: ref.ownerId,
+                bookingId: id,
+                amount: commissionAmount,
+                status: "pending",
+              },
+              update: {},
+            }).then((r) => ({ created: r.createdAt.getTime() === r.updatedAt.getTime() }));
 
-              await prisma.affiliateCommission.create({
-                data: {
-                  snapperId: ref.ownerId,
-                  bookingId: id,
-                  amount: commissionAmount,
-                  status: "pending"
-                }
-              });
-
-              // ── Notifikasi: komisi baru masuk ──
+            if (created) {
               await createAffiliateNotification(
                 ref.ownerId,
                 "new_referral",
                 "Komisi Baru Masuk!",
                 `${booking.customerName} baru saja mendaftar ${booking.packageName} dengan kode referral kamu. Komisi Rp ${commissionAmount.toLocaleString("id-ID")} menunggu verifikasi.`
               );
-
-              console.log(`[Commission] Successfully awarded Rp ${commissionAmount} to Snapper ${ref.owner.name} (Code: ${code})`);
+              console.log(`[Commission] Awarded Rp ${commissionAmount} to Snapper ${ref.owner.name} (Code: ${code})`);
             }
           }
         }
@@ -202,6 +193,19 @@ export async function createBooking(data: any) {
   }
 }
 
+export async function getBookings() {
+  try {
+    await requireAdmin();
+    const bookings = await prisma.booking.findMany({
+      orderBy: { createdAt: "desc" }
+    });
+    return { data: bookings.map(mapPrismaBookingToSnakeCase), error: null };
+  } catch (error: any) {
+    console.error("Error fetching bookings via Prisma:", error);
+    return { data: [], error: error.message };
+  }
+}
+
 export async function updateBooking(id: string, data: {
   customer_name?: string;
   customer_phone?: string;
@@ -215,6 +219,7 @@ export async function updateBooking(id: string, data: {
   status?: string;
 }) {
   try {
+    await requireAdmin();
     const updated = await prisma.booking.update({
       where: { id },
       data: {
@@ -239,6 +244,7 @@ export async function updateBooking(id: string, data: {
 
 export async function deleteBooking(id: string) {
   try {
+    await requireAdmin();
     // Remove commissions first to avoid FK constraint errors
     await prisma.affiliateCommission.deleteMany({ where: { bookingId: id } });
     await prisma.booking.delete({ where: { id } });

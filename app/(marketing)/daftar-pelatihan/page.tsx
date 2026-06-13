@@ -406,7 +406,7 @@ function EnrollModal({
                 <CheckCircle2 size={36} className="text-emerald-500" />
               </div>
               <div>
-                <h4 className="text-lg font-black text-[#004aad] mb-2">Pendaftaran Berhasil! ??</h4>
+                <h4 className="text-lg font-black text-[#004aad] mb-2">Pendaftaran Berhasil! 🎉</h4>
                 <p className="text-xs text-sky-600 font-bold leading-relaxed max-w-xs">
                   Data pendaftaran Anda telah kami simpan. Selesaikan proses pendaftaran dengan mentransfer total pembayaran ke rekening resmi kami di bawah ini:
                 </p>
@@ -686,6 +686,8 @@ function EnrollModal({
 
 function parseProductsFromDb(dbProducts: any[]) {
   const grouped: Record<string, {
+    id: string;
+    productIds: string[];
     name: string;
     fee: string;
     unit: string;
@@ -819,6 +821,8 @@ function parseProductsFromDb(dbProducts: any[]) {
     }
 
     grouped[programName] = {
+      id: dbProds[0].id,
+      productIds: dbProds.map((p: any) => p.id),
       name: programName,
       fee: "Sesuai Ketentuan",
       unit: "pendaftaran",
@@ -850,6 +854,7 @@ function DaftarPelatihanContent() {
   const [urlPackageSku, setUrlPackageSku] = useState<string | null>(null);
   const [successStories, setSuccessStories] = useState<any[]>([]);
   const [storiesLoading, setStoriesLoading] = useState(false);
+  const [selectedStory, setSelectedStory] = useState<any | null>(null);
 
   const searchParams = useSearchParams();
 
@@ -905,9 +910,14 @@ function DaftarPelatihanContent() {
 
   // Fetch success stories when product detail opens
   useEffect(() => {
-    if (!activeProduct) return;
+    if (!activeProduct) {
+      setSuccessStories([]);
+      return;
+    }
+    setSuccessStories([]);
     setStoriesLoading(true);
-    getSuccessStories(activeProduct.id).then((res) => {
+    const ids = activeProduct.productIds || (activeProduct.id ? [activeProduct.id] : []);
+    getSuccessStories(ids).then((res) => {
       if (res.success && res.data) setSuccessStories(res.data);
       else setSuccessStories([]);
     }).finally(() => setStoriesLoading(false));
@@ -931,6 +941,7 @@ function DaftarPelatihanContent() {
         const sourceProducts = dbData;
         const parsed = parseProductsFromDb(sourceProducts);
         setProductsList(parsed);
+
       } catch (err) {
         console.error("Gagal memuat portal pelatihan data:", err);
       } finally {
@@ -976,6 +987,144 @@ function DaftarPelatihanContent() {
               setEnrollPackageId("");
             }}
           />
+        )}
+      </AnimatePresence>
+
+      {/* SUCCESS STORY DETAIL MODAL */}
+      <AnimatePresence>
+        {selectedStory && (
+          <motion.div
+            key="story-detail"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[95] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setSelectedStory(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            >
+              {/* Modal Header */}
+              <div className="sticky top-0 z-10 bg-white px-6 py-4 border-b border-slate-100 flex items-center justify-between rounded-t-3xl">
+                <div className="flex items-center gap-2 text-[10px] font-black text-amber-500 uppercase tracking-widest">
+                  <Trophy size={14} />
+                  Success Story
+                </div>
+                <button
+                  onClick={() => setSelectedStory(null)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors cursor-pointer"
+                >
+                  <X size={15} />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-6">
+                {/* LinkedIn screenshot if available */}
+                {selectedStory.linkedinScreenshot && (
+                  <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                    <img
+                      src={selectedStory.linkedinScreenshot}
+                      alt="LinkedIn Profile"
+                      className="w-full h-auto block"
+                    />
+                  </div>
+                )}
+
+                {/* Badge + Identity */}
+                <div className="flex items-start gap-4">
+                  {selectedStory.photoUrl ? (
+                    <img
+                      src={selectedStory.photoUrl}
+                      alt={selectedStory.name}
+                      className="w-20 h-20 rounded-2xl object-cover border border-slate-100 flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-400 font-black text-2xl flex-shrink-0">
+                      {selectedStory.name?.charAt(0)?.toUpperCase() || "?"}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    {selectedStory.achievement && (
+                      <div className="inline-flex items-center gap-1.5 mb-2 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-100 text-amber-600 text-[10px] font-black uppercase tracking-wider">
+                        🌟 {selectedStory.achievement}
+                      </div>
+                    )}
+                    <h3 className="text-base font-black text-slate-900">{selectedStory.name}</h3>
+                    {selectedStory.role && (
+                      <p className="text-xs text-slate-500 font-bold mt-0.5 flex items-center gap-1">
+                        <GraduationCap size={11} className="text-sky-400 flex-shrink-0" />
+                        {selectedStory.role}
+                      </p>
+                    )}
+                    {selectedStory.product?.name && (
+                      <p className="text-[9px] text-[#004aad] font-black uppercase tracking-wider mt-1 bg-[#004aad]/5 px-2 py-0.5 rounded-md inline-block">
+                        {selectedStory.product.name}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Story paragraphs */}
+                <div className="space-y-3">
+                  {selectedStory.story.split("\n").filter(Boolean).map((para: string, i: number) => {
+                    const isCheckmark = para.trim().startsWith("✓") || para.trim().startsWith("✔") || para.trim().startsWith("√");
+                    if (isCheckmark) {
+                      return (
+                        <div key={i} className="flex items-start gap-2">
+                          <span className="text-emerald-500 font-black text-sm flex-shrink-0 mt-0.5">✓</span>
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                            {para.trim().replace(/^[✓✔√]\s*/, "")}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return (
+                      <p key={i} className="text-xs text-slate-600 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") }}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* Before / After */}
+                {(selectedStory.beforeLabel || selectedStory.afterLabel) && (
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedStory.beforeLabel && (
+                      <div className="bg-rose-50 rounded-2xl p-4 border border-rose-100">
+                        <p className="text-[9px] font-black text-rose-400 uppercase tracking-wider mb-1">Sebelum</p>
+                        <p className="text-xs font-bold text-rose-600">{selectedStory.beforeLabel}</p>
+                      </div>
+                    )}
+                    {selectedStory.afterLabel && (
+                      <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
+                        <p className="text-[9px] font-black text-emerald-400 uppercase tracking-wider mb-1">Sesudah</p>
+                        <p className="text-xs font-bold text-emerald-600">{selectedStory.afterLabel}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* LinkedIn CTA */}
+                {selectedStory.linkedinUrl && (
+                  <a
+                    href={selectedStory.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#0077B5] hover:bg-[#006097] text-white text-[11px] font-black uppercase tracking-wider rounded-2xl transition-all shadow-md"
+                  >
+                    <ExternalLink size={14} />
+                    LinkedIn Profile
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -1252,47 +1401,32 @@ function DaftarPelatihanContent() {
                   <h3 className="text-xs font-black text-[#004aad] uppercase tracking-[0.2em] flex items-center gap-1.5">
                     <Trophy size={14} /> Cerita Sukses Alumni
                   </h3>
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {successStories.map((s: any) => (
-                      <div key={s.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-                        <div className="flex items-start gap-4">
-                          {s.photoUrl ? (
-                            <img src={s.photoUrl} alt={s.name} className="w-12 h-12 rounded-xl object-cover border border-slate-100 flex-shrink-0" />
-                          ) : (
-                            <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-400 font-black text-sm flex-shrink-0">
-                              {s.name?.charAt(0)?.toUpperCase() || "?"}
+                      <div
+                        key={s.id}
+                        onClick={() => setSelectedStory(s)}
+                        className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-amber-200 transition-all duration-300 overflow-hidden cursor-pointer"
+                      >
+                        {s.photoUrl && (
+                          <div className="w-full aspect-[3/4] overflow-hidden bg-slate-100">
+                            <img src={s.photoUrl} alt={s.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        )}
+                        <div className="p-4">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                              <p className="text-xs font-black text-slate-800">{s.name}</p>
+                              {s.role && <p className="text-[9px] text-slate-400 font-medium">{s.role}</p>}
                             </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-2 mb-1">
-                              <div>
-                                <p className="text-[11px] font-black text-slate-800">{s.name}</p>
-                                {s.role && <p className="text-[9px] text-slate-400 font-medium">{s.role}</p>}
-                              </div>
-                              {s.achievement && (
-                                <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 text-[8px] font-black uppercase flex-shrink-0">{s.achievement}</span>
-                              )}
-                            </div>
-                            <p className="text-[10px] text-slate-500 font-medium leading-relaxed">{s.story}</p>
-
-                            {/* Before / After */}
-                            {(s.beforeLabel || s.afterLabel) && (
-                              <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-slate-50">
-                                {s.beforeLabel && (
-                                  <div className="bg-rose-50/50 rounded-xl p-3 border border-rose-100">
-                                    <p className="text-[8px] font-black text-rose-400 uppercase tracking-wider mb-0.5">Sebelum</p>
-                                    <p className="text-[10px] font-bold text-rose-600">{s.beforeLabel}</p>
-                                  </div>
-                                )}
-                                {s.afterLabel && (
-                                  <div className="bg-emerald-50/50 rounded-xl p-3 border border-emerald-100">
-                                    <p className="text-[8px] font-black text-emerald-400 uppercase tracking-wider mb-0.5">Sesudah</p>
-                                    <p className="text-[10px] font-bold text-emerald-600">{s.afterLabel}</p>
-                                  </div>
-                                )}
-                              </div>
+                            {s.achievement && (
+                              <span className="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 text-[8px] font-black uppercase flex-shrink-0">{s.achievement}</span>
                             )}
                           </div>
+                          <p className="text-[10px] text-slate-500 font-medium leading-relaxed line-clamp-3">{s.story}</p>
+                          <p className="text-[9px] font-black text-amber-500 uppercase tracking-wider mt-2 flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Lihat Detail <ChevronRight size={10} />
+                          </p>
                         </div>
                       </div>
                     ))}
@@ -1509,6 +1643,7 @@ function DaftarPelatihanContent() {
             </div>
           </div>
         </section>
+
       </main>
     </>
   );

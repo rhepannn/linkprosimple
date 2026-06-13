@@ -1,6 +1,14 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "ADMIN") {
+    throw new Error("Unauthorized.");
+  }
+}
 
 export async function getTransactionReports(filters: {
   startDate?: string;
@@ -8,6 +16,7 @@ export async function getTransactionReports(filters: {
   type?: "POS" | "BOOKING" | "ALL";
 }) {
   try {
+    await requireAdmin();
     const { startDate, endDate, type = "ALL" } = filters;
 
     let dateFilter: any = {};
@@ -81,9 +90,13 @@ export async function getTransactionReports(filters: {
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 
-    const totalRevenue = combined
-      .filter(t => t.status === "COMPLETED" || t.status === "SUCCESS")
+    // POS transactions are always COMPLETED; bookings can be confirmed/completed/success
+    // (already pre-filtered in the query). Count all as revenue.
+    const posRevenue = normalizedPos
+      .filter(t => t.status === "COMPLETED")
       .reduce((sum, t) => sum + t.total, 0);
+    const bookingRevenue = normalizedBookings.reduce((sum, t) => sum + t.total, 0);
+    const totalRevenue = posRevenue + bookingRevenue;
 
     return {
       success: true,

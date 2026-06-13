@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { getSiteSettings, updateSiteSettings } from "@/app/actions/settings";
 import { Save, Loader2, Globe, Mail, Phone, Clock, Type, Upload, Image as ImageIcon, X, CreditCard, QrCode, Layers, ArrowUp, ArrowDown, HelpCircle, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ interface SectionItem {
 }
 
 export default function SettingsPage() {
+  const confirm = useConfirm();
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -512,7 +514,7 @@ export default function SettingsPage() {
                       <img src={settings.payment_qris_image} alt="QRIS Merchant" className="w-full h-full object-contain p-2" />
                       <button
                         type="button"
-                        onClick={() => handleChange("payment_qris_image", "")}
+                        onClick={async () => { const ok = await confirm({ title: "Hapus Gambar QRIS?", message: "Tindakan ini tidak bisa dibatalkan.", danger: true, confirmText: "Ya, Hapus" }); if (ok) handleChange("payment_qris_image", ""); }}
                         className="absolute top-1.5 right-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-md cursor-pointer flex items-center justify-center"
                         title="Hapus QRIS"
                       >
@@ -1101,9 +1103,13 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={() => {
-                const currentFaqs = settings.faqs ? JSON.parse(settings.faqs) : [];
-                currentFaqs.push({ question: "Pertanyaan Baru", answer: "Jawaban Baru" });
-                handleChange("faqs", JSON.stringify(currentFaqs));
+                try {
+                  const currentFaqs = settings.faqs ? JSON.parse(settings.faqs) : [];
+                  currentFaqs.push({ question: "Pertanyaan Baru", answer: "Jawaban Baru" });
+                  handleChange("faqs", JSON.stringify(currentFaqs));
+                } catch {
+                  handleChange("faqs", JSON.stringify([{ question: "Pertanyaan Baru", answer: "Jawaban Baru" }]));
+                }
               }}
               className="flex items-center gap-2 px-4 py-2 bg-near-black/5 hover:bg-near-black/10 text-near-black rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors"
             >

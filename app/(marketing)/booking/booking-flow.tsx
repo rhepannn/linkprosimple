@@ -95,7 +95,7 @@ export default function BookingFlow() {
         if (res.success && res.data && res.data.length > 0) {
           const studio = res.data.filter((p: any) => {
             const cat = p.category.toLowerCase();
-            return cat.includes("foto") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("STUDIO-");
+            return cat.includes("pelatihan") || cat.includes("kelas") || cat === "layanan" || p.sku.startsWith("pkg-") || p.sku.startsWith("LKP-");
           });
           setPackagesList(studio.length > 0 ? (studio as any[]) : packages);
         } else {
@@ -139,7 +139,7 @@ export default function BookingFlow() {
         {/* Page header */}
         <div className="mb-8 text-center">
           <p className="text-[10px] font-black tracking-[0.35em] text-[#0ea5e9] uppercase mb-2">
-            Booking Sesi Foto
+            Daftar Program
           </p>
           <h1
             className="text-3xl sm:text-4xl font-black text-[#1e293b]"
@@ -147,7 +147,7 @@ export default function BookingFlow() {
           >
             Link Productive
           </h1>
-          <p className="text-sm text-gray-400 font-medium mt-2">Pilih paket & jadwalkan sesi Anda</p>
+          <p className="text-sm text-gray-400 font-medium mt-2">Pilih program & daftar sekarang</p>
         </div>
 
         <StepIndicator current={step} />

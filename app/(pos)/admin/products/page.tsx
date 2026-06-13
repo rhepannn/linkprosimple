@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -1031,24 +1032,25 @@ function ProductListItem({
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function ProductManagement() {
+  const confirm = useConfirm();
   const [products, setProducts] = useState<ProductDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState<ProductDetail | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleDeleteProduct = async (id: string, name: string) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus produk "${name}"? Tindakan ini tidak dapat dibatalkan.`)) {
-      try {
-        const res = await deleteProduct(id);
-        if (res.success) {
-          toast.success("Produk berhasil dihapus!");
-          loadProducts();
-        } else {
-          toast.error(res.error || "Gagal menghapus produk.");
-        }
-      } catch (err) {
-        toast.error("Terjadi kesalahan saat menghapus produk.");
+    const ok = await confirm({ title: "Hapus Produk?", message: `Produk "${name}" akan dihapus secara permanen.`, danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
+    try {
+      const res = await deleteProduct(id);
+      if (res.success) {
+        toast.success("Produk berhasil dihapus!");
+        loadProducts();
+      } else {
+        toast.error(res.error || "Gagal menghapus produk.");
       }
+    } catch (err) {
+      toast.error("Terjadi kesalahan saat menghapus produk.");
     }
   };
 

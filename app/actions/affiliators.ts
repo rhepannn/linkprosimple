@@ -3,6 +3,14 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { auth } from "@/lib/auth";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "ADMIN") {
+    throw new Error("Unauthorized.");
+  }
+}
 
 // Ambil semua data affiliator (role: SNAPPER) dari database
 export async function getAffiliators() {
@@ -31,8 +39,8 @@ export async function getAffiliators() {
         bankAccount: s.bankAccount || s.referralCode?.bankAccount || "",
         joinDate: s.createdAt.toISOString().split("T")[0],
         referralCode: s.referralCode?.code || "",
-        discountPct: s.referralCode?.discountPct ?? 10.0,
-        feePercentage: s.referralCode?.feePercentage ?? 10.0,
+        discountPct: s.referralCode?.discountPct ?? 0,
+        feePercentage: s.referralCode?.feePercentage ?? 0,
         status: s.referralCode?.isActive ? "active" : "inactive",
         totalReferrals: s.referralCode?.usageCount ?? 0,
         totalEarnings: earnings,
@@ -62,6 +70,7 @@ interface UpdateAffiliatorInput {
 // Update data affiliator (User & ReferralCode)
 export async function updateAffiliator(id: string, data: UpdateAffiliatorInput) {
   try {
+    await requireAdmin();
     // 1. Cek apakah user ada
     const user = await prisma.user.findUnique({
       where: { id },
@@ -151,6 +160,7 @@ export async function updateAffiliator(id: string, data: UpdateAffiliatorInput) 
 // Tambah affiliator baru secara manual oleh admin
 export async function createAffiliator(data: UpdateAffiliatorInput & { password?: string }) {
   try {
+    await requireAdmin();
     const cleanEmail = data.email.trim().toLowerCase();
     const cleanCode = data.referralCode.trim().toUpperCase();
 
@@ -214,6 +224,7 @@ export async function createAffiliator(data: UpdateAffiliatorInput & { password?
 // Hapus data affiliator secara permanen
 export async function deleteAffiliator(id: string) {
   try {
+    await requireAdmin();
     const user = await prisma.user.findUnique({
       where: { id },
       include: { referralCode: true },
@@ -264,6 +275,12 @@ export async function deleteAffiliator(id: string) {
 // Affiliator mengubah kode referralnya sendiri
 export async function selfUpdateReferralCode(userId: string, newCode: string) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    if (!session || sessionUserId !== userId) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     const cleanCode = newCode.trim().toUpperCase();
 
     if (!cleanCode || cleanCode.length < 4) {
@@ -331,6 +348,9 @@ export async function selfUpdateReferralCode(userId: string, newCode: string) {
     revalidatePath("/admin/affiliators");
     return { success: true, newCode: cleanCode };
   } catch (err: any) {
+    if (err.code === "P2002") {
+      return { success: false, error: "Kode referral sudah digunakan orang lain. Coba kode lain." };
+    }
     console.error("selfUpdateReferralCode error:", err);
     return { success: false, error: err.message || "Gagal mengubah kode referral." };
   }

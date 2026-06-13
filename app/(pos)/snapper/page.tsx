@@ -548,8 +548,8 @@ export default function SnapperDashboard() {
   }
 
   const referralCode = dashboardData.referralCode?.code || "";
-  const discountPct = dashboardData.referralCode?.discountPct || 10;
-  const feePercentage = dashboardData.referralCode?.feePercentage || 10;
+  const discountPct = dashboardData.referralCode?.discountPct ?? 0;
+  const feePercentage = dashboardData.referralCode?.feePercentage ?? 0;
   const activeKitProduct = productsList.find(p => p.id === activeKitProductId) || productsList[0];
 
   return (
@@ -1341,7 +1341,7 @@ export default function SnapperDashboard() {
                       <th className="py-4 pr-4">Pembeli</th>
                       <th className="py-4 pr-4">Program</th>
                       <th className="py-4 pr-4 text-right">Harga Dibayar</th>
-                      <th className="py-4 pr-4 text-right">Komisi (10%)</th>
+                      <th className="py-4 pr-4 text-right">Komisi ({feePercentage}%)</th>
                       <th className="py-4 text-right">Status</th>
                     </tr>
                   </thead>

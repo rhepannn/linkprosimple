@@ -1,9 +1,17 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export async function getSnapperDashboardData(userId: string) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    const sessionRole = (session?.user as any)?.role;
+    if (!session || (sessionUserId !== userId && sessionRole !== "ADMIN")) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: {
@@ -14,7 +22,8 @@ export async function getSnapperDashboardData(userId: string) {
           },
           orderBy: {
             createdAt: "desc"
-          }
+          },
+          take: 100
         }
       }
     });
@@ -65,6 +74,13 @@ export async function getSnapperDashboardData(userId: string) {
 
 export async function updateSnapperReferralProduct(userId: string, productId: string | null) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    const sessionRole = (session?.user as any)?.role;
+    if (!session || (sessionUserId !== userId && sessionRole !== "ADMIN")) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { referralCode: true }
@@ -119,6 +135,13 @@ export async function getAffiliateTransactions(
   filters?: { month?: number; year?: number; status?: string }
 ) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    const sessionRole = (session?.user as any)?.role;
+    if (!session || (sessionUserId !== userId && sessionRole !== "ADMIN")) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { id: true }

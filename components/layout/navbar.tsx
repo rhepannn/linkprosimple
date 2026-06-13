@@ -13,9 +13,9 @@ import {
   LogIn,
   Image as ImageIcon,
   Package,
-  MessageCircle,
   User,
   HeartHandshake,
+  Trophy,
 } from "lucide-react";
 
 /* ─── Nav Links ────────────────────────────────────────────── */
@@ -24,6 +24,7 @@ const NAV_LINKS = [
   { label: "Home", href: "/", icon: User, isHidden: false },
   { label: "Kegiatan", href: "/gallery", icon: ImageIcon, isHidden: false },
   { label: "Pelatihan", href: "/daftar-pelatihan", icon: Package, isHidden: false },
+  { label: "Success Story", href: "/success-stories", icon: Trophy, isHidden: false },
   { label: "Affiliate", href: "/affiliate", icon: HeartHandshake, isHidden: false },
   { label: "Login", href: "/login", icon: LogIn, isHidden: false },
 ] as const;
@@ -82,11 +83,11 @@ export function Navbar() {
           layout
           initial={false}
           animate={{
-            height: scrolled ? "6rem" : "8.5rem",
+            height: scrolled ? "3.75rem" : "5rem",
             width: scrolled ? "min(1400px, 92%)" : "100%",
-            marginTop: scrolled ? "1.25rem" : "0rem",
-            paddingLeft: scrolled ? "2.5rem" : "0rem",
-            paddingRight: scrolled ? "2.5rem" : "0rem",
+            marginTop: scrolled ? "1rem" : "0rem",
+            paddingLeft: scrolled ? "2rem" : "0rem",
+            paddingRight: scrolled ? "2rem" : "0rem",
             borderRadius: scrolled ? "100px" : "0px",
             backgroundColor: scrolled
               ? "rgba(248, 250, 255, 0.88)"
@@ -106,17 +107,17 @@ export function Navbar() {
           }}
           className="relative pointer-events-auto overflow-visible group w-auto"
         >
-          <nav className="max-w-[1600px] mx-auto px-12 flex items-center justify-between h-full">
+          <nav className="max-w-[1600px] mx-auto px-6 flex items-center justify-between h-full">
             <Link
               href="/"
               onClick={(e) => handleNavClick(e, "/")}
-              className="flex-shrink-0 focus:outline-none transition-all duration-300 ml-8"
+              className="flex-shrink-0 focus:outline-none transition-all duration-300 ml-4"
               aria-label="Link Productive"
             >
-              <Logo height={scrolled ? 120 : 180} />
+              <Logo height={scrolled ? 52 : 72} />
             </Link>
 
-            <ul className="flex items-center gap-10" role="menubar">
+            <ul className="flex items-center gap-6" role="menubar">
               {NAV_LINKS.map((link) => (
                 <li key={link.href} role="none">
                   <Link

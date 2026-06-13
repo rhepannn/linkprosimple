@@ -31,6 +31,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { signOut, getSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPendingCounts } from "@/app/actions/notifications";
+import { ConfirmProvider } from "@/components/ui/confirm-dialog";
 import { getAffiliateNotifications, markNotificationRead, markAllNotificationsRead } from "@/app/actions/notifications";
 
 const navItems = [
@@ -473,7 +474,9 @@ export default function POSLayout({ children }: { children: React.ReactNode }) {
         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Loading Console System...</p>
       </div>
     }>
-      <POSLayoutContent>{children}</POSLayoutContent>
+      <ConfirmProvider>
+        <POSLayoutContent>{children}</POSLayoutContent>
+      </ConfirmProvider>
     </Suspense>
   );
 }

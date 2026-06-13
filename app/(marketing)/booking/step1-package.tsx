@@ -43,7 +43,7 @@ export default function Step1Package({ packagesList, loading, selected, onSelect
           Langkah 1 dari 5
         </p>
         <h2 className="text-2xl sm:text-3xl font-semibold text-[#1A1A1A]" style={{ fontFamily: "var(--font-heading)" }}>
-          Pilih Paket Foto
+          Pilih Program Pelatihan
         </h2>
         <p className="text-[#5A5A5A] text-sm mt-2">
           Semua paket sudah termasuk editing profesional dan file resolusi tinggi.

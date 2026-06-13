@@ -22,6 +22,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getGalleryPhotos, createGalleryPhoto, updateGalleryPhoto, deleteGalleryPhoto, seedGalleryFromStatic } from "@/app/actions/gallery";
 import { toast } from "sonner";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 
 export default function GalleryManagement() {
   const [photos, setPhotos] = useState<any[]>([]);
@@ -31,6 +32,7 @@ export default function GalleryManagement() {
   const [filterCategory, setFilterCategory] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPhoto, setEditingPhoto] = useState<any>(null);
+  const confirm = useConfirm();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -96,7 +98,8 @@ export default function GalleryManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus foto ini?")) return;
+    const ok = await confirm({ title: "Hapus Foto?", message: "Foto akan dihapus secara permanen.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     
     const res = await deleteGalleryPhoto(id);
     if (res.success) {

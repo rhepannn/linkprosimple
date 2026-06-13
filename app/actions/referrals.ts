@@ -3,6 +3,14 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { auth } from "@/lib/auth";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session || (session.user as any).role !== "ADMIN") {
+    throw new Error("Unauthorized.");
+  }
+}
 
 export async function getReferrals() {
   try {
@@ -51,10 +59,10 @@ export async function getReferrals() {
       const totalTransactions = posTransactions + online.count;
       const totalDiscountAmount = posDiscountTotal + online.discountAmount;
 
-      // Marketing fee = feePercentage % of (total - discount) for POS transactions
+      // Marketing fee = feePercentage % of net (total after discount)
       const totalMarketingFee = ref.referral_usages.reduce((sum, u) => {
-        const gross = (u.transaction?.total ?? 0);
-        return sum + (gross * ref.feePercentage / 100);
+        const net = (u.transaction?.total ?? 0) - (u.transaction?.discount ?? 0);
+        return sum + (Math.max(0, net) * ref.feePercentage / 100);
       }, 0);
 
       return {
@@ -89,6 +97,7 @@ export async function createReferral(data: {
   expiryDate?: string | null;
 }) {
   try {
+    await requireAdmin();
     const referral = await prisma.referralCode.create({
       data: {
         code: data.code.toUpperCase(),
@@ -140,6 +149,7 @@ export async function updateReferral(
   }
 ) {
   try {
+    await requireAdmin();
     const referral = await prisma.referralCode.update({
       where: { id },
       data: {
@@ -175,6 +185,7 @@ export async function updateReferral(
 
 export async function toggleReferralStatus(id: string, isActive: boolean) {
   try {
+    await requireAdmin();
     await prisma.referralCode.update({
       where: { id },
       data: { isActive },
@@ -188,6 +199,7 @@ export async function toggleReferralStatus(id: string, isActive: boolean) {
 
 export async function deleteReferral(id: string) {
   try {
+    await requireAdmin();
     await prisma.referralCode.delete({
       where: { id },
     });

@@ -226,6 +226,7 @@ model AffiliateCommission {
   snapper     User     @relation("SnapperCommissions", fields: [snapperId], references: [id])
   booking     Booking  @relation(fields: [bookingId], references: [id])
 
+  @@unique([bookingId])
   @@map("affiliate_commissions")
 }
 
@@ -306,9 +307,12 @@ model SuccessStory {
   photoUrl    String?  @map("photo_url")
   achievement String?
   story       String   @db.Text
-  beforeLabel String?  @map("before_label")
-  afterLabel  String?  @map("after_label")
-  sortOrder   Int      @default(0) @map("sort_order")
+  companyName        String?  @map("company_name")
+  beforeLabel       String?  @map("before_label")
+  afterLabel        String?  @map("after_label")
+  linkedinUrl       String?  @map("linkedin_url")
+  linkedinScreenshot String? @map("linkedin_screenshot")
+  sortOrder         Int      @default(0) @map("sort_order")
   isActive    Boolean  @default(true) @map("is_active")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")

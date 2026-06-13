@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
 
 export async function getPendingCounts() {
   try {
@@ -40,6 +41,13 @@ export interface AffiliateNotificationItem {
 
 export async function getAffiliateNotifications(userId: string) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    const sessionRole = (session?.user as any)?.role;
+    if (!session || (sessionUserId !== userId && sessionRole !== "ADMIN")) {
+      return { success: false, error: "Unauthorized.", data: { notifications: [], unreadCount: 0 } };
+    }
+
     const notifications = await prisma.affiliateNotification.findMany({
       where: { snapperId: userId },
       orderBy: { createdAt: "desc" },
@@ -69,6 +77,17 @@ export async function getAffiliateNotifications(userId: string) {
 
 export async function markNotificationRead(notificationId: string) {
   try {
+    const session = await auth();
+    if (!session) return { success: false, error: "Unauthorized." };
+
+    const notification = await prisma.affiliateNotification.findUnique({
+      where: { id: notificationId },
+      select: { snapperId: true },
+    });
+    if (!notification || notification.snapperId !== (session.user as any).id) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     await prisma.affiliateNotification.update({
       where: { id: notificationId },
       data: { isRead: true },
@@ -82,6 +101,13 @@ export async function markNotificationRead(notificationId: string) {
 
 export async function markAllNotificationsRead(userId: string) {
   try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    const sessionRole = (session?.user as any)?.role;
+    if (!session || (sessionUserId !== userId && sessionRole !== "ADMIN")) {
+      return { success: false, error: "Unauthorized." };
+    }
+
     await prisma.affiliateNotification.updateMany({
       where: { snapperId: userId, isRead: false },
       data: { isRead: true },

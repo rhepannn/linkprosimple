@@ -175,7 +175,7 @@ export default function Step5Receipt({
     const lines = [
       `Halo Link Productive! 👋`,
       ``,
-      `Saya sudah melakukan booking sesi foto dan ingin mengonfirmasi pembayaran saya.`,
+      `Saya sudah melakukan pendaftaran kelas dan ingin mengonfirmasi pembayaran saya.`,
       ``,
       `📋 *Detail Booking*`,
       `• Nama: ${formData.name}`,
@@ -242,7 +242,7 @@ export default function Step5Receipt({
             : dbStatus === "confirmed"
               ? "Booking Dikonfirmasi!"
               : dbStatus === "completed"
-                ? "Sesi Foto Selesai!"
+                ? "Kelas Selesai!"
                 : dbStatus === "cancelled"
                   ? "Booking Dibatalkan"
                   : "Pesanan Menunggu Konfirmasi"}
@@ -555,7 +555,7 @@ export default function Step5Receipt({
           ].join(" ")}
         >
           <RotateCcw size={15} />
-          Booking Sesi Baru
+          Daftar Program Lain
         </button>
       </div>
 

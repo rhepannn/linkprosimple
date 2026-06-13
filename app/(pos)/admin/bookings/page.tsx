@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar as CalendarIcon,
@@ -117,6 +118,7 @@ export default function BookingManagement() {
   const [filter, setFilter] = useState("all");
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const confirm = useConfirm();
 
   const [products, setProducts] = useState<any[]>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -334,7 +336,8 @@ export default function BookingManagement() {
   }
 
   async function handleDeleteBooking(id: string) {
-    if (!confirm("Apakah Anda yakin ingin menghapus booking ini? Data komisi afiliasi terkait juga akan terhapus.")) return;
+    const ok = await confirm({ title: "Hapus Booking?", message: "Data komisi afiliasi terkait juga akan terhapus. Tindakan ini tidak bisa dibatalkan.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     setUpdatingStatus(true);
     try {
       const res = await deleteBooking(id);
@@ -1027,7 +1030,7 @@ export default function BookingManagement() {
                       {selectedBooking.status === "completed" && (
                         <div className="p-5 bg-emerald-50 border border-emerald-200/50 rounded-2xl text-center space-y-2">
                           <CheckCircle2 size={24} className="text-emerald-600 mx-auto" />
-                          <p className="text-sm font-black text-emerald-700">Sesi foto telah selesai</p>
+                          <p className="text-sm font-black text-emerald-700">Kelas telah selesai</p>
                           <p className="text-[10px] text-emerald-600/70">Komisi afiliasi (jika ada) sudah dihitung otomatis.</p>
                         </div>
                       )}

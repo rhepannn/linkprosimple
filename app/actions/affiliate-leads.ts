@@ -57,7 +57,7 @@ export async function createAffiliateLead(data: {
           where: { code: normalizedCode }
         });
         if (ref) {
-          discountPct = ref.discountPct || 10;
+          discountPct = ref.discountPct ?? 0;
         }
       } catch (err) {
         console.error("Failed to query discount pct:", err);
@@ -117,7 +117,7 @@ export async function createAffiliateLead(data: {
 
     revalidatePath("/admin/affiliators");
     revalidatePath("/admin/bookings");
-    return { success: true, data: lead };
+    return { success: true };
   } catch (error: any) {
     console.error("createAffiliateLead Error:", error);
     return { success: false, error: error.message };

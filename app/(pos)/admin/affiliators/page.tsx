@@ -4,6 +4,7 @@
 // Manage Affiliate Partners + Instagram-like Post Feed — Admin Panel
 
 import React, { useState, useEffect, useRef } from "react";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   HeartHandshake,
@@ -830,6 +831,7 @@ function PostModal({
 /* ─────────────────────────── Main Page ─────────────────────── */
 
 export default function AffiliatorsPage() {
+  const confirm = useConfirm();
   // ── Affiliator state ──
   const [affiliators, setAffiliators] = useState<Affiliator[]>([]);
   const [affiliatorsLoading, setAffiliatorsLoading] = useState(false);
@@ -935,7 +937,8 @@ export default function AffiliatorsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Hapus affiliator ini secara permanen beserta datanya?")) return;
+    const ok = await confirm({ title: "Hapus Affiliator?", message: "Affiliator dan semua datanya akan dihapus secara permanen.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     const res = await deleteAffiliator(id);
     if (res.success) {
       toast.success("Affiliator berhasil dihapus!");
@@ -1046,7 +1049,8 @@ export default function AffiliatorsPage() {
   };
 
   const handleDeleteApp = async (id: string) => {
-    if (!confirm("Hapus pendaftaran ini?")) return;
+    const ok = await confirm({ title: "Hapus Pendaftaran?", message: "Data pendaftaran ini akan dihapus secara permanen.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     const res = await deleteAffiliateApplication(id);
     if (res.success) {
       toast.success("Pendaftaran dihapus.");
@@ -1076,7 +1080,8 @@ export default function AffiliatorsPage() {
   };
 
   const handleDeleteLead = async (id: string) => {
-    if (!confirm("Hapus permintaan ini?")) return;
+    const ok = await confirm({ title: "Hapus Permintaan?", message: "Data permintaan ini akan dihapus secara permanen.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     const res = await deleteAffiliateLead(id);
     if (res.success) {
       toast.success("Permintaan dihapus.");
@@ -1122,7 +1127,8 @@ export default function AffiliatorsPage() {
   }, []);
 
   const handleDeletePost = async (id: string) => {
-    if (!confirm("Hapus post ini?")) return;
+    const ok = await confirm({ title: "Hapus Post?", message: "Post ini akan dihapus secara permanen.", danger: true, confirmText: "Ya, Hapus" });
+    if (!ok) return;
     const res = await deleteAffiliatePost(id);
     if (res.success) {
       toast.success("Post berhasil dihapus");

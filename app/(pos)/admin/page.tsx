@@ -182,12 +182,12 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           {
-            label: "Total Pendapatan",
+            label: "Pendapatan Bulan Ini",
             value: `Rp ${statsData.revenue.toLocaleString("id-ID")}`,
             icon: DollarSign,
             color: "text-green-600",
             bg: "bg-green-50",
-            desc: "Total penjualan program",
+            desc: "Total penjualan bulan berjalan",
             growth: statsData.revenue > 0 ? "+12%" : "0%",
           },
           {
