@@ -863,6 +863,7 @@ export default function AffiliatorsPage() {
   const [activeKitId, setActiveKitId] = useState<string>("");
   const [kitForm, setKitForm] = useState<{ posterUrls: string; caption: string }>({ posterUrls: "", caption: "" });
   const [savingKit, setSavingKit] = useState(false);
+  const [uploadingPoster, setUploadingPoster] = useState(false);
   const [posts, setPosts] = useState<AffiliatePost[]>([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -2312,18 +2313,63 @@ export default function AffiliatorsPage() {
                     {/* Poster URLs */}
                     <div className="space-y-3">
                       <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
-                        URL Poster (Pisahkan dengan koma untuk multi-poster)
+                        Poster Kit Afiliasi
                       </label>
-                      <textarea
-                        value={kitForm.posterUrls}
-                        onChange={e => setKitForm(f => ({ ...f, posterUrls: e.target.value }))}
-                        placeholder="https://example.com/poster1.jpg, https://example.com/poster2.jpg"
-                        rows={3}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs text-gray-700 font-medium leading-relaxed resize-none focus:outline-none focus:border-emerald-400 transition-colors"
-                      />
-                      <p className="text-[9px] text-gray-400">
-                        Bisa masukkan 1 atau lebih URL gambar poster. Affiliator bisa navigasi antar poster & langsung share ke Instagram, WA, dll.
-                      </p>
+
+                      {/* Upload button */}
+                      <label className="flex items-center justify-center gap-2 w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50/50 hover:border-emerald-300 hover:bg-emerald-50/30 transition-all cursor-pointer">
+                        {uploadingPoster ? (
+                          <span className="animate-spin inline-block w-4 h-4 border-2 border-emerald-400/30 border-t-emerald-500 rounded-full" />
+                        ) : (
+                          <Upload size={16} className="text-gray-400" />
+                        )}
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider">
+                          {uploadingPoster ? "Mengunggah..." : "Unggah Poster"}
+                        </span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={async (e) => {
+                            const files = e.target.files;
+                            if (!files || files.length === 0) return;
+                            setUploadingPoster(true);
+                            try {
+                              const uploadedUrls: string[] = [];
+                              for (let i = 0; i < files.length; i++) {
+                                const fd = new FormData();
+                                fd.append("file", files[i]);
+                                const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+                                const data = await res.json();
+                                if (data.url) uploadedUrls.push(data.url);
+                              }
+                              if (uploadedUrls.length > 0) {
+                                const existing = kitForm.posterUrls.split(",").map(u => u.trim()).filter(Boolean);
+                                const merged = [...existing, ...uploadedUrls];
+                                setKitForm(f => ({ ...f, posterUrls: merged.join(", ") }));
+                                toast.success(`${uploadedUrls.length} poster berhasil diunggah!`);
+                              }
+                            } catch {
+                              toast.error("Gagal mengunggah poster.");
+                            } finally {
+                              setUploadingPoster(false);
+                            }
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+
+                      {/* URL input (alternatif) */}
+                      <details className="group">
+                        <summary className="text-[9px] text-gray-400 font-bold cursor-pointer hover:text-gray-600 uppercase tracking-wider">Atau masukkan URL manual</summary>
+                        <textarea
+                          value={kitForm.posterUrls}
+                          onChange={e => setKitForm(f => ({ ...f, posterUrls: e.target.value }))}
+                          placeholder="https://example.com/poster1.jpg, https://example.com/poster2.jpg"
+                          rows={2}
+                          className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xs text-gray-700 font-medium leading-relaxed resize-none focus:outline-none focus:border-emerald-400 transition-colors mt-2"
+                        />
+                      </details>
 
                       {/* Poster previews */}
                       {kitForm.posterUrls && (
