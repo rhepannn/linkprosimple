@@ -190,6 +190,17 @@ function ProgramPosterCarousel({
             >
               <ChevronRight size={16} />
             </button>
+            {!showThumbnails && (
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10 bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm border border-white/5">
+                {urls.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => { e.stopPropagation(); setPage([idx, idx > currentIndex ? 1 : -1]); }}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${currentIndex === idx ? "bg-[#004aad] w-3" : "bg-white/40 hover:bg-white/70 w-1.5"}`}
+                  />
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>
@@ -265,7 +276,7 @@ function EnrollModal({
     if (!product.packages || product.packages.length === 0) return "";
     const targetSku = searchParams.get("pkg");
     if (targetSku) {
-      const match = product.packages.find((p: any) => p.sku === targetSku);
+      const match = product.packages.find((p: any) => p.sku === targetSku || p.id === targetSku);
       if (match) return match.id;
     }
     return product.packages[0].id;
@@ -768,8 +779,8 @@ function parseProductsFromDb(dbProducts: any[]) {
           sku: firstProd.sku,
           name: dp.name,
           price: dp.price || `Rp ${discountedPrice.toLocaleString("id-ID")}`,
-          rawPrice: rawPrice || firstProd.price,
-          discountedPrice: discountedPrice || firstProd.price,
+          rawPrice: dp.price ? rawPrice : firstProd.price,
+          discountedPrice: dp.afterDiscount ? discountedPrice : (dp.price ? rawPrice : firstProd.price),
           discount: dp.price && dp.afterDiscount && rawPrice > discountedPrice ? `${Math.round((1 - discountedPrice / rawPrice) * 100)}%` : "",
           afterDiscount: dp.afterDiscount && dp.afterDiscount !== dp.price ? dp.afterDiscount : undefined,
           suitableFor: dp.suitableFor,
@@ -889,6 +900,7 @@ function DaftarPelatihanContent() {
         setActiveProduct(found);
         if (targetPackageId) {
           setEnrollPackageId(targetPackageId);
+          setShowEnrollModal(true);
         }
       }
     }
@@ -914,13 +926,16 @@ function DaftarPelatihanContent() {
       setSuccessStories([]);
       return;
     }
+    let cancelled = false;
     setSuccessStories([]);
     setStoriesLoading(true);
     const ids = activeProduct.productIds || (activeProduct.id ? [activeProduct.id] : []);
     getSuccessStories(ids).then((res) => {
+      if (cancelled) return;
       if (res.success && res.data) setSuccessStories(res.data);
       else setSuccessStories([]);
-    }).finally(() => setStoriesLoading(false));
+    }).finally(() => { if (!cancelled) setStoriesLoading(false); });
+    return () => { cancelled = true; };
   }, [activeProduct]);
 
   useEffect(() => {
@@ -1086,7 +1101,9 @@ function DaftarPelatihanContent() {
                     }
                     return (
                       <p key={i} className="text-xs text-slate-600 leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: para.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") }}
+                        dangerouslySetInnerHTML={{ __html: para
+                          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") }}
                       />
                     );
                   })}

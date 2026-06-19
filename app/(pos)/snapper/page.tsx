@@ -13,7 +13,7 @@ import {
   Download, Megaphone, Send, ChevronLeft, Save, Filter, ReceiptText, Search, Bell
 } from "lucide-react";
 import { getSnapperDashboardData, updateSnapperReferralProduct, getAffiliateTransactions } from "@/app/actions/snapper";
-import { selfUpdateReferralCode } from "@/app/actions/affiliators";
+import { selfUpdateReferralCode, selfUpdateBankInfo } from "@/app/actions/affiliators";
 import { getAffiliatePosts } from "@/app/actions/affiliate-posts";
 import { getProducts } from "@/app/actions/products";
 import { getSiteSettings } from "@/app/actions/settings";
@@ -160,6 +160,10 @@ export default function SnapperDashboard() {
   const [sharingPostId, setSharingPostId] = useState<string | null>(null);
   const [downloadingPostId, setDownloadingPostId] = useState<string | null>(null);
   const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({});
+
+  // ── Bank tab states ──
+  const [bankForm, setBankForm] = useState({ bankName: "", bankAccount: "" });
+  const [bankSaving, setBankSaving] = useState(false);
 
   // ── Transactions tab states ──
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -1213,40 +1217,93 @@ export default function SnapperDashboard() {
             <h3 className="text-xl font-black text-[#1e293b]" style={{ fontFamily: "var(--font-outfit)" }}>Rekening & Pembayaran Payout</h3>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Kelola data perbankan Anda untuk pencairan komisi bulanan</p>
           </div>
-          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 md:p-10 shadow-sm space-y-6">
-            <div className="flex items-center gap-4 bg-[#f0f7ff] p-5 rounded-2xl border border-[#1e293b]/5">
-              <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold">
-                <Landmark size={24} />
-              </div>
-              <div>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Akun Rekening Terdaftar</p>
-                <h4 className="text-base font-black text-[#1e293b] mt-0.5">{dashboardData.bankName}</h4>
-              </div>
+
+          {/* Info read-only */}
+          <div className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 md:p-10 shadow-sm space-y-4">
+            <div className="flex justify-between py-3 border-b border-gray-100">
+              <span className="text-xs text-gray-400 font-bold uppercase">Nama Pemegang Rekening</span>
+              <span className="text-xs font-bold text-[#1e293b]">{dashboardData.name}</span>
             </div>
-            <div className="space-y-4">
-              <div className="flex justify-between py-3 border-b border-gray-100">
-                <span className="text-xs text-gray-400 font-bold uppercase">Nama Pemegang Rekening</span>
-                <span className="text-xs font-bold text-[#1e293b]">{dashboardData.name}</span>
-              </div>
-              <div className="flex justify-between py-3 border-b border-gray-100">
-                <span className="text-xs text-gray-400 font-bold uppercase">Nomor Rekening / E-Wallet</span>
-                <span className="text-xs font-mono font-bold text-[#1e293b]">{dashboardData.bankAccount}</span>
-              </div>
-              <div className="flex justify-between py-3 border-b border-gray-100">
-                <span className="text-xs text-gray-400 font-bold uppercase">Nomor Telepon Partner</span>
-                <span className="text-xs font-bold text-[#1e293b] flex items-center gap-1">
-                  <Phone size={12} className="text-gray-400" />
-                  {dashboardData.phone || "-"}
-                </span>
-              </div>
-            </div>
-            <div className="p-4 bg-amber-50/50 border border-amber-100 rounded-2xl flex gap-3 text-amber-800">
-              <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
-              <div className="text-[11px] leading-relaxed font-medium">
-                <strong>Ingin mengubah data rekening?</strong> Silakan hubungi admin studio melalui WhatsApp untuk melakukan perubahan data bank. Hal ini demi alasan keamanan pencairan komisi Anda.
-              </div>
+            <div className="flex justify-between py-3 border-b border-gray-100">
+              <span className="text-xs text-gray-400 font-bold uppercase">Nomor Telepon Partner</span>
+              <span className="text-xs font-bold text-[#1e293b] flex items-center gap-1">
+                <Phone size={12} className="text-gray-400" />
+                {dashboardData.phone || "-"}
+              </span>
             </div>
           </div>
+
+          {/* Form edit rekening */}
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!dashboardData?.id) return;
+              if (!bankForm.bankName.trim() || !bankForm.bankAccount.trim()) {
+                toast.error("Nama bank dan nomor rekening wajib diisi.");
+                return;
+              }
+              setBankSaving(true);
+              const res = await selfUpdateBankInfo(dashboardData.id, bankForm);
+              setBankSaving(false);
+              if (res.success) {
+                toast.success("Data rekening berhasil disimpan.");
+                setRefetchTrigger((n) => n + 1);
+              } else {
+                toast.error(res.error || "Gagal menyimpan data rekening.");
+              }
+            }}
+            className="bg-white rounded-[2rem] border border-[#1e293b]/5 p-8 md:p-10 shadow-sm space-y-6"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center text-gold">
+                <Landmark size={20} />
+              </div>
+              <div>
+                <p className="text-xs font-black text-[#1e293b] uppercase tracking-wider">Ubah Data Rekening</p>
+                <p className="text-[10px] text-gray-400 font-medium mt-0.5">Pastikan data rekening benar untuk pencairan komisi</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Nama Bank / E-Wallet</label>
+                <input
+                  type="text"
+                  value={bankForm.bankName}
+                  onChange={(e) => setBankForm((f) => ({ ...f, bankName: e.target.value }))}
+                  placeholder={dashboardData.bankName || "Contoh: BCA, BRI, GoPay, OVO..."}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm font-bold text-[#1e293b] focus:outline-none focus:border-[#004aad] focus:ring-2 focus:ring-[#004aad]/10 transition-all placeholder:font-normal placeholder:text-gray-300"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Nomor Rekening / E-Wallet</label>
+                <input
+                  type="text"
+                  value={bankForm.bankAccount}
+                  onChange={(e) => setBankForm((f) => ({ ...f, bankAccount: e.target.value }))}
+                  placeholder={dashboardData.bankAccount || "Masukkan nomor rekening atau nomor e-wallet"}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm font-mono font-bold text-[#1e293b] focus:outline-none focus:border-[#004aad] focus:ring-2 focus:ring-[#004aad]/10 transition-all placeholder:font-normal placeholder:text-gray-300"
+                />
+              </div>
+            </div>
+
+            {/* Current saved values */}
+            {(dashboardData.bankName || dashboardData.bankAccount) && (
+              <div className="p-4 bg-[#f0f7ff] rounded-2xl text-[11px] text-[#004aad] font-medium space-y-1">
+                <p className="font-black uppercase tracking-wider text-[9px] text-[#004aad]/60 mb-2">Tersimpan saat ini</p>
+                <p>{dashboardData.bankName || "-"} · {dashboardData.bankAccount || "-"}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={bankSaving}
+              className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#004aad] hover:bg-[#003a8c] disabled:opacity-50 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+            >
+              <Save size={15} />
+              {bankSaving ? "Menyimpan..." : "Simpan Data Rekening"}
+            </button>
+          </form>
         </div>
       )}
 

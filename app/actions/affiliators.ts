@@ -91,9 +91,9 @@ export async function updateAffiliator(id: string, data: UpdateAffiliatorInput) 
       }
     }
 
-    // 3. Cek jika kode referral diubah, pastikan tidak duplikat
+    // 3. Cek jika kode referral diubah atau belum ada, pastikan tidak duplikat
     const cleanCode = data.referralCode.trim().toUpperCase();
-    if (user.referralCode && cleanCode !== user.referralCode.code) {
+    if (!user.referralCode || cleanCode !== user.referralCode.code) {
       const codeDup = await prisma.referralCode.findUnique({
         where: { code: cleanCode },
       });
@@ -353,5 +353,49 @@ export async function selfUpdateReferralCode(userId: string, newCode: string) {
     }
     console.error("selfUpdateReferralCode error:", err);
     return { success: false, error: err.message || "Gagal mengubah kode referral." };
+  }
+}
+
+// Affiliator mengubah data rekening bank sendiri
+export async function selfUpdateBankInfo(userId: string, data: { bankName: string; bankAccount: string }) {
+  try {
+    const session = await auth();
+    const sessionUserId = (session?.user as any)?.id;
+    if (!session || sessionUserId !== userId) {
+      return { success: false, error: "Unauthorized." };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { referralCode: true },
+    });
+
+    if (!user || user.role !== "SNAPPER") {
+      return { success: false, error: "Affiliator tidak ditemukan." };
+    }
+
+    const cleanBankName = data.bankName.trim();
+    const cleanBankAccount = data.bankAccount.trim();
+
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: userId },
+        data: { bankName: cleanBankName || null, bankAccount: cleanBankAccount || null },
+      });
+
+      if (user.referralCode) {
+        await tx.referralCode.update({
+          where: { id: user.referralCode.id },
+          data: { bankName: cleanBankName || null, bankAccount: cleanBankAccount || null },
+        });
+      }
+    });
+
+    revalidatePath("/snapper");
+    revalidatePath("/admin/affiliators");
+    return { success: true };
+  } catch (err: any) {
+    console.error("selfUpdateBankInfo error:", err);
+    return { success: false, error: err.message || "Gagal mengubah data rekening." };
   }
 }

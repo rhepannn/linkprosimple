@@ -35,6 +35,7 @@ export async function getSnapperDashboardData(userId: string) {
     return {
       success: true,
       data: {
+        id: user.id,
         name: user.name,
         email: user.email,
         phone: user.phone,
