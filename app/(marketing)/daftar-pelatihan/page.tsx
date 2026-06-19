@@ -869,6 +869,13 @@ function DaftarPelatihanContent() {
 
   const searchParams = useSearchParams();
 
+  // Lock body scroll whenever any modal/overlay is open
+  useEffect(() => {
+    const anyOpen = showEnrollModal || !!selectedStory || !!lightboxUrl || !!activeProduct;
+    document.body.style.overflow = anyOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [showEnrollModal, selectedStory, lightboxUrl, activeProduct]);
+
   const filteredProducts = productsList.filter((p) =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
