@@ -477,21 +477,26 @@ function EnrollModal({
                 )}
               </div>
 
-              <div className="flex flex-col gap-3 w-full">
+              <div className="flex flex-col gap-3 w-full pt-2">
                 <a
                   href={`https://wa.me/${waNumber}?text=${encodeURIComponent(
                     `Halo Admin! Saya *${form.name}* baru saja mendaftar program kelas *${product.name}* (${selectedPkg ? selectedPkg.name : ""}).\n\nTotal pembayaran: Rp ${finalPrice.toLocaleString("id-ID")}\n\nMohon informasi verifikasi pendaftaran saya.\n\nDetail:\n- Nama: ${form.name}\n- HP: ${form.phone}\n${refCode ? `- Kode Ref: ${refCode}` : ""}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 bg-[#004aad] hover:bg-[#003984] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#004aad] hover:bg-[#003984] text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-[#004aad]/20"
                 >
                   <MessageCircle size={14} />
                   Konfirmasi Pembayaran via WhatsApp
                 </a>
+                <div className="flex items-center gap-3 my-1">
+                  <div className="flex-1 h-px bg-slate-100" />
+                  <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">atau</span>
+                  <div className="flex-1 h-px bg-slate-100" />
+                </div>
                 <button
                   onClick={onClose}
-                  className="w-full py-3 border border-[#004aad]/10 text-sky-500 rounded-xl text-xs font-black uppercase tracking-wider hover:border-[#004aad]/20 transition-all"
+                  className="w-full py-3 border-2 border-slate-200 hover:border-[#004aad]/30 text-slate-500 hover:text-[#004aad] rounded-xl text-xs font-black uppercase tracking-wider transition-all"
                 >
                   Tutup Portal
                 </button>
