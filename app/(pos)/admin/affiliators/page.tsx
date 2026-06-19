@@ -2312,9 +2312,9 @@ export default function AffiliatorsPage() {
 
                     {/* Poster URLs */}
                     <div className="space-y-3">
-                      <label className="block text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
+                      <p className="text-[10px] font-black text-[#1e293b] uppercase tracking-widest">
                         Poster Kit Afiliasi
-                      </label>
+                      </p>
 
                       {/* Upload button */}
                       <label className="flex items-center justify-center gap-2 w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50/50 hover:border-emerald-300 hover:bg-emerald-50/30 transition-all cursor-pointer">
