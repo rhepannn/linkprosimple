@@ -908,11 +908,15 @@ function DaftarPelatihanContent() {
         found = productsList.find((p) => p.name === (targetName || pkg) || p.name.toLowerCase() === pkg.toLowerCase().replace(/-/g, " "));
       }
 
+      // Fallback: match by product ID (for legacy links that stored prod.id instead of sku)
+      if (!found) {
+        found = productsList.find((p) => p.id === pkg || (p.productIds && p.productIds.includes(pkg)));
+      }
+
       if (found) {
         setActiveProduct(found);
         if (targetPackageId) {
           setEnrollPackageId(targetPackageId);
-          setShowEnrollModal(true);
         }
       }
     }
