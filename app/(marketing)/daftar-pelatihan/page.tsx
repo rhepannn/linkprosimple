@@ -16,6 +16,7 @@ import { getSiteSettings } from "@/app/actions/settings";
 import { getSuccessStories } from "@/app/actions/success-stories";
 import { formatPrice } from "@/lib/utils";
 import { toast } from "sonner";
+import { CityAutocomplete } from "@/components/city-autocomplete";
 
 // --- CUSTOM SPINNER COMPONENT ---
 function Spinner({ size = 20, className = "" }: { size?: number; className?: string }) {
@@ -547,7 +548,7 @@ function EnrollModal({
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className={labelCls}>Kota Domisili</label>
-                    <input type="text" placeholder="Contoh: Cilegon" value={form.city} onChange={(e) => set("city", e.target.value)} className={inputCls} />
+                    <CityAutocomplete value={form.city} onChange={(v) => set("city", v)} className={inputCls} placeholder="Contoh: Cilegon" />
                   </div>
                   <div>
                     <label className={labelCls}>Pekerjaan</label>
