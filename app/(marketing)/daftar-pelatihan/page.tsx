@@ -509,29 +509,37 @@ function EnrollModal({
 
               <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <label className={labelCls}>Pilih Program / Tingkatan Kelas <span className="text-sky-500">*</span></label>
-                  <select
-                    value={selectedPackageId}
-                    onChange={(e) => setSelectedPackageId(e.target.value)}
-                    className={inputCls + " cursor-pointer font-bold text-xs"}
-                  >
-                    {product.packages && product.packages.filter((pkg: any) => searchParams.get("pkg") === pkg.sku ? true : !searchParams.get("pkg") || !product.packages.some((p: any) => p.sku === searchParams.get("pkg"))).map((pkg: any) => {
-                      const formatOptionPrice = (priceVal: any) => {
-                        if (!priceVal) return "-";
-                        const priceStr = String(priceVal);
-                        if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
-                        const numsOnly = priceStr.replace(/[^0-9]/g, "");
-                        if (!numsOnly) return priceStr;
-                        return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
-                      };
-
-                      return (
-                        <option key={pkg.id} value={pkg.id}>
-                          {pkg.name} ({formatOptionPrice(pkg.afterDiscount || pkg.price)})
-                        </option>
-                      );
-                    })}
-                  </select>
+                  <label className={labelCls}>Program / Tingkatan Kelas <span className="text-sky-500">*</span></label>
+                  {defaultPackageId && selectedPkg ? (
+                    <div className={inputCls + " font-bold text-xs flex items-center justify-between bg-sky-50/60"}>
+                      <span>{selectedPkg.name}</span>
+                      <span className="text-sky-500 font-black ml-2 whitespace-nowrap">
+                        {selectedPkg.afterDiscount || selectedPkg.price}
+                      </span>
+                    </div>
+                  ) : (
+                    <select
+                      value={selectedPackageId}
+                      onChange={(e) => setSelectedPackageId(e.target.value)}
+                      className={inputCls + " cursor-pointer font-bold text-xs"}
+                    >
+                      {product.packages && product.packages.map((pkg: any) => {
+                        const formatOptionPrice = (priceVal: any) => {
+                          if (!priceVal) return "-";
+                          const priceStr = String(priceVal);
+                          if (priceStr.toLowerCase().includes("menyesuaikan")) return priceStr;
+                          const numsOnly = priceStr.replace(/[^0-9]/g, "");
+                          if (!numsOnly) return priceStr;
+                          return "Rp " + parseInt(numsOnly, 10).toLocaleString("id-ID");
+                        };
+                        return (
+                          <option key={pkg.id} value={pkg.id}>
+                            {pkg.name} ({formatOptionPrice(pkg.afterDiscount || pkg.price)})
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
                 </div>
                 <div>
                   <label className={labelCls}>Nama Lengkap <span className="text-sky-500">*</span></label>
