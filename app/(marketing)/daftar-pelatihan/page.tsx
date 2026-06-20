@@ -443,7 +443,7 @@ function EnrollModal({
                 {/* Bank Transfer */}
                 <div className="p-4 bg-white border border-[#004aad]/5 rounded-2xl flex justify-between items-center w-full text-left">
                   <div>
-                    <p className="text-[9px] text-sky-500 uppercase font-black">BCA TRANSFER</p>
+                    <p className="text-[9px] text-sky-500 uppercase font-black">{siteSettings.payment_bank_name || "BCA"} TRANSFER</p>
                     <p className="text-sm font-black text-[#004aad] tracking-wider font-mono mt-0.5">
                       {siteSettings.payment_bank_account || "8882047811"}
                     </p>
