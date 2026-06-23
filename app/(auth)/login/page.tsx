@@ -26,6 +26,11 @@ function LoginContent() {
 
     try {
       const res = await loginUser({ email, password });
+      if (res && res.success) {
+        router.push(res.redirectTo || "/admin");
+        router.refresh();
+        return;
+      }
       if (res && !res.success) {
         setError(res.error || "Email atau password salah. Silakan coba lagi.");
       }

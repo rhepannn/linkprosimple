@@ -28,26 +28,19 @@ export async function loginUser(data: any) {
       redirectTo = "/snapper";
     }
 
-    // Call NextAuth signIn on the server side
+    // Validate credentials and set the session cookie WITHOUT redirecting.
+    // We let the client handle navigation so the NEXT_REDIRECT error never
+    // leaks into the client try/catch (which would show a false "system error").
     await signIn("credentials", {
       email,
       password,
-      redirectTo,
+      redirect: false,
     });
 
-    return { success: true };
+    return { success: true, redirectTo };
   } catch (error: any) {
     if (error instanceof AuthError) {
       return { success: false, error: "Email atau kata sandi salah." };
-    }
-
-    // IMPORTANT: Next.js redirects use errors internally.
-    // We must rethrow redirect errors so that Next.js handles the redirect properly!
-    if (
-      error.message === "NEXT_REDIRECT" || 
-      (error.digest && error.digest.startsWith("NEXT_REDIRECT"))
-    ) {
-      throw error;
     }
 
     console.error("Login Server Action Error:", error);
